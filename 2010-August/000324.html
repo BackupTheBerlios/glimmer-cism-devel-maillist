@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Fwd: dycore proposal
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C4C77E0F7.2060100%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000323.html">
+   <LINK REL="Next"  HREF="000326.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Fwd: dycore proposal</H1>
+    <B>Tony Payne</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C4C77E0F7.2060100%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Fwd: dycore proposal">a.j.payne at bristol.ac.uk
+       </A><BR>
+    <I>Fri Aug 27 17:59:51 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000323.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+        <LI>Next message: <A HREF="000326.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#324">[ date ]</a>
+              <a href="thread.html#324">[ thread ]</a>
+              <a href="subject.html#324">[ subject ]</a>
+              <a href="author.html#324">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi
+
+this is an issue that affects how the chombo core is integrated into 
+glimmer-cism.  chombo (and i suspect several other alternative cores) 
+creates into own system of grids so that mesh refinement is possible.  i 
+think that the way around this is to specify the grid for the interface 
+only.  the alternative core can use what ever grid it wants but it is 
+the responsibility of that core to do the necessary interpolation to get 
+variables to/from the rest of glimmer.
+
+all the best
+
+tony
+
+On 27/08/2010 16:49, Magnus Hagdorn wrote:
+&gt;<i> Magnus Hagdorn wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Right, I shall now read Toby's proposal...
+</I>&gt;&gt;<i>
+</I>&gt;<i> ok, I have done so now.
+</I>&gt;<i>
+</I>&gt;<i> I think at this stage the proposal is dealing with implementation 
+</I>&gt;<i> details while it doesn't deal with the larger issues. So, I would like 
+</I>&gt;<i> to raise them (well, they are my large scale view...)
+</I>&gt;<i>
+</I>&gt;<i> The first thing we have to address is the question what is 
+</I>&gt;<i> glimmer-cism and more specifically what do alternative implementation 
+</I>&gt;<i> of the dynamical core have to have in common to be part of glimmer-cism?
+</I>&gt;<i>
+</I>&gt;<i> To me the answer is that they have to live on the same grid because 
+</I>&gt;<i> that makes sharing of infrastructure such as I/O, coupling with the 
+</I>&gt;<i> outside world, etc. easy. The alternative is to relax this 
+</I>&gt;<i> requirement, in which case we would need to provide interpolation 
+</I>&gt;<i> routines which transform data from one mesh to another. This is 
+</I>&gt;<i> obviously possible but a lot more ambitious and we could consider that 
+</I>&gt;<i> later once we have tackled the simpler problem first.
+</I>&gt;<i>
+</I>&gt;<i> So, the state of the ice body is defined by a set of fields defined on 
+</I>&gt;<i> a known mesh. Together with boundary conditions the next state can be 
+</I>&gt;<i> computed. These fields are manipulated by the various dynamical cores.
+</I>&gt;<i>
+</I>&gt;<i> I think we should first come up with an API for the dynamical cores 
+</I>&gt;<i> and the support functionality. Once we have the API we can decide on 
+</I>&gt;<i> how to implement it.
+</I>&gt;<i>
+</I>&gt;<i> As indicated in my previous email, I really like Jed's suggestion from 
+</I>&gt;<i> a while ago.
+</I>&gt;<i>
+</I>&gt;<i> Regards
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+-- 
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000323.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+	<LI>Next message: <A HREF="000326.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#324">[ date ]</a>
+              <a href="thread.html#324">[ thread ]</a>
+              <a href="subject.html#324">[ subject ]</a>
+              <a href="author.html#324">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

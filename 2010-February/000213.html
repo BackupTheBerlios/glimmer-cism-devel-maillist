@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] exact restart again
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C87bpff6h7x.fsf%4059A2.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000212.html">
+   <LINK REL="Next"  HREF="000214.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] exact restart again</H1>
+    <B>Jed Brown</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C87bpff6h7x.fsf%4059A2.org%3E"
+       TITLE="[Glimmer-cism-devel] exact restart again">jed at 59a2.org
+       </A><BR>
+    <I>Tue Feb 23 17:37:38 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000212.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+        <LI>Next message: <A HREF="000214.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, 23 Feb 2010 09:27:02 -0700, William Lipscomb &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt; wrote:
+&gt;<i> As Jed says, it's not required to write velocity to the restart file,  
+</I>&gt;<i> but it will speed the time to solution if we do.  At some point we'll  
+</I>&gt;<i> have to weigh the tradeoff of disk space v. solution time.  For now,  
+</I>&gt;<i> the temperature field is the only 3D field that is essential for exact  
+</I>&gt;<i> restart (and hence must be written as double precision to the restart  
+</I>&gt;<i> file).
+</I>
+You don't need to write velocity to get a &quot;correct&quot; restart (and I
+wouldn't recommend writing it), but you do need to write it to get an
+exact restart.  An alternative is to just throw away the velocity and
+solve with a cold initial iterate every time you write a checkpoint, but
+this has the undesirable property that the result depends on the
+checkpoint interval (again, not in a substantive way, each state is
+equally valid).  You could start with a cold iterate on every solve, but
+now we're talking about something that would have a big impact on
+runtime.
+
+Jed
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000212.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+	<LI>Next message: <A HREF="000214.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

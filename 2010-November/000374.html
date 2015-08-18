@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-November/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CE2A757.2060106%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000373.html">
+   <LINK REL="Next"  HREF="000375.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CE2A757.2060106%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Tue Nov 16 16:46:31 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000373.html">[Glimmer-cism-devel] cpp options
+</A></li>
+        <LI>Next message: <A HREF="000375.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#374">[ date ]</a>
+              <a href="thread.html#374">[ thread ]</a>
+              <a href="subject.html#374">[ subject ]</a>
+              <a href="author.html#374">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus &amp; developers,
+
+The test suite is setup on the glimmer-cism2 trunk for the EISMINT-1 &amp; 2 
+cases.  The reference files are stored on 
+<A HREF="ftp://ftp.berlios.de/pub/glimmer-cism/.">ftp://ftp.berlios.de/pub/glimmer-cism/.</A> We have approximately 200MB 
+space here. The test code downloads the files via anonymous FTP.
+
+The location of the reference files is hard coded so there is no need to 
+specify this at build time.  
+
+Here is an example for an EISMINT-1 test:
+ 
+To run a test cd to the test directory and type &quot;make e1-fm.1.nc&quot;
+To compare to the reference file type &quot;make compare-e1-fm.1&quot;
+
+Magnus, I was wondering if I could change the EISMINT-1 &amp; 2 
+configuration files, to output a smaller subset of variables and time 
+slices?
+
+Also, what are the next steps to merge the tests to the parallel 
+branch?. We would like to have the HO tests working in this branch.
+
+All the best,
+
+Sarah
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101116/1a17bc76/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101116/1a17bc76/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000373.html">[Glimmer-cism-devel] cpp options
+</A></li>
+	<LI>Next message: <A HREF="000375.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#374">[ date ]</a>
+              <a href="thread.html#374">[ thread ]</a>
+              <a href="subject.html#374">[ subject ]</a>
+              <a href="author.html#374">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

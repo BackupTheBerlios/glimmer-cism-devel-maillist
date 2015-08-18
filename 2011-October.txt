@@ -1,0 +1,953 @@
+From flocolleoni at gmail.com  Tue Oct  4 21:49:45 2011
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Tue, 4 Oct 2011 13:49:45 -0600
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <1317137192.32008.5.camel@dirk>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+	<11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+	<1317081092.2171.6.camel@bacon> <1317137192.32008.5.camel@dirk>
+Message-ID: <CAOFAu8jKoCsgqj4VtpNGmqnQKYPDgBciSb6vghMk-XpkAjLA1A@mail.gmail.com>
+
+Hi all,
+
+I just downloaded the glimmer-cism2 trunk from the CISM repository at NCAR
+following William suggestion
+since I need some of the functions of this version.
+
+1- When I try to compile it on a linux computer, with gfortran, I have the
+same
+error about iargc than Bob has.
+
+2- however, if I compile it on my macbook pro, and if I had the option
+ffree-line-length-none,
+the compilation is ok.
+
+But now I am facing another problem which I didn't have with the
+glimmer-cism2 trunk on Berlios.
+When I try executing the binaries (simple_glide etc...), I got this error
+with Netcdf:
+
+dyld: Symbol not found: _ncopts
+    Referenced from: /usr/local/lib/libnetcdff.5.dylib
+    Expected in: dynamic lookup
+
+Trace/BPT trap
+
+
+What does that mean?
+
+Cheers
+
+Flo
+
+2011/9/27 Bob Fischer <rpf2116 at columbia.edu>
+
+>
+> > Hi Bob,
+> > that's odd. It works for me on gc-trunk (berlios). I tried both gcc v
+> > 4.5.2 and 4.1.2. Which version of gcc are you using? Which OS? Well, if
+> > we need to remove that then we should use a preprocessor macro, along
+> > the lines of
+> >
+> >
+> > #ifndef HAVE_2003ARGS
+> > integer, external :: iargc
+> > #endif
+>
+> OK, here are the changes I think would be the right way to do it.
+> Should I check this in?
+>
+>
+> bash-4.2$ svn diff
+> Index: glint_commandline.F90
+> ===================================================================
+> --- glint_commandline.F90       (revision 1147)
+> +++ glint_commandline.F90       (working copy)
+> @@ -30,7 +30,7 @@
+>  #include "config.inc"
+>
+>  #ifdef HAVE_2003ARGS
+> -#define NARGS   command_argument_count
+> +#define NARGS   command_argument_count()
+>  #define GETARG  get_command_argument
+>  #else
+>  #define NARGS   iargc
+> @@ -58,7 +58,9 @@
+>
+>     integer numargs,nfiles
+>     integer :: i
+> +#ifndef HAVE_2003ARGS
+>     integer, external :: iargc
+> +#endif
+>     character(len=100) :: argument
+>     integer, dimension(100) :: argumentIdx
+>
+> @@ -66,7 +68,7 @@
+>     commandline_resultsname = 'results'
+>
+>     ! get number of arguments and file names
+> -    numargs = NARGS()
+> +    numargs = NARGS
+>     ! reconstruct command line to store commandline_history
+>     call GETARG(0,commandline_history)
+>     do i=1,numargs
+>
+> -- Bob
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+*"Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution
+avec la Libert?: c'est le tr?s petit nombre; les autres veulent la
+R?volution avec le Pouvoir: c'est l'immense majorit?."
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC <http://www.cmcc.it>
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111004/335521e7/attachment.html>
+
+From rpf2116 at columbia.edu  Tue Oct  4 22:07:40 2011
+From: rpf2116 at columbia.edu (Bob Fischer)
+Date: Tue, 04 Oct 2011 16:07:40 -0400
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <CAOFAu8jKoCsgqj4VtpNGmqnQKYPDgBciSb6vghMk-XpkAjLA1A@mail.gmail.com>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+	<11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+	<1317081092.2171.6.camel@bacon> <1317137192.32008.5.camel@dirk>
+	<CAOFAu8jKoCsgqj4VtpNGmqnQKYPDgBciSb6vghMk-XpkAjLA1A@mail.gmail.com>
+Message-ID: <1317758872.19322.11.camel@dirk>
+
+On Tue, 2011-10-04 at 13:49 -0600, Florence Colleoni wrote:
+> Hi all,
+> 
+> I just downloaded the glimmer-cism2 trunk from the CISM repository at
+> NCAR following William suggestion
+> since I need some of the functions of this version.
+> 
+> 1- When I try to compile it on a linux computer, with gfortran, I have
+> the same
+> error about iargc than Bob has.
+> 
+> 2- however, if I compile it on my macbook pro, and if I had the option
+> ffree-line-length-none,
+> the compilation is ok.
+
+Does the -ffree-line-length-none trick not work on Linux?  Which version
+of gfortran are you using on Linux, and on MacBook?
+
+If I remember right... I couldn't get -ffree-line-length-none working on
+my Linux (Fedora 15, gfortran 4.6.0).  I "fixed" the problem via sed,
+which should at least get you along:
+
+sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line-length-none/'
+`find . -name Makefile`
+
+> But now I am facing another problem which I didn't have with the
+> glimmer-cism2 trunk on Berlios.
+> When I try executing the binaries (simple_glide etc...), I got this
+> error with Netcdf:
+> 
+> dyld: Symbol not found: _ncopts
+>     Referenced from: /usr/local/lib/libnetcdff.5.dylib
+>     Expected in: dynamic lookup
+> 
+> Trace/BPT trap
+> 
+> 
+> What does that mean?
+
+Looks like you're running on a Mac.  The symbol _ncopts is apparently
+defined in libnetcdf, and used in libnetcdff.  If it compiled correctly
+but then didn't run, it looks to me like you're using a shared library
+version of NetCDF.  My best guess is that libnetcdf is somehow not being
+found or loaded at runtime.
+
+To see for sure what dynamic libraries are loaded, try:
+     ldd <my-binary-name>
+
+-- Bob
+
+
+
+
+From flocolleoni at gmail.com  Wed Oct  5 18:52:35 2011
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Wed, 5 Oct 2011 10:52:35 -0600
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <1317758872.19322.11.camel@dirk>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+	<11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+	<1317081092.2171.6.camel@bacon> <1317137192.32008.5.camel@dirk>
+	<CAOFAu8jKoCsgqj4VtpNGmqnQKYPDgBciSb6vghMk-XpkAjLA1A@mail.gmail.com>
+	<1317758872.19322.11.camel@dirk>
+Message-ID: <CAOFAu8ja9+29j3Qj2jgrChpMc11+dPajtWN1diGuUE9h4=vgJg@mail.gmail.com>
+
+Hi Bob,
+
+thanks for the suggestions! I managed to compile it on my macbook finally.
+
+But I am still blocked on my linux machine with the "iargc" bugs. How can I
+fix it?
+
+Cheers
+
+Flo
+
+2011/10/4 Bob Fischer <rpf2116 at columbia.edu>
+
+> On Tue, 2011-10-04 at 13:49 -0600, Florence Colleoni wrote:
+> > Hi all,
+> >
+> > I just downloaded the glimmer-cism2 trunk from the CISM repository at
+> > NCAR following William suggestion
+> > since I need some of the functions of this version.
+> >
+> > 1- When I try to compile it on a linux computer, with gfortran, I have
+> > the same
+> > error about iargc than Bob has.
+> >
+> > 2- however, if I compile it on my macbook pro, and if I had the option
+> > ffree-line-length-none,
+> > the compilation is ok.
+>
+> Does the -ffree-line-length-none trick not work on Linux?  Which version
+> of gfortran are you using on Linux, and on MacBook?
+>
+> If I remember right... I couldn't get -ffree-line-length-none working on
+> my Linux (Fedora 15, gfortran 4.6.0).  I "fixed" the problem via sed,
+> which should at least get you along:
+>
+> sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line-length-none/'
+> `find . -name Makefile`
+>
+> > But now I am facing another problem which I didn't have with the
+> > glimmer-cism2 trunk on Berlios.
+> > When I try executing the binaries (simple_glide etc...), I got this
+> > error with Netcdf:
+> >
+> > dyld: Symbol not found: _ncopts
+> >     Referenced from: /usr/local/lib/libnetcdff.5.dylib
+> >     Expected in: dynamic lookup
+> >
+> > Trace/BPT trap
+> >
+> >
+> > What does that mean?
+>
+> Looks like you're running on a Mac.  The symbol _ncopts is apparently
+> defined in libnetcdf, and used in libnetcdff.  If it compiled correctly
+> but then didn't run, it looks to me like you're using a shared library
+> version of NetCDF.  My best guess is that libnetcdf is somehow not being
+> found or loaded at runtime.
+>
+> To see for sure what dynamic libraries are loaded, try:
+>     ldd <my-binary-name>
+>
+> -- Bob
+>
+>
+>
+
+
+-- 
+*"Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution
+avec la Libert?: c'est le tr?s petit nombre; les autres veulent la
+R?volution avec le Pouvoir: c'est l'immense majorit?."
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC <http://www.cmcc.it>
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111005/d3ac79db/attachment.html>
+
+From rpf2116 at columbia.edu  Wed Oct  5 22:15:38 2011
+From: rpf2116 at columbia.edu (Bob)
+Date: Wed, 5 Oct 2011 16:15:38 -0400
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <CAOFAu8hC03MOECaprj7rb89gDuM=S9S9mgAG7T1q8tabQsvUrQ@mail.gmail.com>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+	<11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+	<1317081092.2171.6.camel@bacon> <1317137192.32008.5.camel@dirk>
+	<CAOFAu8jKoCsgqj4VtpNGmqnQKYPDgBciSb6vghMk-XpkAjLA1A@mail.gmail.com>
+	<1317758872.19322.11.camel@dirk>
+	<CAOFAu8ja9+29j3Qj2jgrChpMc11+dPajtWN1diGuUE9h4=vgJg@mail.gmail.com>
+	<B656C4FF-DB7E-4AF5-AFDE-E75D1880A52F@columbia.edu>
+	<CAOFAu8jQNAC+0wjNjvLeaM2P_D3ZbpNptAm=3Xo3SGtViTahUw@mail.gmail.com>
+	<93F118B9-0E68-4284-AA7D-82600AF59B92@columbia.edu>
+	<CAOFAu8hC03MOECaprj7rb89gDuM=S9S9mgAG7T1q8tabQsvUrQ@mail.gmail.com>
+Message-ID: <648DBE84-104F-4967-B864-344D1AD7C66B@columbia.edu>
+
+It looks like HAVE_2003ARGS is not being set up correctly in the configure script.  It's another place where the script is lacking spaces in the front, which is not compliant fixed-format FORTRAN.
+
+The following diff fixed it for me.  But it's a temporary fix, and I don't know how to do the permanent fix.  Is anyone able to do this?
+
+-- Bob
+
+Index: configure
+===================================================================
+--- configure	(revision 1174)
++++ configure	(working copy)
+@@ -23812,7 +23812,7 @@
+ $as_echo_n "checking for f2003 command line parser... " >&6; }
+ cat > conftest.$ac_ext <<_ACEOF
+       program main
+-i=command_argument_count()
++      i=command_argument_count()
+                 call get_command_argument(i)
+       end
+ _ACEOF
+
+
+
+On Oct 5, 2011, at 4:00 PM, Florence Colleoni wrote:
+
+> Hi Bob,
+> 
+> 
+> I have performed the modifications you suggested already and the error message I get is:
+> 
+> 
+>  In file nc2config.F90:68
+> 
+>   numargs = iargc
+>                 1
+> Error: Function 'iargc' requires an argument list at (1)
+> 
+> Flo
+> 
+> 2011/10/5 Bob <rpf2116 at columbia.edu>
+> This diff should do it, please tell me if it works.
+> 
+> -- Bob
+> 
+> 
+> Index: libglimmer/nc2config.F90
+> ===================================================================
+> --- libglimmer/nc2config.F90    (revision 1174)
+> +++ libglimmer/nc2config.F90    (working copy)
+> @@ -32,7 +32,7 @@
+>  #endif
+>  
+>  #ifdef HAVE_2003ARGS
+> -#define NARGS   command_argument_count
+> +#define NARGS   command_argument_count()
+>  #define GETARG  get_command_argument
+>  #else
+>  #define NARGS   iargc
+> @@ -56,15 +56,16 @@
+>    character(10000) :: config
+>    integer :: status,ncid,attlen,unit,i,ellen
+>    integer numargs,nfiles
+> -#ifndef __GFORTRAN__
+> +#ifndef HAVE_2003ARGS
+>  ! iargc is an intrensic function in gfortran
+> +! Anyway, we don't need it if we have 2003 args.
+>    integer, external :: iargc
+>  #endif
+>    character(len=100) :: argument
+>    integer, dimension(100) :: argumentIdx
+>    
+>    ! get number of arguments
+> -  numargs = NARGS()
+> +  numargs = NARGS
+>    if (numargs.gt.0) then
+>       i=0
+>       nfiles = 0
+> 
+> 
+> 
+> 
+> On Oct 5, 2011, at 2:59 PM, Florence Colleoni wrote:
+> 
+>> In fact, I fixed in glimmer_commandline and glint_commandline
+>> But the bug comes in nc2config.F90
+>> 
+>> I have tried to fixed it as for the previous routines but it does not solve the problem
+>> 
+>> Flo
+>> 
+>> 2011/10/5 Bob <rpf2116 at columbia.edu>
+>> 
+>> On Oct 5, 2011, at 12:52 PM, Florence Colleoni wrote:
+>> 
+>>> Hi Bob,
+>>> 
+>>> thanks for the suggestions! I managed to compile it on my macbook finally.
+>>> 
+>>> But I am still blocked on my linux machine with the "iargc" bugs. How can I fix it?
+>> 
+>> Revision 1153 on https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/trunk
+>>  fixes this.
+>> 
+>> -- Bob
+>> 
+>> ===================================================================
+>> --- libglint/glint_commandline.F90      (revision 1152)
+>> +++ libglint/glint_commandline.F90      (revision 1153)
+>> @@ -30,7 +30,7 @@
+>>  #include "config.inc"
+>>  
+>>  #ifdef HAVE_2003ARGS
+>> -#define NARGS   command_argument_count
+>> +#define NARGS   command_argument_count()
+>>  #define GETARG  get_command_argument
+>>  #else
+>>  #define NARGS   iargc
+>> @@ -58,7 +58,9 @@
+>>  
+>>      integer numargs,nfiles
+>>      integer :: i
+>> +#ifndef HAVE_2003ARGS
+>>      integer, external :: iargc
+>> +#endif
+>>      character(len=100) :: argument
+>>      integer, dimension(100) :: argumentIdx
+>>      
+>> @@ -66,7 +68,7 @@
+>>      commandline_resultsname = 'results'
+>>  
+>>      ! get number of arguments and file names
+>> -    numargs = NARGS()
+>> +    numargs = NARGS
+>>      ! reconstruct command line to store commandline_history
+>>      call GETARG(0,commandline_history)
+>>      do i=1,numargs
+>> Index: libglimmer/glimmer_commandline.F90
+>> 
+>> 
+>> 
+>> ===================================================================
+>> --- libglimmer/glimmer_commandline.F90  (revision 1152)
+>> +++ libglimmer/glimmer_commandline.F90  (revision 1153)
+>> @@ -30,7 +30,7 @@
+>>  #include "config.inc"
+>>  
+>>  #ifdef HAVE_2003ARGS
+>> -#define NARGS   command_argument_count
+>> +#define NARGS   command_argument_count()
+>>  #define GETARG  get_command_argument
+>>  #else
+>>  #define NARGS   iargc
+>> @@ -57,7 +57,9 @@
+>>  
+>>      integer numargs,nfiles
+>>      integer :: i
+>> +#ifndef HAVE_2003ARGS
+>>      integer, external :: iargc
+>> +#endif
+>>      character(len=100) :: argument
+>>      integer, dimension(100) :: argumentIdx
+>>      
+>> @@ -65,7 +67,7 @@
+>>      commandline_resultsname = 'results'
+>>  
+>>      ! get number of arguments and file names
+>> -    numargs = NARGS()
+>> +    numargs = NARGS
+>>      ! reconstruct command line to store commandline_history
+>>      call GETARG(0,commandline_history)
+>>      do i=1,numargs
+>> 
+>> 
+>>> 
+>>> Cheers
+>>> 
+>>> Flo
+>>> 
+>>> 2011/10/4 Bob Fischer <rpf2116 at columbia.edu>
+>>> On Tue, 2011-10-04 at 13:49 -0600, Florence Colleoni wrote:
+>>> > Hi all,
+>>> >
+>>> > I just downloaded the glimmer-cism2 trunk from the CISM repository at
+>>> > NCAR following William suggestion
+>>> > since I need some of the functions of this version.
+>>> >
+>>> > 1- When I try to compile it on a linux computer, with gfortran, I have
+>>> > the same
+>>> > error about iargc than Bob has.
+>>> >
+>>> > 2- however, if I compile it on my macbook pro, and if I had the option
+>>> > ffree-line-length-none,
+>>> > the compilation is ok.
+>>> 
+>>> Does the -ffree-line-length-none trick not work on Linux?  Which version
+>>> of gfortran are you using on Linux, and on MacBook?
+>>> 
+>>> If I remember right... I couldn't get -ffree-line-length-none working on
+>>> my Linux (Fedora 15, gfortran 4.6.0).  I "fixed" the problem via sed,
+>>> which should at least get you along:
+>>> 
+>>> sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line-length-none/'
+>>> `find . -name Makefile`
+>>> 
+>>> > But now I am facing another problem which I didn't have with the
+>>> > glimmer-cism2 trunk on Berlios.
+>>> > When I try executing the binaries (simple_glide etc...), I got this
+>>> > error with Netcdf:
+>>> >
+>>> > dyld: Symbol not found: _ncopts
+>>> >     Referenced from: /usr/local/lib/libnetcdff.5.dylib
+>>> >     Expected in: dynamic lookup
+>>> >
+>>> > Trace/BPT trap
+>>> >
+>>> >
+>>> > What does that mean?
+>>> 
+>>> Looks like you're running on a Mac.  The symbol _ncopts is apparently
+>>> defined in libnetcdf, and used in libnetcdff.  If it compiled correctly
+>>> but then didn't run, it looks to me like you're using a shared library
+>>> version of NetCDF.  My best guess is that libnetcdf is somehow not being
+>>> found or loaded at runtime.
+>>> 
+>>> To see for sure what dynamic libraries are loaded, try:
+>>>     ldd <my-binary-name>
+>>> 
+>>> -- Bob
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> -- 
+>>> "Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution avec la Libert?: c'est le tr?s petit nombre; les autres veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+>>> Chateaubriand
+>>> ......................................................................
+>>> Florence Colleoni               
+>>> CMCC
+>>> Viale Aldo Moro, 44
+>>> 40127 Bologna - Italy
+>>>             
+>>>      Phone: +39 051 3782622                                       
+>>>      Email: flocolleoni at gmail.com    
+>>>      URL: http://flocolleoni.org
+>>> ......................................................................
+>> 
+>> 
+>> 
+>> 
+>> -- 
+>> "Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution avec la Libert?: c'est le tr?s petit nombre; les autres veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+>> Chateaubriand
+>> ......................................................................
+>> Florence Colleoni               
+>> CMCC
+>> Viale Aldo Moro, 44
+>> 40127 Bologna - Italy
+>>             
+>>      Phone: +39 051 3782622                                       
+>>      Email: flocolleoni at gmail.com    
+>>      URL: http://flocolleoni.org
+>> ......................................................................
+> 
+> 
+> 
+> 
+> -- 
+> "Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution avec la Libert?: c'est le tr?s petit nombre; les autres veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+> Chateaubriand
+> ......................................................................
+> Florence Colleoni               
+> CMCC
+> Viale Aldo Moro, 44
+> 40127 Bologna - Italy
+>             
+>      Phone: +39 051 3782622                                       
+>      Email: flocolleoni at gmail.com    
+>      URL: http://flocolleoni.org
+> ......................................................................
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111005/baf1894e/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Oct 20 13:33:36 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 20 Oct 2011 12:33:36 +0100
+Subject: [Glimmer-cism-devel] finding a new hosting site
+Message-ID: <1319110416.1909.11.camel@swine>
+
+Hi all,
+you might be aware of the fact that BerliOS is closing at the end of the
+year and that we will need to find a new home. Luckily, there are many
+project hosting sites to choose from. After some consideration we (the
+steering committee) came up with the suggestion to move to
+sourceforge.net. sourceforge provides source repositories, bug tracker,
+mailing lists, wiki space, ftp space. So pretty much everything we are
+looking for. Furthermore sourceforge has been around for a long time and
+is unlikely to go away in the near future. We can also do our own
+backups of all data associated with the project. While we are moving
+site we would also like to use the opportunity to use git instead of
+subversion. 
+
+I haven written up some ideas about hosting sites here:
+http://magi.marsupium.org/2011/10/moving-home-of-glimmer-cism.html
+
+At this stage no decisions have been made and we would like to hear back
+from you if you have particular preferences, experiences or dislikes of
+project hosting sites.
+
+We would like to make a decision in the second week of November
+(starting on the 7th).
+
+Cheers
+magi
+
+
+
+From jed at 59A2.org  Thu Oct 20 15:22:14 2011
+From: jed at 59A2.org (Jed Brown)
+Date: Thu, 20 Oct 2011 08:22:14 -0500
+Subject: [Glimmer-cism-devel] finding a new hosting site
+In-Reply-To: <1319110416.1909.11.camel@swine>
+References: <1319110416.1909.11.camel@swine>
+Message-ID: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>
+
+On Thu, Oct 20, 2011 at 06:33, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> After some consideration we (the
+> steering committee) came up with the suggestion to move to
+> sourceforge.net.
+>
+
+Just a comment: it's very rare to see projects moving _to_ sourceforge these
+days. In terms of popularity, GitHub and BitBucket seem to be way out in
+front. I host most of my projects on GitHub. BitBucket used to only support
+Mercurial, but now they also have full support for Git.
+
+The pricing model for GitHub and BitBucket are somewhat different. GitHub
+charges by the number of private repositories, but the number of committers
+is unlimited. BitBucket has an unlimited number of free private
+repositories, but they start charging when you have more than 5 committers
+to any private repository. Unlimited public repositories with an unlimited
+number of committers are free on both sites. Also note that if having a
+convenient web interface and issue tracker integration saves 10 people one
+minute per month, it has already paid for itself.
+
+PISM is in the process of moving from Gna to GitHub.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111020/22fee29e/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 26 10:09:04 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Oct 2011 08:09:04 +0000
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Fwd: finding a new
+ hosting site
+In-Reply-To: <EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>
+References: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>
+	<EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>
+Message-ID: <1319616544.2566.2.camel@bacon>
+
+On Tue, 2011-10-25 at 15:36 -0600, William Lipscomb wrote:
+> 
+> Hi all,
+> 
+> 
+> Peer pressure aside, does anyone know of reasons why GitHub might be
+> preferable to sourceforge?  I'm reassured by the fact that GitHub
+> would be free (given that we will not host private repositories), but
+> we'd have no guarantee that the pricing model wouldn't change.
+> 
+> 
+
+In a way I don't think that moving repo again once we are using git will
+be terribly difficult. That's one of the advantages of git. I think that
+using the same hosting site as pism would be very useful and would allow
+for easier collaboration.
+
+Cheers
+magi
+
+
+
+
+From jed at 59A2.org  Wed Oct 26 15:04:41 2011
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 26 Oct 2011 08:04:41 -0500
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Fwd: finding a new
+ hosting site
+In-Reply-To: <1319616544.2566.2.camel@bacon>
+References: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>
+	<EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>
+	<1319616544.2566.2.camel@bacon>
+Message-ID: <CAM9tzS=LFe3UkBuhM+Zjs=KomkW2jxfeEjnuOD0TRDOp95zX4w@mail.gmail.com>
+
+On Wed, Oct 26, 2011 at 03:09, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> > Peer pressure aside, does anyone know of reasons why GitHub might be
+> > preferable to sourceforge?
+>
+
+The web interface for pull requests, online diffs (and merges), an issue
+tracker that is two-way referenced to commits ("fixes #123" in a commit
+message sets up both links and closes the issue, any mention of #123 sets up
+the links; can also interact with issues by email; mentioning a commit ID in
+an issue tracker comment also makes two-way links), general network
+visualization, and social features (watching issues, watching projects,
+etc). This stuff saves time for everyone and lowers the barrier to
+contributing without taking up your time.
+
+ I'm reassured by the fact that GitHub
+> > would be free (given that we will not host private repositories), but
+> > we'd have no guarantee that the pricing model wouldn't change.
+>
+
+Making public repositories non-free would be to developers like Google or
+Facebook charging for the base product. The guys running it are rational
+people and their business is doing quite well through companies hosting
+private repositories there. Also, for historical perspective, note that when
+BitKeeper became non-free in 2005, all the open source projects left it
+(creating git, hg, and bzr along the way), and now BitKeeper has a tiny user
+base (a few large companies) and approximately zero new users.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111026/86247773/attachment.html>
+
+From lipscomb at lanl.gov  Wed Oct 26 16:06:45 2011
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 26 Oct 2011 08:06:45 -0600
+Subject: [Glimmer-cism-devel] Fwd: finding a new hosting site
+In-Reply-To: <CAM9tzS=LFe3UkBuhM+Zjs=KomkW2jxfeEjnuOD0TRDOp95zX4w@mail.gmail.com>
+References: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>
+	<EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>
+	<1319616544.2566.2.camel@bacon>
+	<CAM9tzS=LFe3UkBuhM+Zjs=KomkW2jxfeEjnuOD0TRDOp95zX4w@mail.gmail.com>
+Message-ID: <584C0902-42F1-4596-B31F-8D04F0A25EFD@lanl.gov>
+
+
+Hi Jed,
+
+Thanks for the details on GitHub features, and for reassurance on the  
+pricing model.  Sounds like GitHub may be the way to go.
+
+Bill
+
+
+On Oct 26, 2011, at 7:04 AM, Jed Brown wrote:
+
+> On Wed, Oct 26, 2011 at 03:09, Magnus Hagdorn  
+> <Magnus.Hagdorn at ed.ac.uk>wrote:
+>
+>>> Peer pressure aside, does anyone know of reasons why GitHub might be
+>>> preferable to sourceforge?
+>>
+>
+> The web interface for pull requests, online diffs (and merges), an  
+> issue
+> tracker that is two-way referenced to commits ("fixes #123" in a  
+> commit
+> message sets up both links and closes the issue, any mention of #123  
+> sets up
+> the links; can also interact with issues by email; mentioning a  
+> commit ID in
+> an issue tracker comment also makes two-way links), general network
+> visualization, and social features (watching issues, watching  
+> projects,
+> etc). This stuff saves time for everyone and lowers the barrier to
+> contributing without taking up your time.
+>
+> I'm reassured by the fact that GitHub
+>>> would be free (given that we will not host private repositories),  
+>>> but
+>>> we'd have no guarantee that the pricing model wouldn't change.
+>>
+>
+> Making public repositories non-free would be to developers like  
+> Google or
+> Facebook charging for the base product. The guys running it are  
+> rational
+> people and their business is doing quite well through companies  
+> hosting
+> private repositories there. Also, for historical perspective, note  
+> that when
+> BitKeeper became non-free in 2005, all the open source projects left  
+> it
+> (creating git, hg, and bzr along the way), and now BitKeeper has a  
+> tiny user
+> base (a few large companies) and approximately zero new users.
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 26 16:12:24 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Oct 2011 15:12:24 +0100
+Subject: [Glimmer-cism-devel] Fwd: finding a new hosting site
+In-Reply-To: <584C0902-42F1-4596-B31F-8D04F0A25EFD@lanl.gov>
+References: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>
+	<EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>
+	<1319616544.2566.2.camel@bacon>
+	<CAM9tzS=LFe3UkBuhM+Zjs=KomkW2jxfeEjnuOD0TRDOp95zX4w@mail.gmail.com>
+	<584C0902-42F1-4596-B31F-8D04F0A25EFD@lanl.gov>
+Message-ID: <4EA81548.6020705@ed.ac.uk>
+
+William Lipscomb wrote:
+> 
+> Hi Jed,
+> 
+> Thanks for the details on GitHub features, and for reassurance on the 
+> pricing model.  Sounds like GitHub may be the way to go.
+> 
+>
+
+it sounds much more promising. if we are going for github we need to 
+figure out where we are going to host the mailing lists.
+cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jed at 59A2.org  Wed Oct 26 16:27:37 2011
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 26 Oct 2011 09:27:37 -0500
+Subject: [Glimmer-cism-devel] Fwd: finding a new hosting site
+In-Reply-To: <4EA81548.6020705@ed.ac.uk>
+References: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>
+	<EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>
+	<1319616544.2566.2.camel@bacon>
+	<CAM9tzS=LFe3UkBuhM+Zjs=KomkW2jxfeEjnuOD0TRDOp95zX4w@mail.gmail.com>
+	<584C0902-42F1-4596-B31F-8D04F0A25EFD@lanl.gov>
+	<4EA81548.6020705@ed.ac.uk>
+Message-ID: <CAM9tzSmDJAKd8enwqXVG5i673yh9fP36PuODViMk0=Jw2Sx6Jw@mail.gmail.com>
+
+I usually use Google groups.
+On Oct 26, 2011 8:12 AM, "Magnus Hagdorn" <Magnus.Hagdorn at ed.ac.uk> wrote:
+
+> William Lipscomb wrote:
+>
+>>
+>> Hi Jed,
+>>
+>> Thanks for the details on GitHub features, and for reassurance on the
+>> pricing model.  Sounds like GitHub may be the way to go.
+>>
+>>
+>>
+> it sounds much more promising. if we are going for github we need to figure
+> out where we are going to host the mailing lists.
+> cheers
+> magi
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111026/8a9f4179/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 26 16:47:45 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Oct 2011 15:47:45 +0100
+Subject: [Glimmer-cism-devel] Fwd: finding a new hosting site
+In-Reply-To: <CAM9tzSmDJAKd8enwqXVG5i673yh9fP36PuODViMk0=Jw2Sx6Jw@mail.gmail.com>
+References: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>	<EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>	<1319616544.2566.2.camel@bacon>	<CAM9tzS=LFe3UkBuhM+Zjs=KomkW2jxfeEjnuOD0TRDOp95zX4w@mail.gmail.com>	<584C0902-42F1-4596-B31F-8D04F0A25EFD@lanl.gov>	<4EA81548.6020705@ed.ac.uk>
+	<CAM9tzSmDJAKd8enwqXVG5i673yh9fP36PuODViMk0=Jw2Sx6Jw@mail.gmail.com>
+Message-ID: <4EA81D91.1090204@ed.ac.uk>
+
+Jed Brown wrote:
+> I usually use Google groups.
+> 
+yes, that was my thinking as well. do you happen to know whether we can 
+import the old mailing list archive into google groups?
+cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Thu Oct 27 13:58:42 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 27 Oct 2011 12:58:42 +0100
+Subject: [Glimmer-cism-devel] Fwd: finding a new hosting site
+In-Reply-To: <4EA81D91.1090204@ed.ac.uk>
+References: <CAM9tzSkneRoC=4VvpCRfMFuXisuJuS=Y6QsYvW=t_UmEeS+gVA@mail.gmail.com>	<EB642394-437A-4BBB-95A4-5DA574C54BC9@lanl.gov>	<1319616544.2566.2.camel@bacon>	<CAM9tzS=LFe3UkBuhM+Zjs=KomkW2jxfeEjnuOD0TRDOp95zX4w@mail.gmail.com>	<584C0902-42F1-4596-B31F-8D04F0A25EFD@lanl.gov>	<4EA81548.6020705@ed.ac.uk>	<CAM9tzSmDJAKd8enwqXVG5i673yh9fP36PuODViMk0=Jw2Sx6Jw@mail.gmail.com>
+	<4EA81D91.1090204@ed.ac.uk>
+Message-ID: <4EA94772.5070702@swansea.ac.uk>
+
+
+Hi All,
+
+I think Github sounds like a good solution.
+
+I've read rather mixed things about Google Groups on-line, but if Jed 
+has found them worthwhile/usable, then I'm happy for us to use them. I 
+don't think there is an import facility, though.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+Department of Geography
+College of Science
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. +44 (0)1792 602685
+i.c.rutt at swansea.ac.uk
+
+On 26/10/11 15:47, Magnus Hagdorn wrote:
+> Jed Brown wrote:
+>> I usually use Google groups.
+>>
+> yes, that was my thinking as well. do you happen to know whether we can
+> import the old mailing list archive into google groups?
+> cheers
+> magi
+>
+>
+
+

@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Refactoring progress
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Refactoring%20progress&In-Reply-To=%3C4AE5867D.8090908%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000118.html">
+   <LINK REL="Next"  HREF="000122.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Refactoring progress</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Refactoring%20progress&In-Reply-To=%3C4AE5867D.8090908%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Refactoring progress">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Mon Oct 26 12:22:37 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000118.html">[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+</A></li>
+        <LI>Next message: <A HREF="000122.html">[Glimmer-cism-devel] Refactoring help?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#121">[ date ]</a>
+              <a href="thread.html#121">[ thread ]</a>
+              <a href="subject.html#121">[ subject ]</a>
+              <a href="author.html#121">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Dear All,
+
+I've now completed a draft refactoring of the temperature code in 
+Glimmer-CISM. I would very much welcome your comments. As a reminder, 
+the branch I've been working on is here:
+
+/glimmer-cism/glimmer-cism2/branches/GCISM2-refactor-ICR
+
+Some information:
+
+1) The full solution code is now in glide_tempFullSoln.F90. The main 
+calls are init_tempFullSoln and tstep_tempFullSoln. A single derived 
+type (type_tempFullSoln) is used to pass grid parameters, etc, which are 
+initialised in init_tempFullSoln.
+
+2) The module as a whole only depends on libglimmer. However, to do 
+this, various bits and pieces were moved from libglide to libglimmer 
+(for example the several subroutines and functions which calculate the 
+pressure melting point are now in glimmer_pmpt.F90). This in itself 
+needs some reorganisation.
+
+3) I separated out the basal hydrology models into a separate module. 
+These still need some work.
+
+4) Grid staggering has been moved inside the temperature code: i.e. only 
+the 'original' fields are passed through the interface.
+
+5) The refactoring has made glide.F90 messier, but this should be 
+improved as more refactoring takes place.
+
+6) I would be very much in favour of removing scaling asap, as it will 
+make the dynamical cores much easier to use as stand-alone calls.
+
+And a couple of questions:
+
+1) Because of the way I did the refactoring - essentially taking the 
+code apart and putting it back together - the necessary work arrays are 
+currently allocated on the stack as assumed-shape local arrays. This is 
+probably not ideal (stack overflow potential), but has the virtue of 
+simplicity (no allocation/deallocation to manage). There are two other 
+options: put the work arrays in type_tempFullSoln and allocate during 
+the call to init_tempFullSoln, or use local allocatable arrays which are 
+allocated and deallocated on each call. My suspicion is that for AD 
+purposes the first of these might be best, but I'd like to hear Jean or 
+Paul's thoughts on the matter.
+
+2) A question of style: the arrays in the interface to 
+tstep_tempFullSoln are currently declared as assumed shape (i.e. (:,:), 
+etc.). Since grid extents are contained in type_tempFullSoln, the 
+interface arrays could have their shape explicitly stated (i.e. 
+(params%ewn, params%nsn), etc). I think the latter might be better, as a 
+bounds-checking compiler should pick up if the subroutine is being 
+called with arrays of the wrong shape.
+
+As I said, please do read the code and send me your comments.
+
+Best wishes,
+
+Ian
+
+P.S. One of the consequences of refactoring is to make the code slightly 
+less efficient in places (for example, some coefficients which were 
+formerly calculated just once are now recalculated each timestep, to 
+allow variable time-steps). My own tests do not indicate that these 
+changes impact significantly on the run-time of the model (I doubt the 
+effect is measurable), and in any case they are the necessary cost of 
+improving modularity. On this point, I broadly agree with Donald Knuth 
+(author of TeX, etc):
+
+&#8220;We should forget about small efficiencies, say about 97% of the time: 
+premature optimization is the root of all evil. Yet we should not pass 
+up our opportunities in that critical 3%. A good programmer will not be 
+lulled into complacency by such reasoning, he will be wise to look 
+carefully at the critical code; but only after that code has been 
+identified&#8221;
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000118.html">[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+</A></li>
+	<LI>Next message: <A HREF="000122.html">[Glimmer-cism-devel] Refactoring help?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#121">[ date ]</a>
+              <a href="thread.html#121">[ thread ]</a>
+              <a href="subject.html#121">[ subject ]</a>
+              <a href="author.html#121">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

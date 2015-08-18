@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] building the parallel branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20building%20the%20parallel%20branch&In-Reply-To=%3C3F6CDCA2-1FFF-45ED-B0F4-209F414DF612%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000288.html">
+   <LINK REL="Next"  HREF="000290.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] building the parallel branch</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20building%20the%20parallel%20branch&In-Reply-To=%3C3F6CDCA2-1FFF-45ED-B0F4-209F414DF612%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] building the parallel branch">lipscomb at lanl.gov
+       </A><BR>
+    <I>Thu Jul 22 19:53:11 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000288.html">[Glimmer-cism-devel] bootstrapping error on the parallel branch
+</A></li>
+        <LI>Next message: <A HREF="000290.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#289">[ date ]</a>
+              <a href="thread.html#289">[ thread ]</a>
+              <a href="subject.html#289">[ subject ]</a>
+              <a href="author.html#289">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all,
+
+Erin Barker answered my question.  I'm able to build the code.
+
+Thanks,
+Bill
+
+
+On Jul 22, 2010, at 11:33 AM, Barker, Erin I wrote:
+
+&gt;<i> Bill,
+</I>&gt;<i>
+</I>&gt;<i> What you are seeing is really a warning message, not an error.  The
+</I>&gt;<i> bootstrap should still create the configure file and you should be  
+</I>&gt;<i> able to
+</I>&gt;<i> proceed.  Are you getting a follow on error or no configure file?
+</I>&gt;<i>
+</I>&gt;<i> The warning comes from how I forced autoconf to use a particular  
+</I>&gt;<i> compiler
+</I>&gt;<i> for linking rather than the usual default.  Typically with mixed  
+</I>&gt;<i> language
+</I>&gt;<i> programs you use the highest level compiler to do the linking, in  
+</I>&gt;<i> this case
+</I>&gt;<i> C++ because of Trilinos.  However, C++ is getting called by Fortran  
+</I>&gt;<i> so the
+</I>&gt;<i> &quot;main&quot; is in the fortran part not the c++ part.  The newer fortran  
+</I>&gt;<i> compilers
+</I>&gt;<i> have a beginfortran library that deals with this.  However, the  
+</I>&gt;<i> compilers on
+</I>&gt;<i> Coyote are too old.  So I had to force autoconf to use the fortran  
+</I>&gt;<i> compiler
+</I>&gt;<i> for linking.
+</I>&gt;<i>
+</I>&gt;<i> There is probably a cleaner way to do it that won't produce the  
+</I>&gt;<i> warning
+</I>&gt;<i> message, but it gets the right compilers in the right places.
+</I>&gt;<i>
+</I>&gt;<i> Erin
+</I>&gt;<i>
+</I>&gt;<i> __________________________________________________
+</I>&gt;<i> Erin I Barker
+</I>&gt;<i> Scientist
+</I>&gt;<i> Computational Sciences &amp; Mathematics Division
+</I>&gt;<i> Pacific Northwest National Laboratory
+</I>&gt;<i> Tel:  509-372-4727
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> From: William Lipscomb &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt;
+</I>&gt;&gt;<i> Date: Thu, 22 Jul 2010 09:13:49 -0700
+</I>&gt;&gt;<i> To: Stephen Price &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sprice at lanl.gov</A>&gt;
+</I>&gt;&gt;<i> Cc: &quot;Barker, Erin I&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">erin.barker at pnl.gov</A>&gt;
+</I>&gt;&gt;<i> Subject: building the parallel branch
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Steve,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I get the error below when I try to bootstrap the parallel branch on
+</I>&gt;&gt;<i> coyote (after a fresh checkout).  Do you know what's wrong here?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'll copying Erin in case she's seen this.  It looks vaguely familiar
+</I>&gt;&gt;<i> to me.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks,
+</I>&gt;&gt;<i> Bill
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> **********************************
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Checking if required version of automake is installed
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> checking for autoconf &gt;= 2.54 ... yes (version 2.59)
+</I>&gt;&gt;<i> checking for automake &gt;= 1.9.6 ... yes (version 1.9.6)
+</I>&gt;&gt;<i> configure.in: installing `./install-sh'
+</I>&gt;&gt;<i> configure.in: installing `./missing'
+</I>&gt;&gt;<i> src/cpp/Makefile.am: installing `./depcomp'
+</I>&gt;&gt;<i> automake: CXXLD was already defined in condition TRILINOS, which is
+</I>&gt;&gt;<i> included in condition TRUE ...
+</I>&gt;&gt;<i> src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> ******************************************************************************&gt;
+</I>&gt;<i> *
+</I>&gt;&gt;<i> William H. Lipscomb     E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+</I>&gt;&gt;<i> Los Alamos National Laboratory  Phone: (505) 667-0395
+</I>&gt;&gt;<i> Group T-3, Mail Stop B216   Fax: (505) 665-5926
+</I>&gt;&gt;<i> Los Alamos, NM 87545
+</I>&gt;&gt;<i>
+</I>&gt;<i> ******************************************************************************&gt;
+</I>&gt;<i> *
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000288.html">[Glimmer-cism-devel] bootstrapping error on the parallel branch
+</A></li>
+	<LI>Next message: <A HREF="000290.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#289">[ date ]</a>
+              <a href="thread.html#289">[ thread ]</a>
+              <a href="subject.html#289">[ subject ]</a>
+              <a href="author.html#289">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

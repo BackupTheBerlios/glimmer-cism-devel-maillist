@@ -1,0 +1,766 @@
+From William.Roberts at bristol.ac.uk  Fri Sep  2 17:34:22 2011
+From: William.Roberts at bristol.ac.uk (William Roberts)
+Date: Fri, 2 Sep 2011 16:34:22 +0100 (BST)
+Subject: [Glimmer-cism-devel] SIA not calculating advection correctly
+Message-ID: <32878.172.21.154.25.1314977662.squirrel@webmail.bris.ac.uk>
+
+Hi all,
+This relates to the bug that Sarah highlighted in march:
+https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000426.html
+and
+https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000429.html
+
+Wherein under the SIA glimmer-cism couldn't replicate the EISMINT 2 results.
+
+This may already have been fixed in which case ignore the following, but
+if not hopefully this may be of use.
+
+I have found that under the SIA when caluclating the horizontal advection
+of temperature in glide_temp.F90, the terms hadv_u and hadv_v  are both
+zero.
+
+In this calculation the velocities used are both %velocities_hom%, however
+if I replace %velocity_hom% with %velocity%, hadv_v/u are both correctly
+calculated. This suggests that the pointer between hom and non-hom
+velocities isn't working right.
+
+As I say this may have been fixed when the similar bug relating to
+vertical velocities was fixed earlier in the year.
+
+Will
+
+
+
+
+
+
+
+
+
+
+-- 
+School of Geographical Sciences  Fax: +44 (0) 117 928 7878
+University of Bristol            Email: William.Roberts at bristol.ac.uk
+University Road                  Http: www.bridge.bris.ac.uk
+Bristol BS8 1S
+
+
+
+From sprice at lanl.gov  Fri Sep  2 19:18:08 2011
+From: sprice at lanl.gov (Stephen F. Price)
+Date: Fri, 2 Sep 2011 11:18:08 -0600
+Subject: [Glimmer-cism-devel] SIA not calculating advection correctly
+In-Reply-To: <32878.172.21.154.25.1314977662.squirrel@webmail.bris.ac.uk>
+References: <32878.172.21.154.25.1314977662.squirrel@webmail.bris.ac.uk>
+Message-ID: <5C2C5628-C60D-41C6-93B2-37CBBAFA180D@lanl.gov>
+
+
+Hi Will,
+
+Can you update your code and try again, or tell me which version/branch of the code you are using? To my knowledge, we removed / changed all of the places in the code where "uvelhom" and "vvelhom" were referenced (replacing them with "uvel" and "vvel"). It is possible that we missed a few, but I thought I grepped through everything when we tried to rectify that.
+
+If you see it in more recent versions of the code I'll be happy to fix it.
+
+thanks -
+
+Steve
+
+
+On Sep 2, 2011, at 9:34 AM, William Roberts wrote:
+
+> Hi all,
+> This relates to the bug that Sarah highlighted in march:
+> https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000426.html
+> and
+> https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000429.html
+> 
+> Wherein under the SIA glimmer-cism couldn't replicate the EISMINT 2 results.
+> 
+> This may already have been fixed in which case ignore the following, but
+> if not hopefully this may be of use.
+> 
+> I have found that under the SIA when caluclating the horizontal advection
+> of temperature in glide_temp.F90, the terms hadv_u and hadv_v  are both
+> zero.
+> 
+> In this calculation the velocities used are both %velocities_hom%, however
+> if I replace %velocity_hom% with %velocity%, hadv_v/u are both correctly
+> calculated. This suggests that the pointer between hom and non-hom
+> velocities isn't working right.
+> 
+> As I say this may have been fixed when the similar bug relating to
+> vertical velocities was fixed earlier in the year.
+> 
+> Will
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep 15 16:53:19 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 15 Sep 2011 15:53:19 +0100
+Subject: [Glimmer-cism-devel] Compile Error
+In-Reply-To: <B98CC9E3-C557-41FB-B280-C9F3DEA3918F@columbia.edu>
+References: <1149C590-BD15-4267-AC63-5B92412A9CD3@lanl.gov>
+	<970B9891-9B80-498F-A7BF-6D7FE00DA34C@lanl.gov>
+	<1316076564.2081.6.camel@bacon>
+	<B98CC9E3-C557-41FB-B280-C9F3DEA3918F@columbia.edu>
+Message-ID: <4E72115F.7020907@ed.ac.uk>
+
+[bumped to dev list]
+
+Bob wrote:
+> Magi,
+> 
+> I did:
+> 
+> ./bootstrap
+> ./configure --prefix=`pwd` --enable-doc-pdf --disable-python
+> make -j3
+> 
+> ...to which I got the error below.  The .mod file it's looking for does 
+> exist.
+> 
+> 
+
+Hi Bob,
+the parallel make sometimes breaks, just re-run make and it'll work. i 
+think the problem might be that either the module file hasn't been 
+written when the object file has been, or my dependency checker doesn't 
+quite work. I have noticed this problem before and decided that just 
+re-running make is easier than figuring out what is wrong. parallel 
+makes work for most of it. As always, patches welcome :-)
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 20 10:15:05 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 20 Sep 2011 09:15:05 +0100
+Subject: [Glimmer-cism-devel] Order of Indices in GLINT?
+In-Reply-To: <7C07A965-073E-4C18-BBEF-77FD703EFC19@columbia.edu>
+References: <1149C590-BD15-4267-AC63-5B92412A9CD3@lanl.gov>
+	<970B9891-9B80-498F-A7BF-6D7FE00DA34C@lanl.gov>
+	<1316076564.2081.6.camel@bacon>
+	<B98CC9E3-C557-41FB-B280-C9F3DEA3918F@columbia.edu>
+	<4E72115F.7020907@ed.ac.uk>
+	<B48973CA-1B84-400C-8C00-0538D0C318FE@columbia.edu>
+	<4E7215FD.3050509@ed.ac.uk>
+	<301F88F6-6343-4C53-BE22-214CBAFFF52D@columbia.edu>
+	<4E721AAA.5020000@ed.ac.uk>
+	<7C07A965-073E-4C18-BBEF-77FD703EFC19@columbia.edu>
+Message-ID: <1316506506.2152.6.camel@bacon>
+
+On Mon, 2011-09-19 at 18:01 -0400, Bob wrote:
+> Magnus,
+> 
+> Could you please confirm or deny this stuff?
+> 
+> It looks like in the GLINT code, 2-D arrays passed back and forth
+> between Glimmer and the GCM model are generally indexed as
+> xyz(longitude, latitude).  And the first latitude number must be the
+> highest (furthest north).
+> 
+
+Looking at the code, I can confirm the ordering of the coordinates in
+glint. I don't know whether the direction of the latitudes is high to
+low.
+
+> Also... in the netCDF files, (ncep-doe_6h_climate.64x32.nc, for
+> example), variables are indexed, eg, prcp(time, latitude, longitude). 
+> When this is read into FORTRAN, the indices becomes prcp(longitude,
+> latitude, time).
+> 
+
+yes. When you look at a netCDF file using ncdump you get the C ordering
+(row major) whereas in Fortran you get column major ordering. The way I
+remember it is that in fortran the first index varies quickest, whilst
+in C the last index varies quickest. Knowing which is row and column is
+only important when you do linear algebra (and has confused me in the
+past because I started off with C and automatically transposed all
+matrices).
+
+Cheers
+magi
+
+
+
+From apau at palmod.uni-bremen.de  Fri Sep 23 14:39:04 2011
+From: apau at palmod.uni-bremen.de (Andre Paul)
+Date: Fri, 23 Sep 2011 14:39:04 +0200
+Subject: [Glimmer-cism-devel] Postdoc position in coupled climate-ice sheet
+	modeling
+Message-ID: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+
+Dear All,
+
+Please note the attached job ad.
+
+With kind regards,
+
+Andr?
+
+--
+
+The Geosystem Modeling group (www.geo.uni-bremen.de/geomod) at the 
+Faculty of Geosciences, University of Bremen, invites applications for a 
+post-doctoral position in a project that aims at investigating the role 
+of the hydrologic cycle and ocean circulation in Northern Hemisphere 
+ice-sheet growth at the end of the Last Interglacial.
+
+Sensitivity experiments and long-term transient simulations will be 
+carried out with the latest version of the comprehensive global climate 
+model CCSM coupled to the ice-sheet model Glimmer in a parallel 
+supercomputing environment. This project is a collaborative effort 
+between the Faculty of Geosciences and the DFG Research Center/Cluster 
+of Excellence ?The Ocean in the Earth System? (MARUM) at the University 
+of Bremen.
+
+Applicants must have a PhD in atmospheric, ocean or climate sciences. 
+Experience in numerical climate or ice-sheet modeling and scientific 
+computation (e.g. UNIX, Fortran) is mandatory. Strong oral and written 
+English language skills, and a disposition to publish results in 
+internationally relevant journals are required.
+
+Salary will be according to the German civil service remuneration system 
+TV-L E13. The appointment is for two years starting January 1st, 2012, 
+or somewhat later if desired.
+
+As the University of Bremen intends to increase the proportion of female 
+employees in science, women are particularly encouraged to apply.
+
+In case of equal personal aptitudes and qualification, disabled persons 
+will be given priority.
+
+Complete applications should include a CV, a research statement and 
+names and addresses of two referees (all combined within a single PDF 
+document). Applications and inquiries should be directed by email to Dr. 
+Andr? Paul (apaul at marum.de) or Dr. Matthias Prange (mprange at marum.de). 
+Review of applications will begin November 10th, 2011 and continue until 
+the position is filled.
+
+-- 
+
+
+Dr. Andr? Paul
+MARUM - Center for Marine Environmental Sciences
+and Department of Geosciences
+University of Bremen
+PO Box 33 04 40
+D-28334 Bremen
+Germany
+
+E-Mail: apaul at marum.de
+http://www.geo.uni-bremen.de/~apau
+Tel.:   +49 (0) 421 218 65450
+Fax:    +49 (0) 421 218 65454
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Sep 26 10:35:43 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 26 Sep 2011 09:35:43 +0100
+Subject: [Glimmer-cism-devel] Undocumented Glimmer API?
+In-Reply-To: <8F2F440E-13BD-405C-94E7-86C8D2ACFB0F@columbia.edu>
+References: <1149C590-BD15-4267-AC63-5B92412A9CD3@lanl.gov>
+	<970B9891-9B80-498F-A7BF-6D7FE00DA34C@lanl.gov>
+	<1316076564.2081.6.camel@bacon>
+	<8F2F440E-13BD-405C-94E7-86C8D2ACFB0F@columbia.edu>
+Message-ID: <4E80395F.5080802@ed.ac.uk>
+
+Hi Bob,
+moved to gc-devel. Using acab/artm is quite sensible, this is the most 
+basic climate interface and gives you full control over how you drive 
+the ice sheet.
+
+some answers inline...
+
+Bob wrote:
+> Hello Magnus,
+> 
+> Here at GISS, I've been thinking we will probably want to use 
+> Glimmer-CISM (glide) directly in our coupling, without going through 
+> glint.  However... it looks like the API for that use is only partially 
+> documented.  I've figured out what the API probably is by looking at the 
+> GLINT code.  Could you please tell me if this is correct?
+> 
+> In order to do an ice timestep, it looks like one need to do:
+> 
+> 1.  Set up mass balance (making sure acab doesn't remove more ice than 
+> there actually is):
+> 
+>     ! For this subroutine, input acab is in m/yr; this value is multiplied 
+>     !  by tim0/(scyr*thk0) and copied to data%climate%acab.
+>     call glide_set_acab(data, inarray)
+>         type(glide_global_type) :: data
+>         real, dimension(:,:), intent(in) :: inarray
+>     [Use rhoi, tile area functions and ice timestep to convert between
+>     m/yr and kg/m^2]
+> 
+> 
+> 2. Set up top surface boundary condition:
+> 
+>     ! Input artm is in deg C; this value is copied to data%climate%artm
+>     (no unit conversion).
+>     call glide_set_artm(data,inarray)
+>         type(glide_global_type) :: data
+>         real, dimension(:,:), intent(in) :: inarray
+> 
+> 
+> 
+> 3. Call the main timestep functions.  It looks like doing one timestep 
+> requires a series of calls to glide_tstep_pX().
+> 
+>           call glide_tstep_p1(instance%model,instance%glide_time)
+>           call glide_tstep_p2(instance%model)
+>           !EIB! difference in call between gc2 and lanl
+>           call glide_tstep_p3(instance%model)
+>           !EIB! call glide_tstep_p3(instance%model,no_write=.true.)
+> 
+> 4. Deal with calving (adjust the calving rate for our fast physics in 
+> the GCM)
+> 
+>           ! Add the calved ice to the ablation field
+> !lipscomb - TO DO - Calving needs to be added to the ice runoff.
+> !                   Also add basal melting (bmlt) to the liquid runoff.
+>           call glide_get_calving(instance%model, calve_temp)
+>           calve_temp = calve_temp * real(rhoi/rhow)
+> 
+> ==> This tells us the calving flux, spatially distributed, which we will 
+> use to drive sea ice formation over the course of the next ice timestep.
+> 
+> 
+> Questions/Notes:
+> 
+> 1. Are there any other GLIDE API calls I should be aware of?
+> 
+
+I don't think so. I suppose you are not interested in isostatic adjustment.
+
+> 2. It seems like it would be easier if acab could be phrased in terms of 
+> the amount of accumulation (in m, or kg/m^2 or something) since the last 
+> timestep.  Thoughts on this?
+> 
+
+I think this is something that can be discussed for future API change. I 
+suppose using a mass balance velocity is a natural choice. Also using a 
+mass balance velocity allows for asynchronous/adaptive time steps.
+
+> 3. Why are there glide_get_XYZ() and glide_set_XYZ() subroutines?  Why 
+> don't we just set the values directly in type(glide_climate)?
+> 
+
+Glimmer-CISM is scaled. These accessors handle this scaling. The code 
+for the routines is automatically generated from the information in the 
+vars.def files. If you know about the scaling you can set the values 
+directly.
+
+> 4. What are the units of:
+>      glide_get_calving()?
+> 
+> 
+
+I believe it's another mass balance term, so m/yr (but I haven't checked).
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From rpf2116 at columbia.edu  Mon Sep 26 21:04:12 2011
+From: rpf2116 at columbia.edu (Bob)
+Date: Mon, 26 Sep 2011 15:04:12 -0400
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+Message-ID: <5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+
+More problems compiling glimmer-cism2 with gfortran.
+
+In linking:
+../../../libglimmer/.libs/libglimmer.a(glimmer_commandline.o): In function `__glimmer_commandline_MOD_glimmer_getcommandline':
+glimmer_commandline.F90:(.text+0x512): undefined reference to `iargc_'
+collect2: ld returned 1 exit status
+
+The file glimmer_commandline.F90 does seem to account for changes in FORTRAN command line handling:
+
+#ifdef HAVE_2003ARGS
+#define NARGS   command_argument_count
+#define GETARG  get_command_argument
+#else
+#define NARGS   iargc
+#define GETARG  getarg
+#endif
+
+And yet, on line 60, it seems to rely on iargc being available:
+
+    integer, external :: iargc
+
+How should this get fixed?
+
+Thanks!
+-- Bob
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110926/7c590cfa/attachment.html>
+
+From rpf2116 at columbia.edu  Mon Sep 26 21:27:48 2011
+From: rpf2116 at columbia.edu (Bob)
+Date: Mon, 26 Sep 2011 15:27:48 -0400
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+Message-ID: <11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+
+Here's a proposed fix:
+
+bash-4.2$ svn diff `find . -name '*_command*.F90'`
+Index: libglint/glint_commandline.F90
+===================================================================
+--- libglint/glint_commandline.F90	(revision 1147)
++++ libglint/glint_commandline.F90	(working copy)
+@@ -58,7 +58,7 @@
+ 
+     integer numargs,nfiles
+     integer :: i
+-    integer, external :: iargc
++!    integer, external :: iargc
+     character(len=100) :: argument
+     integer, dimension(100) :: argumentIdx
+     
+Index: libglimmer/glimmer_commandline.F90
+===================================================================
+--- libglimmer/glimmer_commandline.F90	(revision 1147)
++++ libglimmer/glimmer_commandline.F90	(working copy)
+@@ -57,7 +57,7 @@
+ 
+     integer numargs,nfiles
+     integer :: i
+-    integer, external :: iargc
++!    integer, external :: iargc
+     character(len=100) :: argument
+     integer, dimension(100) :: argumentIdx
+     
+
+
+-- Bob
+On Sep 26, 2011, at 3:04 PM, Bob wrote:
+
+> More problems compiling glimmer-cism2 with gfortran.
+> 
+> In linking:
+> ../../../libglimmer/.libs/libglimmer.a(glimmer_commandline.o): In function `__glimmer_commandline_MOD_glimmer_getcommandline':
+> glimmer_commandline.F90:(.text+0x512): undefined reference to `iargc_'
+> collect2: ld returned 1 exit status
+> 
+> The file glimmer_commandline.F90 does seem to account for changes in FORTRAN command line handling:
+> 
+> #ifdef HAVE_2003ARGS
+> #define NARGS   command_argument_count
+> #define GETARG  get_command_argument
+> #else
+> #define NARGS   iargc
+> #define GETARG  getarg
+> #endif
+> 
+> And yet, on line 60, it seems to rely on iargc being available:
+> 
+>     integer, external :: iargc
+> 
+> How should this get fixed?
+> 
+> Thanks!
+> -- Bob
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110926/b32e46d1/attachment.html>
+
+From rpf2116 at columbia.edu  Mon Sep 26 21:04:12 2011
+From: rpf2116 at columbia.edu (Bob)
+Date: Mon, 26 Sep 2011 15:04:12 -0400
+Subject: [Glimmer-cism-devel] Problem with gfortran and line lengths in
+	glimmer-cism2
+In-Reply-To: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+Message-ID: <5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+
+I'm compiling the following repo with gfortran:
+
+URL: https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/trunk
+
+It barfed on long lines.  I temporarily "fixed" the problem by applying the following command:
+
+bash-4.2$ sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line-length-none/' `find . -name Makefile`
+
+Does anyone know how this could be fixed for good?  It looks like we need to just add '--free-line-length-none' to all the gfortran command lines.
+
+Thanks!
+-- Bob
+
+
+
+From lipscomb at lanl.gov  Mon Sep 26 21:57:59 2011
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Mon, 26 Sep 2011 13:57:59 -0600
+Subject: [Glimmer-cism-devel] Problem with gfortran and line lengths in
+	glimmer-cism2
+In-Reply-To: <5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+Message-ID: <44B4CB2B-8193-4350-B6EB-57F11AC61B74@lanl.gov>
+
+
+Hi Bob,
+
+To build with gfortran on my Macbook Pro, I had to add this line :
+
+export FCFLAGS='-ffree-line-length-none'
+
+So yes, I think a long-term fix along these lines is needed (but I'll  
+defer to the software engineers on the best approach).
+
+Bill
+
+
+On Sep 26, 2011, at 1:04 PM, Bob wrote:
+
+> I'm compiling the following repo with gfortran:
+>
+> URL: https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/trunk
+>
+> It barfed on long lines.  I temporarily "fixed" the problem by  
+> applying the following command:
+>
+> bash-4.2$ sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line- 
+> length-none/' `find . -name Makefile`
+>
+> Does anyone know how this could be fixed for good?  It looks like we  
+> need to just add '--free-line-length-none' to all the gfortran  
+> command lines.
+>
+> Thanks!
+> -- Bob
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 27 01:37:22 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 27 Sep 2011 00:37:22 +0100
+Subject: [Glimmer-cism-devel] Problem with gfortran and line lengths in
+ glimmer-cism2
+In-Reply-To: <5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+Message-ID: <1317080242.2171.1.camel@bacon>
+
+On Mon, 2011-09-26 at 15:04 -0400, Bob wrote:
+> I'm compiling the following repo with gfortran:
+> 
+> URL: https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/trunk
+> 
+> It barfed on long lines.  I temporarily "fixed" the problem by applying the following command:
+> 
+> bash-4.2$ sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line-length-none/' `find . -name Makefile`
+> 
+> Does anyone know how this could be fixed for good?  It looks like we need to just add '--free-line-length-none' to all the gfortran command lines.
+
+Hi Bob,
+do you know when this branch was cut off the berlios repo? I fixed this
+issue on trunk, 2010-01-27. The configure script attempts to
+automatically detect how to disable line length restrictions.
+
+Cheers
+magi
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 27 01:51:32 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 27 Sep 2011 00:51:32 +0100
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+	<11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+Message-ID: <1317081092.2171.6.camel@bacon>
+
+On Mon, 2011-09-26 at 15:27 -0400, Bob wrote:
+
+> 
+> On Sep 26, 2011, at 3:04 PM, Bob wrote:
+> 
+> > More problems compiling glimmer-cism2 with gfortran.
+> > 
+> > 
+> > In linking:
+> > ../../../libglimmer/.libs/libglimmer.a(glimmer_commandline.o): In
+> > function `__glimmer_commandline_MOD_glimmer_getcommandline':
+> > glimmer_commandline.F90:(.text+0x512): undefined reference to
+> > `iargc_'
+> > collect2: ld returned 1 exit status
+
+> > And yet, on line 60, it seems to rely on iargc being available:
+> > 
+> > 
+> >     integer, external :: iargc
+> > 
+> > 
+> > How should this get fixed?
+> > 
+
+
+Hi Bob,
+that's odd. It works for me on gc-trunk (berlios). I tried both gcc v
+4.5.2 and 4.1.2. Which version of gcc are you using? Which OS? Well, if
+we need to remove that then we should use a preprocessor macro, along
+the lines of
+
+
+#ifndef HAVE_2003ARGS
+integer, external :: iargc
+#endif
+
+In general, commenting out code is not very helpful because it just
+clutters up the source code without adding any functionality. The
+history can be found in subversion.
+
+Cheers
+magi
+
+
+
+From rpf2116 at columbia.edu  Tue Sep 27 17:26:26 2011
+From: rpf2116 at columbia.edu (Bob Fischer)
+Date: Tue, 27 Sep 2011 11:26:26 -0400
+Subject: [Glimmer-cism-devel] Problem with gfortran and iargc
+In-Reply-To: <1317081092.2171.6.camel@bacon>
+References: <4E7C7DE8.1090202@palmod.uni-bremen.de>
+	<5EDC247D-DF2B-48F3-A847-891C008B91B9@columbia.edu>
+	<11756126-3616-4393-A799-7C51CD99E962@columbia.edu>
+	<1317081092.2171.6.camel@bacon>
+Message-ID: <1317137192.32008.5.camel@dirk>
+
+
+> Hi Bob,
+> that's odd. It works for me on gc-trunk (berlios). I tried both gcc v
+> 4.5.2 and 4.1.2. Which version of gcc are you using? Which OS? Well, if
+> we need to remove that then we should use a preprocessor macro, along
+> the lines of
+> 
+> 
+> #ifndef HAVE_2003ARGS
+> integer, external :: iargc
+> #endif
+
+OK, here are the changes I think would be the right way to do it.
+Should I check this in?
+
+
+bash-4.2$ svn diff
+Index: glint_commandline.F90
+===================================================================
+--- glint_commandline.F90	(revision 1147)
++++ glint_commandline.F90	(working copy)
+@@ -30,7 +30,7 @@
+ #include "config.inc"
+ 
+ #ifdef HAVE_2003ARGS
+-#define NARGS   command_argument_count
++#define NARGS   command_argument_count()
+ #define GETARG  get_command_argument
+ #else
+ #define NARGS   iargc
+@@ -58,7 +58,9 @@
+ 
+     integer numargs,nfiles
+     integer :: i
++#ifndef HAVE_2003ARGS
+     integer, external :: iargc
++#endif
+     character(len=100) :: argument
+     integer, dimension(100) :: argumentIdx
+     
+@@ -66,7 +68,7 @@
+     commandline_resultsname = 'results'
+ 
+     ! get number of arguments and file names
+-    numargs = NARGS()
++    numargs = NARGS
+     ! reconstruct command line to store commandline_history
+     call GETARG(0,commandline_history)
+     do i=1,numargs
+
+-- Bob
+
+
+
+
+From sprice at lanl.gov  Wed Sep 28 21:52:59 2011
+From: sprice at lanl.gov (Stephen F. Price)
+Date: Wed, 28 Sep 2011 13:52:59 -0600
+Subject: [Glimmer-cism-devel] iargc build error
+References: <BANLkTimeryOmB5nTdKKtH70Hr6HSfAH25Q@mail.gmail.com>
+Message-ID: <A04FC81F-C02E-4208-AF56-F4D7D785C20D@lanl.gov>
+
+
+Hi all,
+
+I found this older email concerning one of the recent build errors being discussed when using gcc / gfortran.
+
+Has anyone checked in a fix for this yet, on either or both repos?
+
+thanks -
+
+Steve
+
+
+Begin forwarded message:
+
+> From: Jim Edwards <jedwards at ucar.edu>
+> Date: June 8, 2011 11:55:29 AM MDT
+> 
+> I've solved this problem and completed my build with gfortran ...   gfortran treats iargc as an intrinsic and so the
+> integer, external :: iargc 
+> needs to be ifdef'd out for this compiler.    I've fixed this in my copy, but can't check it in.   I also made another change that
+> removes the need for the file libglimmer/cfortran.h
+> 
+> I've attached a patch file with the changes between the repo and my copy.
+> 
+> Jim
+> 
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110928/72598817/attachment.html>
+

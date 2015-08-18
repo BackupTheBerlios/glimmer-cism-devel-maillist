@@ -1,0 +1,191 @@
+From Gethin.Williams at bristol.ac.uk  Mon Mar  1 13:16:00 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Mon, 01 Mar 2010 12:16:00 +0000
+Subject: [Glimmer-cism-devel] scaled netCDF I/O for glimmer-cism-gcm
+Message-ID: <366108373B97509E785DF054@geog-a81.ggy.bris.ac.uk>
+
+Hi Magi,
+
+Thanks for adding these features.  That's great!
+
+Hopefully we can quickly get into a working pattern where any NetCDF data 
+files that we use contain 'scale_factor' attributes, in which case no 
+mismatch would be possible.
+
+Presumably one could also add in 'scale_factor = 0.0' as an explicit 
+safeguard on unscaled data, if ever one was called for?
+
+Cheers,
+Gethin.
+
+
+> Hi all,
+> as discussed earlier, I have implemented scaled netCDF I/O on the
+> glimmer-cism-gcm branch. The patch changes netCDF I/O as follows:
+> * variables in output files have the attribute scale_factor set to the
+> scaling factor if present.
+> * output variables are not scaled on output
+> * when data is read from file we check if the scale_factor attribute is
+> present. If it is present then no scaling is applied. If the attribute
+> is not present, the variable is scaled using the scaling factors.
+>
+> The attribute scale_factor is part of the CF standard (and other
+> standards) and most netCDF viewers use the attribute to scale variables.
+>
+> Above scheme has an obvious problem in that if the scale factors in the
+> netCDF file are different from the expected ones we get the wrong
+> values. Well, in short we don't support arbitrarily scaled variables...
+>
+> Cheers
+> magi
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Mar  1 15:40:52 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 01 Mar 2010 14:40:52 +0000
+Subject: [Glimmer-cism-devel] scaled netCDF I/O for glimmer-cism-gcm
+In-Reply-To: <366108373B97509E785DF054@geog-a81.ggy.bris.ac.uk>
+References: <366108373B97509E785DF054@geog-a81.ggy.bris.ac.uk>
+Message-ID: <4B8BD1F4.4020502@ed.ac.uk>
+
+DAG Williams, Geographical Sciences wrote:
+> Hi Magi,
+> 
+> Thanks for adding these features.  That's great!
+> 
+> Hopefully we can quickly get into a working pattern where any NetCDF 
+> data files that we use contain 'scale_factor' attributes, in which case 
+> no mismatch would be possible.
+> 
+> Presumably one could also add in 'scale_factor = 0.0' as an explicit 
+> safeguard on unscaled data, if ever one was called for?
+> 
+
+scale_factor = 0. wouldn't be such a good idea 0*a=0 for all values of a 
+  ;-)
+
+it's not a problem if the file contains the expected scaling factor or 
+none at all. i guess it would simple enough to fix it for the general 
+case, where the actual scaling factor is nc_scale_factor/glimmer_scale 
+and then only apply the scale factor if it is not 1 (to within some 
+accuracy).
+
+anyone volunteering a patch?
+
+Cheers
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From trey at ornl.gov  Mon Mar  1 17:51:28 2010
+From: trey at ornl.gov (White III, James B.)
+Date: Mon, 01 Mar 2010 11:51:28 -0500
+Subject: [Glimmer-cism-devel] Loop bounds in "get_area_vol"?
+Message-ID: <03F2A277-9263-44F6-A319-C2D81529BCFE@ornl.gov>
+
+Anybody know why the "j" loop in "get_area_vol" starts at 2 instead of 1?
+
+Here's the code, from "glide_mask.F90":
+
+  subroutine get_area_vol(thck, dew, dns, iarea, ivol)
+    real(dp), dimension(:,:) :: thck
+    real(dp) :: dew, dns
+    real(dp) :: iarea, ivol
+
+    integer :: i,j
+
+    do i = 1, size(thck,1)
+        do j = 2, size(thck,2)
+            if (thck(i,j) > 0) then
+                iarea = iarea + 1
+                ivol = ivol + thck(i,j)
+            end if
+        end do
+    end do
+
+    iarea = iarea  * dew * dns
+    ivol = ivol * dew * dns
+
+  end subroutine get_area_vol
+
+--
+James B. White III (Trey)
+National Center for Computational Sciences
+Oak Ridge National Laboratory
+trey at ornl.gov
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Mar  1 18:13:05 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 01 Mar 2010 17:13:05 +0000
+Subject: [Glimmer-cism-devel] Loop bounds in "get_area_vol"?
+In-Reply-To: <03F2A277-9263-44F6-A319-C2D81529BCFE@ornl.gov>
+References: <03F2A277-9263-44F6-A319-C2D81529BCFE@ornl.gov>
+Message-ID: <4B8BF5A1.9040500@ed.ac.uk>
+
+White III, James B. wrote:
+> Anybody know why the "j" loop in "get_area_vol" starts at 2 instead of 1?
+> 
+> Here's the code, from "glide_mask.F90":
+> 
+>   subroutine get_area_vol(thck, dew, dns, iarea, ivol)
+>     real(dp), dimension(:,:) :: thck
+>     real(dp) :: dew, dns
+>     real(dp) :: iarea, ivol
+> 
+>     integer :: i,j
+> 
+>     do i = 1, size(thck,1)
+>         do j = 2, size(thck,2)
+>             if (thck(i,j) > 0) then
+>                 iarea = iarea + 1
+>                 ivol = ivol + thck(i,j)
+>             end if
+>         end do
+>     end do
+> 
+>     iarea = iarea  * dew * dns
+>     ivol = ivol * dew * dns
+> 
+>   end subroutine get_area_vol
+> 
+>
+
+
+this looks like a cut'n'paste error.
+
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From trey at ornl.gov  Thu Mar 25 21:37:39 2010
+From: trey at ornl.gov (White III, James B.)
+Date: Thu, 25 Mar 2010 16:37:39 -0400
+Subject: [Glimmer-cism-devel] New branch in "glimmer-cism-lanl"
+Message-ID: <28538F0B-434F-4B65-8743-84909F7CFADC@ornl.gov>
+
+CISMers,
+
+I created a new branch in "glimmer-cism-lanl" called "distributed". It is a copy of "parallel" plus my modifications to date for distributed-memory parallelism. I'm still in the thick of things, so this doesn't actually "work" for anything useful. I just wanted people to be able to see what I've been up to. The code so far runs up to the computation of the mask for the "ho-other/hump.config" test case, prints it out, and quits. I copy "parallel_single.F90" to "parallel.F90" to build for a single process and "parallel_mpi.F90" to "parallel.F90" for multiple MPI tasks.
+
+--
+James B. White III (Trey)
+National Center for Computational Sciences
+Oak Ridge National Laboratory
+trey at ornl.gov
+
+
+

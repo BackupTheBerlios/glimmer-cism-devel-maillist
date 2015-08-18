@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BFwd%3A%20Autoconf%20and%20glimmer-cism%5D&In-Reply-To=%3CAANLkTimQjGofxGLw21AOlL9ypInRrxeswMNcXIzuR_Go%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000284.html">
+   <LINK REL="Next"  HREF="000286.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]</H1>
+    <B>Florence Colleoni</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BFwd%3A%20Autoconf%20and%20glimmer-cism%5D&In-Reply-To=%3CAANLkTimQjGofxGLw21AOlL9ypInRrxeswMNcXIzuR_Go%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]">flocolleoni at gmail.com
+       </A><BR>
+    <I>Thu Jul 15 11:16:21 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000284.html">[Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+</A></li>
+        <LI>Next message: <A HREF="000286.html">[Glimmer-cism-devel] mailing lists (and general BerliOS usage)
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#285">[ date ]</a>
+              <a href="thread.html#285">[ thread ]</a>
+              <a href="subject.html#285">[ subject ]</a>
+              <a href="author.html#285">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dear Marion,
+
+I have not try to install Glimmer-cism version but I recently installed the
+last relasea on Glimmer
+on both Macbook Pro and iMac and I was not able to run the bootstrap.
+Instead I had to avoid
+all tools from the sw/ directory and install all the unix component required
+by hand in usr/local/bin
+(or /usr/bin if preferred). Then after some tentatives I could install
+properly Glimmer and it is perfectly
+working.
+
+I don't know if it can help you
+
+Flo
+
+2010/7/15 Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt;
+
+&gt;<i>
+</I>&gt;<i> Hi Marion,
+</I>&gt;<i>
+</I>&gt;<i> I'm afraid building on a Mac is likely to be a bit more technically-
+</I>&gt;<i> involved than on a Linux distro.
+</I>&gt;<i>
+</I>&gt;<i> My hunch is that the problem might be caused by some mismatch between the
+</I>&gt;<i> build tools supplied as part of Mac OS (Xcode), and those from Fink (in
+</I>&gt;<i> /sw), on the basis of your error message. However, I can't test this, and
+</I>&gt;<i> wouldn't know how to solve it.
+</I>&gt;<i>
+</I>&gt;<i> Your best bet is to hope that someone else on the developer list knows what
+</I>&gt;<i> to do.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i>
+</I>&gt;<i> Ian
+</I>&gt;<i>
+</I>&gt;<i> P.S. If Saffia is going to be using Glimmer-CISM, perhaps you could
+</I>&gt;<i> encourage her to join the mailing lists herself? The lists are our preferred
+</I>&gt;<i> forum for this kind of problem-solving.
+</I>&gt;<i>
+</I>&gt;<i> Dr Ian Rutt
+</I>&gt;<i> School of the Environment and Society
+</I>&gt;<i> Swansea University
+</I>&gt;<i> Singleton Park
+</I>&gt;<i> Swansea
+</I>&gt;<i> SA2 8PP
+</I>&gt;<i> Tel. (01792) 602685
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Magnus Hagdorn wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi Marion,
+</I>&gt;&gt;<i> forwarded to glimmer-cism developer mailing list...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -------- Forwarded Message --------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  Dear Magnus and Ian,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> A student of Slawek is currently visiting from Santa Cruz, and I am
+</I>&gt;&gt;&gt;<i> trying to share with her a version of glimmer-cism that I am currently
+</I>&gt;&gt;&gt;<i> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+</I>&gt;&gt;&gt;<i> mac, and somehow, we can't run ./bootstrap. The error message is copied
+</I>&gt;&gt;&gt;<i> below -
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> *********************************
+</I>&gt;&gt;&gt;<i> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Checking if required version of automake is installed
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> -n checking for autoconf &gt;= 2.54 ... yes (version 2.63)
+</I>&gt;&gt;&gt;<i> -n checking for automake &gt;= 1.9.6 ... yes (version 1.10)
+</I>&gt;&gt;&gt;<i> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+</I>&gt;&gt;&gt;<i> You have another version of autoconf.  If you want to use that,
+</I>&gt;&gt;&gt;<i> you should regenerate the build system entirely.
+</I>&gt;&gt;&gt;<i> aclocal.m4:14: the top level
+</I>&gt;&gt;&gt;<i> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+</I>&gt;&gt;&gt;<i> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+</I>&gt;&gt;&gt;<i> *************************************
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> It looks like it could be a problem with the version of autoconf? It
+</I>&gt;&gt;&gt;<i> would be great if you would be able to confirm on this, and if not,
+</I>&gt;&gt;&gt;<i> if you'd have any idea of what the problem is.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Many thanks,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Marion
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+......................................................................
+Florence Colleoni
+CMCC, Bologna (Italy)
+     Phone: +39 051 3782622
+     Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+     URL: <A HREF="http://flocolleoni.u7n.org">http://flocolleoni.u7n.org</A>
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100715/8c97b588/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100715/8c97b588/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000284.html">[Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+</A></li>
+	<LI>Next message: <A HREF="000286.html">[Glimmer-cism-devel] mailing lists (and general BerliOS usage)
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#285">[ date ]</a>
+              <a href="thread.html#285">[ thread ]</a>
+              <a href="subject.html#285">[ subject ]</a>
+              <a href="author.html#285">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

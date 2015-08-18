@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Fwd: dycore proposal
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C4C8E2FDC.2070501%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000344.html">
+   <LINK REL="Next"  HREF="000346.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Fwd: dycore proposal</H1>
+    <B>Tony Payne</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C4C8E2FDC.2070501%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Fwd: dycore proposal">a.j.payne at bristol.ac.uk
+       </A><BR>
+    <I>Mon Sep 13 16:06:20 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000344.html">[Glimmer-cism-devel] tests dir vs. tests2
+</A></li>
+        <LI>Next message: <A HREF="000346.html">[Glimmer-cism-devel] include .inc files
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#343">[ date ]</a>
+              <a href="thread.html#343">[ thread ]</a>
+              <a href="subject.html#343">[ subject ]</a>
+              <a href="author.html#343">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi
+
+sorry for late contribution to this theme.
+
+in answer to magnus' original questions: what is glimmer-cism?  i think 
+it will remain a code that has a variety of climate forcing drivers and 
+climate model couplers, it will also contain a range of ice flow and 
+mass balance routines including SIA and various flavours of higher order 
+code.  at some point it may well include parallelism both in matrix 
+inversion and more generally (domain decomposition).  unless very 
+considerable effort is made, it seems likely to continue to use a fixed, 
+staggered horizontal grid.  this configuration is fine for many 
+applications but has very serious shortcomings for key problems such as 
+grounding line migration.  we could rewrite glimmer-cism entirely to be 
+based on the type of grid more needed for these problems however this 
+would more or less mean starting from scratch and would be repeating 
+much of the work that has been done elsewhere in developing generic 
+solvers on advanced (ie non fixed, non quadrilateral) meshes.  the 
+dycore work is therefore a mean of allowing glimmer-cism access to these 
+more advanced solvers, which can be offered an alternative to the 
+standard fixed-grid dynamic calculations.  a typical application could 
+see glimmer-cism doing the climate coupling/forcing and mass balance 
+calculations (also isostasy), and passing the necessary geometry and 
+mass fluxes field over to the new dycore to do the ice 
+flow-temperature-thickness calculations.
+
+i agree with bill that it would make sense to define the interface that 
+more advanced dycores will need to use; and echo dan's point that the 
+job of regridding on to the mesh that glimmer-cism provides should be 
+the job of the dycore and not place any additional burden on 
+glimmer-cism.  i would urge that this interface is defined to be as 
+simple as possible.
+
+all the best
+
+tony
+
+
+
+On 30/08/2010 21:14, William Lipscomb wrote:
+&gt;<i>
+</I>&gt;<i> Hi all,
+</I>&gt;<i>
+</I>&gt;<i> I agree that it's worth taking some time to define and design the API 
+</I>&gt;<i> infrastructure.  I wonder if it would make sense to form a development 
+</I>&gt;<i> subgroup to think about this in detail.  This group might include 
+</I>&gt;<i> representatives from the various ISICLES projects developing new 
+</I>&gt;<i> dycores (e.g., Jed from SISIPHUS, Dan from ISICLES, Toby from 
+</I>&gt;<i> U.Texas/Ymir) as well as the Glimmer-CISM steering committee (Magnus?) 
+</I>&gt;<i> and the CESM community (Jesse or me?).  Others (e.g., from PISM) would 
+</I>&gt;<i> of course be welcome.
+</I>&gt;<i>
+</I>&gt;<i> I'll start by asking:
+</I>&gt;<i> (1) Does anyone have strong feelings about whether this is or isn't a 
+</I>&gt;<i> good idea?
+</I>&gt;<i> (2) Assuming it's a good idea, who would like to be part of the group?
+</I>&gt;<i>
+</I>&gt;<i> Regards,
+</I>&gt;<i>
+</I>&gt;<i> Bill
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Aug 30, 2010, at 4:18 AM, Jed Brown wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> On Mon, 30 Aug 2010 09:39:49 +0100, Magnus Hagdorn 
+</I>&gt;&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt; wrote:
+</I>&gt;&gt;&gt;<i> This is an entirely different beast.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Agreed, just wanted to put it out there because a change like this won't
+</I>&gt;&gt;<i> happen overnight and won't happen if there isn't some consensus that
+</I>&gt;&gt;<i> it's the right direction to be headed.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> However, if this is what we want to achieve then we should really
+</I>&gt;&gt;&gt;<i> spend some time on defining and designing the infrastructure and API
+</I>&gt;&gt;&gt;<i> first. Once we have it we can port glimmer to it. I don't think there
+</I>&gt;&gt;&gt;<i> is much point trying to come up with an API that fits the current
+</I>&gt;&gt;&gt;<i> structure of glimmer.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I would also suggest trying to avoid having too many CCSM coupler
+</I>&gt;&gt;<i> idiosyncrasies show up in the API.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Other ISICLES projects, the PISM team, and possibly others should be
+</I>&gt;&gt;<i> prepared to weight in on the API.  I don't know if everyone is on this
+</I>&gt;&gt;<i> list, or if you want to have the discussion on this list.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Jed
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i> ******************************************************************************* 
+</I>&gt;<i>
+</I>&gt;<i> William H. Lipscomb                    E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+</I>&gt;<i> Los Alamos National Laboratory        Phone: (505) 667-0395
+</I>&gt;<i> Group T-3, Mail Stop B216            Fax: (505) 665-5926
+</I>&gt;<i> Los Alamos, NM 87545
+</I>&gt;<i> ******************************************************************************* 
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+-- 
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000344.html">[Glimmer-cism-devel] tests dir vs. tests2
+</A></li>
+	<LI>Next message: <A HREF="000346.html">[Glimmer-cism-devel] include .inc files
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#343">[ date ]</a>
+              <a href="thread.html#343">[ thread ]</a>
+              <a href="subject.html#343">[ subject ]</a>
+              <a href="author.html#343">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] automated nightly build &amp; test
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C4C52B8B5.3050908%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000305.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] automated nightly build &amp; test</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C4C52B8B5.3050908%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] automated nightly build &amp; test">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Fri Jul 30 13:34:13 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000305.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#306">[ date ]</a>
+              <a href="thread.html#306">[ thread ]</a>
+              <a href="subject.html#306">[ subject ]</a>
+              <a href="author.html#306">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+replying to myself...
+
+Magnus Hagdorn wrote:
+&gt;<i> We should have a look around if there is a framework which we could use 
+</I>&gt;<i> for integration tests. 
+</I>
+I had a look around and couldn't find anything useful for doing 
+integration tests. There are plenty of frameworks which will do unit 
+tests however. We might want to revisit that in future.
+
+&gt;<i> How are we going to integrate the test suite with 
+</I>&gt;<i> the  gc code - new subversion tree for test harness and test 
+</I>&gt;<i> configurations in gc-tree? I think we should also see if we could figure 
+</I>&gt;<i> out a way of transparently using clusters. There is the glide_launch.py 
+</I>&gt;<i> script which can either start glimmer directly or submit it to a cluster 
+</I>&gt;<i> using SGE. It would be easy to add other schedulers. How do we resolve 
+</I>&gt;<i> model run dependencies - e.g. some of the EISMINT2 runs depend on other 
+</I>&gt;<i> EISMINT2 runs. I think if we could figure out a way how to sort out 
+</I>&gt;<i> dependencies when jobs are submitted to a cluster we could use make to 
+</I>&gt;<i> do the checking.
+</I>&gt;<i> 
+</I>
+my changeset r1888 attempts to sort out dependencies when the grid 
+engine is used. The glide launcher script now produces an extra file 
+which stores the job ID. The launcher now takes an extra command line 
+argument specifying a dependency on another model run. It will then look 
+for the job ID in the corresponding job ID file and submit the job with 
+the correct options. With a little refactoring this approach could also 
+be used for other schedulers.
+
+we could now write a wrapper for the netcdf output file comparer which 
+takes 3 arguments: the name of the file to be checked, the name of the 
+file to be checked against and the name of the output file which will 
+contain the results. we can then use a make rule to run the checker once 
+the model has been run.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000305.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#306">[ date ]</a>
+              <a href="thread.html#306">[ thread ]</a>
+              <a href="subject.html#306">[ subject ]</a>
+              <a href="author.html#306">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

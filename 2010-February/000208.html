@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] exact restart again
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C9C4516F7-B12D-46A8-A672-A15F60A2FA68%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000207.html">
+   <LINK REL="Next"  HREF="000209.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] exact restart again</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C9C4516F7-B12D-46A8-A672-A15F60A2FA68%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] exact restart again">lipscomb at lanl.gov
+       </A><BR>
+    <I>Mon Feb 22 20:49:14 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000207.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+        <LI>Next message: <A HREF="000209.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#208">[ date ]</a>
+              <a href="thread.html#208">[ thread ]</a>
+              <a href="subject.html#208">[ subject ]</a>
+              <a href="author.html#208">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all,
+
+Just a minor followup.  The netCDF scale factors will indeed simplify  
+the code.  But restart variables need to be written in double  
+precision, whereas I assume we want single precision for diagnostics.   
+For this reason it may still make sense to define hotstart variables  
+in addition to diagnostic variables.   Else we'll waste a lot of  
+memory storing double-precision fields (such as temperature) in  
+diagnostic files.
+
+Cheers,
+
+Bill
+
+
+On Feb 15, 2010, at 11:23 AM, DAG Williams, Geographical Sciences wrote:
+
+&gt;<i> Hi all,
+</I>&gt;<i>
+</I>&gt;<i> I've attached a simple NetCDF file (2d.nc).  I added 'scale_factor'  
+</I>&gt;<i> and 'add_offset' attributes to the only variable (temperature).  You  
+</I>&gt;<i> can try opening the file with various viewing packages:- panoply,  
+</I>&gt;<i> ncview, ferret, for example.
+</I>&gt;<i>
+</I>&gt;<i> All of these packages apply the scale and offset automatically--the  
+</I>&gt;<i> data values are in the range 0.01 to 0.32, but the displayed  
+</I>&gt;<i> temperatures are between 2.05 and 3.20 celsius (scale_factor=5.0,  
+</I>&gt;<i> add_offset=2.0).
+</I>&gt;<i>
+</I>&gt;<i> Echoing the comments of Jed &amp; Bill, amongst others, this facility  
+</I>&gt;<i> neatly copes with the need for scaled data in the calculations /and/  
+</I>&gt;<i> the provision of data in meaningful units for diagnostics.  We would  
+</I>&gt;<i> not need duplicate outputs on two different scales--one set of  
+</I>&gt;<i> output files would be sufficient for both restarts and diagnostics.   
+</I>&gt;<i> Occam's razor prefers it, and one set of files gives a much less  
+</I>&gt;<i> fertile ground for bugs.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Gethin. &lt;2d.nc&gt;_______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000207.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+	<LI>Next message: <A HREF="000209.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#208">[ date ]</a>
+              <a href="thread.html#208">[ thread ]</a>
+              <a href="subject.html#208">[ subject ]</a>
+              <a href="author.html#208">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

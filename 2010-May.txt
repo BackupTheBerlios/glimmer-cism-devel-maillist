@@ -1,0 +1,1460 @@
+From I.C.Rutt at swansea.ac.uk  Mon May  3 22:10:58 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 3 May 2010 21:10:58 +0100
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+In-Reply-To: <w2m8a364a0f1004300833za1b0385axbe7e8824a646baeb@mail.gmail.com>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+	<4BBF53D7.6020304@lanl.gov>
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+	<4BC2FF9E.5060902@ed.ac.uk> <4BC837B7.3030907@swansea.ac.uk>
+	<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>
+	<4BCC23D2.6090604@ed.ac.uk>
+	<g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+	<4BCF0878.8040200@ed.ac.uk> <4BCF11A2.7030006@lanl.gov>
+	<w2m8a364a0f1004300833za1b0385axbe7e8824a646baeb@mail.gmail.com>
+Message-ID: <FCED113B-2BE6-4DED-817A-1F1DAC018FEB@swansea.ac.uk>
+
+
+Dear Carl,
+
+Having looked though the diffs, I'm happy for you to merge your  
+changes, although I don't work on the LANL branch so much, so I think  
+someone who does should probably give it the green light as well  
+(Steve?).
+
+Thanks very much for your contribution to Glimmer-CISM!
+
+Best wishes,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+On 30 Apr 2010, at 16:33, Carl Gladish wrote:
+
+> Hi everyone,
+>
+> I see the beta release has been carried out.  If no one objects I'd  
+> like to carry out the plume merge at this point.  It is a very easy  
+> and minor merge, in my opinion.
+>
+> The changes consist of the file additions listed below, and diffs to  
+> the existing code which are in the attached file.
+>
+> A      src/fortran/plume_global.F90
+> A      src/fortran/plume_functions.F90
+> A      src/fortran/plume_main.F90
+> A      src/fortran/plume_io.F90
+> A      src/fortran/plume_context.F90
+> A      src/fortran/plume.F90
+> A  +   tests/petermann
+> A      tests/petermann/build_case.py
+> A      tests/petermann/test.config
+> A  +   tests/petermann/sample.gs.config.py
+> A      tests/petermann/test.nl
+> A      tests/petermann/build_nc_gen_input
+> A      tests/petermann/nc_regrid.F90
+> A      tests/petermann/petermann.config
+> A      tests/petermann/ideal_geometry.config
+> A      tests/petermann/README
+> A      tests/petermann/standalone.nl
+> A      tests/petermann/partgrounded.nc_gen_args
+> A      tests/petermann/make_ncdf_shelf_input.m
+> A      tests/petermann/partgrounded.config
+> A      tests/petermann/ideal_peterman.config.py
+> A      tests/petermann/nc_gen_input.F90
+> A      tests/petermann/partgrounded.nl
+> A      tests/petermann/build_nc_regrid
+> A      tests/petermann/sample.config.py
+>
+>
+> On Wed, Apr 21, 2010 at 10:54 AM, Stephen Price <sprice at lanl.gov>  
+> wrote:
+>
+> Thanks Carl, Magi ...
+>
+>
+> I am not in a position to give you the go-ahead for merging your  
+> changes to glimmer-cism-lanl-trunk. You should ask  Jesse, Bill and/ 
+> or Steve. This might not be the best of times since a beta release  
+> is prepared. On the other hand it might be a good time. Anyway, it's  
+> not my call.
+>
+> My preference would be to wait until after the release, which should  
+> happen today or tomorrow, I hope.
+>
+> We then need to have a discussion about the various planned merges  
+> taking place with the folks who will be doing that work. Perhaps it  
+> will be trivial to merge the plume code onto the lanl branch just  
+> after the beta release, and then continue on from there with the  
+> rest of the merging plans. But I'd rather not commit to that right  
+> now. Give us a few more days and we'll have some time to look at it  
+> more closely.
+>
+>
+> Steve
+>
+>
+>
+>
+> -- 
+> Carl Gladish
+> cell: (917) 502 - 1818
+> home: (718) 626 - 2504
+> office: (212) 998 - 3198
+> Warren Weaver Hall rm 708, 251 Mercer NY,NY
+> http://www.cims.nyu.edu/~gladish
+>
+> < 
+> proposedDiffsToLANLTrunk_Gladish_April30 
+> .txt>_______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100503/ca9eebe2/attachment.html>
+
+From sprice at lanl.gov  Mon May  3 22:49:59 2010
+From: sprice at lanl.gov (Stephen F. Price)
+Date: Mon, 3 May 2010 14:49:59 -0600 (MDT)
+Subject: [Glimmer-cism-devel] merging plume_integration into
+ glimmer-cism-lanl/trunk
+In-Reply-To: <FCED113B-2BE6-4DED-817A-1F1DAC018FEB@swansea.ac.uk>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+	<4BBF53D7.6020304@lanl.gov>
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+	<4BC2FF9E.5060902@ed.ac.uk> <4BC837B7.3030907@swansea.ac.uk>
+	<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>
+	<4BCC23D2.6090604@ed.ac.uk>
+	<g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+	<4BCF0878.8040200@ed.ac.uk> <4BCF11A2.7030006@lanl.gov>
+	<w2m8a364a0f1004300833za1b0385axbe7e8824a646baeb@mail.gmail.com>
+	<FCED113B-2BE6-4DED-817A-1F1DAC018FEB@swansea.ac.uk>
+Message-ID: <27422.128.165.0.81.1272919799.squirrel@webmail.lanl.gov>
+
+
+Hi guys,
+
+I don't really have time to look at the diffs right now, but unless Carl
+has altered significant bits of the ho code (and I don't think he has),
+then I'm happy to go w/ the vetting that other folks have done. Merge away
+I'd say ...
+
+cheers -
+
+Steve
+
+
+> Dear Carl,
+>
+> Having looked though the diffs, I'm happy for you to merge your
+> changes, although I don't work on the LANL branch so much, so I think
+> someone who does should probably give it the green light as well
+> (Steve?).
+>
+> Thanks very much for your contribution to Glimmer-CISM!
+>
+> Best wishes,
+>
+> Ian
+>
+
+
+From lipscomb at lanl.gov  Mon May  3 23:26:57 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Mon, 3 May 2010 15:26:57 -0600
+Subject: [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+Message-ID: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+
+
+Hi all,
+
+This may be of interest to those of you working on merging new code  
+into the glimmer-cism2 trunk.
+
+As you may have noticed, I just checked in a bunch of CCSM-related  
+changes to glimmer-cism-gcm (a branch on the glimmer-cism2 trunk).   
+More changes will follow, but this is the main batch.  In a few weeks  
+the branch will be tagged as Glimmer-CISM 1.6, frozen (except for bug  
+fixes), and released as part of the Community Earth System Model.
+
+At any point, I can check these changes into the glimmer-cism2 trunk.   
+I'd like to do this before those of you working on glimmer-cism-lanl  
+start merging code into glimmer-cism2.  Please let me know if and when  
+you're ready, and I'll commit my changes to the trunk.  Most of the  
+additional changes I make will be in Glint and will be independent of  
+the higher-order code.
+
+Jesse, Steve et al.:  If you have glimmer-cism-lanl code ready for the  
+CESM release, please start checking it into the glimmer-cism-gcm  
+branch and testing it.  This could include some of the test suites we  
+talked about (but not the HO solvers, of course).
+
+Ian and Rupert: You might want to look at the changes I've made in  
+Glint to accommodate CCSM coupling fields.  The interfaces are a bit  
+messy in that I've added optional CCSM-related arguments to various  
+glint routines instead of writing new CCSM-specific routines.  (The  
+only totally new subroutines are in glint_global_interp.F90.)  This  
+approach seemed better than writing new routines and having a lot of  
+duplicate code.  However, the code could be much cleaner.  Please let  
+me know if you have ideas on how to improve things.
+
+Any comments and suggestions are welcome.
+
+Regards,
+
+Bill
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue May  4 10:13:30 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 04 May 2010 09:13:30 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+In-Reply-To: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+References: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+Message-ID: <4BDFD72A.2080600@ed.ac.uk>
+
+Hi Bill,
+
+William Lipscomb wrote:
+> At any point, I can check these changes into the glimmer-cism2 trunk.  
+> I'd like to do this before those of you working on glimmer-cism-lanl 
+> start merging code into glimmer-cism2.  Please let me know if and when 
+> you're ready, and I'll commit my changes to the trunk.  Most of the 
+> additional changes I make will be in Glint and will be independent of 
+> the higher-order code.
+> 
+
+we could merge your branch into trunk now. development on trunk is very 
+slow (if anything at all) at the moment. This way you might get some 
+more exposure since it is the official glimmer-cism development tree. We 
+can then create the stable branch of trunk in a few weeks when you are 
+ready. The higher order stuff can then be merged after we have created 
+the release branch.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jesse.v.johnson at gmail.com  Tue May  4 16:10:24 2010
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Tue, 4 May 2010 08:10:24 -0600
+Subject: [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+In-Reply-To: <4BDFD72A.2080600@ed.ac.uk>
+References: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+	<4BDFD72A.2080600@ed.ac.uk>
+Message-ID: <x2s9288095c1005040710tc4fead0eq5f394650ba9a56a9@mail.gmail.com>
+
+Hi All,
+
+my understanding is still based on this diagram:
+
+http://glimmer-cism.berlios.de/
+
+I think that we'll want to roll a few of the specialized seaRISE
+drivers and EISMINT I and II tests into the CESM/GCM branch. Then that
+comes forward, into GC2, then LANL into GC2.
+
+We are moving on that. The following is a complete diff of LANL and GC2.
+
+http://ulysses.cs.umt.edu/~jccampbell/original/
+
+which we should all think a little bit about, but I think we are ready
+to start moving the files marked 'missing' over. The question is do we
+need to wait for Bill's CESM changes to start? Isn't there an issue
+with getting some of Erin's time. As for Josh, he's ready to start.
+
+Jesse
+
+
+On Tue, May 4, 2010 at 2:13 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> Hi Bill,
+>
+> William Lipscomb wrote:
+>>
+>> At any point, I can check these changes into the glimmer-cism2 trunk. ?I'd
+>> like to do this before those of you working on glimmer-cism-lanl start
+>> merging code into glimmer-cism2. ?Please let me know if and when you're
+>> ready, and I'll commit my changes to the trunk. ?Most of the additional
+>> changes I make will be in Glint and will be independent of the higher-order
+>> code.
+>>
+>
+> we could merge your branch into trunk now. development on trunk is very slow
+> (if anything at all) at the moment. This way you might get some more
+> exposure since it is the official glimmer-cism development tree. We can then
+> create the stable branch of trunk in a few weeks when you are ready. The
+> higher order stuff can then be merged after we have created the release
+> branch.
+>
+> Cheers
+> magi
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue May  4 16:36:21 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 04 May 2010 15:36:21 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+In-Reply-To: <x2s9288095c1005040710tc4fead0eq5f394650ba9a56a9@mail.gmail.com>
+References: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>	
+	<4BDFD72A.2080600@ed.ac.uk>
+	<x2s9288095c1005040710tc4fead0eq5f394650ba9a56a9@mail.gmail.com>
+Message-ID: <4BE030E5.7040603@ed.ac.uk>
+
+Jesse Johnson wrote:
+> Hi All,
+> 
+> my understanding is still based on this diagram:
+> 
+> http://glimmer-cism.berlios.de/
+> 
+> I think that we'll want to roll a few of the specialized seaRISE
+> drivers and EISMINT I and II tests into the CESM/GCM branch. Then that
+> comes forward, into GC2, then LANL into GC2.
+> 
+
+well, these could either get moved into the CESM/GCM branch before it is 
+merged with trunk or after. In a way, I think it makes sense to merge 
+the branch with trunk now since there is no development happening on 
+trunk and it is just waiting for the CESM/GCM release.
+
+> We are moving on that. The following is a complete diff of LANL and GC2.
+> 
+> http://ulysses.cs.umt.edu/~jccampbell/original/
+> 
+> which we should all think a little bit about, but I think we are ready
+> to start moving the files marked 'missing' over. The question is do we
+> need to wait for Bill's CESM changes to start? Isn't there an issue
+> with getting some of Erin's time. As for Josh, he's ready to start.
+> 
+
+we could create a new branch of trunk for the integration with the lanl 
+branch. the difficult bit of merging lanl with trunk would happen on 
+this branch. merging the integration branch with trunk later on should 
+then be straight forward. this makes sense if you want to start the 
+merge before  CESM/GCM has been released.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed May  5 16:15:16 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 05 May 2010 15:15:16 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+In-Reply-To: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+References: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+Message-ID: <4BE17D74.4070409@ed.ac.uk>
+
+William Lipscomb wrote:
+>
+> Any comments and suggestions are welcome.
+> 
+
+Hi Bill,
+I had a look at the diffs between the gcm branch and trunk and I have a 
+few comments/suggestions:
+1. you don't need to define special double precision variables for the 
+hot file, i.e. all the [*_hot] variables in glide_vars.def, etc. For a 
+hot file you just set the default precision to double, e.g.
+
+[CF output]
+name: hot.nc
+frequency: 1000
+variables: hot
+xtype: double
+
+2. there are still quite a few blocks of code marked
+    !lipscomb
+    I think you should remove those markers, svn can handle that for us
+    just use svn blame/praise
+
+3. the code is also still instrumented with debugging messages, if they 
+are generally useful, rather than removing them, I'd conditionally 
+compile them with
+#ifdef DEBUG_WHATEVER
+
+#endif blocks
+
+
+I haven't really looked at the modifications of libglint so I won't 
+comment on these.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From lipscomb at lanl.gov  Wed May  5 16:22:23 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 5 May 2010 08:22:23 -0600
+Subject: [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+In-Reply-To: <4BE17D74.4070409@ed.ac.uk>
+References: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+	<4BE17D74.4070409@ed.ac.uk>
+Message-ID: <F703E2E1-BA25-49F1-BF18-4B216B3DD898@lanl.gov>
+
+
+Magnus,
+
+Thanks for the suggestions.  I'll make those changes as I clean up the  
+code.
+
+Cheers,
+Bill
+
+
+On May 5, 2010, at 8:15 AM, Magnus Hagdorn wrote:
+
+> William Lipscomb wrote:
+>>
+>> Any comments and suggestions are welcome.
+>
+> Hi Bill,
+> I had a look at the diffs between the gcm branch and trunk and I  
+> have a few comments/suggestions:
+> 1. you don't need to define special double precision variables for  
+> the hot file, i.e. all the [*_hot] variables in glide_vars.def, etc.  
+> For a hot file you just set the default precision to double, e.g.
+>
+> [CF output]
+> name: hot.nc
+> frequency: 1000
+> variables: hot
+> xtype: double
+>
+> 2. there are still quite a few blocks of code marked
+>   !lipscomb
+>   I think you should remove those markers, svn can handle that for us
+>   just use svn blame/praise
+>
+> 3. the code is also still instrumented with debugging messages, if  
+> they are generally useful, rather than removing them, I'd  
+> conditionally compile them with
+> #ifdef DEBUG_WHATEVER
+>
+> #endif blocks
+>
+>
+> I haven't really looked at the modifications of libglint so I won't  
+> comment on these.
+>
+> Cheers
+> magi
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed May  5 16:45:19 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 05 May 2010 15:45:19 +0100
+Subject: [Glimmer-cism-devel] copyright notice
+Message-ID: <4BE1847F.4090701@ed.ac.uk>
+
+Hi all,
+the copyright notice at the beginning of all files it getting a bit 
+outdated. I propose the following new header:
+
+! Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
+! Glimmer-CISM contributors - see AUTHORS file for list of contributors
+!
+! This file is part of Glimmer-CISM
+!
+! Glimmer-CISM is free software: you can redistribute it and/or modify
+! it under the terms of the GNU General Public License as published by
+! the Free Software Foundation, either version 2 of the License, or (at
+! your option) any later version.
+!
+! Glimmer-CISM is distributed in the hope that it will be useful,
+! but WITHOUT ANY WARRANTY; without even the implied warranty of
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+! GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License
+! along with Glimmer-CISM.  If not, see <http://www.gnu.org/licenses/>.
+!
+! GLIMMER is hosted on BerliOS.de:
+! https://developer.berlios.de/projects/glimmer-cism/
+
+Do we want to explicitly state that Glimmer-CISM is licensed under v3 or 
+newer? I am not sure if there is a good reason to do so. If we do, I 
+think we need to ask all contributors if that is ok.
+
+Cheers
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon May 10 10:45:13 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 10 May 2010 09:45:13 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+In-Reply-To: <F703E2E1-BA25-49F1-BF18-4B216B3DD898@lanl.gov>
+References: <E0C8A2B0-7100-4C58-A78D-74D2A894B391@lanl.gov>
+	<4BE17D74.4070409@ed.ac.uk>
+	<F703E2E1-BA25-49F1-BF18-4B216B3DD898@lanl.gov>
+Message-ID: <4BE7C799.6080600@ed.ac.uk>
+
+Hi Bill,
+I have merged the glimmer-cism-gcm branch into trunk. During the merge I 
+noticed the following debug items:
+
+* example-drivers/glint/src/glint_example.F90
+   line 201:
+!lipscomb - debug - Print time so as to have something to watch while 
+the code runs
+      if (mod(real(time),8760.) < 0.01)   &
+          print*, 'time (yr) =', real(time)/8760.
+
+* libglide/glide_temp.F90
+   line 252
+   just delete the commented out lines. subversion maintains the history 
+for us
+
+I'd also suggest to document the new debug CPP flag somewhere, maybe in 
+the INSTALL document.
+
+The merge was really straight forward. Thanks a lot Bill for the work. I 
+am looking forward to the first new stable release!
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon May 10 16:00:29 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 10 May 2010 15:00:29 +0100
+Subject: [Glimmer-cism-devel] erosion module
+Message-ID: <4BE8117D.20909@ed.ac.uk>
+
+Hi all,
+I am looking into getting my erosion model to work with the gc2-trunk. 
+Currently, it is an entirely separate code tree. However, it would be 
+easier to integrate it with the rest of glimmer. So first of all do we 
+want to add extra modules to core? If so how? I think so.
+
+I was thinking of adding another top-level directory, and call it, 
+modules_extra (or so). Each module will then get an extra directory 
+inside modules_extra. We could then also add configure switches to 
+disable extra modules that are not desired. So for example the plume 
+code could go into that directory as well.
+
+What do you think?
+
+Cheers
+magi
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Mon May 10 18:45:22 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Mon, 10 May 2010 10:45:22 -0600
+Subject: [Glimmer-cism-devel] erosion module
+In-Reply-To: <4BE8117D.20909@ed.ac.uk>
+References: <4BE8117D.20909@ed.ac.uk>
+Message-ID: <4BE83822.9000307@lanl.gov>
+
+
+Hi Magi,
+
+That sounds reasonable to me. I will have a few things to add there 
+pretty soon too I think, and post EGU, I think we are going to have some 
+other folks looking to get involved soon w.r.t. hydrology. It would be 
+good for us to figure out how we want to standardize the addition of 
+process/physics modules so that we don't end up having to redo that all 
+at some point later on.
+
+Is this all going to change at some point in the future anyway if we 
+move to the refactored branch, and the dir structure changes?
+
+cheers -
+
+Steve
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> I am looking into getting my erosion model to work with the gc2-trunk. 
+> Currently, it is an entirely separate code tree. However, it would be 
+> easier to integrate it with the rest of glimmer. So first of all do we 
+> want to add extra modules to core? If so how? I think so.
+> 
+> I was thinking of adding another top-level directory, and call it, 
+> modules_extra (or so). Each module will then get an extra directory 
+> inside modules_extra. We could then also add configure switches to 
+> disable extra modules that are not desired. So for example the plume 
+> code could go into that directory as well.
+> 
+> What do you think?
+> 
+> Cheers
+> magi
+
+
+From I.C.Rutt at swansea.ac.uk  Mon May 10 18:56:00 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 10 May 2010 17:56:00 +0100
+Subject: [Glimmer-cism-devel] erosion module
+In-Reply-To: <4BE83822.9000307@lanl.gov>
+References: <4BE8117D.20909@ed.ac.uk> <4BE83822.9000307@lanl.gov>
+Message-ID: <4BE83AA0.5040805@swansea.ac.uk>
+
+
+Hi Magi,
+
+Yes, that sounds good. Maybe we could call these 'extensions' or 
+something? Sounds a bit more catchy than modules_extra... ;) I think it 
+should carry across to the refactored code OK as well.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Stephen Price wrote:
+> 
+> Hi Magi,
+> 
+> That sounds reasonable to me. I will have a few things to add there 
+> pretty soon too I think, and post EGU, I think we are going to have some 
+> other folks looking to get involved soon w.r.t. hydrology. It would be 
+> good for us to figure out how we want to standardize the addition of 
+> process/physics modules so that we don't end up having to redo that all 
+> at some point later on.
+> 
+> Is this all going to change at some point in the future anyway if we 
+> move to the refactored branch, and the dir structure changes?
+> 
+> cheers -
+> 
+> Steve
+> 
+> 
+> Magnus Hagdorn wrote:
+>> Hi all,
+>> I am looking into getting my erosion model to work with the gc2-trunk. 
+>> Currently, it is an entirely separate code tree. However, it would be 
+>> easier to integrate it with the rest of glimmer. So first of all do we 
+>> want to add extra modules to core? If so how? I think so.
+>>
+>> I was thinking of adding another top-level directory, and call it, 
+>> modules_extra (or so). Each module will then get an extra directory 
+>> inside modules_extra. We could then also add configure switches to 
+>> disable extra modules that are not desired. So for example the plume 
+>> code could go into that directory as well.
+>>
+>> What do you think?
+>>
+>> Cheers
+>> magi
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon May 10 21:20:53 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 10 May 2010 20:20:53 +0100
+Subject: [Glimmer-cism-devel] erosion module
+In-Reply-To: <4BE83AA0.5040805@swansea.ac.uk>
+References: <4BE8117D.20909@ed.ac.uk> <4BE83822.9000307@lanl.gov>
+	<4BE83AA0.5040805@swansea.ac.uk>
+Message-ID: <4BE85C95.8080900@ed.ac.uk>
+
+On 10/05/10 17:56, Ian Rutt wrote:
+>
+> Hi Magi,
+>
+> Yes, that sounds good. Maybe we could call these 'extensions' or
+> something? Sounds a bit more catchy than modules_extra... ;) I think it
+> should carry across to the refactored code OK as well.
+>
+>
+ok, less go for buzz :-) extensions it is.
+
+yup, the idea is to keep them as modular as possible. certainly the 
+should all be optional. and as Ian, said, adding them to the refactored 
+branch should be no problem.
+
+I'd suggest to do this on a new branch off trunk - so that we can 
+stableize trunk in preparation for 1.6. since the idea is to keep the 
+extensions as self-contained as possible it should be no problem to 
+merge them later when we/they are ready.
+
+cheers
+magi
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue May 11 11:36:42 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 11 May 2010 10:36:42 +0100
+Subject: [Glimmer-cism-devel] erosion module
+In-Reply-To: <4BE85C95.8080900@ed.ac.uk>
+References: <4BE8117D.20909@ed.ac.uk>
+	<4BE83822.9000307@lanl.gov>	<4BE83AA0.5040805@swansea.ac.uk>
+	<4BE85C95.8080900@ed.ac.uk>
+Message-ID: <4BE9252A.6050609@ed.ac.uk>
+
+Magnus Hagdorn wrote:
+> On 10/05/10 17:56, Ian Rutt wrote:
+>>
+>> Hi Magi,
+>>
+>> Yes, that sounds good. Maybe we could call these 'extensions' or
+>> something? Sounds a bit more catchy than modules_extra... ;) I think it
+>> should carry across to the refactored code OK as well.
+>>
+>>
+> ok, less go for buzz :-) extensions it is.
+> 
+
+I have created the following branch:
+http://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/glimmer-cism-extensions
+and started to populate it with the source code of my erosion module. I 
+think the extensions should be as self-contained as possible and they 
+should be disabled by default. One directory per extension.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed May 12 19:23:19 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 12 May 2010 18:23:19 +0100
+Subject: [Glimmer-cism-devel] copyright notice
+In-Reply-To: <4BE1847F.4090701@ed.ac.uk>
+References: <4BE1847F.4090701@ed.ac.uk>
+Message-ID: <9805B7E6-417F-4E04-953B-FCC202CF16D6@swansea.ac.uk>
+
+
+Hi Magi,
+
+I would go for that, although I think it's acceptable to write "(C)  
+2004-2010", instead of listing each year individually.
+
+I don't see any reason to go through the hassle of changing to version  
+3 of GPL...
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+On 5 May 2010, at 15:45, Magnus Hagdorn wrote:
+
+> Hi all,
+> the copyright notice at the beginning of all files it getting a bit  
+> outdated. I propose the following new header:
+>
+> ! Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
+> ! Glimmer-CISM contributors - see AUTHORS file for list of  
+> contributors
+> !
+> ! This file is part of Glimmer-CISM
+> !
+> ! Glimmer-CISM is free software: you can redistribute it and/or modify
+> ! it under the terms of the GNU General Public License as published by
+> ! the Free Software Foundation, either version 2 of the License, or  
+> (at
+> ! your option) any later version.
+> !
+> ! Glimmer-CISM is distributed in the hope that it will be useful,
+> ! but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> ! GNU General Public License for more details.
+> !
+> ! You should have received a copy of the GNU General Public License
+> ! along with Glimmer-CISM.  If not, see <http://www.gnu.org/licenses/ 
+> >.
+> !
+> ! GLIMMER is hosted on BerliOS.de:
+> ! https://developer.berlios.de/projects/glimmer-cism/
+>
+> Do we want to explicitly state that Glimmer-CISM is licensed under  
+> v3 or newer? I am not sure if there is a good reason to do so. If we  
+> do, I think we need to ask all contributors if that is ok.
+>
+> Cheers
+> magi
+>
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100512/84c3d42c/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu May 13 10:28:07 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 13 May 2010 09:28:07 +0100
+Subject: [Glimmer-cism-devel] copyright notice
+In-Reply-To: <9805B7E6-417F-4E04-953B-FCC202CF16D6@swansea.ac.uk>
+References: <4BE1847F.4090701@ed.ac.uk>
+	<9805B7E6-417F-4E04-953B-FCC202CF16D6@swansea.ac.uk>
+Message-ID: <4BEBB817.1010101@ed.ac.uk>
+
+Ian Rutt wrote:
+> 
+> Hi Magi,
+> 
+> I would go for that, although I think it's acceptable to write "(C) 
+> 2004-2010", instead of listing each year individually.
+> 
+stating individual years is suggested by the GPL howto page:
+http://www.gnu.org/licenses/gpl-howto.html
+
+i think it is just to make absolutely clear what it means.
+
+
+> I don't see any reason to go through the hassle of changing to version 3 
+> of GPL...
+> 
+agreed.
+
+i'll implement the changes on gc2-trunk since that will eventually 
+become our next release. i don't think we need to update the various 
+branches since they will be merged into trunk once they are ready. 
+changing the copyright notice is just one of those really painful 
+changes since it touches every single file.
+
+cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu May 13 15:56:15 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 13 May 2010 14:56:15 +0100
+Subject: [Glimmer-cism-devel] basic visualisation
+Message-ID: <4BEC04FF.2000109@ed.ac.uk>
+
+Hi all,
+I'd like to start working on some basic visualisation python programs. 
+The old stuff using GMT is beyond repair.
+
+As mentioned earlier [1], I'll use python + numpy + matplotlib + some 
+netCDF interface (we should be able to support both the google and 
+scientific python). I'll start with the basic I/O functionality. I think 
+that was quite useful to have some abstraction layer which handles 
+common CF netcdf file functionality. I want to then get the EISMINT 
+plotting to work again.
+
+I suggest to call the python module PyGC for python glimmer-cism. I'll 
+start implementation in the gc2-extensions branch. Please feel free to 
+contribute...
+
+
+Cheers
+magi
+
+
+[1] 
+https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/000096.html
+
+-- 
+Magnus Hagdorn
+Specialist Computing Officer
+School of GeoSciences
+The University of Edinburgh
+Grant Institute
+West Mains Road
+Edinburgh EH9 3JW
+Scotland
+PHONE: (+44) 131 650 5894
+FAX:   (+44) 131 668 3184
+email: Magnus.Hagdorn at ed.ac.uk
+
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jesse.v.johnson at gmail.com  Thu May 13 16:40:46 2010
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Thu, 13 May 2010 08:40:46 -0600
+Subject: [Glimmer-cism-devel] basic visualisation
+In-Reply-To: <4BEC04FF.2000109@ed.ac.uk>
+References: <4BEC04FF.2000109@ed.ac.uk>
+Message-ID: <AANLkTilOgIeqDQb2il5w-KYsytcZTQYdpg3uTe6umP9K@mail.gmail.com>
+
+Hi Magi,
+
+we can take this offline, but we've done a fair amount on this, and
+would like to contribute. I think a single clear module is where we'd
+like to end up. The best reference for the way we've been doing it is
+in the tests directory of the lanl branch. There you will find various
+scripts that have a lot of redundancy.
+
+Let's try and coordinate so that there is a consistent interface, and
+the dependency list doesn't grow out of control.
+
+Jesse
+
+On Thu, May 13, 2010 at 7:56 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> Hi all,
+> I'd like to start working on some basic visualisation python programs. The
+> old stuff using GMT is beyond repair.
+>
+> As mentioned earlier [1], I'll use python + numpy + matplotlib + some netCDF
+> interface (we should be able to support both the google and scientific
+> python). I'll start with the basic I/O functionality. I think that was quite
+> useful to have some abstraction layer which handles common CF netcdf file
+> functionality. I want to then get the EISMINT plotting to work again.
+>
+> I suggest to call the python module PyGC for python glimmer-cism. I'll start
+> implementation in the gc2-extensions branch. Please feel free to
+> contribute...
+>
+>
+> Cheers
+> magi
+>
+>
+> [1]
+> https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/000096.html
+>
+> --
+> Magnus Hagdorn
+> Specialist Computing Officer
+> School of GeoSciences
+> The University of Edinburgh
+> Grant Institute
+> West Mains Road
+> Edinburgh EH9 3JW
+> Scotland
+> PHONE: (+44) 131 650 5894
+> FAX: ? (+44) 131 668 3184
+> email: Magnus.Hagdorn at ed.ac.uk
+>
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu May 13 17:14:22 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 13 May 2010 16:14:22 +0100
+Subject: [Glimmer-cism-devel] basic visualisation
+In-Reply-To: <AANLkTilOgIeqDQb2il5w-KYsytcZTQYdpg3uTe6umP9K@mail.gmail.com>
+References: <4BEC04FF.2000109@ed.ac.uk>
+	<AANLkTilOgIeqDQb2il5w-KYsytcZTQYdpg3uTe6umP9K@mail.gmail.com>
+Message-ID: <4BEC174E.6000706@ed.ac.uk>
+
+Jesse Johnson wrote:
+> Hi Magi,
+> 
+> we can take this offline, but we've done a fair amount on this, and
+> would like to contribute. 
+
+let's keep it online, so we have a record and others have a chance to 
+contribute.
+
+> I think a single clear module is where we'd
+> like to end up. The best reference for the way we've been doing it is
+> in the tests directory of the lanl branch. There you will find various
+> scripts that have a lot of redundancy.
+> 
+> Let's try and coordinate so that there is a consistent interface, and
+> the dependency list doesn't grow out of control.
+> 
+
+as I said in my previous email, I would like to start with the file I/O. 
+In the first instance, this would be a generic wrapper which exposes CF 
+specifics such as global attributes like author, etc. Other useful 
+functionality might include:
+* handling projections
+* applying masks
+* extracting statistics
+* reducing dimensionality of data datasets (or slicing them in 
+interesting ways), e.g. extract data along a flowline through time.
+* handling the time coordinate
+
+I suspect that the I/O is the really tricky bit. Once we have the data, 
+plotting it is relatively straight forward using matplotlib.
+
+In terms of keeping dependencies down, I think we need
++ numpy
++ matplotlib
++ basemap
+
+I just had a closer look at the basemap toolkit, it contains bindings to 
+  proj4 and netCDF. So maybe, that's enough.
+
+I haven't thought too much about the plotting yet, although I think we 
+want to extend matplotlib axes to do CF specific plotting.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From eibarker at lanl.gov  Fri May 14 20:33:44 2010
+From: eibarker at lanl.gov (Erin Barker)
+Date: Fri, 14 May 2010 12:33:44 -0600
+Subject: [Glimmer-cism-devel] merge notes glimmer-cism2 with
+	glimmer-cism-lanl
+Message-ID: <4BED9788.5020903@lanl.gov>
+
+A couple of notes on the merging on 
+glimmer-cism2/branches/glimmer-cism-lanl and glimmer-cism-lanl/trunk:
+
+I have completed the first commit associated with this merge.  The 
+following are several notes about what I did and did not do.
+
+* The code I committed complies, but I do not gaurantee its 
+correctness.  I tried to add comments about conflicts between the 
+branches that I had to resolve.  My comments are tagged with !EIB!.
+* I did not merge the tests.  However, I did modify the source for 
+EISMINT/simple_forcing due to updating a subroutine call.  The tests 
+need to be checked for correctness and any tests from 
+glimmer-cism-lanl/trunk added as desired.
+*Several features available on the glimmer-cism-lanl trunk have been 
+omitted.  These include the plume work, restarts, and bwater routines.
+*As much as possible I left the glide_lithot* modules alone.  The lithot 
+routines differ between the two branches and should be look at more 
+closely for possible merging.
+* I replaced glimmer_deriv with glide_deriv.
+* Several new modules were added
+* There is a difference in the glimmer_version code.  Please pick the 
+desired version and update all locations.
+
+I'm sure there are lots of things I've missed in these notes, but I 
+wanted to leave at least some record of I what I've done.  Hope this has 
+helped.
+
+Erin Barker
+(in transit from LANL to PNNL)
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Tue May 18 18:07:43 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 18 May 2010 17:07:43 +0100
+Subject: [Glimmer-cism-devel] merge notes glimmer-cism2
+	with	glimmer-cism-lanl
+In-Reply-To: <4BED9788.5020903@lanl.gov>
+References: <4BED9788.5020903@lanl.gov>
+Message-ID: <4BF2BB4F.8040409@swansea.ac.uk>
+
+
+Hi Erin,
+
+Many thanks for your work on the merge, and for letting us know how you 
+got on with it. I've just been having a look at the merged branch, and 
+it looks good.
+
+I'm a bit out of the loop about who might be in a position to take this 
+forward, but it would be good to discuss it. There are obviously several 
+things which need to be done, both in terms of testing and tidying up 
+the code, and merging the remaining new features into the glimmer-cism2 
+trunk.
+
+Any thoughts? I am happy to contribute in some form, although the amount 
+of time I have for code is a bit variable.
+
+Best wishes,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Erin Barker wrote:
+> A couple of notes on the merging on 
+> glimmer-cism2/branches/glimmer-cism-lanl and glimmer-cism-lanl/trunk:
+> 
+> I have completed the first commit associated with this merge.  The 
+> following are several notes about what I did and did not do.
+> 
+> * The code I committed complies, but I do not gaurantee its 
+> correctness.  I tried to add comments about conflicts between the 
+> branches that I had to resolve.  My comments are tagged with !EIB!.
+> * I did not merge the tests.  However, I did modify the source for 
+> EISMINT/simple_forcing due to updating a subroutine call.  The tests 
+> need to be checked for correctness and any tests from 
+> glimmer-cism-lanl/trunk added as desired.
+> *Several features available on the glimmer-cism-lanl trunk have been 
+> omitted.  These include the plume work, restarts, and bwater routines.
+> *As much as possible I left the glide_lithot* modules alone.  The lithot 
+> routines differ between the two branches and should be look at more 
+> closely for possible merging.
+> * I replaced glimmer_deriv with glide_deriv.
+> * Several new modules were added
+> * There is a difference in the glimmer_version code.  Please pick the 
+> desired version and update all locations.
+> 
+> I'm sure there are lots of things I've missed in these notes, but I 
+> wanted to leave at least some record of I what I've done.  Hope this has 
+> helped.
+> 
+> Erin Barker
+> (in transit from LANL to PNNL)
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From sprice at lanl.gov  Wed May 19 19:23:42 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Wed, 19 May 2010 11:23:42 -0600
+Subject: [Glimmer-cism-devel] merge notes
+	glimmer-cism2	with	glimmer-cism-lanl
+In-Reply-To: <4BF2BB4F.8040409@swansea.ac.uk>
+References: <4BED9788.5020903@lanl.gov> <4BF2BB4F.8040409@swansea.ac.uk>
+Message-ID: <4BF41E9E.8080309@lanl.gov>
+
+
+Ian,
+
+Jesse's student Josh is also working on the merge, so I think we will 
+likely try to have him pick up where Erin left off (correct me if I'm 
+wrong on this Jesse).
+
+cheers -
+
+Steve
+
+
+Ian Rutt wrote:
+> 
+> Hi Erin,
+> 
+> Many thanks for your work on the merge, and for letting us know how you 
+> got on with it. I've just been having a look at the merged branch, and 
+> it looks good.
+> 
+> I'm a bit out of the loop about who might be in a position to take this 
+> forward, but it would be good to discuss it. There are obviously several 
+> things which need to be done, both in terms of testing and tidying up 
+> the code, and merging the remaining new features into the glimmer-cism2 
+> trunk.
+> 
+> Any thoughts? I am happy to contribute in some form, although the amount 
+> of time I have for code is a bit variable.
+> 
+> Best wishes,
+> 
+> Ian
+
+
+From jesse.v.johnson at gmail.com  Wed May 19 21:53:05 2010
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Wed, 19 May 2010 13:53:05 -0600
+Subject: [Glimmer-cism-devel] merge notes glimmer-cism2 with
+	glimmer-cism-lanl
+In-Reply-To: <4BF41E9E.8080309@lanl.gov>
+References: <4BED9788.5020903@lanl.gov> <4BF2BB4F.8040409@swansea.ac.uk>
+	<4BF41E9E.8080309@lanl.gov>
+Message-ID: <AANLkTimKN19guc4BdFU2VIv_bwXXYctlF1sDuZKS3On2@mail.gmail.com>
+
+Hi All,
+
+Josh is finishing up the merge this week, and testing against EISMINT I/II.
+
+ISMIP next week, but because we just did a load of that, I hope it
+goes smoothly.
+
+Jesse
+
+
+On Wed, May 19, 2010 at 11:23 AM, Stephen Price <sprice at lanl.gov> wrote:
+>
+> Ian,
+>
+> Jesse's student Josh is also working on the merge, so I think we will likely
+> try to have him pick up where Erin left off (correct me if I'm wrong on this
+> Jesse).
+>
+> cheers -
+>
+> Steve
+>
+>
+> Ian Rutt wrote:
+>>
+>> Hi Erin,
+>>
+>> Many thanks for your work on the merge, and for letting us know how you
+>> got on with it. I've just been having a look at the merged branch, and it
+>> looks good.
+>>
+>> I'm a bit out of the loop about who might be in a position to take this
+>> forward, but it would be good to discuss it. There are obviously several
+>> things which need to be done, both in terms of testing and tidying up the
+>> code, and merging the remaining new features into the glimmer-cism2 trunk.
+>>
+>> Any thoughts? I am happy to contribute in some form, although the amount
+>> of time I have for code is a bit variable.
+>>
+>> Best wishes,
+>>
+>> Ian
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From I.C.Rutt at swansea.ac.uk  Thu May 20 10:29:18 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 20 May 2010 09:29:18 +0100
+Subject: [Glimmer-cism-devel] merge notes glimmer-cism2 with
+	glimmer-cism-lanl
+In-Reply-To: <AANLkTimKN19guc4BdFU2VIv_bwXXYctlF1sDuZKS3On2@mail.gmail.com>
+References: <4BED9788.5020903@lanl.gov> <4BF2BB4F.8040409@swansea.ac.uk>	
+	<4BF41E9E.8080309@lanl.gov>
+	<AANLkTimKN19guc4BdFU2VIv_bwXXYctlF1sDuZKS3On2@mail.gmail.com>
+Message-ID: <4BF4F2DE.1030005@swansea.ac.uk>
+
+
+Hi Jesse and Steve,
+
+Thanks for your replies. I'm glad the merge is continuing - I was just 
+looking at where we are with the refactoring yesterday, and came to the 
+conclusion it would be best to get the LANL branch merge done first, and 
+port those changes to the refactoring branch before continuing further.
+
+So, I'll hold fire on the refactoring for now - please let me know how 
+things progress.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Jesse Johnson wrote:
+> Hi All,
+> 
+> Josh is finishing up the merge this week, and testing against EISMINT I/II.
+> 
+> ISMIP next week, but because we just did a load of that, I hope it
+> goes smoothly.
+> 
+> Jesse
+> 
+> 
+> On Wed, May 19, 2010 at 11:23 AM, Stephen Price <sprice at lanl.gov> wrote:
+>> Ian,
+>>
+>> Jesse's student Josh is also working on the merge, so I think we will likely
+>> try to have him pick up where Erin left off (correct me if I'm wrong on this
+>> Jesse).
+>>
+>> cheers -
+>>
+>> Steve
+>>
+>>
+>> Ian Rutt wrote:
+>>> Hi Erin,
+>>>
+>>> Many thanks for your work on the merge, and for letting us know how you
+>>> got on with it. I've just been having a look at the merged branch, and it
+>>> looks good.
+>>>
+>>> I'm a bit out of the loop about who might be in a position to take this
+>>> forward, but it would be good to discuss it. There are obviously several
+>>> things which need to be done, both in terms of testing and tidying up the
+>>> code, and merging the remaining new features into the glimmer-cism2 trunk.
+>>>
+>>> Any thoughts? I am happy to contribute in some form, although the amount
+>>> of time I have for code is a bit variable.
+>>>
+>>> Best wishes,
+>>>
+>>> Ian
+> 
+> 
+> 
+
+

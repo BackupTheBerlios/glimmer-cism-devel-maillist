@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] automated nightly build &amp; test
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C316AE54B-83E6-4BA0-8CAC-904DBD0BEAD0%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000301.html">
+   <LINK REL="Next"  HREF="000304.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] automated nightly build &amp; test</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C316AE54B-83E6-4BA0-8CAC-904DBD0BEAD0%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] automated nightly build &amp; test">lipscomb at lanl.gov
+       </A><BR>
+    <I>Tue Jul 27 17:06:03 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000301.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+        <LI>Next message: <A HREF="000304.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#303">[ date ]</a>
+              <a href="thread.html#303">[ thread ]</a>
+              <a href="subject.html#303">[ subject ]</a>
+              <a href="author.html#303">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all,
+
+A few more thoughts on testing:
+
+I like the idea of automated nightly checkouts and testing, as Gethin  
+suggests.  And comparing netCDF files seems like a good idea, although  
+it could take some trial and error to figure out what the tolerances  
+should be.
+
+It would also be good to have some tests where we know to a high  
+degree of precision what the answer should be--for instance, Ed  
+Bueler's analytical tests.  My experience is that it's fairly easy to  
+introduce a bug and not know it from comparing netCDF files.
+
+I'd suggest that those of us who develop code suggest some useful test  
+cases.  For starters, we could consider these:
+
+* EISMINT-2 (some subset of tests A through H)
+* ISMIP-HOM (a subset of tests A through F, for higher-order models  
+only)
+* Ross ice shelf (for shelf and/or HO models)
+* the &quot;hump&quot; test on the parallel branch
+* one or more analytical tests, as in the Bueler papers
+* a glint-example test case for Greenland (I think it's important to  
+test Glint, since it's a key part of coupled climate experiments)
+* spinup tests for Greenland and Antarctica.  Here it may be less  
+important to get a particular answer than to demonstrate that the code  
+can run for a long time without crashing (though not so long that the  
+test can't run overnight).
+* some exact restart tests--very important for climate models
+
+We'll have to think about which dynamical schemes (e.g., SIA and HO)  
+and which options (e.g., evolution solvers and basal physics) to  
+specify with each case.   Hopefully we can design a set of tests that  
+give most of the code a good workout.
+
+In addition to looking at netCDF files, the test scripts could compare  
+diagnostic output in the log files, if that's useful.  The diagnostic  
+subroutines are in the module glide_diagnostics.F90, and it's easy to  
+add new diagnostics.
+
+Developers who are familiar with the various test cases can supply  
+appropriate config files (many of which already exist).  For instance,  
+I volunteer to set up config files to test exact restart.
+
+Then we will need some skilled software engineers (like Gethin) to  
+write the scripts that do the testing.  Jeff Nichols, who is working  
+on Kate Evans's ISICLES project, could probably help.  (Jeff, sorry to  
+volunteer you for another task, but this one is pretty important.)   
+Are there any other volunteers?
+
+Cheers,
+
+Bill
+
+
+On Jul 27, 2010, at 4:23 AM, DAG Williams, Geographical Sciences wrote:
+
+&gt;<i> Hi Folks,
+</I>&gt;<i>
+</I>&gt;<i> I run a nightly build &amp; test for the GENIE model and find it to be  
+</I>&gt;<i> very useful.
+</I>&gt;<i>
+</I>&gt;&gt;<i> an automated test suite would be very nice. i suspect it will be  
+</I>&gt;&gt;<i> fairly
+</I>&gt;&gt;<i> difficult to implement. since we would need to take into account  
+</I>&gt;&gt;<i> various
+</I>&gt;&gt;<i> bits of middleware that handle scheduling on clusters. On the other
+</I>&gt;&gt;<i> hand, there might well be an existing test harness we could use.
+</I>&gt;<i>
+</I>&gt;<i> Credential caching in Subversion is really handy in this regard.  It  
+</I>&gt;<i> means that after the first checkout, one can write a cron job to  
+</I>&gt;<i> make a fresh checkout on a nightly basis.
+</I>&gt;<i>
+</I>&gt;<i> I have a program that will compare (the intersection between) 2  
+</I>&gt;<i> NetCDF files, allowing for tolerances in both absolute and relative  
+</I>&gt;<i> differences (command line options).  This makes comparing an output  
+</I>&gt;<i> to a reference file pretty straightforward.  Glimmer is very welcome  
+</I>&gt;<i> to this program, and I can commit it somewhere if desired.
+</I>&gt;<i>
+</I>&gt;<i> I create 'test-xzy' rules in the makefile, which trigger the  
+</I>&gt;<i> relevant build and run commands (contained in small shell scripts  
+</I>&gt;<i> for neatness).  The test definitions are encapsulated as  
+</I>&gt;<i> configuration files kept in the repos.
+</I>&gt;<i>
+</I>&gt;<i> The remainder of the harness is a very small amount of shell- 
+</I>&gt;<i> scripting (called from cron).  Like you say, people have different  
+</I>&gt;<i> setups, perhaps including a queuing system etc.  I wouldn't bother  
+</I>&gt;<i> trying to create something which works for everyone--this part could  
+</I>&gt;<i> be bespoke as it's not many lines:
+</I>&gt;<i>
+</I>&gt;<i> 1- fresh checkout
+</I>&gt;<i> 2- runtests in makefile (perhaps calling bespoke qsub command if  
+</I>&gt;<i> necessary)
+</I>&gt;<i> 3- run diagnostics script, kept in repos
+</I>&gt;<i> 4- run the email script, also in repos
+</I>&gt;<i>
+</I>&gt;<i> The email part could send the results back to berlios in some way.   
+</I>&gt;<i> I just email the key developers directly, as human intervention is  
+</I>&gt;<i> required sooner or later if the tests show a failure.
+</I>&gt;<i>
+</I>&gt;&gt;<i> The other question is, how do we define a successful test? Do results
+</I>&gt;&gt;<i> have to be exactly the same (I don't think so). If not we need to  
+</I>&gt;&gt;<i> define
+</I>&gt;&gt;<i> what is acceptable.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I anyone going to pick this up?
+</I>&gt;<i>
+</I>&gt;<i> I hope the above is helpful.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Gethin.
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000301.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+	<LI>Next message: <A HREF="000304.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#303">[ date ]</a>
+              <a href="thread.html#303">[ thread ]</a>
+              <a href="subject.html#303">[ subject ]</a>
+              <a href="author.html#303">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

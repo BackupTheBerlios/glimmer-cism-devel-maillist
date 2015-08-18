@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CAADB56.2000908%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000361.html">
+   <LINK REL="Next"  HREF="000363.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CAADB56.2000908%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Tue Oct  5 10:01:26 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000361.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000363.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#362">[ date ]</a>
+              <a href="thread.html#362">[ thread ]</a>
+              <a href="subject.html#362">[ subject ]</a>
+              <a href="author.html#362">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus,
+Thanks of that,  I understand what you mean.  Ill add the rule to 
+compare and the extra macro in 
+svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk and get 
+back to you,
+Cheers,
+Sarah
+
+
+
+
+Magnus Hagdorn wrote:
+&gt;<i> Sarah Shannon wrote:
+</I>&gt;&gt;<i> Hi Magnus and developers,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The test script is now checked into 
+</I>&gt;&gt;<i> <A HREF="http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.">http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.</A>
+</I>&gt;&gt;<i> It is called automatic_test.sh located in /tests/utils/
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> To get help on how to invoke the test,  type 'make test' in the head 
+</I>&gt;&gt;<i> directory.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The tests which currently work are:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 1. EISMINT-1 moving margin experiments 1,2 and 3.
+</I>&gt;&gt;<i> 2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson 
+</I>&gt;&gt;<i> solvers
+</I>&gt;&gt;<i> 3. ISMIP-HOM tests A and C using the Payne/Price solver.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> For the ISMIP-HOM tests, I used the python script and configuration 
+</I>&gt;&gt;<i> files for experiments A and C which were already in the tests2 
+</I>&gt;&gt;<i> directory. Would it be useful to add the other ISMIP-HOM tests for 
+</I>&gt;&gt;<i> both the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The test directory contains configuration files for petermann, ross 
+</I>&gt;&gt;<i> and shelf tests. The script does not run these tests at the moment.  
+</I>&gt;&gt;<i> Perhaps you could checkout the code and see if you can run a test?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Let me know if you spot any places where improvements can be made.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Hi Sarah,
+</I>&gt;<i> there are a number of issues with your test suite implementation:
+</I>&gt;<i> 1. the gold versions shouldn't be under version control. these data 
+</I>&gt;<i> files considerably contribute to the size of the project in 
+</I>&gt;<i> subversion. We have only limited space. Also some people might not 
+</I>&gt;<i> like to have to download the netCDF files all the time. We can think 
+</I>&gt;<i> about where they should live later, but I am sure we can find some 
+</I>&gt;<i> server with enough space/bandwidth to serve a tar-ball containing the 
+</I>&gt;<i> gold standard.
+</I>&gt;<i>
+</I>&gt;<i> 2. you are making the automatic_test.sh more complicated than you need 
+</I>&gt;<i> to. Have a look at the current trunk:
+</I>&gt;<i> <A HREF="https://magi@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk">https://magi@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk</A> 
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> the tests directory has a number of subdirectories with various test 
+</I>&gt;<i> setups. Let's have a look at the EISMINT-1 tests in the directory
+</I>&gt;<i> tests/EISMINT/EISMINT-1
+</I>&gt;<i> All tests are controlled by make. So the Makefile.am specifies a a 
+</I>&gt;<i> data macro containing all the names of the output files generated by 
+</I>&gt;<i> each test setup. The Makefile includes the toplevel file 
+</I>&gt;<i> extra_rules.am which defines a make rule to generate a netcdf output 
+</I>&gt;<i> file given a configuration file. The make rule uses a python wrapper 
+</I>&gt;<i> to either launch the model directly or via qsub. The python wrapper 
+</I>&gt;<i> can also handle dependencies.
+</I>&gt;<i>
+</I>&gt;<i> So, all you need to do is to write another rule which does the 
+</I>&gt;<i> comparison, for example
+</I>&gt;<i>
+</I>&gt;<i> compare-%:    %.nc
+</I>&gt;<i>         $(top_builddir)/utils/compare $&lt; \
+</I>&gt;<i>                 $(PATH_TO_GOLD_STANDARD)/path/to/exp/$&lt;
+</I>&gt;<i>
+</I>&gt;<i> where the macro PATH_TO_GOLD_STANDARD is set by configure to the 
+</I>&gt;<i> top-level directory where all the gold standard files are installed. 
+</I>&gt;<i> You still need to figure out the path/to/exp which is just the 
+</I>&gt;<i> difference between $(top_builddir) and $(builddir) (there might 
+</I>&gt;<i> already be a macro for that, or some suitable shell trickery will give 
+</I>&gt;<i> you it).
+</I>&gt;<i>
+</I>&gt;<i> running make compare-e1-fm.1 would then run the test if necessary and 
+</I>&gt;<i> then compare it against the gold standard. it might be an idea to 
+</I>&gt;<i> output whether it failed or not. a wrapper will be necessary to make 
+</I>&gt;<i> use of the SGE stuff, but we can sort that out once the basics work.
+</I>&gt;<i>
+</I>&gt;<i> I hope this makes sense to you and please don't hesitate for further 
+</I>&gt;<i> details.
+</I>&gt;<i>
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101005/edceae52/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101005/edceae52/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000361.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000363.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#362">[ date ]</a>
+              <a href="thread.html#362">[ thread ]</a>
+              <a href="subject.html#362">[ subject ]</a>
+              <a href="author.html#362">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

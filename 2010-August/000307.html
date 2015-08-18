@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glide_io.F90 issue
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glide_io.F90%20issue&In-Reply-To=%3C34E36795FF3D2242AF552684EC0C72D313ADB002EC%40ES01SNLNT.srn.sandia.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000308.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glide_io.F90 issue</H1>
+    <B>Salinger, Andrew</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glide_io.F90%20issue&In-Reply-To=%3C34E36795FF3D2242AF552684EC0C72D313ADB002EC%40ES01SNLNT.srn.sandia.gov%3E"
+       TITLE="[Glimmer-cism-devel] glide_io.F90 issue">agsalin at sandia.gov
+       </A><BR>
+    <I>Tue Aug  3 17:19:03 CEST 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000308.html">[Glimmer-cism-devel] glide_io.F90 issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#307">[ date ]</a>
+              <a href="thread.html#307">[ thread ]</a>
+              <a href="subject.html#307">[ subject ]</a>
+              <a href="author.html#307">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Both Jean-Francois and I have run into a problem
+compiling glide_io.F90. Line 58 is 184 characters
+long, and my compiler (gnu 4.1) seems to cut it
+off at 80 characters.
+
+  character(len=*),private,parameter :: hotvars = ' bwat  topg kinbcmask  acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+
+I get an &quot;unterminated string&quot; compile Error.
+It is easy to fix, by adding continuation characters:
+  character(len=*),private,parameter :: hotvars = ' bwat  topg kinbcmask &amp;
+     acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa &amp;
+      beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+
+However, glide_io.F90 is auto-generated. So, if anyone is
+familiar with this auto-generation process, and can force
+this line to be broken into shorter pieces, that would help
+future developers from running into this same problem.
+
+Now that I know the fix, it is not an issue for me.
+
+Thanks,
+Andy Salinger (Trilinos point-of-contact)
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100803/9dac00a0/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100803/9dac00a0/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000308.html">[Glimmer-cism-devel] glide_io.F90 issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#307">[ date ]</a>
+              <a href="thread.html#307">[ thread ]</a>
+              <a href="subject.html#307">[ subject ]</a>
+              <a href="author.html#307">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

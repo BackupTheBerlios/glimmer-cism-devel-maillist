@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] restarts and DVCS
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts%20and%20DVCS&In-Reply-To=%3C4ABA5C72.2040804%4059A2.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000076.html">
+   <LINK REL="Next"  HREF="000071.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] restarts and DVCS</H1>
+    <B>Jed Brown</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts%20and%20DVCS&In-Reply-To=%3C4ABA5C72.2040804%4059A2.org%3E"
+       TITLE="[Glimmer-cism-devel] restarts and DVCS">jed at 59A2.org
+       </A><BR>
+    <I>Wed Sep 23 19:35:46 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000076.html">[Glimmer-cism-devel] distributed version control systems
+</A></li>
+        <LI>Next message: <A HREF="000071.html">[Glimmer-cism-devel] restarts and DVCS
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#70">[ date ]</a>
+              <a href="thread.html#70">[ thread ]</a>
+              <a href="subject.html#70">[ subject ]</a>
+              <a href="author.html#70">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+I just subscribed and read some of the recent discussion here.  A couple
+comments:
+
+* restarts
+BLCR will store much more data than is actually required to
+restart your program.  This situation is much worse when you have an
+assembled matrix hanging around.  While it will work in parallel, and
+can be used to migrate a running job to different nodes, it can't do
+things like change the number of nodes.  A possible option is to do what
+PISM does which is to have a signal handler.  Thus &quot;pkill -USR1 pismr&quot;
+would instruct PISM to write a checkpoint (the usual NetCDF file from
+which we can restart) at the end of the current time step.  Is this the
+sort of functionality that you were after, or am I missing the point?
+
+* DVCS:
+Git can handle branches in-tree, and you do operations like reordering
+recent history and editing patches before pushing using a small set of
+commands.  Mercurial sort of offers this through the mq and rebase
+extensions, but they are a bunch of new commands that don't interoperate
+as nicely and it's really inconvenient to mess with local patches once
+you've committed them locally (i.e. gone back to the normal interface
+from mq).  In the end, it's still largely a preference thing.
+
+
+I'll start the discussion of interoperability/plugins soon if nobody
+else does.  (We should wait a day or two so that people have a chance to
+subscribe.)
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090923/d1177188/attachment.pgp">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090923/d1177188/attachment.pgp</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000076.html">[Glimmer-cism-devel] distributed version control systems
+</A></li>
+	<LI>Next message: <A HREF="000071.html">[Glimmer-cism-devel] restarts and DVCS
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#70">[ date ]</a>
+              <a href="thread.html#70">[ thread ]</a>
+              <a href="subject.html#70">[ subject ]</a>
+              <a href="author.html#70">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

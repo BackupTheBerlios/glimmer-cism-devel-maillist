@@ -1,0 +1,206 @@
+From Magnus.Hagdorn at ed.ac.uk  Wed Jan 12 18:00:28 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 12 Jan 2011 17:00:28 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4D025920.9050800@bristol.ac.uk>
+References: <4CF8E442.7030006@bristol.ac.uk> <4CFF5AE3.7010800@ed.ac.uk>	
+	<4D00E200.4050408@bristol.ac.uk> <4D00EEAE.7090702@ed.ac.uk>
+	<1291969108.1679.8.camel@swine> <4D025920.9050800@bristol.ac.uk>
+Message-ID: <4D2DDE2C.8030505@ed.ac.uk>
+
+Hi Sarah,
+I have made some minor changes to the gold standard creator:
+* make hard links rather than copies of the data files
+* only create gold-standard directories if they contain files
+* explicitly specify which data files should go into the gold standard
+
+It works now as I expected. Currently only EISMINT-1 and EISMINT-2 files 
+are considered. We might want to add more.
+
+I tried the test suite on runs done with the model compiled using 
+gfortran and ifort. They don't match! So I think we need to do some more 
+thinking about what is acceptable.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Fri Jan 21 19:37:06 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Fri, 21 Jan 2011 18:37:06 +0000
+Subject: [Glimmer-cism-devel] basal water bugs
+Message-ID: <4D39D252.5070904@bristol.ac.uk>
+
+Hi,
+There were several bugs in the basal water scheme on the parallel 
+branch.  The bugs resulted in an increase in basal traction with a 
+decrease in water depth. 
+
+The bugs were in glide_velo.F90 in two places.
+1. subroutine init_velo where the parameters that define the shape of 
+the curve between basal water depth and basal traction are calculated
+2. subroutine calc_btrc where the basal traction is calculated
+
+The values for the minimum and maximum basal traction defined as 'bpar' 
+in glide_types.F90 were also reversed.
+
+I checked the corrections into the parallel branch. I was wondering do 
+these changes need to be put somewhere else in the repository to be 
+included in the next release?. The bugs are in version glimmer-cism 
+1.7.0 as well.
+
+Cheers,
+Sarah
+
+ 
+
+
+ 
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110121/25eed560/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Jan 24 10:55:18 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 24 Jan 2011 09:55:18 +0000
+Subject: [Glimmer-cism-devel] basal water bugs
+In-Reply-To: <4D39D252.5070904@bristol.ac.uk>
+References: <4D39D252.5070904@bristol.ac.uk>
+Message-ID: <4D3D4C86.7090401@ed.ac.uk>
+
+Hi Sarah,
+thanks for sorting these out. I lost track of the various branches. Do 
+the bugs also occur in trunk and glimmer-cism2/branches/glimmer-cism-lanl?
+
+As long as the bugs are fixed on the branch from which we cut the 
+releases we are fine.
+Cheers
+magi
+
+
+Sarah Shannon wrote:
+> Hi,
+> There were several bugs in the basal water scheme on the parallel 
+> branch.  The bugs resulted in an increase in basal traction with a 
+> decrease in water depth.
+> The bugs were in glide_velo.F90 in two places.
+> 1. subroutine init_velo where the parameters that define the shape of 
+> the curve between basal water depth and basal traction are calculated
+> 2. subroutine calc_btrc where the basal traction is calculated
+> 
+> The values for the minimum and maximum basal traction defined as 'bpar' 
+> in glide_types.F90 were also reversed.
+> 
+> I checked the corrections into the parallel branch. I was wondering do 
+> these changes need to be put somewhere else in the repository to be 
+> included in the next release?. The bugs are in version glimmer-cism 
+> 1.7.0 as well.
+> 
+> Cheers,
+> Sarah
+> 
+> 
+> 
+> 
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jccampbell.umt at gmail.com  Mon Jan 24 18:16:42 2011
+From: jccampbell.umt at gmail.com (Joshua Campbell)
+Date: Mon, 24 Jan 2011 10:16:42 -0700
+Subject: [Glimmer-cism-devel] basal water bugs
+In-Reply-To: <4D3D4C86.7090401@ed.ac.uk>
+References: <4D39D252.5070904@bristol.ac.uk>
+	<4D3D4C86.7090401@ed.ac.uk>
+Message-ID: <AANLkTimsNJ3EqChWD8aq4JSLo0_5GdBvR8Ercgi4+6au@mail.gmail.com>
+
+If they're fixed in parallel, then I will be sure to merge those fixes
+to glimmer-cism2/branches/glimmer-cism-lanl.
+
+On Mon, Jan 24, 2011 at 2:55 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> Hi Sarah,
+> thanks for sorting these out. I lost track of the various branches. Do the
+> bugs also occur in trunk and glimmer-cism2/branches/glimmer-cism-lanl?
+>
+> As long as the bugs are fixed on the branch from which we cut the releases
+> we are fine.
+> Cheers
+> magi
+>
+>
+> Sarah Shannon wrote:
+>
+>> Hi,
+>> There were several bugs in the basal water scheme on the parallel branch.
+>>  The bugs resulted in an increase in basal traction with a decrease in water
+>> depth.
+>> The bugs were in glide_velo.F90 in two places.
+>> 1. subroutine init_velo where the parameters that define the shape of the
+>> curve between basal water depth and basal traction are calculated
+>> 2. subroutine calc_btrc where the basal traction is calculated
+>>
+>> The values for the minimum and maximum basal traction defined as 'bpar' in
+>> glide_types.F90 were also reversed.
+>>
+>> I checked the corrections into the parallel branch. I was wondering do
+>> these changes need to be put somewhere else in the repository to be included
+>> in the next release?. The bugs are in version glimmer-cism 1.7.0 as well.
+>>
+>> Cheers,
+>> Sarah
+>>
+>>
+>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+jccampbell.umt at gmail.com        Graduate Research Assistant
+                                Department of Computer Science
+                                University of Montana
+                                Joshua Charles Campbell
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110124/294fa2e5/attachment.html>
+

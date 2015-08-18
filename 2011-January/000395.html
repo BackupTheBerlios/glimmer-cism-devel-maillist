@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] basal water bugs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20basal%20water%20bugs&In-Reply-To=%3C4D39D252.5070904%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000394.html">
+   <LINK REL="Next"  HREF="000396.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] basal water bugs</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20basal%20water%20bugs&In-Reply-To=%3C4D39D252.5070904%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] basal water bugs">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Fri Jan 21 19:37:06 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000394.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000396.html">[Glimmer-cism-devel] basal water bugs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#395">[ date ]</a>
+              <a href="thread.html#395">[ thread ]</a>
+              <a href="subject.html#395">[ subject ]</a>
+              <a href="author.html#395">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+There were several bugs in the basal water scheme on the parallel 
+branch.  The bugs resulted in an increase in basal traction with a 
+decrease in water depth. 
+
+The bugs were in glide_velo.F90 in two places.
+1. subroutine init_velo where the parameters that define the shape of 
+the curve between basal water depth and basal traction are calculated
+2. subroutine calc_btrc where the basal traction is calculated
+
+The values for the minimum and maximum basal traction defined as 'bpar' 
+in glide_types.F90 were also reversed.
+
+I checked the corrections into the parallel branch. I was wondering do 
+these changes need to be put somewhere else in the repository to be 
+included in the next release?. The bugs are in version glimmer-cism 
+1.7.0 as well.
+
+Cheers,
+Sarah
+
+ 
+
+
+ 
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110121/25eed560/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110121/25eed560/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000394.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000396.html">[Glimmer-cism-devel] basal water bugs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#395">[ date ]</a>
+              <a href="thread.html#395">[ thread ]</a>
+              <a href="subject.html#395">[ subject ]</a>
+              <a href="author.html#395">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

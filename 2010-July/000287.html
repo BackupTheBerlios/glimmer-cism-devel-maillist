@@ -1,0 +1,584 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Macs &amp; GNU tools
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Macs%20%26%20GNU%20tools&In-Reply-To=%3C90CB3E36581D175E9660F4D7%40geog-a81.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000286.html">
+   <LINK REL="Next"  HREF="000288.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Macs &amp; GNU tools</H1>
+    <B>DAG Williams, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Macs%20%26%20GNU%20tools&In-Reply-To=%3C90CB3E36581D175E9660F4D7%40geog-a81.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Macs &amp; GNU tools">Gethin.Williams at bristol.ac.uk
+       </A><BR>
+    <I>Thu Jul 15 18:26:34 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000286.html">[Glimmer-cism-devel] mailing lists (and general BerliOS usage)
+</A></li>
+        <LI>Next message: <A HREF="000288.html">[Glimmer-cism-devel] bootstrapping error on the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#287">[ date ]</a>
+              <a href="thread.html#287">[ thread ]</a>
+              <a href="subject.html#287">[ subject ]</a>
+              <a href="author.html#287">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Folks,
+
+Not strictly in answer of Marion's original question, so perhaps not so 
+useful, but I've had some good experience with Macports 
+(&lt;<A HREF="http://www.macports.org/">http://www.macports.org/</A>&gt;) when installing Genie on Macs.
+
+It seems likely that some version mismatching is going on (due to having 
+several versions of the same tools available on the machine).  To that end, 
+a sanity preserving strategy could be to uninstall the fink additions etc. 
+getting back to as bare bones as possible, and then to build up the tool 
+chain as consistently as you can, using only tools from macports, say.
+
+Cheers,
+Gethin.
+
+
+--On 15 July 2010 11:30 +0200 <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A> 
+wrote:
+
+&gt;<i> Send Glimmer-cism-devel mailing list submissions to
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> To subscribe or unsubscribe via the World Wide Web, visit
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i> or, via email, send a message with subject or body 'help' to
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> You can reach the person managing the list at
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-owner at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> When replying, please edit your Subject line so it is more specific
+</I>&gt;<i> than &quot;Re: Contents of Glimmer-cism-devel digest...&quot;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Today's Topics:
+</I>&gt;<i>
+</I>&gt;<i>    1. [Fwd: Autoconf and glimmer-cism] (Magnus Hagdorn)
+</I>&gt;<i>    2. Re: [Fwd: Autoconf and glimmer-cism] (Carl Gladish)
+</I>&gt;<i>    3. Re: [Fwd: Autoconf and glimmer-cism] (Ian Rutt)
+</I>&gt;<i>    4. Re: [Fwd: Autoconf and glimmer-cism] (Florence Colleoni)
+</I>&gt;<i>    5. mailing lists (and general BerliOS usage) (Magnus Hagdorn)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ----------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 1
+</I>&gt;<i> Date: Wed, 14 Jul 2010 18:30:48 +0100
+</I>&gt;<i> From: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;<i> To: gc-devel &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">1279128648.1654.1.camel at swine</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=&quot;UTF-8&quot;
+</I>&gt;<i>
+</I>&gt;<i> Hi Marion,
+</I>&gt;<i> forwarded to glimmer-cism developer mailing list...
+</I>&gt;<i>
+</I>&gt;<i> -------- Forwarded Message --------
+</I>&gt;<i>
+</I>&gt;&gt;<i> Dear Magnus and Ian,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> A student of Slawek is currently visiting from Santa Cruz, and I am
+</I>&gt;&gt;<i> trying to share with her a version of glimmer-cism that I am currently
+</I>&gt;&gt;<i> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+</I>&gt;&gt;<i> mac, and somehow, we can't run ./bootstrap.
+</I>&gt;&gt;<i> The error message is copied below -
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> *********************************
+</I>&gt;&gt;<i> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Checking if required version of automake is installed
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -n checking for autoconf &gt;= 2.54 ...
+</I>&gt;&gt;<i> yes (version 2.63)
+</I>&gt;&gt;<i> -n checking for automake &gt;= 1.9.6 ...
+</I>&gt;&gt;<i> yes (version 1.10)
+</I>&gt;&gt;<i> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+</I>&gt;&gt;<i> You have another version of autoconf.  If you want to use that,
+</I>&gt;&gt;<i> you should regenerate the build system entirely.
+</I>&gt;&gt;<i> aclocal.m4:14: the top level
+</I>&gt;&gt;<i> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+</I>&gt;&gt;<i> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+</I>&gt;&gt;<i> *************************************
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> It looks like it could be a problem with the version of autoconf?
+</I>&gt;&gt;<i> It would be great if you would be able to confirm on this, and if not,
+</I>&gt;&gt;<i> if you'd have any idea of what the problem is.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Many thanks,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Marion
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 2
+</I>&gt;<i> Date: Wed, 14 Jul 2010 14:07:18 -0400
+</I>&gt;<i> From: Carl Gladish &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">gladish at cims.nyu.edu</A>&gt;
+</I>&gt;<i> To: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;,	gc-devel
+</I>&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;<i> Cc: Carl Gladish &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">carl.gladish at gmail.com</A>&gt;
+</I>&gt;<i> Subject: Re: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+</I>&gt;<i> Message-ID:
+</I>&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">AANLkTiklQ_7aJImjTZh6Rr8sthjXbDvE9uqFIQLqKuSW at mail.gmail.com</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=&quot;iso-8859-1&quot;
+</I>&gt;<i>
+</I>&gt;<i> Hi Marion (I trust you're going to get this message...) ,
+</I>&gt;<i>
+</I>&gt;<i> I recall having some problem like this when building glimmer-cism on my
+</I>&gt;<i> mac laptop.
+</I>&gt;<i>
+</I>&gt;<i> Try deleting the file aclocal.m4 (it is automatically generated, so you're
+</I>&gt;<i> not doing anything risky) and then running 'autoreconf'.  Then run
+</I>&gt;<i> bootstrap again.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Carl Gladish
+</I>&gt;<i>
+</I>&gt;<i> On Wed, Jul 14, 2010 at 1:30 PM, Magnus Hagdorn
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi Marion,
+</I>&gt;&gt;<i> forwarded to glimmer-cism developer mailing list...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -------- Forwarded Message --------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> &gt; Dear Magnus and Ian,
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; A student of Slawek is currently visiting from Santa Cruz, and I am
+</I>&gt;&gt;<i> &gt; trying to share with her a version of glimmer-cism that I am currently
+</I>&gt;&gt;<i> &gt; using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+</I>&gt;&gt;<i> &gt; mac, and somehow, we can't run ./bootstrap.
+</I>&gt;&gt;<i> &gt; The error message is copied below -
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; *********************************
+</I>&gt;&gt;<i> &gt; Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Checking if required version of automake is installed
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; -n checking for autoconf &gt;= 2.54 ...
+</I>&gt;&gt;<i> &gt; yes (version 2.63)
+</I>&gt;&gt;<i> &gt; -n checking for automake &gt;= 1.9.6 ...
+</I>&gt;&gt;<i> &gt; yes (version 1.10)
+</I>&gt;&gt;<i> &gt; aclocal.m4:14: error: this file was generated for autoconf 2.61.
+</I>&gt;&gt;<i> &gt; You have another version of autoconf.  If you want to use that,
+</I>&gt;&gt;<i> &gt; you should regenerate the build system entirely.
+</I>&gt;&gt;<i> &gt; aclocal.m4:14: the top level
+</I>&gt;&gt;<i> &gt; autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+</I>&gt;&gt;<i> &gt; autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+</I>&gt;&gt;<i> &gt; *************************************
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; It looks like it could be a problem with the version of autoconf?
+</I>&gt;&gt;<i> &gt; It would be great if you would be able to confirm on this, and if not,
+</I>&gt;&gt;<i> &gt; if you'd have any idea of what the problem is.
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Many thanks,
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt; Marion
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i> &gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Carl Gladish
+</I>&gt;<i> cell: (917) 502 - 1818
+</I>&gt;<i> home: (718) 626 - 2504
+</I>&gt;<i> office: (212) 998 - 3198
+</I>&gt;<i> Warren Weaver Hall rm 708, 251 Mercer NY,NY
+</I>&gt;<i> <A HREF="http://www.cims.nyu.edu/~gladish">http://www.cims.nyu.edu/~gladish</A>
+</I>&gt;<i> -------------- next part --------------
+</I>&gt;<i> An HTML attachment was scrubbed...
+</I>&gt;<i> URL:
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201007">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201007</A>
+</I>&gt;<i> 14/b8babb81/attachment-0001.html&gt;
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 3
+</I>&gt;<i> Date: Thu, 15 Jul 2010 09:45:25 +0100
+</I>&gt;<i> From: Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt;
+</I>&gt;<i> To: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;<i> Cc: gc-devel &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: Re: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">4C3ECAA5.8030907 at swansea.ac.uk</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Hi Marion,
+</I>&gt;<i>
+</I>&gt;<i> I'm afraid building on a Mac is likely to be a bit more technically-
+</I>&gt;<i> involved than on a Linux distro.
+</I>&gt;<i>
+</I>&gt;<i> My hunch is that the problem might be caused by some mismatch between
+</I>&gt;<i> the build tools supplied as part of Mac OS (Xcode), and those from Fink
+</I>&gt;<i> (in /sw), on the basis of your error message. However, I can't test
+</I>&gt;<i> this, and wouldn't know how to solve it.
+</I>&gt;<i>
+</I>&gt;<i> Your best bet is to hope that someone else on the developer list knows
+</I>&gt;<i> what to do.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i>
+</I>&gt;<i> Ian
+</I>&gt;<i>
+</I>&gt;<i> P.S. If Saffia is going to be using Glimmer-CISM, perhaps you could
+</I>&gt;<i> encourage her to join the mailing lists herself? The lists are our
+</I>&gt;<i> preferred forum for this kind of problem-solving.
+</I>&gt;<i>
+</I>&gt;<i> Dr Ian Rutt
+</I>&gt;<i> School of the Environment and Society
+</I>&gt;<i> Swansea University
+</I>&gt;<i> Singleton Park
+</I>&gt;<i> Swansea
+</I>&gt;<i> SA2 8PP
+</I>&gt;<i> Tel. (01792) 602685
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Magnus Hagdorn wrote:
+</I>&gt;&gt;<i> Hi Marion,
+</I>&gt;&gt;<i> forwarded to glimmer-cism developer mailing list...
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -------- Forwarded Message --------
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Dear Magnus and Ian,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> A student of Slawek is currently visiting from Santa Cruz, and I am
+</I>&gt;&gt;&gt;<i> trying to share with her a version of glimmer-cism that I am currently
+</I>&gt;&gt;&gt;<i> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+</I>&gt;&gt;&gt;<i> mac, and somehow, we can't run ./bootstrap.
+</I>&gt;&gt;&gt;<i> The error message is copied below -
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> *********************************
+</I>&gt;&gt;&gt;<i> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Checking if required version of automake is installed
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> -n checking for autoconf &gt;= 2.54 ...
+</I>&gt;&gt;&gt;<i> yes (version 2.63)
+</I>&gt;&gt;&gt;<i> -n checking for automake &gt;= 1.9.6 ...
+</I>&gt;&gt;&gt;<i> yes (version 1.10)
+</I>&gt;&gt;&gt;<i> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+</I>&gt;&gt;&gt;<i> You have another version of autoconf.  If you want to use that,
+</I>&gt;&gt;&gt;<i> you should regenerate the build system entirely.
+</I>&gt;&gt;&gt;<i> aclocal.m4:14: the top level
+</I>&gt;&gt;&gt;<i> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+</I>&gt;&gt;&gt;<i> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+</I>&gt;&gt;&gt;<i> *************************************
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> It looks like it could be a problem with the version of autoconf?
+</I>&gt;&gt;&gt;<i> It would be great if you would be able to confirm on this, and if not,
+</I>&gt;&gt;&gt;<i> if you'd have any idea of what the problem is.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Many thanks,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Marion
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 4
+</I>&gt;<i> Date: Thu, 15 Jul 2010 11:16:21 +0200
+</I>&gt;<i> From: Florence Colleoni &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt;
+</I>&gt;<i> To: Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt;
+</I>&gt;<i> Cc: gc-devel &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: Re: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+</I>&gt;<i> Message-ID:
+</I>&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">AANLkTimQjGofxGLw21AOlL9ypInRrxeswMNcXIzuR_Go at mail.gmail.com</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=&quot;iso-8859-1&quot;
+</I>&gt;<i>
+</I>&gt;<i> Dear Marion,
+</I>&gt;<i>
+</I>&gt;<i> I have not try to install Glimmer-cism version but I recently installed
+</I>&gt;<i> the last relasea on Glimmer
+</I>&gt;<i> on both Macbook Pro and iMac and I was not able to run the bootstrap.
+</I>&gt;<i> Instead I had to avoid
+</I>&gt;<i> all tools from the sw/ directory and install all the unix component
+</I>&gt;<i> required by hand in usr/local/bin
+</I>&gt;<i> (or /usr/bin if preferred). Then after some tentatives I could install
+</I>&gt;<i> properly Glimmer and it is perfectly
+</I>&gt;<i> working.
+</I>&gt;<i>
+</I>&gt;<i> I don't know if it can help you
+</I>&gt;<i>
+</I>&gt;<i> Flo
+</I>&gt;<i>
+</I>&gt;<i> 2010/7/15 Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt;
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Hi Marion,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm afraid building on a Mac is likely to be a bit more technically-
+</I>&gt;&gt;<i> involved than on a Linux distro.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> My hunch is that the problem might be caused by some mismatch between the
+</I>&gt;&gt;<i> build tools supplied as part of Mac OS (Xcode), and those from Fink (in
+</I>&gt;&gt;<i> /sw), on the basis of your error message. However, I can't test this, and
+</I>&gt;&gt;<i> wouldn't know how to solve it.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Your best bet is to hope that someone else on the developer list knows
+</I>&gt;&gt;<i> what to do.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cheers,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ian
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> P.S. If Saffia is going to be using Glimmer-CISM, perhaps you could
+</I>&gt;&gt;<i> encourage her to join the mailing lists herself? The lists are our
+</I>&gt;&gt;<i> preferred forum for this kind of problem-solving.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dr Ian Rutt
+</I>&gt;&gt;<i> School of the Environment and Society
+</I>&gt;&gt;<i> Swansea University
+</I>&gt;&gt;<i> Singleton Park
+</I>&gt;&gt;<i> Swansea
+</I>&gt;&gt;<i> SA2 8PP
+</I>&gt;&gt;<i> Tel. (01792) 602685
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Magnus Hagdorn wrote:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Hi Marion,
+</I>&gt;&gt;&gt;<i> forwarded to glimmer-cism developer mailing list...
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> -------- Forwarded Message --------
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  Dear Magnus and Ian,
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> A student of Slawek is currently visiting from Santa Cruz, and I am
+</I>&gt;&gt;&gt;&gt;<i> trying to share with her a version of glimmer-cism that I am currently
+</I>&gt;&gt;&gt;&gt;<i> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+</I>&gt;&gt;&gt;&gt;<i> mac, and somehow, we can't run ./bootstrap. The error message is copied
+</I>&gt;&gt;&gt;&gt;<i> below -
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> *********************************
+</I>&gt;&gt;&gt;&gt;<i> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Checking if required version of automake is installed
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> -n checking for autoconf &gt;= 2.54 ... yes (version 2.63)
+</I>&gt;&gt;&gt;&gt;<i> -n checking for automake &gt;= 1.9.6 ... yes (version 1.10)
+</I>&gt;&gt;&gt;&gt;<i> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+</I>&gt;&gt;&gt;&gt;<i> You have another version of autoconf.  If you want to use that,
+</I>&gt;&gt;&gt;&gt;<i> you should regenerate the build system entirely.
+</I>&gt;&gt;&gt;&gt;<i> aclocal.m4:14: the top level
+</I>&gt;&gt;&gt;&gt;<i> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+</I>&gt;&gt;&gt;&gt;<i> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+</I>&gt;&gt;&gt;&gt;<i> *************************************
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> It looks like it could be a problem with the version of autoconf? It
+</I>&gt;&gt;&gt;&gt;<i> would be great if you would be able to confirm on this, and if not,
+</I>&gt;&gt;&gt;&gt;<i> if you'd have any idea of what the problem is.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Many thanks,
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Marion
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ......................................................................
+</I>&gt;<i> Florence Colleoni
+</I>&gt;<i> CMCC, Bologna (Italy)
+</I>&gt;<i>      Phone: +39 051 3782622
+</I>&gt;<i>      Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+</I>&gt;<i>      URL: <A HREF="http://flocolleoni.u7n.org">http://flocolleoni.u7n.org</A>
+</I>&gt;<i> ......................................................................
+</I>&gt;<i> -------------- next part --------------
+</I>&gt;<i> An HTML attachment was scrubbed...
+</I>&gt;<i> URL:
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201007">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201007</A>
+</I>&gt;<i> 15/8c97b588/attachment-0001.html&gt;
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 5
+</I>&gt;<i> Date: Thu, 15 Jul 2010 10:30:34 +0100
+</I>&gt;<i> From: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;<i> To: gc-devel &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;,	gc-user
+</I>&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-user at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: [Glimmer-cism-devel] mailing lists (and general BerliOS
+</I>&gt;<i> 	usage)
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">4C3ED53A.3070603 at ed.ac.uk</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+</I>&gt;<i>
+</I>&gt;<i> Hi all,
+</I>&gt;<i> sorry for the cross-posting but I think this email should reach everyone.
+</I>&gt;<i>
+</I>&gt;<i> In short, I will forward every [1] question regarding Glimmer-CISM I
+</I>&gt;<i> receive to one of the mailing lists as appropriate and I would encourage
+</I>&gt;<i> everyone else who receives emails directly regarding GC to do the same.
+</I>&gt;<i>
+</I>&gt;<i> We currently have 29 subscribers of the user mailing list and 30
+</I>&gt;<i> subscribers of the developer list. 21 subscribers are subscribed to both
+</I>&gt;<i> lists and in total we have 38 people that can be reached through one of
+</I>&gt;<i> the mailing lists. As a group this represents a significant body of
+</I>&gt;<i> knowledge both specific to the inner workings of Glimmer-CISM and ice
+</I>&gt;<i> sheet and climate modelling in general. I think (and that certainly goes
+</I>&gt;<i> for myself) the group is much more knowledgeable then any individual.
+</I>&gt;<i> Therefore, you will get better answers on the mailing list.
+</I>&gt;<i>
+</I>&gt;<i> There are other benefits to using the mailing list: The lists are
+</I>&gt;<i> archived and newcomers (and obviously us as well) can browse these
+</I>&gt;<i> archives to find solutions to previous problems.
+</I>&gt;<i>
+</I>&gt;<i> However, another very import reason is that having an active mailing
+</I>&gt;<i> list indicates and active and healthy project, which will attract more
+</I>&gt;<i> people.
+</I>&gt;<i>
+</I>&gt;<i> There are other ways to engage with the project:
+</I>&gt;<i> 1. We have the forums
+</I>&gt;<i>     <A HREF="http://developer.berlios.de/forum/?group_id=10995">http://developer.berlios.de/forum/?group_id=10995</A>
+</I>&gt;<i>     which could get used in a similar way. Personally, I prefer the
+</I>&gt;<i>     mailing lists because I get the emails automatically and do not need
+</I>&gt;<i>     to actively monitor another thing [2].
+</I>&gt;<i> 2. Other BerliOS features: bug tracker, task manager, support and
+</I>&gt;<i>     feature requests:
+</I>&gt;<i>     * The bug tracker is very useful and we should make more use of it.
+</I>&gt;<i>     * I just realised that we have an item in the support manager since
+</I>&gt;<i>       March which we haven't dealt with, that's bad.
+</I>&gt;<i>     * Feature and task manager are also useful to organise ourselves what
+</I>&gt;<i>       we want to do for our next releases.
+</I>&gt;<i>
+</I>&gt;<i> Again, making use of these features increases the visibility of our
+</I>&gt;<i> project and allows us all to participate in the project, communicate
+</I>&gt;<i> with each other and coordinate our efforts to produce a most excellent
+</I>&gt;<i> and useful ice sheet model.
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i> [1] obviously, there might be genuinely private matters which I might
+</I>&gt;<i> decide to pass on the steering committee or deal with directly.
+</I>&gt;<i> [2] well, you can get forum posts automatically mailed and reply to them
+</I>&gt;<i> using email, which I do. But then, the formus are no different from the
+</I>&gt;<i> mailing list and are just another thing to search through for solutions.
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> End of Glimmer-cism-devel Digest, Vol 13, Issue 4
+</I>&gt;<i> *************************************************
+</I>
+
+
+Cheers,
+Gethin.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000286.html">[Glimmer-cism-devel] mailing lists (and general BerliOS usage)
+</A></li>
+	<LI>Next message: <A HREF="000288.html">[Glimmer-cism-devel] bootstrapping error on the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#287">[ date ]</a>
+              <a href="thread.html#287">[ thread ]</a>
+              <a href="subject.html#287">[ subject ]</a>
+              <a href="author.html#287">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

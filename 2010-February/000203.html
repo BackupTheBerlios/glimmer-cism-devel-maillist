@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] GCM/glimmer-cism coupling decisions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20GCM/glimmer-cism%20coupling%20decisions&In-Reply-To=%3C9478B2735086BD5728403061%40geog-bsq72.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000202.html">
+   <LINK REL="Next"  HREF="000204.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] GCM/glimmer-cism coupling decisions</H1>
+    <B>Rupert Gladstone</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20GCM/glimmer-cism%20coupling%20decisions&In-Reply-To=%3C9478B2735086BD5728403061%40geog-bsq72.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] GCM/glimmer-cism coupling decisions">R.Gladstone at bristol.ac.uk
+       </A><BR>
+    <I>Mon Feb 15 15:09:01 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000202.html">[Glimmer-cism-devel] GCM/glimmer-cism coupling decisions
+</A></li>
+        <LI>Next message: <A HREF="000204.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Carl, thanks very much for your reply about the plume coupling.
+
+You are right in your second paragraph that we want to drive the plume 
+model  with ocean GCM data, and that the ocean GCM doesn't know about sub 
+ice shelf cavities (it is too low resolution to resolve them properly in 
+any case).
+
+My colleague Vicky has been developing a 2 layer version of the plume model 
+in which the lower layer represents the majority of the cavity, and this 
+will be influenced by the GCM.
+
+How the plume talks to glide is not something I've considered yet, but 
+we'll certainly consider your approach before we tackle this.
+
+Cheers,
+Rupert
+
+--On 14 February 2010 14:44 -0500 Carl Gladish &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">gladish at cims.nyu.edu</A>&gt; wrote:
+
+&gt;<i> Hi Rupert,
+</I>&gt;<i>
+</I>&gt;<i> I can give some input as far as plume coupling goes.
+</I>&gt;<i>
+</I>&gt;<i> For my current plume coupling setup the decision about mass balance
+</I>&gt;<i> (basal melt rate) you are talking about takes place in glide.&#160; I added a
+</I>&gt;<i> new glide option which_bmlt. If it is set to 1 then glide expects basal
+</I>&gt;<i> melt for any floating cells to be calculated by some external code (the
+</I>&gt;<i> plume in this case, which it doesn't know anything about) so it doesn't
+</I>&gt;<i> write any basal melt rate into the basal melt array.&#160; My driver subcycles
+</I>&gt;<i> the plume model during each ice timestep using the current shelf state.&#160;
+</I>&gt;<i> Thus the plume calculates a basal melt rate and can simply write those
+</I>&gt;<i> values directly into glide's bmelt array since both models are run in the
+</I>&gt;<i> same process.&#160; In this setup glimmer-cism doesn't need to know anything
+</I>&gt;<i> about any far-field ocean properties since the plume model is given the
+</I>&gt;<i> far-field ocean properties it needs at configuration time.&#160; Basically
+</I>&gt;<i> glide just needs to be told not to calculate basal melt rate for floating
+</I>&gt;<i> cells (it currently doesn't calculate a melt rate for floating ice
+</I>&gt;<i> anyway, I think).&#160;
+</I>&gt;<i>
+</I>&gt;<i> It sounds like you are considering a setup where a full ocean model is
+</I>&gt;<i> running in a separate process but doesn't calculate the basal melt rate
+</I>&gt;<i> (because it doesn't know about ice? or it doesn't resolve the melt layer
+</I>&gt;<i> well enough perhaps?) but rather glint pulls far-field ocean properties
+</I>&gt;<i> from the ocean model and then uses its own internal plume model to
+</I>&gt;<i> calculate the basal melt rate which it hands off to glide.&#160; I hadn't
+</I>&gt;<i> thought of doing it like that.&#160; One argument against that is that (at
+</I>&gt;<i> least for me) the plume model assumes a quiescent deep layer beneath it
+</I>&gt;<i> so its predicted behavior would not be physically consistent with an
+</I>&gt;<i> ocean that was doing anything much at all beneath it.&#160; I would imagine
+</I>&gt;<i> that the ocean model would need to own it's own plume model with which it
+</I>&gt;<i> is physically consistent that it uses to calculate melt rates and then
+</I>&gt;<i> passes to glide via glint.
+</I>&gt;<i>
+</I>&gt;<i> In any case, I would support having the ocean component (plume or full
+</I>&gt;<i> model) own the basal melt rate calculation.&#160; Then you can use an option
+</I>&gt;<i> parameter like which_bmlt which would tell glide that, for floating cells
+</I>&gt;<i> it just trusts that the driver somehow puts the right melt rate in
+</I>&gt;<i> model%temper%bmlt.&#160; The melt rate would have been written by the driver
+</I>&gt;<i> after getting it from the plume/ocean model.&#160; On the other hand, the
+</I>&gt;<i> actual melt rate calculation is about 10 lines of code once you know the
+</I>&gt;<i> ocean depth, temp, salinity and speed of the top of the ocean.&#160; You could
+</I>&gt;<i> just take those values from the top layer of the ocean model and perform
+</I>&gt;<i> the bmlt calculation in glint (therefore no use of a plume model).
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Carl Gladish
+</I>&gt;<i>
+</I>&gt;<i> - Show quoted text -
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Sun, Feb 14, 2010 at 11:48 AM, Rupert Gladstone
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">R.Gladstone at bristol.ac.uk</A>&gt; wrote:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Hi all (and especially Bill), given that new optional functionality is
+</I>&gt;<i> being added to the GCM/glimmer-cism interface (e.g. surface mass balance
+</I>&gt;<i> on
+</I>&gt;<i> altitude tiles, ocean coupling perhaps via a plume model) I think a
+</I>&gt;<i> decision needs to be made about where the decisions should be made. &#160;I am
+</I>&gt;<i> referring to decisions such as 'should the GCM calculate SMB on tiles or
+</I>&gt;<i> pass in temp/precip fields for glimmer-cism to calculate SMB?' and 'should
+</I>&gt;<i> the GCM pass in ocean fields so that glimmer-cism can use a plume model or
+</I>&gt;<i> not?'.
+</I>&gt;<i>
+</I>&gt;<i> I see three obvious choices:
+</I>&gt;<i> 1. Glimmer-cism decides (through options in the config file) and tells the
+</I>&gt;<i> GCM via the interface.
+</I>&gt;<i> 2. The GCM decides and tells glimmer-cism via the interface.
+</I>&gt;<i> 3. They both decide separately and glimmer-cism carries out a consistency
+</I>&gt;<i> check at some point.
+</I>&gt;<i>
+</I>&gt;<i> I don't have a strong opinion on this, what does anyone else think?
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Rupert
+</I>&gt;<i>
+</I>&gt;<i> -------------------------------
+</I>&gt;<i> Rupert Gladstone
+</I>&gt;<i> School of Geographical Sciences
+</I>&gt;<i> University of Bristol
+</I>&gt;<i> University Road
+</I>&gt;<i> Bristol BS8 1SS
+</I>&gt;<i> Tel +44 (0) 117 33 14154
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Carl Gladish
+</I>&gt;<i> cell: (917) 502 - 1818
+</I>&gt;<i> home: (718) 626 - 2504
+</I>&gt;<i> office: (212) 998 - 3198
+</I>&gt;<i> Warren Weaver Hall rm 708, 251 Mercer NY,NY
+</I>&gt;<i> <A HREF="http://www.cims.nyu.edu/~gladish">http://www.cims.nyu.edu/~gladish</A>
+</I>&gt;<i>
+</I>
+
+
+-------------------------------
+Rupert Gladstone
+School of Geographical Sciences
+University of Bristol
+University Road
+Bristol BS8 1SS
+Tel +44 (0) 117 33 14154
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000202.html">[Glimmer-cism-devel] GCM/glimmer-cism coupling decisions
+</A></li>
+	<LI>Next message: <A HREF="000204.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

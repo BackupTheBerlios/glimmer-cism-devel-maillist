@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] trilinos
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos&In-Reply-To=%3C7E636BEC396FAF4CB78AC4AD92D75805B997%40EXMB02.srn.sandia.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000441.html">
+   <LINK REL="Next"  HREF="000443.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] trilinos</H1>
+    <B>Salinger, Andrew</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos&In-Reply-To=%3C7E636BEC396FAF4CB78AC4AD92D75805B997%40EXMB02.srn.sandia.gov%3E"
+       TITLE="[Glimmer-cism-devel] trilinos">agsalin at sandia.gov
+       </A><BR>
+    <I>Wed Mar 23 15:45:39 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000441.html">[Glimmer-cism-devel] trilinos
+</A></li>
+        <LI>Next message: <A HREF="000443.html">[Glimmer-cism-devel] trilinos
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#442">[ date ]</a>
+              <a href="thread.html#442">[ thread ]</a>
+              <a href="subject.html#442">[ subject ]</a>
+              <a href="author.html#442">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Sarah,
+
+I'm guessing from the attached output that the
+Trilinos code is hooked up fine, but that the
+linear solver is just not converging for this
+problem with these settings. 
+
+As the problems move to more processors, and get
+more ill-conditioned from the model description, the
+linear systems get more difficult to solve. There
+are parameters in the input file strat1.xml that
+can increase the robustness (and expense) of the
+preconditioner. Unfortunately, it is hard to have
+one setting that works across the board, and that
+is not too slow for smaller-serial runs. 
+
+So, as an attempt to fix the problem, edit the
+strat1.xml file and increase the Overlap and 
+level-of-fill flags incrementally, separately 
+and/or together (from 0 to 1 to 2). (These
+are standard options with ILU preconditioners
+-- I can give explanations if you like.) For
+a Greenland model that we were running a year 
+ago, we had to switch overlap from 0 to 1 as
+the processor count went up and that solve the
+problem.
+
+I can try and give more specific guidance, but
+I'd need to know more about the problem size,
+number of processors, and would turn on more
+verbose output from the Belos solver.
+
+Andy Salinger
+Sandia Labs
+Trilinos POC
+
+
+
+-----Original Message-----
+From: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-bounces at lists.berlios.de</A> [mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-bounces at lists.berlios.de</A>] On Behalf Of Sarah Shannon
+Sent: Tuesday, March 22, 2011 11:37 AM
+To: Glimmer/CISM (developers)
+Subject: [Glimmer-cism-devel] trilinos
+
+Hi,
+I was wondering if anyone knows whether trilinos now works on the parallel/soon to be released branch?
+
+When running a simulation for Antarctica, I get a bunch of errors saying the model doesn't converge (see below)
+
+
+Belos::StatusTestOutput: Passed
+    (Num calls,Mod test,State test): (101, 1, Passed Failed Undefined)
+     Passed.......OR Combination -&gt;
+       Failed.......Number of Iterations = 100 == 100
+       Unconverged..(2-Norm Res Vec) / (2-Norm Prec Res0)
+                    residual [ 0 ] = 0.99553 &gt; 0.001
+ 
+The Belos solver of type &quot;Belos::BlockGmresSolMgr&lt;...,double&gt;{Ortho 
+Type='DGKS', Block Size=1, Num Blocks=100, Max Restarts=20}&quot; returned a 
+solve status of &quot;SOLVE_STATUS_UNCONVERGED with total CPU time of 42.5647 sec
+
+Perhaps someone has seen these types of errors before.
+Cheers,
+Sarah
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000441.html">[Glimmer-cism-devel] trilinos
+</A></li>
+	<LI>Next message: <A HREF="000443.html">[Glimmer-cism-devel] trilinos
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#442">[ date ]</a>
+              <a href="thread.html#442">[ thread ]</a>
+              <a href="subject.html#442">[ subject ]</a>
+              <a href="author.html#442">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

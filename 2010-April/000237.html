@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Refactoring suggestion
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Refactoring%20suggestion&In-Reply-To=%3C4BD1B2A9.9000808%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000236.html">
+   <LINK REL="Next"  HREF="000238.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Refactoring suggestion</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Refactoring%20suggestion&In-Reply-To=%3C4BD1B2A9.9000808%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Refactoring suggestion">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Fri Apr 23 16:46:01 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000236.html">[Glimmer-cism-devel] Refactoring suggestion
+</A></li>
+        <LI>Next message: <A HREF="000238.html">[Glimmer-cism-devel] Refactoring suggestion
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#237">[ date ]</a>
+              <a href="thread.html#237">[ thread ]</a>
+              <a href="subject.html#237">[ subject ]</a>
+              <a href="author.html#237">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi James,
+
+Thanks for your suggestion. Those of us whove worked with the code for a 
+while are aware of these issues - they stem from the engineering legacy 
+of Glimmer-CISM - and some of us (mostly myself and Magnus Hagdorn) are 
+working on improving the structure at the moment.
+
+If you want to take a look at what we're up to - and contribute, if you 
+like - take a look at this branch of the svn tree:
+
+<A HREF="https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/GCISM2-refactor-ICR">https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/GCISM2-refactor-ICR</A>
+
+You'll see this is based on a reorganised directory structure compared 
+to the present LANL branch, which we hope will form the basis of a 
+future Glimmer-CISM 2.0 release. Mostly, we've been working in the 
+libglide directory. Progress is continuing, but is a bit sporadic, due 
+to other commitments. Although we've tried to adopt a common approach 
+across the bits of code we've tackled at the moment, there are many 
+wrinkles and inconsistencies still, so please regard it as work-in-progress.
+
+As I said, if you would like to join us in this effort, you would be 
+most welcome.
+
+Best wishes,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+
+White III, James B. wrote:
+&gt;<i> Fellow Glimmer/CISM developers,
+</I>&gt;<i> 
+</I>&gt;<i> I have a suggestion for future refactoring.
+</I>&gt;<i> 
+</I>&gt;<i> In &quot;timeevoltemp&quot; (glide_temp.F90), there is a call to &quot;calcbwat&quot; that passes &quot;model&quot; as the &quot;model&quot; argument and &quot;model%temper%bwat&quot; as the &quot;bwat&quot; argument.
+</I>&gt;<i> 
+</I>&gt;<i> &quot;calcbwat&quot; (glide_grids.F90) then sets the values of its argument &quot;bwat&quot;. It then calls &quot;stagvarb&quot; with the argument &quot;model%temper%bwat&quot;. I found this confusing. Looking at the code, you might not know that &quot;bwat&quot; is in fact the same thing as &quot;model%temper%bwat&quot; because of how &quot;calcbwat&quot; happens to be called.
+</I>&gt;<i> 
+</I>&gt;<i> In the refactoring work, you might want to standardize on just one route to a given variable in a given procedure, for clarity and safety. Either provide it as an argument *or* pull it out of the &quot;model&quot; type, but don't do both?
+</I>&gt;<i> --
+</I>&gt;<i> James B. White III (Trey)
+</I>&gt;<i> National Center for Computational Sciences
+</I>&gt;<i> Oak Ridge National Laboratory
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">trey at ornl.gov</A>
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000236.html">[Glimmer-cism-devel] Refactoring suggestion
+</A></li>
+	<LI>Next message: <A HREF="000238.html">[Glimmer-cism-devel] Refactoring suggestion
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#237">[ date ]</a>
+              <a href="thread.html#237">[ thread ]</a>
+              <a href="subject.html#237">[ subject ]</a>
+              <a href="author.html#237">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

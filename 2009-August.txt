@@ -1,0 +1,1271 @@
+From Magnus.Hagdorn at ed.ac.uk  Thu Aug 20 21:39:15 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 20 Aug 2009 20:39:15 +0100
+Subject: [Glimmer-cism-devel] release and branching policy
+Message-ID: <1250797155.4512.2.camel@hog.marsupium.org>
+
+Hi all,
+as promised I made a stab at writing a release and branch policy
+document. You can find it on the wiki:
+http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_Release_Policy_and_Development
+please comment, edit, etc... I wrote it on the way back from the summer
+school (which was most excellent!) to pass the time.
+Cheers
+magi
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Aug 21 10:04:14 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 21 Aug 2009 09:04:14 +0100
+Subject: [Glimmer-cism-devel] release and branching policy
+In-Reply-To: <4A8DCD60.9020109@lanl.gov>
+References: <1250797155.4512.2.camel@hog.marsupium.org>
+	<4A8DCD60.9020109@lanl.gov>
+Message-ID: <1250841854.11383.19.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090821/ac38c532/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Aug 26 11:57:36 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Aug 2009 10:57:36 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+Message-ID: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090826/3f2a03a3/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Wed Aug 26 15:22:54 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 26 Aug 2009 14:22:54 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+Message-ID: <D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+
+
+Hi Magi,
+
+Thanks for taking a look at Scons. It sounds interesting, although  
+I've not had a chance to look at the website further.
+
+The main concern I have is how changing the build system will impact  
+the use of Glimmer-CISM within coupled models (i.e. CCSM, GENIE and  
+HadCM3/FAMOUS). This is often the most problematic part of integrating  
+with these models, and I would be very cautious about making a radical  
+change. For coupled models, how one interacts with the build is almost  
+as important as how one calls the code. So, I think changing the build  
+system is akin to changing the API - it should only be done if  
+absolutely necessary, and with wide consultation.
+
+So, I would instead suggest we think more broadly about how we make  
+interaction with coupled models more streamlined.  Bill and I have  
+been talking in the last day or two about the broader problems of  
+maintaining a model which is both a component of a particular coupled  
+model and a stand-alone project (i.e. as Glimmer-CISM is w.r.t.  
+multiple coupled models). I'll copy the relevant bits of that exchange  
+to the mailing list - hope that's OK, Bill.
+
+I agree that autotools is non-ideal, but I'm not sure that introducing  
+extra dependencies to the build is the way forward. I guess the  
+crucial question is this - are we sufficiently fed up with the  
+limitations of the existing system to make it worth the pain of  
+changing it?
+
+But - let's continue to talk about this.
+
+Cheers,
+
+Ian
+
+On 26 Aug 2009, at 10:57, Magnus Hagdorn wrote:
+
+> Hi all,
+> at the ice sheet modelling summer school in Portland a student,  
+> Stefano,
+> suggested to use scons[1] instead of the GNU autotools. He also
+> partially ported the current build system to scons.
+>
+> Scons seems to be fairly capable. It can compile C, C++, Fortran code
+> and supports TeX and LaTeX. It supports dependency tracking including
+> Fortran out of the box. It will build project files for MS Visual
+> Studio. It is written in python, configuration files are actual python
+> scripts.
+>
+> So far so good, however, I have some reservations:
+> * it is a new system to learn and ok autotools are a pain. However  
+> once
+> the system is setup it is merely a matter of editing the Makefile.am
+> which is suitably like a normal Makefile
+> * it introduces a new dependency. People who want to compile
+> glimmer-cism from source will need to have scons installed. The  
+> current
+> build system consists only of shell scripts. The autotools are only
+> required if the build system itself is changed.
+> * we autogenerate many files. This would need to be coded in python.
+> This is not a major problem but needs to be done which is an  
+> additional
+> effort.
+> * there are many autoconf macros which can be used to detect  
+> libraries,
+> features, etc. We would need to teach that scons. There is lots of
+> documentation for the autotools.
+> * I don't understand how a particular compilation is configured. Do  
+> you
+> have to program command line options (not a problem but needs to be
+> done), set environment variables? Is the user configuration stored
+> somewhere like in config.log?
+>
+> There is an interesting article on lwn.net [2] which discusses how the
+> KDE project to use cmake [3] instead of scons to escape the autohell.
+>
+> My view is that
+> * autotools work and do everything we want them to
+> * I am happy to change the autoconf stuff to meet new requirements. So
+> far other developers seem to have coped adjusting the Makefile.am  
+> files.
+> * being able to support MS Visual Studio might be desirable
+> * we can discuss switching to scons if someone does a complete port of
+> the build system to scons and can demonstrate that everything works as
+> it should.
+>
+> The question is should we encourage someone to spend effort on this  
+> port
+> or not?
+>
+> Cheers
+> magi
+>
+>
+> [1] http://www.scons.org/
+> [2] http://lwn.net/Articles/188693/
+> [3] http://www.cmake.org/
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Aug 26 15:31:34 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Aug 2009 14:31:34 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+Message-ID: <1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090826/d6b22185/attachment.ksh>
+
+From lipscomb at lanl.gov  Wed Aug 26 15:42:55 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 26 Aug 2009 07:42:55 -0600
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+Message-ID: <2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+
+
+Hi Magi,
+
+One of the nice features of Glimmer-CISM is that you can add  
+diagnostic fields by modifying a single file, without intimate  
+knowledge of the code.  When I work with Glimmer in CCSM, things are  
+more complicated.  I have to either (1) rebuild the code offline and  
+copy the appropriate modules to my CCSM source (taking care not to  
+copy other modules that prevent CCSM from compiling or to copy over  
+modules I have modified) or (2) hand-code changes in several places,  
+knowing that I'll have to do this over again when I update the code.   
+If I could build Glimmer-CISM as part of the CCSM build, I'd save a  
+lot of trouble.  Does that make sense?
+
+- Bill
+
+
+
+> The way I would hope the coupling goes is that glimmer-cism is just a
+> library. The coupler is part of the main model and makes relevant  
+> calls
+> to the glimmer-cism lib. So ideally they would just get a released tar
+> ball or even better a binary package, install and link to it.
+>
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From lipscomb at lanl.gov  Wed Aug 26 15:32:40 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 26 Aug 2009 07:32:40 -0600
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+Message-ID: <30F7A154-77D9-4372-9942-5097592025AD@lanl.gov>
+
+
+Hi Ian and Magi,
+
+I know very little about build systems, but I share Ian's concern that  
+we need to be able to build Glimmer-CISM within coupled models (and  
+not just copy previously built code) .  Ian, you're welcome to copy  
+our exchange to the mailing list.  Magi and others may have some  
+useful ideas.
+
+Cheers,
+
+Bill
+
+
+On Aug 26, 2009, at 7:22 AM, Ian Rutt wrote:
+
+>
+> Hi Magi,
+>
+> Thanks for taking a look at Scons. It sounds interesting, although
+> I've not had a chance to look at the website further.
+>
+> The main concern I have is how changing the build system will impact
+> the use of Glimmer-CISM within coupled models (i.e. CCSM, GENIE and
+> HadCM3/FAMOUS). This is often the most problematic part of integrating
+> with these models, and I would be very cautious about making a radical
+> change. For coupled models, how one interacts with the build is almost
+> as important as how one calls the code. So, I think changing the build
+> system is akin to changing the API - it should only be done if
+> absolutely necessary, and with wide consultation.
+>
+> So, I would instead suggest we think more broadly about how we make
+> interaction with coupled models more streamlined.  Bill and I have
+> been talking in the last day or two about the broader problems of
+> maintaining a model which is both a component of a particular coupled
+> model and a stand-alone project (i.e. as Glimmer-CISM is w.r.t.
+> multiple coupled models). I'll copy the relevant bits of that exchange
+> to the mailing list - hope that's OK, Bill.
+>
+> I agree that autotools is non-ideal, but I'm not sure that introducing
+> extra dependencies to the build is the way forward. I guess the
+> crucial question is this - are we sufficiently fed up with the
+> limitations of the existing system to make it worth the pain of
+> changing it?
+>
+> But - let's continue to talk about this.
+>
+> Cheers,
+>
+> Ian
+>
+> On 26 Aug 2009, at 10:57, Magnus Hagdorn wrote:
+>
+>> Hi all,
+>> at the ice sheet modelling summer school in Portland a student,
+>> Stefano,
+>> suggested to use scons[1] instead of the GNU autotools. He also
+>> partially ported the current build system to scons.
+>>
+>> Scons seems to be fairly capable. It can compile C, C++, Fortran code
+>> and supports TeX and LaTeX. It supports dependency tracking including
+>> Fortran out of the box. It will build project files for MS Visual
+>> Studio. It is written in python, configuration files are actual  
+>> python
+>> scripts.
+>>
+>> So far so good, however, I have some reservations:
+>> * it is a new system to learn and ok autotools are a pain. However
+>> once
+>> the system is setup it is merely a matter of editing the Makefile.am
+>> which is suitably like a normal Makefile
+>> * it introduces a new dependency. People who want to compile
+>> glimmer-cism from source will need to have scons installed. The
+>> current
+>> build system consists only of shell scripts. The autotools are only
+>> required if the build system itself is changed.
+>> * we autogenerate many files. This would need to be coded in python.
+>> This is not a major problem but needs to be done which is an
+>> additional
+>> effort.
+>> * there are many autoconf macros which can be used to detect
+>> libraries,
+>> features, etc. We would need to teach that scons. There is lots of
+>> documentation for the autotools.
+>> * I don't understand how a particular compilation is configured. Do
+>> you
+>> have to program command line options (not a problem but needs to be
+>> done), set environment variables? Is the user configuration stored
+>> somewhere like in config.log?
+>>
+>> There is an interesting article on lwn.net [2] which discusses how  
+>> the
+>> KDE project to use cmake [3] instead of scons to escape the autohell.
+>>
+>> My view is that
+>> * autotools work and do everything we want them to
+>> * I am happy to change the autoconf stuff to meet new requirements.  
+>> So
+>> far other developers seem to have coped adjusting the Makefile.am
+>> files.
+>> * being able to support MS Visual Studio might be desirable
+>> * we can discuss switching to scons if someone does a complete port  
+>> of
+>> the build system to scons and can demonstrate that everything works  
+>> as
+>> it should.
+>>
+>> The question is should we encourage someone to spend effort on this
+>> port
+>> or not?
+>>
+>> Cheers
+>> magi
+>>
+>>
+>> [1] http://www.scons.org/
+>> [2] http://lwn.net/Articles/188693/
+>> [3] http://www.cmake.org/
+>>
+>>
+>> -- 
+>> The University of Edinburgh is a charitable body, registered in
+>> Scotland, with registration number SC005336.
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Aug 26 15:54:36 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Aug 2009 14:54:36 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+Message-ID: <1251294876.14116.53.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090826/285a07c9/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Aug 26 16:04:44 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Aug 2009 15:04:44 +0100
+Subject: [Glimmer-cism-devel] directory structure for glimmer-cism v2
+Message-ID: <1251295484.14116.60.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090826/310aae37/attachment.ksh>
+
+From lipscomb at lanl.gov  Wed Aug 26 16:41:58 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 26 Aug 2009 08:41:58 -0600
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <1251294876.14116.53.camel@muick.geos.ed.ac.uk>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+	<1251294876.14116.53.camel@muick.geos.ed.ac.uk>
+Message-ID: <4F45EA5B-D082-4977-BE28-08329DD6FD59@lanl.gov>
+
+
+Hi Magi,
+
+There are a lot of new Glimmer-CISM developers who may not be  
+interested in this discussion, so I think we should take it offline  
+for now.  Perhaps you and Ian and I can hash out the details over the  
+next couple of days.  More to follow . . .
+
+- Bill
+
+
+On Aug 26, 2009, at 7:54 AM, Magnus Hagdorn wrote:
+
+> Hi Bill,
+> I am not quite sure if I understand your problem.
+>
+> On Wed, 2009-08-26 at 07:42 -0600, William Lipscomb wrote:
+>> One of the nice features of Glimmer-CISM is that you can add
+>> diagnostic fields by modifying a single file, without intimate
+>> knowledge of the code.  When I work with Glimmer in CCSM, things are
+>> more complicated.  I have to either (1) rebuild the code offline and
+>> copy the appropriate modules to my CCSM source (taking care not to
+>> copy other modules that prevent CCSM from compiling or to copy over
+>> modules I have modified) or
+>
+> You should be able to run make install which will put the modules  
+> into a
+> sensible place. When you compile your CCSM you just tell the compiler
+> where to find the modules and libraries and everything should work  
+> fine.
+>
+> If there are any clashes we should fix them.
+>
+>> (2) hand-code changes in several places,
+>> knowing that I'll have to do this over again when I update the
+>> code.
+>
+> If you are a 'mere' user then ideally you won't have to do any changes
+> to the code. If you do then these changes should get moved into the  
+> main
+> glimmer code. If this is not possible then I guess you need to  
+> maintain
+> your own repo and track upstream glimmer-cism in a vendor branch. You
+> can then keep your modified version in trunk and merge changes in
+> upstream glimmer into your own version. This is a lot more effort  
+> and I
+> guess should be avoided if at all possible.
+>
+>> If I could build Glimmer-CISM as part of the CCSM build, I'd save a
+>> lot of trouble.  Does that make sense?
+>
+> You'd save even more time if you didn't need to build glimmer-cism at
+> all (or only infrequently) and just depend on it as an external
+> dependency.
+>
+> Cheers
+> magi
+>
+>
+>
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Aug 26 16:46:25 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Aug 2009 15:46:25 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <4F45EA5B-D082-4977-BE28-08329DD6FD59@lanl.gov>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+	<1251294876.14116.53.camel@muick.geos.ed.ac.uk>
+	<4F45EA5B-D082-4977-BE28-08329DD6FD59@lanl.gov>
+Message-ID: <1251297985.14116.63.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090826/05d47228/attachment.ksh>
+
+From tim.bocek at gmail.com  Wed Aug 26 17:36:44 2009
+From: tim.bocek at gmail.com (Tim Bocek)
+Date: Wed, 26 Aug 2009 09:36:44 -0600
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk> 
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk> 
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+Message-ID: <414bae770908260836w5935533fu843a04b7bd612fd8@mail.gmail.com>
+
+If I understand the problem right, this actually exposes one of the
+*problems* with Glimmer-CISM, in that the model is highly coupled to the
+I/O.  There is no easy set of calls to get and set data, it's all done
+through the config and netCDF files.  If output to the NetCDF files needs to
+change, it can't be done programatically, but needs to be specified in the
+config file.  Which is great for a standalone program, not so great for an
+ice model component of a larger model.
+
+For what it's worth, I'm in agreement with Magnus that they way to do
+coupling is to install glide as a library, not a program, that exposes an
+API that CCSM can call.  A way to change the diagnostic fields you grab from
+the model should be something exposed in the API, not something that should
+require a recompile.  This will require careful thought and redesign as
+Glimmer-CISM moves towards V2 though...
+
+On Wed, Aug 26, 2009 at 7:42 AM, William Lipscomb <lipscomb at lanl.gov> wrote:
+
+>
+> Hi Magi,
+>
+> One of the nice features of Glimmer-CISM is that you can add
+> diagnostic fields by modifying a single file, without intimate
+> knowledge of the code.  When I work with Glimmer in CCSM, things are
+> more complicated.  I have to either (1) rebuild the code offline and
+> copy the appropriate modules to my CCSM source (taking care not to
+> copy other modules that prevent CCSM from compiling or to copy over
+> modules I have modified) or (2) hand-code changes in several places,
+> knowing that I'll have to do this over again when I update the code.
+> If I could build Glimmer-CISM as part of the CCSM build, I'd save a
+> lot of trouble.  Does that make sense?
+>
+> - Bill
+>
+>
+>
+> > The way I would hope the coupling goes is that glimmer-cism is just a
+> > library. The coupler is part of the main model and makes relevant
+> > calls
+> > to the glimmer-cism lib. So ideally they would just get a released tar
+> > ball or even better a binary package, install and link to it.
+> >
+>
+>
+> *******************************************************************************
+> William H. Lipscomb                                     E-mail:
+> lipscomb at lanl.gov
+> Los Alamos National Laboratory          Phone: (505) 667-0395
+> Group T-3, Mail Stop B216                       Fax: (505) 665-5926
+> Los Alamos, NM 87545
+>
+> *******************************************************************************
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090826/7f8dc5f7/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Aug 26 17:50:25 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Aug 2009 16:50:25 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <414bae770908260836w5935533fu843a04b7bd612fd8@mail.gmail.com>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+	<414bae770908260836w5935533fu843a04b7bd612fd8@mail.gmail.com>
+Message-ID: <1251301825.14116.83.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090826/0d49ac8f/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Wed Aug 26 18:10:45 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 26 Aug 2009 17:10:45 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <1251301825.14116.83.camel@muick.geos.ed.ac.uk>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+	<414bae770908260836w5935533fu843a04b7bd612fd8@mail.gmail.com>
+	<1251301825.14116.83.camel@muick.geos.ed.ac.uk>
+Message-ID: <88640DA2-7822-43B0-85B7-82F9ACEFB0DC@swansea.ac.uk>
+
+
+Hi All,
+
+I suspect that one of the main difficulties with I/O is that although  
+all the things Magi describes are possible, there's not much  
+documentation for the coupling developer, so you only really become  
+aware of these possibilities by reading the code in some depth.
+
+For example, there is code available to aid the manipulation of the  
+configuration data type, but I've never had time to document it.  
+Hopefully, we can begin to rectify this soon.
+
+I agree that the I/O is too deeply integrated into the model, and we  
+should consider clarifying the API to make it more user-friendly.
+
+More to follow...
+
+Cheers,
+
+Ian
+
+On 26 Aug 2009, at 16:50, Magnus Hagdorn wrote:
+
+>
+> On Wed, 2009-08-26 at 09:36 -0600, Tim Bocek wrote:
+>> If I understand the problem right, this actually exposes one of the
+>> *problems* with Glimmer-CISM, in that the model is highly coupled to
+>> the I/O.  There is no easy set of calls to get and set data, it's all
+>> done through the config and netCDF files.  If output to the NetCDF
+>> files needs to change, it can't be done programatically, but needs to
+>> be specified in the config file.  Which is great for a standalone
+>> program, not so great for an ice model component of a larger model.
+>>
+>
+> if you want to use the netCDF I/O you just need to define your own set
+> of variables that you want to output in your own _vars.def, generate  
+> the
+> code, compile and call from your coupler. This is done at compile  
+> time.
+> The code generator gets installed and thus can be used from somewhere
+> else. if you don't want to use netCDF, well you can do whatever you
+> want.
+>
+>> For what it's worth, I'm in agreement with Magnus that they way to do
+>> coupling is to install glide as a library, not a program, that  
+>> exposes
+>> an API that CCSM can call.  A way to change the diagnostic fields you
+>> grab from the model should be something exposed in the API, not
+>> something that should require a recompile.  This will require careful
+>> thought and redesign as Glimmer-CISM moves towards V2 though...
+>>
+>
+> if you don't want to use the config file for I/O or anything else you
+> can populate the config data structure anyway you want
+> (programmatically). and everything should work as expected.
+>
+> I think the one problem is that the standard I/O is fairly deep down.
+> Maybe we should move it up in the API a bit so that you can run the
+> model without any I/O.
+>
+> I think this is on the wishlist.
+>
+> magi
+>
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Aug 26 21:20:26 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 26 Aug 2009 20:20:26 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <35EC9FFF-6A17-47AA-9B5E-46C52A577AA9@lanl.gov>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+	<1251294876.14116.53.camel@muick.geos.ed.ac.uk>
+	<96A10A3D-971B-4894-85FC-D391DD42FA51@lanl.gov>
+	<1251300090.14116.77.camel@muick.geos.ed.ac.uk>
+	<8ED386A8-3B26-4A31-8ED2-1004042C7C08@swansea.ac.uk>
+	<35EC9FFF-6A17-47AA-9B5E-46C52A577AA9@lanl.gov>
+Message-ID: <1251314426.4415.30.camel@hog.marsupium.org>
+
+Hi Bill,
+sorry to move this back onto glimmer-cism-devel. gc-devel is really the
+right list to discuss development of glimmer-cism. anyone who is not
+interested in this particular issue can ignore it.
+
+I'll try to reply to both Ian and Bill, so I hope this email doesn't get
+to confusing.
+
+
+
+On Wed, 2009-08-26 at 11:21 -0600, William Lipscomb wrote:
+
+> > So, as I understand it, the process Bill goes through coupling  
+> > Glimmer-CISM to CCSM at present is as follows:
+> >
+> > 1) Checkout or download a suitable version of Glimmer-CISM from  
+> > wherever (Which release are you using at present? Where does/did the  
+> > LANL svn repo come in?)
+> 
+> I've been working with version 1.0 and haven't updated in a long time,  
+> in part because it's so cumbersome to do updates.
+> 
+
+this is why the system should be a simple and automatic as possible so
+it is easy to keep up-to-date otherwise bitrot ensues.
+
+> >
+> > 2) Make such hand-edits as are necessary to work with CCSM, add  
+> > extra I/O, etc
+> > 3) Check this version into the CCSM repository
+> > 4) Configure the Glimmer-CISM build off-line, so auto-generated I/O  
+> > source files are ready
+> > 5) Copy appropriate files (source for libraries only) to somewhere  
+> > into the CCSM file structure
+> > 6) Build and run CCSM (with Glimmer-CISM built by the CCSM build  
+> > system).
+> >
+> > Is this correct? Or do you check in files to the CCSM repo after  
+> > step 5?
+> 
+> I check in files after step 5.  In step 6, I build everything together  
+> (CCSM-specific glc code as well as Glimmer code) into a single library  
+> called gglc, as described in my last email.
+> 
+
+ok, i understand
+
+> 
+> >
+> > If so, then the problems with this method are:
+> >
+> > 1) Steps 1-3 are very time-consuming, and I think have only been  
+> > done for particular versions of Glimmer.
+> 
+> Indeed!
+> 
+> >
+> > 2) Steps 4-5 are necessary because CCSM makes certain assumptions  
+> > about what it's dealing with (i.e. it will build all the f90 files  
+> > in a given directory). I seem to remember that it also assumes that  
+> > the names of all modules are the same as the files they reside in.
+> 
+> That's correct.
+> 
+> > 3) Taken together, we have an impediment to, for example,  
+> > reconfiguring the I/O, and also keeping up-to-date with the latest  
+> > changes.
+> 
+> Yes.
+> 
+> >
+> > The main alternative suggestion for solving this problem is to do  
+> > the Glimmer-CISM build in its entirety off-line, as we did early in  
+> > the second week at Portland, and configure CCSM to know where to  
+> > find this build. I think there are several particular issues with  
+> > this:
+> >
+> > 1) In general, users of coupled climate models tend to view them as  
+> > single, relatively monolithic entities. Having to download and build  
+> > one of the components separately is an inconvenience, and will  
+> > probably lead people to not use that component (this is my  
+> > experience with Glimmer as part of GENIE).
+> 
+> That is the case for CCSM as well.
+> 
+
+ok, have a script which does the downloading and building.
+
+> >
+> > 2) More importantly, those who produce coupled models wish to assign  
+> > a version number to a well-defined state of the whole model code,  
+> > including components such as Glimmer-CISM. As such, the version of  
+> > the sub-model used should be guaranteed - hence maintaining it on  
+> > the CCSM repository.
+> 
+> That's something I hadn't thought of.  Yes, the source code should be  
+> transparent within each version.
+> 
+
+glimmer-cism is versioned, so you can be absolutely sure to get the
+correct version. in fact if you have your own modified version you will
+need to come of with your own versioning scheme which might confuse
+others.
+
+> >
+> > 3) For each new release of Glimmer-CISM, there may be minor changes  
+> > which need to be made to the code to port it into CCSM. These  
+> > changes should of course find their way back into the main  
+> > repository, but in a way which avoids 'version ping-pong' (where  
+> > changes bounce backwards and forwards iteratively, generating a  
+> > profusion of numbered releases)
+> 
+
+this should not happen since we want micro releases to be API
+compatible. So it should just work. If it doesn't then it is a bug!
+
+> Yes.  One thing I want to do over the next few months is to put the  
+> appropriate minor changes in the main Glimmer-CISM repository, after  
+> careful thought and discussion.
+> 
+
+looking forward to this.
+
+
+> >
+> > I think the most elegant solution is to adjust the CCSM build so that:
+> >
+> > 1) it treats Glimmer-CISM as an external dependency (as Tim B  
+> > suggested),
+> 
+> I'm not sure exactly what you mean by this.
+> 
+> > but also
+> > 2) it triggers the Glimmer-CISM configure and build automatically  
+> > when CCSM is built (i.e. it devolves building Glimmer-CISM to the  
+> > sub-model's own system)
+> 
+> That makes sense--but I don't think we can rely on the Glimmer-CISM  
+> system entirely.  For instance, we'll need to look for modified files  
+> in the CCSM SourceMods directory).  Also, I don't know what the CCSM  
+> rules are for separate build systems.  (But I can find out.)
+> 
+> 
+> > The CCSM build could also automatically obtain the correct version  
+> > of the Glimmer-CISM code from the svn repo when CCSM is first built.  
+> > The 'correct version' of Glimmer-CISM for CCSM would be on a  
+> > specific tagged point on a given branch in the BerliOS repository.  
+> > Ideally, this would be a point on the main release bugfix branch, so  
+> > the version used in CCSM most closely matches the latest stand-alone  
+> > release. Then, to update to a new version of Glimmer-CISM within  
+> > CCSM, all that needs to happen is for the CCSM build to have the tag  
+> > name updated. Does that make sense?
+> 
+> I don't know that we can do this automatically.  But it would be  
+> relatively easy to check out Glimmer-CISM from BerliOS, copy the  
+> appropriate subset of the code to CCSM, and tag that version of gglc  
+> in a way that clearly indicates we are using a specific tag of Glimmer- 
+> CISM.
+> 
+
+OK, I think you are looking at it at the wrong level of abstraction. The
+way I see it is as follows:
+* any Earth systems model consists of many sub models, like the
+atmosphere, ocean, land ice, etc
+* and a coupler which integrates all sub models
+* the coupler drives the entire system
+
+So, your approach is to have a monolithic system which combines
+everything (sub models, coupler, utilities) into one source tree. One
+build system is used to build the entire thing.
+
+I assume that the Earth system model uses a sane build system, e.g.
+make.
+
+Now, my suggestions is as follows:
+1. download, build and install vanilla glimmer-cism
+2. have a thin wrapper inside the Earth systems model which makes calls
+to glimmer-cism. This 'ice sheet model' is mainly responsible for I/O,
+i.e. mapping data from the Earth system's view of the world to
+glimmer-cism's and vice-versa. This module is compiled by the Earth
+system model build system using a standard installation of glimmer.
+
+In the build instructions you specify exactly which version of
+glimmer-cism you are expecting. If people use a different one they are
+on their own (to some extent). To make lives easier you can provide a
+script that does steps 1 and 2 above.
+
+Basically, the problem you are describing above is the same for any
+multi-module system, think gnome, KDE, a Linux distribution. 
+
+By pulling in the entire source tree into your own repo you have to
+repeat the work others have done
+- the build system
+- it is your responsibility to keep up-to-date
+- there is a serious risk of diverging codes
+
+In glimmer-cism we go through a bit of pain to make this possible:
+- strict versioning of code
+- testing, hopefully soon automatically/nightly
+- API stability for point releases within a stable series
+
+I understand the reluctance to depend on external libraries/modules.
+However, this is solved using clear instructions, or even better, a
+script which automates the entire build, so you might have something
+along the lines of:
+
+CCSM_TOP
+  build_all.sh
+  CCSM
+    glc
+      glimmer-cism-wrapper.f90
+  
+build_all.sh downloads the recommended version of glimmer-cism from
+berliOS and configures, compiles and installs it into the top-level
+CCSM_TOP directory. It then moves in CCSM and builds the rest of the
+system. The Makefile in glc now knows where to look for the actual
+glimmer-cism installation.
+
+Cheers
+magi
+
+
+
+From lipscomb at lanl.gov  Thu Aug 27 21:28:54 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Thu, 27 Aug 2009 13:28:54 -0600
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <1251314426.4415.30.camel@hog.marsupium.org>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+	<1251294876.14116.53.camel@muick.geos.ed.ac.uk>
+	<96A10A3D-971B-4894-85FC-D391DD42FA51@lanl.gov>
+	<1251300090.14116.77.camel@muick.geos.ed.ac.uk>
+	<8ED386A8-3B26-4A31-8ED2-1004042C7C08@swansea.ac.uk>
+	<35EC9FFF-6A17-47AA-9B5E-46C52A577AA9@lanl.gov>
+	<1251314426.4415.30.camel@hog.marsupium.org>
+Message-ID: <8F74D082-EC65-4669-8D3F-ECEA985AE1DD@lanl.gov>
+
+
+Hi all,
+
+This will likely be my last word on the subject before I leave on  
+vacation for a couple of weeks.
+
+I think that the best long-term solution, if we're to satisfy model  
+users with different preferences and goals, may be to give users two  
+options:
+
+(1) Run a script that downloads a specified version of Glimmer-CISM  
+and copies the appropriate source code to a directory in CCSM.   
+Glimmer-CISM would then be built by the CCSM build system.  It would  
+then be straightforward to edit modules in Glimmer-CISM and rebuild to  
+code.
+
+(2) Build CCSM as described by Magnus below.  Glimmer-CISM would be  
+installed and built first, and then linked to CCSM as an external  
+library.
+
+I spoke today with a CCSM software engineer who was pretty sure we  
+will need something like option (1) to satisfy the higher powers in  
+the CCSM community.  But there's merit to the other approach, and I  
+hope it will not be too hard to write scripts that will do things  
+either way.
+
+- Bill
+
+
+On Aug 26, 2009, at 1:20 PM, Magnus Hagdorn wrote:
+
+> Hi Bill,
+> sorry to move this back onto glimmer-cism-devel. gc-devel is really  
+> the
+> right list to discuss development of glimmer-cism. anyone who is not
+> interested in this particular issue can ignore it.
+>
+> I'll try to reply to both Ian and Bill, so I hope this email doesn't  
+> get
+> to confusing.
+>
+>
+>
+> On Wed, 2009-08-26 at 11:21 -0600, William Lipscomb wrote:
+>
+>>> So, as I understand it, the process Bill goes through coupling
+>>> Glimmer-CISM to CCSM at present is as follows:
+>>>
+>>> 1) Checkout or download a suitable version of Glimmer-CISM from
+>>> wherever (Which release are you using at present? Where does/did the
+>>> LANL svn repo come in?)
+>>
+>> I've been working with version 1.0 and haven't updated in a long  
+>> time,
+>> in part because it's so cumbersome to do updates.
+>>
+>
+> this is why the system should be a simple and automatic as possible so
+> it is easy to keep up-to-date otherwise bitrot ensues.
+>
+>>>
+>>> 2) Make such hand-edits as are necessary to work with CCSM, add
+>>> extra I/O, etc
+>>> 3) Check this version into the CCSM repository
+>>> 4) Configure the Glimmer-CISM build off-line, so auto-generated I/O
+>>> source files are ready
+>>> 5) Copy appropriate files (source for libraries only) to somewhere
+>>> into the CCSM file structure
+>>> 6) Build and run CCSM (with Glimmer-CISM built by the CCSM build
+>>> system).
+>>>
+>>> Is this correct? Or do you check in files to the CCSM repo after
+>>> step 5?
+>>
+>> I check in files after step 5.  In step 6, I build everything  
+>> together
+>> (CCSM-specific glc code as well as Glimmer code) into a single  
+>> library
+>> called gglc, as described in my last email.
+>>
+>
+> ok, i understand
+>
+>>
+>>>
+>>> If so, then the problems with this method are:
+>>>
+>>> 1) Steps 1-3 are very time-consuming, and I think have only been
+>>> done for particular versions of Glimmer.
+>>
+>> Indeed!
+>>
+>>>
+>>> 2) Steps 4-5 are necessary because CCSM makes certain assumptions
+>>> about what it's dealing with (i.e. it will build all the f90 files
+>>> in a given directory). I seem to remember that it also assumes that
+>>> the names of all modules are the same as the files they reside in.
+>>
+>> That's correct.
+>>
+>>> 3) Taken together, we have an impediment to, for example,
+>>> reconfiguring the I/O, and also keeping up-to-date with the latest
+>>> changes.
+>>
+>> Yes.
+>>
+>>>
+>>> The main alternative suggestion for solving this problem is to do
+>>> the Glimmer-CISM build in its entirety off-line, as we did early in
+>>> the second week at Portland, and configure CCSM to know where to
+>>> find this build. I think there are several particular issues with
+>>> this:
+>>>
+>>> 1) In general, users of coupled climate models tend to view them as
+>>> single, relatively monolithic entities. Having to download and build
+>>> one of the components separately is an inconvenience, and will
+>>> probably lead people to not use that component (this is my
+>>> experience with Glimmer as part of GENIE).
+>>
+>> That is the case for CCSM as well.
+>>
+>
+> ok, have a script which does the downloading and building.
+>
+>>>
+>>> 2) More importantly, those who produce coupled models wish to assign
+>>> a version number to a well-defined state of the whole model code,
+>>> including components such as Glimmer-CISM. As such, the version of
+>>> the sub-model used should be guaranteed - hence maintaining it on
+>>> the CCSM repository.
+>>
+>> That's something I hadn't thought of.  Yes, the source code should be
+>> transparent within each version.
+>>
+>
+> glimmer-cism is versioned, so you can be absolutely sure to get the
+> correct version. in fact if you have your own modified version you  
+> will
+> need to come of with your own versioning scheme which might confuse
+> others.
+>
+>>>
+>>> 3) For each new release of Glimmer-CISM, there may be minor changes
+>>> which need to be made to the code to port it into CCSM. These
+>>> changes should of course find their way back into the main
+>>> repository, but in a way which avoids 'version ping-pong' (where
+>>> changes bounce backwards and forwards iteratively, generating a
+>>> profusion of numbered releases)
+>>
+>
+> this should not happen since we want micro releases to be API
+> compatible. So it should just work. If it doesn't then it is a bug!
+>
+>> Yes.  One thing I want to do over the next few months is to put the
+>> appropriate minor changes in the main Glimmer-CISM repository, after
+>> careful thought and discussion.
+>>
+>
+> looking forward to this.
+>
+>
+>>>
+>>> I think the most elegant solution is to adjust the CCSM build so  
+>>> that:
+>>>
+>>> 1) it treats Glimmer-CISM as an external dependency (as Tim B
+>>> suggested),
+>>
+>> I'm not sure exactly what you mean by this.
+>>
+>>> but also
+>>> 2) it triggers the Glimmer-CISM configure and build automatically
+>>> when CCSM is built (i.e. it devolves building Glimmer-CISM to the
+>>> sub-model's own system)
+>>
+>> That makes sense--but I don't think we can rely on the Glimmer-CISM
+>> system entirely.  For instance, we'll need to look for modified files
+>> in the CCSM SourceMods directory).  Also, I don't know what the CCSM
+>> rules are for separate build systems.  (But I can find out.)
+>>
+>>
+>>> The CCSM build could also automatically obtain the correct version
+>>> of the Glimmer-CISM code from the svn repo when CCSM is first built.
+>>> The 'correct version' of Glimmer-CISM for CCSM would be on a
+>>> specific tagged point on a given branch in the BerliOS repository.
+>>> Ideally, this would be a point on the main release bugfix branch, so
+>>> the version used in CCSM most closely matches the latest stand-alone
+>>> release. Then, to update to a new version of Glimmer-CISM within
+>>> CCSM, all that needs to happen is for the CCSM build to have the tag
+>>> name updated. Does that make sense?
+>>
+>> I don't know that we can do this automatically.  But it would be
+>> relatively easy to check out Glimmer-CISM from BerliOS, copy the
+>> appropriate subset of the code to CCSM, and tag that version of gglc
+>> in a way that clearly indicates we are using a specific tag of  
+>> Glimmer-
+>> CISM.
+>>
+>
+> OK, I think you are looking at it at the wrong level of abstraction.  
+> The
+> way I see it is as follows:
+> * any Earth systems model consists of many sub models, like the
+> atmosphere, ocean, land ice, etc
+> * and a coupler which integrates all sub models
+> * the coupler drives the entire system
+>
+> So, your approach is to have a monolithic system which combines
+> everything (sub models, coupler, utilities) into one source tree. One
+> build system is used to build the entire thing.
+>
+> I assume that the Earth system model uses a sane build system, e.g.
+> make.
+>
+> Now, my suggestions is as follows:
+> 1. download, build and install vanilla glimmer-cism
+> 2. have a thin wrapper inside the Earth systems model which makes  
+> calls
+> to glimmer-cism. This 'ice sheet model' is mainly responsible for I/O,
+> i.e. mapping data from the Earth system's view of the world to
+> glimmer-cism's and vice-versa. This module is compiled by the Earth
+> system model build system using a standard installation of glimmer.
+>
+> In the build instructions you specify exactly which version of
+> glimmer-cism you are expecting. If people use a different one they are
+> on their own (to some extent). To make lives easier you can provide a
+> script that does steps 1 and 2 above.
+>
+> Basically, the problem you are describing above is the same for any
+> multi-module system, think gnome, KDE, a Linux distribution.
+>
+> By pulling in the entire source tree into your own repo you have to
+> repeat the work others have done
+> - the build system
+> - it is your responsibility to keep up-to-date
+> - there is a serious risk of diverging codes
+>
+> In glimmer-cism we go through a bit of pain to make this possible:
+> - strict versioning of code
+> - testing, hopefully soon automatically/nightly
+> - API stability for point releases within a stable series
+>
+> I understand the reluctance to depend on external libraries/modules.
+> However, this is solved using clear instructions, or even better, a
+> script which automates the entire build, so you might have something
+> along the lines of:
+>
+> CCSM_TOP
+>  build_all.sh
+>  CCSM
+>    glc
+>      glimmer-cism-wrapper.f90
+>
+> build_all.sh downloads the recommended version of glimmer-cism from
+> berliOS and configures, compiles and installs it into the top-level
+> CCSM_TOP directory. It then moves in CCSM and builds the rest of the
+> system. The Makefile in glc now knows where to look for the actual
+> glimmer-cism installation.
+>
+> Cheers
+> magi
+>
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Aug 27 21:36:55 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 27 Aug 2009 20:36:55 +0100
+Subject: [Glimmer-cism-devel] build system for glimmer-cism
+In-Reply-To: <8F74D082-EC65-4669-8D3F-ECEA985AE1DD@lanl.gov>
+References: <1251280656.14116.30.camel@muick.geos.ed.ac.uk>
+	<D2A75F55-9CE4-4409-A7EC-76A941C8676E@swansea.ac.uk>
+	<1251293494.14116.42.camel@muick.geos.ed.ac.uk>
+	<2EC4EDCE-A64B-42F9-9130-D68807078919@lanl.gov>
+	<1251294876.14116.53.camel@muick.geos.ed.ac.uk>
+	<96A10A3D-971B-4894-85FC-D391DD42FA51@lanl.gov>
+	<1251300090.14116.77.camel@muick.geos.ed.ac.uk>
+	<8ED386A8-3B26-4A31-8ED2-1004042C7C08@swansea.ac.uk>
+	<35EC9FFF-6A17-47AA-9B5E-46C52A577AA9@lanl.gov>
+	<1251314426.4415.30.camel@hog.marsupium.org>
+	<8F74D082-EC65-4669-8D3F-ECEA985AE1DD@lanl.gov>
+Message-ID: <1251401815.4998.4.camel@hog.marsupium.org>
+
+I try to keep out of politics...
+
+On Thu, 2009-08-27 at 13:28 -0600, William Lipscomb wrote:
+> (1) Run a script that downloads a specified version of Glimmer-CISM  
+> and copies the appropriate source code to a directory in CCSM.   
+> Glimmer-CISM would then be built by the CCSM build system.  It would  
+> then be straightforward to edit modules in Glimmer-CISM and rebuild
+> to  
+> code.
+> 
+
+this shouldn't be a problem. It's just a little extra work. You could
+also automatically patch the code as required. The one reason why I
+personally don't like it is that it is more effort but that's ok. We can
+make sure that this works as smoothly as possible.
+
+> (2) Build CCSM as described by Magnus below.  Glimmer-CISM would be  
+> installed and built first, and then linked to CCSM as an external  
+> library.
+> 
+
+excellent. I think this will be a good testing ground for our design and
+hopefully improve confidence in the model. 
+
+I am convinced option 2 is the simpler one but we can certainly support
+both.
+
+Bill, I hope you have planned something nice for your holidays...
+
+Cheers
+magi
+
+
+
+

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Compile Error
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Compile%20Error&In-Reply-To=%3C4E72115F.7020907%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000466.html">
+   <LINK REL="Next"  HREF="000468.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Compile Error</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Compile%20Error&In-Reply-To=%3C4E72115F.7020907%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Compile Error">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Thu Sep 15 16:53:19 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000466.html">[Glimmer-cism-devel] SIA not calculating advection correctly
+</A></li>
+        <LI>Next message: <A HREF="000468.html">[Glimmer-cism-devel] Order of Indices in GLINT?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#467">[ date ]</a>
+              <a href="thread.html#467">[ thread ]</a>
+              <a href="subject.html#467">[ subject ]</a>
+              <a href="author.html#467">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>[bumped to dev list]
+
+Bob wrote:
+&gt;<i> Magi,
+</I>&gt;<i> 
+</I>&gt;<i> I did:
+</I>&gt;<i> 
+</I>&gt;<i> ./bootstrap
+</I>&gt;<i> ./configure --prefix=`pwd` --enable-doc-pdf --disable-python
+</I>&gt;<i> make -j3
+</I>&gt;<i> 
+</I>&gt;<i> ...to which I got the error below.  The .mod file it's looking for does 
+</I>&gt;<i> exist.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+Hi Bob,
+the parallel make sometimes breaks, just re-run make and it'll work. i 
+think the problem might be that either the module file hasn't been 
+written when the object file has been, or my dependency checker doesn't 
+quite work. I have noticed this problem before and decided that just 
+re-running make is easier than figuring out what is wrong. parallel 
+makes work for most of it. As always, patches welcome :-)
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000466.html">[Glimmer-cism-devel] SIA not calculating advection correctly
+</A></li>
+	<LI>Next message: <A HREF="000468.html">[Glimmer-cism-devel] Order of Indices in GLINT?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#467">[ date ]</a>
+              <a href="thread.html#467">[ thread ]</a>
+              <a href="subject.html#467">[ subject ]</a>
+              <a href="author.html#467">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

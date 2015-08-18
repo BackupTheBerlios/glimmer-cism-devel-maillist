@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Loop bounds in &quot;get_area_vol&quot;?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Loop%20bounds%20in%20%22get_area_vol%22%3F&In-Reply-To=%3C4B8BF5A1.9040500%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000221.html">
+   <LINK REL="Next"  HREF="000223.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Loop bounds in &quot;get_area_vol&quot;?</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Loop%20bounds%20in%20%22get_area_vol%22%3F&In-Reply-To=%3C4B8BF5A1.9040500%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Loop bounds in &quot;get_area_vol&quot;?">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Mon Mar  1 18:13:05 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000221.html">[Glimmer-cism-devel] Loop bounds in &quot;get_area_vol&quot;?
+</A></li>
+        <LI>Next message: <A HREF="000223.html">[Glimmer-cism-devel] New branch in &quot;glimmer-cism-lanl&quot;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#222">[ date ]</a>
+              <a href="thread.html#222">[ thread ]</a>
+              <a href="subject.html#222">[ subject ]</a>
+              <a href="author.html#222">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>White III, James B. wrote:
+&gt;<i> Anybody know why the &quot;j&quot; loop in &quot;get_area_vol&quot; starts at 2 instead of 1?
+</I>&gt;<i> 
+</I>&gt;<i> Here's the code, from &quot;glide_mask.F90&quot;:
+</I>&gt;<i> 
+</I>&gt;<i>   subroutine get_area_vol(thck, dew, dns, iarea, ivol)
+</I>&gt;<i>     real(dp), dimension(:,:) :: thck
+</I>&gt;<i>     real(dp) :: dew, dns
+</I>&gt;<i>     real(dp) :: iarea, ivol
+</I>&gt;<i> 
+</I>&gt;<i>     integer :: i,j
+</I>&gt;<i> 
+</I>&gt;<i>     do i = 1, size(thck,1)
+</I>&gt;<i>         do j = 2, size(thck,2)
+</I>&gt;<i>             if (thck(i,j) &gt; 0) then
+</I>&gt;<i>                 iarea = iarea + 1
+</I>&gt;<i>                 ivol = ivol + thck(i,j)
+</I>&gt;<i>             end if
+</I>&gt;<i>         end do
+</I>&gt;<i>     end do
+</I>&gt;<i> 
+</I>&gt;<i>     iarea = iarea  * dew * dns
+</I>&gt;<i>     ivol = ivol * dew * dns
+</I>&gt;<i> 
+</I>&gt;<i>   end subroutine get_area_vol
+</I>&gt;<i> 
+</I>&gt;<i>
+</I>
+
+this looks like a cut'n'paste error.
+
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000221.html">[Glimmer-cism-devel] Loop bounds in &quot;get_area_vol&quot;?
+</A></li>
+	<LI>Next message: <A HREF="000223.html">[Glimmer-cism-devel] New branch in &quot;glimmer-cism-lanl&quot;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#222">[ date ]</a>
+              <a href="thread.html#222">[ thread ]</a>
+              <a href="subject.html#222">[ subject ]</a>
+              <a href="author.html#222">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] build system for glimmer-cism
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C2EC4EDCE-A64B-42F9-9130-D68807078919%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000026.html">
+   <LINK REL="Next"  HREF="000029.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] build system for glimmer-cism</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C2EC4EDCE-A64B-42F9-9130-D68807078919%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] build system for glimmer-cism">lipscomb at lanl.gov
+       </A><BR>
+    <I>Wed Aug 26 15:42:55 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000026.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+        <LI>Next message: <A HREF="000029.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#27">[ date ]</a>
+              <a href="thread.html#27">[ thread ]</a>
+              <a href="subject.html#27">[ subject ]</a>
+              <a href="author.html#27">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Magi,
+
+One of the nice features of Glimmer-CISM is that you can add  
+diagnostic fields by modifying a single file, without intimate  
+knowledge of the code.  When I work with Glimmer in CCSM, things are  
+more complicated.  I have to either (1) rebuild the code offline and  
+copy the appropriate modules to my CCSM source (taking care not to  
+copy other modules that prevent CCSM from compiling or to copy over  
+modules I have modified) or (2) hand-code changes in several places,  
+knowing that I'll have to do this over again when I update the code.   
+If I could build Glimmer-CISM as part of the CCSM build, I'd save a  
+lot of trouble.  Does that make sense?
+
+- Bill
+
+
+
+&gt;<i> The way I would hope the coupling goes is that glimmer-cism is just a
+</I>&gt;<i> library. The coupler is part of the main model and makes relevant  
+</I>&gt;<i> calls
+</I>&gt;<i> to the glimmer-cism lib. So ideally they would just get a released tar
+</I>&gt;<i> ball or even better a binary package, install and link to it.
+</I>&gt;<i>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000026.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+	<LI>Next message: <A HREF="000029.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#27">[ date ]</a>
+              <a href="thread.html#27">[ thread ]</a>
+              <a href="subject.html#27">[ subject ]</a>
+              <a href="author.html#27">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

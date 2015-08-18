@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-CISM%201.7.0%3A%20EISMINT%201%20oddity&In-Reply-To=%3C4CACA40A.3090106%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000365.html">
+   <LINK REL="Next"  HREF="000368.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-CISM%201.7.0%3A%20EISMINT%201%20oddity&In-Reply-To=%3C4CACA40A.3090106%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Wed Oct  6 18:30:02 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000365.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000368.html">[Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#367">[ date ]</a>
+              <a href="thread.html#367">[ thread ]</a>
+              <a href="subject.html#367">[ subject ]</a>
+              <a href="author.html#367">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi All,
+
+I was just looking at the output from the EISMINT 1 moving margin case 
+for 1.7.0 and 1.0.18. There's a difference in the basal melt rate (bmlt) 
+between the two versions.
+
+In 1.0.18, all model variables reach a steady state. However, in 1.7.0, 
+I see continuing variability in the basal melt rate in the central part 
+of the domain. The attached plots show what happens for a single point 
+(bmlt v. time slice), and also a representative spatial distribution for 
+the negative part (final timestep).
+
+The spatial/temporal pattern looks 'numerical' to me, but it might be 
+due to a realistic physical process which is present in one version, but 
+not the other. I think this is not so likely, as there is no 
+thermomechanical feedback in the model.
+
+Two questions:
+
+1) Could someone please try and reproduce this (it's very quick to do - 
+just use the released tarballs from BERLIoS).
+
+2) Does anyone with intimate knowledge of 1.7.0 know of a reason why 
+this would happen?
+
+Any illumination gratefully received...
+
+Best,
+
+Ian
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: GCISM-1p7-bmlt.png
+Type: image/png
+Size: 31560 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101006/ea49fe68/attachment.png">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101006/ea49fe68/attachment.png</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: GCISM-1p7-bmlt-spatial.png
+Type: image/png
+Size: 98114 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101006/ea49fe68/attachment-0001.png">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101006/ea49fe68/attachment-0001.png</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000365.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000368.html">[Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#367">[ date ]</a>
+              <a href="thread.html#367">[ thread ]</a>
+              <a href="subject.html#367">[ subject ]</a>
+              <a href="author.html#367">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

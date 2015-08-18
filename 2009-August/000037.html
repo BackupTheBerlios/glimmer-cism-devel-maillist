@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] build system for glimmer-cism
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C8F74D082-EC65-4669-8D3F-ECEA985AE1DD%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000036.html">
+   <LINK REL="Next"  HREF="000038.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] build system for glimmer-cism</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C8F74D082-EC65-4669-8D3F-ECEA985AE1DD%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] build system for glimmer-cism">lipscomb at lanl.gov
+       </A><BR>
+    <I>Thu Aug 27 21:28:54 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000036.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+        <LI>Next message: <A HREF="000038.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all,
+
+This will likely be my last word on the subject before I leave on  
+vacation for a couple of weeks.
+
+I think that the best long-term solution, if we're to satisfy model  
+users with different preferences and goals, may be to give users two  
+options:
+
+(1) Run a script that downloads a specified version of Glimmer-CISM  
+and copies the appropriate source code to a directory in CCSM.   
+Glimmer-CISM would then be built by the CCSM build system.  It would  
+then be straightforward to edit modules in Glimmer-CISM and rebuild to  
+code.
+
+(2) Build CCSM as described by Magnus below.  Glimmer-CISM would be  
+installed and built first, and then linked to CCSM as an external  
+library.
+
+I spoke today with a CCSM software engineer who was pretty sure we  
+will need something like option (1) to satisfy the higher powers in  
+the CCSM community.  But there's merit to the other approach, and I  
+hope it will not be too hard to write scripts that will do things  
+either way.
+
+- Bill
+
+
+On Aug 26, 2009, at 1:20 PM, Magnus Hagdorn wrote:
+
+&gt;<i> Hi Bill,
+</I>&gt;<i> sorry to move this back onto glimmer-cism-devel. gc-devel is really  
+</I>&gt;<i> the
+</I>&gt;<i> right list to discuss development of glimmer-cism. anyone who is not
+</I>&gt;<i> interested in this particular issue can ignore it.
+</I>&gt;<i>
+</I>&gt;<i> I'll try to reply to both Ian and Bill, so I hope this email doesn't  
+</I>&gt;<i> get
+</I>&gt;<i> to confusing.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Wed, 2009-08-26 at 11:21 -0600, William Lipscomb wrote:
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i> So, as I understand it, the process Bill goes through coupling
+</I>&gt;&gt;&gt;<i> Glimmer-CISM to CCSM at present is as follows:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 1) Checkout or download a suitable version of Glimmer-CISM from
+</I>&gt;&gt;&gt;<i> wherever (Which release are you using at present? Where does/did the
+</I>&gt;&gt;&gt;<i> LANL svn repo come in?)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I've been working with version 1.0 and haven't updated in a long  
+</I>&gt;&gt;<i> time,
+</I>&gt;&gt;<i> in part because it's so cumbersome to do updates.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> this is why the system should be a simple and automatic as possible so
+</I>&gt;<i> it is easy to keep up-to-date otherwise bitrot ensues.
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 2) Make such hand-edits as are necessary to work with CCSM, add
+</I>&gt;&gt;&gt;<i> extra I/O, etc
+</I>&gt;&gt;&gt;<i> 3) Check this version into the CCSM repository
+</I>&gt;&gt;&gt;<i> 4) Configure the Glimmer-CISM build off-line, so auto-generated I/O
+</I>&gt;&gt;&gt;<i> source files are ready
+</I>&gt;&gt;&gt;<i> 5) Copy appropriate files (source for libraries only) to somewhere
+</I>&gt;&gt;&gt;<i> into the CCSM file structure
+</I>&gt;&gt;&gt;<i> 6) Build and run CCSM (with Glimmer-CISM built by the CCSM build
+</I>&gt;&gt;&gt;<i> system).
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Is this correct? Or do you check in files to the CCSM repo after
+</I>&gt;&gt;&gt;<i> step 5?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I check in files after step 5.  In step 6, I build everything  
+</I>&gt;&gt;<i> together
+</I>&gt;&gt;<i> (CCSM-specific glc code as well as Glimmer code) into a single  
+</I>&gt;&gt;<i> library
+</I>&gt;&gt;<i> called gglc, as described in my last email.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ok, i understand
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> If so, then the problems with this method are:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 1) Steps 1-3 are very time-consuming, and I think have only been
+</I>&gt;&gt;&gt;<i> done for particular versions of Glimmer.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Indeed!
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 2) Steps 4-5 are necessary because CCSM makes certain assumptions
+</I>&gt;&gt;&gt;<i> about what it's dealing with (i.e. it will build all the f90 files
+</I>&gt;&gt;&gt;<i> in a given directory). I seem to remember that it also assumes that
+</I>&gt;&gt;&gt;<i> the names of all modules are the same as the files they reside in.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> That's correct.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 3) Taken together, we have an impediment to, for example,
+</I>&gt;&gt;&gt;<i> reconfiguring the I/O, and also keeping up-to-date with the latest
+</I>&gt;&gt;&gt;<i> changes.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Yes.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> The main alternative suggestion for solving this problem is to do
+</I>&gt;&gt;&gt;<i> the Glimmer-CISM build in its entirety off-line, as we did early in
+</I>&gt;&gt;&gt;<i> the second week at Portland, and configure CCSM to know where to
+</I>&gt;&gt;&gt;<i> find this build. I think there are several particular issues with
+</I>&gt;&gt;&gt;<i> this:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 1) In general, users of coupled climate models tend to view them as
+</I>&gt;&gt;&gt;<i> single, relatively monolithic entities. Having to download and build
+</I>&gt;&gt;&gt;<i> one of the components separately is an inconvenience, and will
+</I>&gt;&gt;&gt;<i> probably lead people to not use that component (this is my
+</I>&gt;&gt;&gt;<i> experience with Glimmer as part of GENIE).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> That is the case for CCSM as well.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ok, have a script which does the downloading and building.
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 2) More importantly, those who produce coupled models wish to assign
+</I>&gt;&gt;&gt;<i> a version number to a well-defined state of the whole model code,
+</I>&gt;&gt;&gt;<i> including components such as Glimmer-CISM. As such, the version of
+</I>&gt;&gt;&gt;<i> the sub-model used should be guaranteed - hence maintaining it on
+</I>&gt;&gt;&gt;<i> the CCSM repository.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> That's something I hadn't thought of.  Yes, the source code should be
+</I>&gt;&gt;<i> transparent within each version.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> glimmer-cism is versioned, so you can be absolutely sure to get the
+</I>&gt;<i> correct version. in fact if you have your own modified version you  
+</I>&gt;<i> will
+</I>&gt;<i> need to come of with your own versioning scheme which might confuse
+</I>&gt;<i> others.
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 3) For each new release of Glimmer-CISM, there may be minor changes
+</I>&gt;&gt;&gt;<i> which need to be made to the code to port it into CCSM. These
+</I>&gt;&gt;&gt;<i> changes should of course find their way back into the main
+</I>&gt;&gt;&gt;<i> repository, but in a way which avoids 'version ping-pong' (where
+</I>&gt;&gt;&gt;<i> changes bounce backwards and forwards iteratively, generating a
+</I>&gt;&gt;&gt;<i> profusion of numbered releases)
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> this should not happen since we want micro releases to be API
+</I>&gt;<i> compatible. So it should just work. If it doesn't then it is a bug!
+</I>&gt;<i>
+</I>&gt;&gt;<i> Yes.  One thing I want to do over the next few months is to put the
+</I>&gt;&gt;<i> appropriate minor changes in the main Glimmer-CISM repository, after
+</I>&gt;&gt;<i> careful thought and discussion.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> looking forward to this.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I think the most elegant solution is to adjust the CCSM build so  
+</I>&gt;&gt;&gt;<i> that:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 1) it treats Glimmer-CISM as an external dependency (as Tim B
+</I>&gt;&gt;&gt;<i> suggested),
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm not sure exactly what you mean by this.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> but also
+</I>&gt;&gt;&gt;<i> 2) it triggers the Glimmer-CISM configure and build automatically
+</I>&gt;&gt;&gt;<i> when CCSM is built (i.e. it devolves building Glimmer-CISM to the
+</I>&gt;&gt;&gt;<i> sub-model's own system)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> That makes sense--but I don't think we can rely on the Glimmer-CISM
+</I>&gt;&gt;<i> system entirely.  For instance, we'll need to look for modified files
+</I>&gt;&gt;<i> in the CCSM SourceMods directory).  Also, I don't know what the CCSM
+</I>&gt;&gt;<i> rules are for separate build systems.  (But I can find out.)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> The CCSM build could also automatically obtain the correct version
+</I>&gt;&gt;&gt;<i> of the Glimmer-CISM code from the svn repo when CCSM is first built.
+</I>&gt;&gt;&gt;<i> The 'correct version' of Glimmer-CISM for CCSM would be on a
+</I>&gt;&gt;&gt;<i> specific tagged point on a given branch in the BerliOS repository.
+</I>&gt;&gt;&gt;<i> Ideally, this would be a point on the main release bugfix branch, so
+</I>&gt;&gt;&gt;<i> the version used in CCSM most closely matches the latest stand-alone
+</I>&gt;&gt;&gt;<i> release. Then, to update to a new version of Glimmer-CISM within
+</I>&gt;&gt;&gt;<i> CCSM, all that needs to happen is for the CCSM build to have the tag
+</I>&gt;&gt;&gt;<i> name updated. Does that make sense?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I don't know that we can do this automatically.  But it would be
+</I>&gt;&gt;<i> relatively easy to check out Glimmer-CISM from BerliOS, copy the
+</I>&gt;&gt;<i> appropriate subset of the code to CCSM, and tag that version of gglc
+</I>&gt;&gt;<i> in a way that clearly indicates we are using a specific tag of  
+</I>&gt;&gt;<i> Glimmer-
+</I>&gt;&gt;<i> CISM.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> OK, I think you are looking at it at the wrong level of abstraction.  
+</I>&gt;<i> The
+</I>&gt;<i> way I see it is as follows:
+</I>&gt;<i> * any Earth systems model consists of many sub models, like the
+</I>&gt;<i> atmosphere, ocean, land ice, etc
+</I>&gt;<i> * and a coupler which integrates all sub models
+</I>&gt;<i> * the coupler drives the entire system
+</I>&gt;<i>
+</I>&gt;<i> So, your approach is to have a monolithic system which combines
+</I>&gt;<i> everything (sub models, coupler, utilities) into one source tree. One
+</I>&gt;<i> build system is used to build the entire thing.
+</I>&gt;<i>
+</I>&gt;<i> I assume that the Earth system model uses a sane build system, e.g.
+</I>&gt;<i> make.
+</I>&gt;<i>
+</I>&gt;<i> Now, my suggestions is as follows:
+</I>&gt;<i> 1. download, build and install vanilla glimmer-cism
+</I>&gt;<i> 2. have a thin wrapper inside the Earth systems model which makes  
+</I>&gt;<i> calls
+</I>&gt;<i> to glimmer-cism. This 'ice sheet model' is mainly responsible for I/O,
+</I>&gt;<i> i.e. mapping data from the Earth system's view of the world to
+</I>&gt;<i> glimmer-cism's and vice-versa. This module is compiled by the Earth
+</I>&gt;<i> system model build system using a standard installation of glimmer.
+</I>&gt;<i>
+</I>&gt;<i> In the build instructions you specify exactly which version of
+</I>&gt;<i> glimmer-cism you are expecting. If people use a different one they are
+</I>&gt;<i> on their own (to some extent). To make lives easier you can provide a
+</I>&gt;<i> script that does steps 1 and 2 above.
+</I>&gt;<i>
+</I>&gt;<i> Basically, the problem you are describing above is the same for any
+</I>&gt;<i> multi-module system, think gnome, KDE, a Linux distribution.
+</I>&gt;<i>
+</I>&gt;<i> By pulling in the entire source tree into your own repo you have to
+</I>&gt;<i> repeat the work others have done
+</I>&gt;<i> - the build system
+</I>&gt;<i> - it is your responsibility to keep up-to-date
+</I>&gt;<i> - there is a serious risk of diverging codes
+</I>&gt;<i>
+</I>&gt;<i> In glimmer-cism we go through a bit of pain to make this possible:
+</I>&gt;<i> - strict versioning of code
+</I>&gt;<i> - testing, hopefully soon automatically/nightly
+</I>&gt;<i> - API stability for point releases within a stable series
+</I>&gt;<i>
+</I>&gt;<i> I understand the reluctance to depend on external libraries/modules.
+</I>&gt;<i> However, this is solved using clear instructions, or even better, a
+</I>&gt;<i> script which automates the entire build, so you might have something
+</I>&gt;<i> along the lines of:
+</I>&gt;<i>
+</I>&gt;<i> CCSM_TOP
+</I>&gt;<i>  build_all.sh
+</I>&gt;<i>  CCSM
+</I>&gt;<i>    glc
+</I>&gt;<i>      glimmer-cism-wrapper.f90
+</I>&gt;<i>
+</I>&gt;<i> build_all.sh downloads the recommended version of glimmer-cism from
+</I>&gt;<i> berliOS and configures, compiles and installs it into the top-level
+</I>&gt;<i> CCSM_TOP directory. It then moves in CCSM and builds the rest of the
+</I>&gt;<i> system. The Makefile in glc now knows where to look for the actual
+</I>&gt;<i> glimmer-cism installation.
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000036.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+	<LI>Next message: <A HREF="000038.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

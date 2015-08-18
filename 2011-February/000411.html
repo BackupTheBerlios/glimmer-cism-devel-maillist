@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] bug fix in vertical velocity
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20bug%20fix%20in%20vertical%20velocity&In-Reply-To=%3CAANLkTimNYGUcbyuYQKWavdo7RehuKzp72AOLoTqSXwmi%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000410.html">
+   <LINK REL="Next"  HREF="000412.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] bug fix in vertical velocity</H1>
+    <B>Jesse Johnson</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20bug%20fix%20in%20vertical%20velocity&In-Reply-To=%3CAANLkTimNYGUcbyuYQKWavdo7RehuKzp72AOLoTqSXwmi%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] bug fix in vertical velocity">jesse.v.johnson at gmail.com
+       </A><BR>
+    <I>Thu Feb 17 07:12:15 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000410.html">[Glimmer-cism-devel] bug fix in vertical velocity
+</A></li>
+        <LI>Next message: <A HREF="000412.html">[Glimmer-cism-devel]  bug fix in vertical velocity
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#411">[ date ]</a>
+              <a href="thread.html#411">[ thread ]</a>
+              <a href="subject.html#411">[ subject ]</a>
+              <a href="author.html#411">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi All,
+
+yes, velocity_hom was introduced because of the difference in grids. I
+don't see a reason to keep it.
+
+Jesse
+
+On Thu, Feb 17, 2011 at 12:13 AM, Tony Payne &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">a.j.payne at bristol.ac.uk</A>&gt; wrote:
+&gt;<i> hi
+</I>&gt;<i>
+</I>&gt;<i> i think i would happier to drop the second velocity unless it is there for a
+</I>&gt;<i> very good reason.
+</I>&gt;<i>
+</I>&gt;<i> tony
+</I>&gt;<i>
+</I>&gt;<i> On 16/02/2011 21:08, Stephen Price wrote:
+</I>&gt;<i>
+</I>&gt;<i> Hi Sarah,
+</I>&gt;<i>
+</I>&gt;<i> I don't know if we resolved how to fix this bug moving forward. I guess we
+</I>&gt;<i> could put a &quot;case select&quot; (or if clause) in the wvel calc. subroutine, e.g.
+</I>&gt;<i> ...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> %% declare &quot;wvel_local&quot; above somewhere
+</I>&gt;<i>
+</I>&gt;<i> select case (evolution)
+</I>&gt;<i>
+</I>&gt;<i> &#160; case( EVOL_DIFFUSION )
+</I>&gt;<i>
+</I>&gt;<i> &#160;&#160;&#160; wvel_local = model%velocity
+</I>&gt;<i>
+</I>&gt;<i> &#160; case( EVOL_INC_REMAP )
+</I>&gt;<i>
+</I>&gt;<i> &#160;&#160;&#160; wvel_local = model%velocity_hom
+</I>&gt;<i>
+</I>&gt;<i> end select
+</I>&gt;<i>
+</I>&gt;<i> %% now pass &quot;wvel_local&quot; when the vert velocity profile is needed
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ... or something like this.
+</I>&gt;<i>
+</I>&gt;<i> The only issue there is that there are other &quot;evolution&quot; options that may
+</I>&gt;<i> need to be considered as well (e.g. pseudo-diff, 1st-order upwinding, ADI,
+</I>&gt;<i> etc.).
+</I>&gt;<i>
+</I>&gt;<i> Anyone else want to weigh in on the best way to correct this? Jesse, I don't
+</I>&gt;<i> recall why we started using two derived types for velo to begin with
+</I>&gt;<i> (%velocity vs. %velocity_hom). Was it because of the A-grid issues w/ the
+</I>&gt;<i> PB&amp;J core? If so, we might not be under that constraint anymore (if we
+</I>&gt;<i> aren't supporting that core in future releases that is), in which case we
+</I>&gt;<i> might be able to get rid of %velocity_hom and just use the more generic
+</I>&gt;<i> %velocity.
+</I>&gt;<i>
+</I>&gt;<i> Steve
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On 2/10/11 6:46 AM, Sarah Shannon wrote:
+</I>&gt;<i>
+</I>&gt;<i> Hi Steve,
+</I>&gt;<i>
+</I>&gt;<i> Will Roberts who works with us, has been using glimmer-cism and
+</I>&gt;<i> identified the bug.
+</I>&gt;<i>
+</I>&gt;<i> The subroutines which calculate wvel (wvelintg and chckwvel) use
+</I>&gt;<i> model%velocity_hom rather than model%velocity. In the SIA mode,
+</I>&gt;<i> model%velocity_hom have values of zero.
+</I>&gt;<i>
+</I>&gt;<i> The bug would not show up when running with the HO physics.
+</I>&gt;<i>
+</I>&gt;<i> There is a plot of the EISMINT-1 test on the wiki
+</I>&gt;<i> (<A HREF="http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug">http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug</A>).
+</I>&gt;<i> The vertical velocity profile is curved and basal temperature is colder.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i>
+</I>&gt;<i> Sarah
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> ------------------------&lt;&gt;---------------------------
+</I>&gt;<i> Tony Payne
+</I>&gt;<i> School of Geographical Sciences,
+</I>&gt;<i> University of Bristol,
+</I>&gt;<i> Bristol BS8 1SS, UK.
+</I>&gt;<i> Telephone:&#160;&#160;&#160;&#160;&#160; +117 331 4156
+</I>&gt;<i> Fax:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; +117 928 7878
+</I>&gt;<i> Email:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+</I>&gt;<i> ------------------------&lt;&gt;---------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+The University of Montana, Missoula
+
+On Sabbatical at:
+
+CERECAM, The University of Cape Town
+Private Bag X3
+Room 529.6 Menzies Bld.
+Rondebosch 7701
+South Africa
+
+tel: +27 21 650 2086
+
+email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">jesse.v.johnson at gmail.com</A>
+<A HREF="http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540">http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000410.html">[Glimmer-cism-devel] bug fix in vertical velocity
+</A></li>
+	<LI>Next message: <A HREF="000412.html">[Glimmer-cism-devel]  bug fix in vertical velocity
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#411">[ date ]</a>
+              <a href="thread.html#411">[ thread ]</a>
+              <a href="subject.html#411">[ subject ]</a>
+              <a href="author.html#411">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

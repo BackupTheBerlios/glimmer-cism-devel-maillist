@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3Cg2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000231.html">
+   <LINK REL="Next"  HREF="000233.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk</H1>
+    <B>Carl Gladish</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3Cg2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk">gladish at cims.nyu.edu
+       </A><BR>
+    <I>Wed Apr 21 01:19:08 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000231.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+        <LI>Next message: <A HREF="000233.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#232">[ date ]</a>
+              <a href="thread.html#232">[ thread ]</a>
+              <a href="subject.html#232">[ subject ]</a>
+              <a href="author.html#232">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus,
+
+I found it too complicated to have trunk updates merged in my
+plume_integration branch.  Now the changes in plume_integration between
+r1410:1616 are just things that I did.
+
+I carried out your suggestions in plume_integration.  In particular:
+
+* I copied the plume code from my NYU repository into the Berlios repos.  It
+is just made up of a handful of files matching src/fortran/plume*.F90
+* I changed configure.in and src/fortran/Makefile.am to build libplume.a and
+shelf_driver only if the project was configured with --enable-plume
+* I changed the indentation as you recommended.
+* Splitting up the shelf_driver seems like overkill to me at this second
+* I develop on linux (I'll try not to be offended)
+* In glam_strs2.F90 I made uvel and vvel intent(inout) in
+glam_velo_fordsiapstr since the values in uvel and vvel as passed as
+intent(in) args inside that subroutine.  That was a bug with the sun f90
+compiler (I think... it was a while ago that I saw that).
+* In glide_temp.F90 calcbmlt I made bmlt intent(inout) because in the case
+that the subroutine doesn't write a value to bmlt (floating cells with the
+plume turned on), I don't want to compiler to think we don't care what the
+values in bmlt are (since they will be values calculated by the plume model
+outside of that subroutine somewhere).
+
+You can confirm these things by running
+
+svn diff -r1410:1616 <A HREF="https://&lt;you">https://&lt;you</A>&gt;@
+svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism-lanl/branches/plume_integration
+
+Also, I have merged those changes into my copy of the trunk (not committed
+though).  There were some conflicts, which I resolved by hand.  The
+resulting diffs are in the attached file.
+
+I consider those diffs to be ready to commit in trunk.  What do you think?
+If you would rather do the merge yourself, feel free.
+
+-Carl
+
+
+On Mon, Apr 19, 2010 at 5:35 AM, Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;wrote:
+
+&gt;<i> Carl Gladish wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi ian,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> That sounds reasonable to me.  I haven't merged in the most recent trunk
+</I>&gt;&gt;<i> changes (past few days) but I will.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Could someone volunteer to review my work?  It's really not that much code
+</I>&gt;&gt;<i> to look at (given that you trust that the plume code is correct on its own).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> Hi Carl,
+</I>&gt;<i> I volunteer! I couldn't download the plume code itself because of
+</I>&gt;<i> insufficient permissions. I guess I need an account on your subversion
+</I>&gt;<i> server. So I will restrict my review to the few changes to the actual
+</I>&gt;<i> glimmer code.
+</I>&gt;<i>
+</I>&gt;<i> As you said, the changes are small and absolutely fine. So my comments are
+</I>&gt;<i> about style and only the file shelf_driver.F90:
+</I>&gt;<i> * indentation is not consistent - I use xemacs as editor which has a nice
+</I>&gt;<i> fortran mode which does indentation automatically for you.
+</I>&gt;<i> * I'd suggest to move the contained procedures into a separate file(s)
+</I>&gt;<i> which are then also linked to the libplume.a library. This way it makes it
+</I>&gt;<i> easier to use your lib in other drivers.
+</I>&gt;<i> * I would also split up plume_read_print_config into two procedures. some
+</I>&gt;<i> people prefer a quiet operation. Also it is conceivable that the library
+</I>&gt;<i> might be used in parallel when you have multiple reads but only one print.
+</I>&gt;<i> * is petermann a plume test case? If so could you add a readme.
+</I>&gt;<i>
+</I>&gt;<i> Build system
+</I>&gt;<i> ------------
+</I>&gt;<i> Let me guess, you develop on windows? Unix directory separators are /
+</I>&gt;<i> rather than \. So you'll need to change the file names for the libplume.a
+</I>&gt;<i> target.
+</I>&gt;<i> Finally and most importantly, I think we need some way of
+</I>&gt;<i> disabling/enabling whether the plume code should be compiled. I would
+</I>&gt;<i> suggest to have it disabled by default and enable it with a configure
+</I>&gt;<i> switch. The configure.in contains some examples on how to do this, e.g.
+</I>&gt;<i> --enable-tests.
+</I>&gt;<i>
+</I>&gt;<i> Finally, I think there should be some instruction on how to get the plume
+</I>&gt;<i> code in the README.
+</I>&gt;<i>
+</I>&gt;<i> Do you have any plans to host your code on BerliOS or do you want to keep
+</I>&gt;<i> hosting it elsewhere?
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i>
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+<A HREF="http://www.cims.nyu.edu/~gladish">http://www.cims.nyu.edu/~gladish</A> &lt;<A HREF="http://www.cims.nyu.edu/%7Egladish">http://www.cims.nyu.edu/%7Egladish</A>&gt;
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100420/0d040fe9/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100420/0d040fe9/attachment.html</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: proposedTrunkChanges_Gladish_April20
+Type: application/octet-stream
+Size: 311681 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100420/0d040fe9/attachment.obj">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100420/0d040fe9/attachment.obj</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000231.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+	<LI>Next message: <A HREF="000233.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#232">[ date ]</a>
+              <a href="thread.html#232">[ thread ]</a>
+              <a href="subject.html#232">[ subject ]</a>
+              <a href="author.html#232">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

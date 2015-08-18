@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3CFCED113B-2BE6-4DED-817A-1F1DAC018FEB%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000241.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3CFCED113B-2BE6-4DED-817A-1F1DAC018FEB%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Mon May  3 22:10:58 CEST 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000241.html">[Glimmer-cism-devel] merging plume_integration into glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#240">[ date ]</a>
+              <a href="thread.html#240">[ thread ]</a>
+              <a href="subject.html#240">[ subject ]</a>
+              <a href="author.html#240">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Dear Carl,
+
+Having looked though the diffs, I'm happy for you to merge your  
+changes, although I don't work on the LANL branch so much, so I think  
+someone who does should probably give it the green light as well  
+(Steve?).
+
+Thanks very much for your contribution to Glimmer-CISM!
+
+Best wishes,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+On 30 Apr 2010, at 16:33, Carl Gladish wrote:
+
+&gt;<i> Hi everyone,
+</I>&gt;<i>
+</I>&gt;<i> I see the beta release has been carried out.  If no one objects I'd  
+</I>&gt;<i> like to carry out the plume merge at this point.  It is a very easy  
+</I>&gt;<i> and minor merge, in my opinion.
+</I>&gt;<i>
+</I>&gt;<i> The changes consist of the file additions listed below, and diffs to  
+</I>&gt;<i> the existing code which are in the attached file.
+</I>&gt;<i>
+</I>&gt;<i> A      src/fortran/plume_global.F90
+</I>&gt;<i> A      src/fortran/plume_functions.F90
+</I>&gt;<i> A      src/fortran/plume_main.F90
+</I>&gt;<i> A      src/fortran/plume_io.F90
+</I>&gt;<i> A      src/fortran/plume_context.F90
+</I>&gt;<i> A      src/fortran/plume.F90
+</I>&gt;<i> A  +   tests/petermann
+</I>&gt;<i> A      tests/petermann/build_case.py
+</I>&gt;<i> A      tests/petermann/test.config
+</I>&gt;<i> A  +   tests/petermann/sample.gs.config.py
+</I>&gt;<i> A      tests/petermann/test.nl
+</I>&gt;<i> A      tests/petermann/build_nc_gen_input
+</I>&gt;<i> A      tests/petermann/nc_regrid.F90
+</I>&gt;<i> A      tests/petermann/petermann.config
+</I>&gt;<i> A      tests/petermann/ideal_geometry.config
+</I>&gt;<i> A      tests/petermann/README
+</I>&gt;<i> A      tests/petermann/standalone.nl
+</I>&gt;<i> A      tests/petermann/partgrounded.nc_gen_args
+</I>&gt;<i> A      tests/petermann/make_ncdf_shelf_input.m
+</I>&gt;<i> A      tests/petermann/partgrounded.config
+</I>&gt;<i> A      tests/petermann/ideal_peterman.config.py
+</I>&gt;<i> A      tests/petermann/nc_gen_input.F90
+</I>&gt;<i> A      tests/petermann/partgrounded.nl
+</I>&gt;<i> A      tests/petermann/build_nc_regrid
+</I>&gt;<i> A      tests/petermann/sample.config.py
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Wed, Apr 21, 2010 at 10:54 AM, Stephen Price &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sprice at lanl.gov</A>&gt;  
+</I>&gt;<i> wrote:
+</I>&gt;<i>
+</I>&gt;<i> Thanks Carl, Magi ...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> I am not in a position to give you the go-ahead for merging your  
+</I>&gt;<i> changes to glimmer-cism-lanl-trunk. You should ask  Jesse, Bill and/ 
+</I>&gt;<i> or Steve. This might not be the best of times since a beta release  
+</I>&gt;<i> is prepared. On the other hand it might be a good time. Anyway, it's  
+</I>&gt;<i> not my call.
+</I>&gt;<i>
+</I>&gt;<i> My preference would be to wait until after the release, which should  
+</I>&gt;<i> happen today or tomorrow, I hope.
+</I>&gt;<i>
+</I>&gt;<i> We then need to have a discussion about the various planned merges  
+</I>&gt;<i> taking place with the folks who will be doing that work. Perhaps it  
+</I>&gt;<i> will be trivial to merge the plume code onto the lanl branch just  
+</I>&gt;<i> after the beta release, and then continue on from there with the  
+</I>&gt;<i> rest of the merging plans. But I'd rather not commit to that right  
+</I>&gt;<i> now. Give us a few more days and we'll have some time to look at it  
+</I>&gt;<i> more closely.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Steve
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -- 
+</I>&gt;<i> Carl Gladish
+</I>&gt;<i> cell: (917) 502 - 1818
+</I>&gt;<i> home: (718) 626 - 2504
+</I>&gt;<i> office: (212) 998 - 3198
+</I>&gt;<i> Warren Weaver Hall rm 708, 251 Mercer NY,NY
+</I>&gt;<i> <A HREF="http://www.cims.nyu.edu/~gladish">http://www.cims.nyu.edu/~gladish</A>
+</I>&gt;<i>
+</I>&gt;<i> &lt; 
+</I>&gt;<i> proposedDiffsToLANLTrunk_Gladish_April30 
+</I>&gt;<i> .txt&gt;_______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100503/ca9eebe2/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100503/ca9eebe2/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000241.html">[Glimmer-cism-devel] merging plume_integration into glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#240">[ date ]</a>
+              <a href="thread.html#240">[ thread ]</a>
+              <a href="subject.html#240">[ subject ]</a>
+              <a href="author.html#240">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

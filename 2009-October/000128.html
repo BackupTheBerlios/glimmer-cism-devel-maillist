@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glide_temp refactoring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glide_temp%20refactoring&In-Reply-To=%3C4AE82D4B.6080507%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000133.html">
+   <LINK REL="Next"  HREF="000131.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glide_temp refactoring</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glide_temp%20refactoring&In-Reply-To=%3C4AE82D4B.6080507%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glide_temp refactoring">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Wed Oct 28 12:38:51 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000133.html">[Glimmer-cism-devel] glide_temp refactoring
+</A></li>
+        <LI>Next message: <A HREF="000131.html">[Glimmer-cism-devel] glide_temp refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Magi,
+
+Thanks for looking at the refactoring, and for your useful comments. 
+Comments/responses inline...
+
+&gt;<i> - I don't like the names of the procedures. I think it is clearer if
+</I>&gt;<i> routines are prefixed by the name space rather than attaching the name
+</I>&gt;<i> space as a suffix: 
+</I>&gt;<i>   type_tempFullSoln -&gt; tempFullSoln_type
+</I>&gt;<i>   init_tempFullSoln -&gt; tempFullSoln_init
+</I>
+I think it depends how you think of these names. To me, they mentally 
+expand to 'initialise the full temp solution', 'do a timestep of the 
+full temp soln', etc, so putting the action first makes sense. I think 
+it's also visually clearer to put the bit which is different between 
+different subroutine names (i.e. init, etc) at the start, rather than 
+being caught between the namespace and the list of parameters.
+
+But, this is largely a matter of personal preference. The main thing is 
+to agree something consistent and stick to it. Would anyone else like to 
+offer an opinion?
+
+Of course, we wouldn't be having this conversation if we were using the 
+OOP features of F2003... ;)
+
+&gt;<i> - the temperature type is carrying around coordinate system info
+</I>&gt;<i>   I think we should move that into it's own type so it can be shared
+</I>&gt;<i> among other modules. I can look into that.
+</I>
+This is a tricky point - it's a question of how modular we want to be. 
+One thing I was trying to do was to eliminate the need for the user to 
+declare a load of derived types for the grid, etc, to be passed to each 
+timestep call. So, the principle was initialise everything in the init 
+call, then call the timestep with a single object representing the model 
+and all its parameters. I like this approach because it means the user 
+of the dynamical cores doesn't have to set up a load of derived types. 
+Of course, we could still have an interface to the init call which will 
+take a grid derived type in addition to the one which takes the 
+individual grid parameters in a list.
+
+But I don't mind what we do - again, it's important to have this 
+discussion and then be consistent.
+
+&gt;<i> - vertCoord type should contain sigma levels
+</I>
+Yes.
+
+&gt;<i> - documentation is missing :-)
+</I>
+Indeed. :)
+
+&gt;<i> Yes, I think using explicit arrays also improves readability.
+</I>
+Good. I'll move to using that style.
+
+&gt;<i> well, we can worry about performance later and figure out how to avoid
+</I>&gt;<i> recomputing surface gradients, etc.
+</I>
+Yes. Personally, I think the recomputation of surface gradients might 
+well fall into the 97% which isn't worth worrying about, especially as 
+the computational cost of the dynamical cores increases. However, it 
+would be possible to provide pre-computed surface gradients as optional 
+arguments, and only recompute them if they're absent. That might be a 
+good solution.
+
+Thanks again,
+
+Ian
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000133.html">[Glimmer-cism-devel] glide_temp refactoring
+</A></li>
+	<LI>Next message: <A HREF="000131.html">[Glimmer-cism-devel] glide_temp refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

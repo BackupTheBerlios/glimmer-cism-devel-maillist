@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] automated nightly build &amp; test
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C9AB064760EDFAD756FD526DA%40geog-a81.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000310.html">
+   <LINK REL="Next"  HREF="000312.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] automated nightly build &amp; test</H1>
+    <B>DAG Williams, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C9AB064760EDFAD756FD526DA%40geog-a81.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] automated nightly build &amp; test">Gethin.Williams at bristol.ac.uk
+       </A><BR>
+    <I>Thu Aug  5 17:33:00 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000310.html">[Glimmer-cism-devel] glide_io.F90 issue
+</A></li>
+        <LI>Next message: <A HREF="000312.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#311">[ date ]</a>
+              <a href="thread.html#311">[ thread ]</a>
+              <a href="subject.html#311">[ subject ]</a>
+              <a href="author.html#311">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus &amp; all,
+
+Yes, I had come to a similar conclusion about unit testing frameworks.  Of 
+course, unit testing is far more useful than integration testing, so we 
+should keep that on our radar, while focusing on getting something working 
+right now.  &quot;The best can be the enemy of the good,&quot; and all that.
+
+I've been working with Sarah Shannon, and she has created a script with 
+loops through the EISMINT2 tests (in order to cope with dependencies), runs 
+them and compares the outputs to reference files using the comparison 
+program from GENIE.  It's looking promising, but also needs tidying up some 
+more, and of course connecting to the right hooks in the overall framework.
+
+I note that the test configuration files are held in a different directory 
+in the repository to the model source code.  This is problematic for a 
+script looking to make use of both of these things, as given the location 
+of one checkout, the script can't predict the location of the other (unless 
+the whole repos is checked out).
+
+In terms of invoking a test script, would it be sensible for autoconf to 
+create a 'test' rule in the top-level makefile?  Also, we would need to add 
+the (C++) code for the comparison program to the source tree and have 
+autoconf create a makefile for that too.
+
+Cheers,
+Gethin.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000310.html">[Glimmer-cism-devel] glide_io.F90 issue
+</A></li>
+	<LI>Next message: <A HREF="000312.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#311">[ date ]</a>
+              <a href="thread.html#311">[ thread ]</a>
+              <a href="subject.html#311">[ subject ]</a>
+              <a href="author.html#311">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

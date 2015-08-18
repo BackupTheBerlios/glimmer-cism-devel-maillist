@@ -1,0 +1,67 @@
+From rpf2116 at columbia.edu  Tue Jul 19 04:19:57 2011
+From: rpf2116 at columbia.edu (rpf2116 at columbia.edu)
+Date: Mon, 18 Jul 2011 22:19:57 -0400
+Subject: [Glimmer-cism-devel] Gotcha in glimmer-test config file
+Message-ID: <20110718221957.lh7u14lrj4o4gksg@cubmail.cc.columbia.edu>
+
+
+
+   This is a minor bug report.
+
+The error message in bold below could be more helpful.?? Should be:
+
+   /*** in your PATH or run configure with the --with-glimmer_prefix option./
+
+-- Bob
+
+*** Could not find glimmer-config. Either add the directory where  
+glimmer-config is installed
+*** IN YOUR PATH OR RUN CONFIGURE WITH THE --GLIMMER_PREFIX OPTION.
+configure: error: Could not find glimmer
+
+bash-4.0$ ./configure --prefix=$HOME/climate/opt/glimmer-tests-1.2  
+--glimmer_prefix=/export/home/citibob/climate/opt/glimmer-1.7.0/
+configure: error: unrecognized option:  
+--glimmer_prefix=/export/home/citibob/climate/opt/glimmer-1.7.0/
+Try `./configure --help' for more information.
+
+bash-4.0$ ./configure --help | grep glimmer
+`configure' configures glimmer-tests 1.2 to adapt to many kinds of systems.
+? --with-glimmer-prefix=PFX? ?Prefix where GLIMMER is installed (optional)
+Report bugs to <glimmer-cism-devel at lists.berlios.de>.
+bash-4.0$ ./configure --prefix=$HOME/climate/opt/glimmer-tests-1.2  
+--with-glimmer_prefix=/export/home/citibob/climate/opt/glimmer-1.7.0
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110718/e2ebde34/attachment.html>
+
+From sole.andrew at gmail.com  Tue Jul 26 23:36:08 2011
+From: sole.andrew at gmail.com (Andrew Sole)
+Date: Tue, 26 Jul 2011 22:36:08 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism-lanl (Revision 2385) convergence
+	issues
+Message-ID: <CAPUAMGYZozFPp9ALwk_qr0B37sKZtEF31i6a33ezv9++a+6sjw@mail.gmail.com>
+
+Hello,
+
+I have installed glimmer-cism-lanl (Revision 2385) and have been running
+some of the higher order tests using the python and config files provided.
+The dome test produces the expected output (i.e. a maximum velnorm of 73
+m/yr with a concentric pattern). However, the circular and confined shelf
+experiments do not converge. The circular shelf run has a residual of
+12090.6 after 300 iterations, and the maximum velnorm is 202764 m/yr, while
+the confined shelf run has a residual of 275.992 after 300 iterations and
+the maximum velnorm is 1.14e6 m/yr. I realise from the README file in
+tests/higher-order/ross that the ross test is not expected to converge, but
+the residual for my test increases to  10270.2 after 300 iterations and the
+maximum velnorm is 5.5e6 m/yr. Has anyone experienced this problem before?
+Your help would be much appreciated!
+
+Many thanks,
+
+Andrew Sole
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110726/551e624a/attachment.html>
+

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] restarts
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts&In-Reply-To=%3C1252156308.8381.8.camel%40swine%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000044.html">
+   <LINK REL="Next"  HREF="000048.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] restarts</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts&In-Reply-To=%3C1252156308.8381.8.camel%40swine%3E"
+       TITLE="[Glimmer-cism-devel] restarts">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Sat Sep  5 15:11:48 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000044.html">[Glimmer-cism-devel] restarts
+</A></li>
+        <LI>Next message: <A HREF="000048.html">[Glimmer-cism-devel] restarts
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#45">[ date ]</a>
+              <a href="thread.html#45">[ thread ]</a>
+              <a href="subject.html#45">[ subject ]</a>
+              <a href="author.html#45">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sat, 2009-09-05 at 11:13 +0100, Jonathan Gregory wrote:
+&gt;<i> Dear all
+</I>&gt;<i> 
+</I>&gt;<i> I agree with Ian: restarts are needed for coupled models. There is a need to
+</I>&gt;<i> be able to stop and restart Glimmer alone, as one component of a coupled model,
+</I>&gt;<i> at times that the coupled system itself determines. Ian's restart mechanism
+</I>&gt;<i> allows this to be done. The hotstart mechanism is more restrictive as it allows
+</I>&gt;<i> Glimmer to be stopped only at the end of a mass-balance year, which may not
+</I>&gt;<i> suit the way the coupled system operates. You can imagine if you have several
+</I>&gt;<i> components in a coupled model, which are all very restrictive about when they
+</I>&gt;<i> can be restarted, it is unlikely that they will work together. Flexibility is
+</I>&gt;<i> needed. Checkpointing, as I understand it, is really for freezing a run;
+</I>&gt;<i> restarting it may depend on files not being moved, changed, etc., whereas, as
+</I>&gt;<i> Ian says, the restart files from component models of a coupled system are often
+</I>&gt;<i> independently useful, as they may supply starting conditions in other runs.
+</I>
+Hi all,
+ok, I understand. So checkpointing is not what you are after, although
+that might be a useful thing. The hotstart and restart is very similar
+in what they try to achieve. So I think we should try to merge both
+functionalities. It seems to me that the hotstart code is good in that
+it is just normal I/O. Once we move the I/O out of the ice sheet model
+we should be able to generalise it a bit more to support what the
+restart is doing. My impression of the restart code is that the entire
+state is saved, so it is a bit like checkpointing. Presumably once the
+restart files are loaded individual parameters can be overwritten. This
+is very much like how the hotstart works. Only the computed fields are
+stored in files, all other fields are either derived from the stored
+fields or re-initialised from the parameter file (which might have
+changed). So (apart from bugs) the hotstart code should do for the ice
+sheet model. Maybe some similar functionality could be implemented for
+glint. I also wonder if we should use native unformatted I/O for the
+hotstart files? 
+Cheers
+magi
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000044.html">[Glimmer-cism-devel] restarts
+</A></li>
+	<LI>Next message: <A HREF="000048.html">[Glimmer-cism-devel] restarts
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#45">[ date ]</a>
+              <a href="thread.html#45">[ thread ]</a>
+              <a href="subject.html#45">[ subject ]</a>
+              <a href="author.html#45">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

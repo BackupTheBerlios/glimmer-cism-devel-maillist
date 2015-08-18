@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] building the parallel branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20building%20the%20parallel%20branch&In-Reply-To=%3CC871B989.2F46%25evanskj%40ornl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000290.html">
+   <LINK REL="Next"  HREF="000291.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] building the parallel branch</H1>
+    <B>Evans, Kate J.</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20building%20the%20parallel%20branch&In-Reply-To=%3CC871B989.2F46%25evanskj%40ornl.gov%3E"
+       TITLE="[Glimmer-cism-devel] building the parallel branch">evanskj at ornl.gov
+       </A><BR>
+    <I>Sun Jul 25 15:51:05 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000290.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+        <LI>Next message: <A HREF="000291.html">[Glimmer-cism-devel] refactor branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#295">[ date ]</a>
+              <a href="thread.html#295">[ thread ]</a>
+              <a href="subject.html#295">[ subject ]</a>
+              <a href="author.html#295">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>HI Tony-
+
+Sorry for the delay in replying. I haven&#8217;t played with the example code at all, so I waited to see if anyone who has used it had replied.
+Have you already built and run the parallel branch with a test case first before utilizing this example feature? I would have thought that it would give you linking errors too if the example did.
+
+Anyway, I think the errors point to missing fortran libraries used by your intel fortran. The ones currently in the Makefile are for gcc.  I don&#8217;t have access to an intel compiler, but the configure script of the main code should have flagged this issue. I don&#8217;t know of anyone our our project using intel so thanks for helping us increase our portability!
+
+Your intel compiler can probably do a better job of finding the right libraries. Try this (but I found the libraries online, so they may not be right):
+
+FORTRAN_COMPILER=ifort
+FORTRAN_LIBRARIES=-lifport -lifcore -limf
+
+Let me know.
+Kate
+
+
+On 7/22/10 6:43 PM, &quot;Tony Payne&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">a.j.payne at bristol.ac.uk</A>&gt; wrote:
+
+hi
+
+i got the same warming message as Bill but the rest of the install went well until ...
+
+i tried compiling the trilinos example in
+
+$GLIMMER_PREFIX/examples/TrilinosSolversUnitTest
+
+i edited the Makefile for our local system but we do not have openmpi with cc which is used in the Makefile
+
+.cpp.o:
+        $(NOX_CXX_COMPILER) $(NOX_CXX_FLAGS) $(INC_PATH) -I/usr/lib64/openmpi/1.3.2-gcc/include -c $&lt;
+
+the make fails at linking with
+
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to `__intel_new_proc_init'
+TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to `for_set_reentrancy'
+TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.o:TrilinosSolversUnitTest.F90:(.text+0x4bc): more undefined references to `for_write_seq_lis' follow
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to `for_stop_core'
+sparse_trilinos.o: In function `sparse_trilinos_mp_trilinos_solver_postprocess_':
+sparse_trilinos.F90:(.text+0x3e): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x77): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x127): undefined reference to `for_write_seq_lis'
+sparse_trilinos.o: In function `sparse_trilinos_mp_trilinos_solve_':
+sparse_trilinos.F90:(.text+0x19b): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x1dd): undefined reference to `for_write_seq_lis'
+sparse_trilinos.o:sparse_trilinos.F90:(.text+0xc58): more undefined references to `for_write_seq_lis' follow
+collect2: ld returned 1 exit status
+make: *** [TrilinosSolversUnitTest.exe] Error 1
+
+my question is: does this error stem from the missing openmpi/**gcc? do we need to install openmpi/gcc?
+
+any ideas?
+
+thanks
+
+tony
+
+
+
+On 22/07/2010 18:53, William Lipscomb wrote:
+
+Hi all,
+
+Erin Barker answered my question.  I'm able to build the code.
+
+Thanks,
+Bill
+
+
+On Jul 22, 2010, at 11:33 AM, Barker, Erin I wrote:
+
+
+Bill,
+
+What you are seeing is really a warning message, not an error.  The
+bootstrap should still create the configure file and you should be able to
+proceed.  Are you getting a follow on error or no configure file?
+
+The warning comes from how I forced autoconf to use a particular compiler
+for linking rather than the usual default.  Typically with mixed language
+programs you use the highest level compiler to do the linking, in this case
+C++ because of Trilinos.  However, C++ is getting called by Fortran so the
+&quot;main&quot; is in the fortran part not the c++ part.  The newer fortran compilers
+have a beginfortran library that deals with this.  However, the compilers on
+Coyote are too old.  So I had to force autoconf to use the fortran compiler
+for linking.
+
+There is probably a cleaner way to do it that won't produce the warning
+message, but it gets the right compilers in the right places.
+
+Erin
+
+__________________________________________________
+Erin I Barker
+Scientist
+Computational Sciences &amp; Mathematics Division
+Pacific Northwest National Laboratory
+Tel:  509-372-4727
+
+
+
+From: William Lipscomb &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt; &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt;
+Date: Thu, 22 Jul 2010 09:13:49 -0700
+To: Stephen Price &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sprice at lanl.gov</A>&gt; &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sprice at lanl.gov</A>&gt;
+Cc: &quot;Barker, Erin I&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">erin.barker at pnl.gov</A>&gt; &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">erin.barker at pnl.gov</A>&gt;
+Subject: building the parallel branch
+
+
+Steve,
+
+I get the error below when I try to bootstrap the parallel branch on
+coyote (after a fresh checkout).  Do you know what's wrong here?
+
+I'll copying Erin in case she's seen this.  It looks vaguely familiar
+to me.
+
+Thanks,
+Bill
+
+**********************************
+
+Checking if required version of automake is installed
+
+checking for autoconf &gt;= 2.54 ... yes (version 2.59)
+checking for automake &gt;= 1.9.6 ... yes (version 1.9.6)
+configure.in: installing `./install-sh'
+configure.in: installing `./missing'
+src/cpp/Makefile.am: installing `./depcomp'
+automake: CXXLD was already defined in condition TRILINOS, which is
+included in condition TRUE ...
+src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+
+
+
+
+
+******************************************************************************&gt;
+*
+
+William H. Lipscomb     E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory  Phone: (505) 667-0395
+Group T-3, Mail Stop B216   Fax: (505) 665-5926
+Los Alamos, NM 87545
+
+
+******************************************************************************&gt;
+*
+
+
+
+
+
+
+
+
+
+*******************************************************************************
+William H. Lipscomb                    E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory        Phone: (505) 667-0395
+Group T-3, Mail Stop B216            Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+_______________________________________________
+Glimmer-cism-devel mailing list
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000290.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+	<LI>Next message: <A HREF="000291.html">[Glimmer-cism-devel] refactor branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#295">[ date ]</a>
+              <a href="thread.html#295">[ thread ]</a>
+              <a href="subject.html#295">[ subject ]</a>
+              <a href="author.html#295">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

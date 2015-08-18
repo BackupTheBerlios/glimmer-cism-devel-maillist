@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Thickness solver refactoring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Thickness%20solver%20refactoring&In-Reply-To=%3C1256745983.6328.90.camel%40hog.marsupium.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000142.html">
+   <LINK REL="Next"  HREF="000152.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Thickness solver refactoring</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Thickness%20solver%20refactoring&In-Reply-To=%3C1256745983.6328.90.camel%40hog.marsupium.org%3E"
+       TITLE="[Glimmer-cism-devel] Thickness solver refactoring">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Wed Oct 28 17:06:23 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000142.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+        <LI>Next message: <A HREF="000152.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#145">[ date ]</a>
+              <a href="thread.html#145">[ thread ]</a>
+              <a href="subject.html#145">[ subject ]</a>
+              <a href="author.html#145">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, 2009-10-28 at 15:55 +0000, Ian Rutt wrote:
+&gt;<i> 1) What to do about velocity calculations. The velocity field is not 
+</I>&gt;<i> needed for the thickness calculation in the SIA, except for the basal 
+</I>&gt;<i> velocity, which also needs to be recalculated during the Picard 
+</I>&gt;<i> iteration in the nonlinear case. The post-hoc diagnostic calculation
+</I>&gt;<i> of 
+</I>&gt;<i> velocities is only relevant to the SIA, so I propose incorporating
+</I>&gt;<i> the 
+</I>&gt;<i> velocity and thickness calculations into a single DC, so one call 
+</I>&gt;<i> calculates the whole lot.
+</I>&gt;<i> 
+</I>
+what about moving the velo calculations into a separate module which
+gets called by the SIA model? I know, I suggested no dependencies
+between DCs, however, I guess in this case it would be one DC which is
+spread over multiple files so that's ok. I think splitting large modules
+up into smaller ones makes it easier to read/maintain.
+
+&gt;<i> 2) The linear and non-linear codes are very similar, so I would
+</I>&gt;<i> suggest 
+</I>&gt;<i> merging the two, and then selecting non-linearity using an 
+</I>&gt;<i> initialisation flag, if required. This keeps the amount of code to be 
+</I>&gt;<i> maintained smaller.
+</I>&gt;<i> 
+</I>
+fair enough, although the non-lin could presumably also depend on the
+linear step.
+
+&gt;<i> 3) Several bits of thickness code are used by both 'standard'
+</I>&gt;<i> thickness 
+</I>&gt;<i> DCs as well as the ADI scheme, so I would suggest having a 
+</I>&gt;<i> glide_thckShared module (or a different name) to contain those parts. 
+</I>
+yes, that makes sense.
+
+Cheers
+magi
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000142.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+	<LI>Next message: <A HREF="000152.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#145">[ date ]</a>
+              <a href="thread.html#145">[ thread ]</a>
+              <a href="subject.html#145">[ subject ]</a>
+              <a href="author.html#145">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

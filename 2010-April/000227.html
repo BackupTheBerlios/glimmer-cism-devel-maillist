@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3Cs2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000226.html">
+   <LINK REL="Next"  HREF="000228.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk</H1>
+    <B>Carl Gladish</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3Cs2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk">gladish at cims.nyu.edu
+       </A><BR>
+    <I>Fri Apr  9 18:48:28 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000226.html">[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk
+</A></li>
+        <LI>Next message: <A HREF="000228.html">[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#227">[ date ]</a>
+              <a href="thread.html#227">[ thread ]</a>
+              <a href="subject.html#227">[ subject ]</a>
+              <a href="author.html#227">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+
+I don't mind waiting.
+
+One thing I don't understand is, how does this developer group plan to
+review merges?  In particular, if I have changes sitting in my working copy
+of the trunk, it isn't easy for anyone else to review them unless I commit
+them and then it might be too late to avoid causing build-breaking
+problems.  How do we get around that?  On the other hand, I am confident
+that my merge-related changes won't break anything or affect other users, so
+I think it's reasonable to just commit the changes and have others review it
+post hoc.
+
+-Carl
+
+On Fri, Apr 9, 2010 at 12:20 PM, Stephen Price &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sprice at lanl.gov</A>&gt; wrote:
+
+&gt;<i>
+</I>&gt;<i> Hi Carl,
+</I>&gt;<i>
+</I>&gt;<i> Thanks for the update. From the amount of commit traffic, it looks like
+</I>&gt;<i> you've made some great progress recently.
+</I>&gt;<i>
+</I>&gt;<i> This will take a bit of thinking about. We are currently right in the
+</I>&gt;<i> middle of (1) freezing the higher-order code on the LANL branch for a &quot;beta&quot;
+</I>&gt;<i> release of the code (hopefully done by next week) and (2) getting ready to
+</I>&gt;<i> do some other merging of various branches and trunks.
+</I>&gt;<i>
+</I>&gt;<i> If you are not in a hurry to do the merge for any reason, perhaps it could
+</I>&gt;<i> wait for a week or two? Once we get the beta release out, and start
+</I>&gt;<i> finalizing plans for other merges that follow, we can take this into account
+</I>&gt;<i> and figure out how to handle it.
+</I>&gt;<i>
+</I>&gt;<i> That is just my opinion, so other folks should feel free to weigh in as
+</I>&gt;<i> well.
+</I>&gt;<i>
+</I>&gt;<i> cheers -
+</I>&gt;<i>
+</I>&gt;<i> Steve
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Carl Gladish wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi developers,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I am on the verge of merging my ongoing work involving plume coupling.  I
+</I>&gt;&gt;<i> don't want to scare anyone (or break the code!), so does anyone want to
+</I>&gt;&gt;<i> monitor what I am doing?
+</I>&gt;&gt;<i> I have merged my plume-related code into my working copy of the
+</I>&gt;&gt;<i> glimmer-cism-lanl trunk and I am able to build (using Sun f90 compiler, and
+</I>&gt;&gt;<i> gfortran) and run my own cases.  Before I commit could one of the senior
+</I>&gt;&gt;<i> people approve the changes?
+</I>&gt;&gt;<i> By the way, the source in branches/plume_integration doesn't look exactly
+</I>&gt;&gt;<i> like my working copy of the trunk since I did some of the merging by hand.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The files affected by the merge, along with a description of the changes
+</I>&gt;&gt;<i> to existing glide code follows.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> src/fortran/Makefile.am * added libplume.a to lib_LIBRARIES
+</I>&gt;&gt;<i> * added shelf_driver to bin_PROGRAMS
+</I>&gt;&gt;<i> * added a line for libplume_a_SOURCE
+</I>&gt;&gt;<i> * added a line for shelf_driver_SOURCES
+</I>&gt;&gt;<i> * added a line for shelf_driver_LDADD
+</I>&gt;&gt;<i> * added $(libplume_a_SOURCES) $(shelf_driver_SOURCES) to ALL_SRC
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> src/fortran/glide_temp.F90
+</I>&gt;&gt;<i> *  made bmlt intent(inout) in calcbmlt
+</I>&gt;&gt;<i> *  added logic to check if we are counting on the plume to write bmlt for
+</I>&gt;&gt;<i> floating ice
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> src/fortran/glide_setup.F90
+</I>&gt;&gt;<i> * added 'use_plume' to the '[options]' section which takes values 0 or 1,
+</I>&gt;&gt;<i> 1 meaning that we are using the plume model to calculate basal melt rates
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> src/fortran/glide_types.F90
+</I>&gt;&gt;<i> * added use_plume as an integer member of the glide_options type
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> src/fortran/shelf_driver.F90  [ a new driver]
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> src/fortran/plume*.F90   [all plume related code]
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> tests/petermann/*   [various tools to set up Petermann Glacier style model
+</I>&gt;&gt;<i> runs]
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cheers,
+</I>&gt;&gt;<i> Carl Gladish
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+<A HREF="http://www.cims.nyu.edu/~gladish">http://www.cims.nyu.edu/~gladish</A>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100409/0fbe5cf2/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100409/0fbe5cf2/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000226.html">[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk
+</A></li>
+	<LI>Next message: <A HREF="000228.html">[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#227">[ date ]</a>
+              <a href="thread.html#227">[ thread ]</a>
+              <a href="subject.html#227">[ subject ]</a>
+              <a href="author.html#227">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

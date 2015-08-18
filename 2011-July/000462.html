@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Gotcha in glimmer-test config file
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Gotcha%20in%20glimmer-test%20config%20file&In-Reply-To=%3C20110718221957.lh7u14lrj4o4gksg%40cubmail.cc.columbia.edu%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000463.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Gotcha in glimmer-test config file</H1>
+    <B>rpf2116 at columbia.edu</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Gotcha%20in%20glimmer-test%20config%20file&In-Reply-To=%3C20110718221957.lh7u14lrj4o4gksg%40cubmail.cc.columbia.edu%3E"
+       TITLE="[Glimmer-cism-devel] Gotcha in glimmer-test config file">rpf2116 at columbia.edu
+       </A><BR>
+    <I>Tue Jul 19 04:19:57 CEST 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000463.html">[Glimmer-cism-devel] glimmer-cism-lanl (Revision 2385) convergence	issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#462">[ date ]</a>
+              <a href="thread.html#462">[ thread ]</a>
+              <a href="subject.html#462">[ subject ]</a>
+              <a href="author.html#462">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+   This is a minor bug report.
+
+The error message in bold below could be more helpful.&#160;&#160; Should be:
+
+   /*** in your PATH or run configure with the --with-glimmer_prefix option./
+
+-- Bob
+
+*** Could not find glimmer-config. Either add the directory where  
+glimmer-config is installed
+*** IN YOUR PATH OR RUN CONFIGURE WITH THE --GLIMMER_PREFIX OPTION.
+configure: error: Could not find glimmer
+
+bash-4.0$ ./configure --prefix=$HOME/climate/opt/glimmer-tests-1.2  
+--glimmer_prefix=/export/home/citibob/climate/opt/glimmer-1.7.0/
+configure: error: unrecognized option:  
+--glimmer_prefix=/export/home/citibob/climate/opt/glimmer-1.7.0/
+Try `./configure --help' for more information.
+
+bash-4.0$ ./configure --help | grep glimmer
+`configure' configures glimmer-tests 1.2 to adapt to many kinds of systems.
+&#160; --with-glimmer-prefix=PFX&#160; &#160;Prefix where GLIMMER is installed (optional)
+Report bugs to &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;.
+bash-4.0$ ./configure --prefix=$HOME/climate/opt/glimmer-tests-1.2  
+--with-glimmer_prefix=/export/home/citibob/climate/opt/glimmer-1.7.0
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110718/e2ebde34/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110718/e2ebde34/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000463.html">[Glimmer-cism-devel] glimmer-cism-lanl (Revision 2385) convergence	issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#462">[ date ]</a>
+              <a href="thread.html#462">[ thread ]</a>
+              <a href="subject.html#462">[ subject ]</a>
+              <a href="author.html#462">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

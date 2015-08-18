@@ -1,0 +1,5173 @@
+From Magnus.Hagdorn at ed.ac.uk  Thu Oct  1 13:09:08 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 01 Oct 2009 12:09:08 +0100
+Subject: [Glimmer-cism-devel] various branches
+In-Reply-To: <1254338689.4676.0.camel@hog.marsupium.org>
+References: <1254309351.25112.97.camel@muick.geos.ed.ac.uk>
+	<4AC398BD.2020306@lanl.gov> <1254338689.4676.0.camel@hog.marsupium.org>
+Message-ID: <1254395348.19564.3.camel@muick.geos.ed.ac.uk>
+
+
+On Wed, 2009-09-30 at 20:24 +0100, Magnus Hagdorn wrote:
+> On Wed, 2009-09-30 at 11:43 -0600, Stephen Price wrote:
+> > I've got some changes I'd like to commit at some point today/tonight.
+> > 
+> > If it's ok with other folks, how about scheduling the copy/change for 
+> > tomorrow (U.K. time)?
+> 
+> that's fine. as i said you can just switch to the new repo url. once
+> i've done the copying I will send the correct command...
+> Cheers
+> magi
+> 
+
+I have copied the lanl branch into the new top-level module with URL
+https://developer at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism-lanl/trunk
+
+unfortunately, because the module is private svn switch doesn't seem to
+work. You'll need to check out a new copy and copy the changes across by
+hand.
+
+I have also made the original lanl branch read-only - but don't rely on
+it, it might take 24hrs until it happens.
+
+Steve, I'll leave creating the branch for the parallelisation work to
+you. It should go into glimmer-cism-lanl/branches/whatever
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct  7 17:22:49 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 07 Oct 2009 16:22:49 +0100
+Subject: [Glimmer-cism-devel] plotting
+Message-ID: <1254928969.3968.10.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+is anyone doing anything about plotting results?
+
+I intend to start on plotting the isothermal exact solutions if no one
+has something. I'll be using python+matplotlib.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Oct 13 11:29:49 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 13 Oct 2009 10:29:49 +0100
+Subject: [Glimmer-cism-devel] visualisation
+Message-ID: <1255426189.27041.18.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+we currently have now supported way of producing nice graphical output.
+
+I'd like to start this discussion of what we want, what we already have,
+etc.
+
+The way I see it we have two options:
+1. write our own system
+2. extend an existing system
+
+To some extent I lean towards 1 since I know how to do that and I don't
+have to learn something new. My suggestion here would be to use python,
+numpy and matplotlib with the basemap extension for visualisation. We
+could start with our own 2D ice sheet class with methods to
+* plot base topo
+* plot (clipped) scalar fields on ice bed/ice surface
+* plot vector fields
+* plot contours
+* shade surfaces to give 3D impression
+* plot lines (for profiles)
+
+And we would need something similar for profiles.
+
+Option 2 has some merit as well. It might be easier for others to use
+our system if they already know it. Maybe it's less work for us. Anyway,
+NCL the NCAR Command Language springs to mind:
+http://www.ncl.ucar.edu/
+It does projections, maths, statistics and supports a number of models -
+CCSM, WRF and others. So maybe we could add our own model specific
+tools. I have never used NCL, I only know it exists and that it looks
+quite nice. Has anyone used it. Would it make sense for us to extend it
+for our own needs? The thing I really don't like about it is that it is
+yet another programming language.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jesse.v.johnson at gmail.com  Tue Oct 13 16:49:51 2009
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Tue, 13 Oct 2009 08:49:51 -0600
+Subject: [Glimmer-cism-devel] visualisation
+In-Reply-To: <1255426189.27041.18.camel@muick.geos.ed.ac.uk>
+References: <1255426189.27041.18.camel@muick.geos.ed.ac.uk>
+Message-ID: <9288095c0910130749l40f96571mf41859131a903e2e@mail.gmail.com>
+
+Dear All,
+
+I think that the issue here is to provide some useful tools, but it's
+still incumbent on the user to figure out how to do more advanced data
+manipulation, if they need it. So, I propose that we stay away from
+NCL or Ferret.
+
+Because we've already been using matplotlib + python + numpy, I
+support continued use of those libraries. While they add to the
+dependency list, one can get the job done without them, and they seem
+to be becoming a standard.
+
+Two final issues on this front.
+
+1) Better compliance with the CF standards will allow easy use of
+several nice viz packages, including IDV [1]. I think that this should
+be a priority. Last time I checked, we were close, but there were some
+issues with the way we describe our grid.
+
+2) We need to agree on a library for importing netCDF files. I think
+this is the real stumbling block. We'll move to whatever, but let's
+agree on what it is. We have been using pycdf, which is adequate, but
+not commonly installed. Alternates might be the scipy.io.netcdf module
+[2], or the newer, but active netcdf4-python [3].
+
+
+[1]  http://www.unidata.ucar.edu/software/idv/
+[2 ]http://www.scipy.org/doc/api_docs/SciPy.io.netcdf.html
+[3] http://code.google.com/p/netcdf4-python/
+
+
+
+
+On Tue, Oct 13, 2009 at 3:29 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> Hi all,
+> we currently have now supported way of producing nice graphical output.
+>
+> I'd like to start this discussion of what we want, what we already have,
+> etc.
+>
+> The way I see it we have two options:
+> 1. write our own system
+> 2. extend an existing system
+>
+> To some extent I lean towards 1 since I know how to do that and I don't
+> have to learn something new. My suggestion here would be to use python,
+> numpy and matplotlib with the basemap extension for visualisation. We
+> could start with our own 2D ice sheet class with methods to
+> * plot base topo
+> * plot (clipped) scalar fields on ice bed/ice surface
+> * plot vector fields
+> * plot contours
+> * shade surfaces to give 3D impression
+> * plot lines (for profiles)
+>
+> And we would need something similar for profiles.
+>
+> Option 2 has some merit as well. It might be easier for others to use
+> our system if they already know it. Maybe it's less work for us. Anyway,
+> NCL the NCAR Command Language springs to mind:
+> http://www.ncl.ucar.edu/
+> It does projections, maths, statistics and supports a number of models -
+> CCSM, WRF and others. So maybe we could add our own model specific
+> tools. I have never used NCL, I only know it exists and that it looks
+> quite nice. Has anyone used it. Would it make sense for us to extend it
+> for our own needs? The thing I really don't like about it is that it is
+> yet another programming language.
+>
+> Cheers
+> magi
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Oct 13 16:57:13 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 13 Oct 2009 15:57:13 +0100
+Subject: [Glimmer-cism-devel] visualisation
+In-Reply-To: <9288095c0910130749l40f96571mf41859131a903e2e@mail.gmail.com>
+References: <1255426189.27041.18.camel@muick.geos.ed.ac.uk>
+	<9288095c0910130749l40f96571mf41859131a903e2e@mail.gmail.com>
+Message-ID: <1255445833.27041.32.camel@muick.geos.ed.ac.uk>
+
+
+On Tue, 2009-10-13 at 08:49 -0600, Jesse Johnson wrote:
+> I think that the issue here is to provide some useful tools, but it's
+> still incumbent on the user to figure out how to do more advanced data
+> manipulation, if they need it. So, I propose that we stay away from
+> NCL or Ferret.
+> 
+> Because we've already been using matplotlib + python + numpy, I
+> support continued use of those libraries. While they add to the
+> dependency list, one can get the job done without them, and they seem
+> to be becoming a standard.
+> 
+yes, my feelings too. I also think that we just need some basic tools.
+More complex visualisation will always be just that - complex.
+
+> Two final issues on this front.
+> 
+> 1) Better compliance with the CF standards will allow easy use of
+> several nice viz packages, including IDV [1]. I think that this should
+> be a priority. Last time I checked, we were close, but there were some
+> issues with the way we describe our grid.
+> 
+yup, I will look into this next.
+
+> 2) We need to agree on a library for importing netCDF files. I think
+> this is the real stumbling block. We'll move to whatever, but let's
+> agree on what it is. We have been using pycdf, which is adequate, but
+> not commonly installed. Alternates might be the scipy.io.netcdf module
+> [2], or the newer, but active netcdf4-python [3].
+
+I believe the new netcdf4 module has a very similar API to
+Scientific.IO.NetCDF so switching between the two is no problem. I think
+ubuntu might come with Scientific.IO.NetCDF so maybe we should go with
+that for now?
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Tue Oct 13 18:27:12 2009
+From: sprice at lanl.gov (Stephen Price)
+Date: Tue, 13 Oct 2009 10:27:12 -0600
+Subject: [Glimmer-cism-devel] visualisation
+In-Reply-To: <1255426189.27041.18.camel@muick.geos.ed.ac.uk>
+References: <1255426189.27041.18.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AD4AA60.2090304@lanl.gov>
+
+
+Hi Magnus,
+
+For what it's worth, I know that some of our colleagues at Oak Ridge 
+have used NCL for visualization needs in the past. Perhaps they know 
+enough to help get us started and/or would like to weigh in on using NCL 
+vs. python?
+
+cheers -
+
+Steve
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> we currently have now supported way of producing nice graphical output.
+> 
+> I'd like to start this discussion of what we want, what we already have,
+> etc.
+> 
+> The way I see it we have two options:
+> 1. write our own system
+> 2. extend an existing system
+> 
+> To some extent I lean towards 1 since I know how to do that and I don't
+> have to learn something new. My suggestion here would be to use python,
+> numpy and matplotlib with the basemap extension for visualisation. We
+> could start with our own 2D ice sheet class with methods to
+> * plot base topo
+> * plot (clipped) scalar fields on ice bed/ice surface
+> * plot vector fields
+> * plot contours
+> * shade surfaces to give 3D impression
+> * plot lines (for profiles)
+> 
+> And we would need something similar for profiles.
+> 
+> Option 2 has some merit as well. It might be easier for others to use
+> our system if they already know it. Maybe it's less work for us. Anyway,
+> NCL the NCAR Command Language springs to mind:
+> http://www.ncl.ucar.edu/
+> It does projections, maths, statistics and supports a number of models -
+> CCSM, WRF and others. So maybe we could add our own model specific
+> tools. I have never used NCL, I only know it exists and that it looks
+> quite nice. Has anyone used it. Would it make sense for us to extend it
+> for our own needs? The thing I really don't like about it is that it is
+> yet another programming language.
+> 
+> Cheers
+> magi
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Oct 15 13:13:20 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 15 Oct 2009 12:13:20 +0100
+Subject: [Glimmer-cism-devel] more refactoring
+Message-ID: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+as you might have noticed I am looking into I/O at the moment. At some
+stage we will also need to refactor it. So I spend a little time on
+thinking about it.
+
+What about:
+- creating a new top-level directory called dynamic-cores (or something
+along those lines)
+- one file per dynamic core (DC) - all sensibly named
+- each DC defines a derived type that holds parameters and work space
+arrays it requires
+- each DC has an init function which
+  * takes as arguments parameters and coord system type
+  * allocates work arrays
+  * returns filled in derived type
+- each DC has a clean-up procedure which deallocates memory
+- each DC has a time step function which takes as input DC derived type
+and input/output fields
+- as before DC are allowed to depend on libglimmer
+
+libglide provides
+- derived type collecting all DC derived types and fields
+- library to initialise DC from config file (calling DC init procedures)
+- memory management of fields
+- field I/O using netCDF
+- time step procedure calling individual DC
+
+So people can use libglide out of the box if they want to. Others
+wanting more control can use the DC directly.
+
+What do you think?
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Oct 15 16:26:42 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 15 Oct 2009 15:26:42 +0100
+Subject: [Glimmer-cism-devel] svn merge
+Message-ID: <1255616802.20097.20.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+when you merge different branches could you add revision numbers to the
+commit log, e.g. when you do
+
+svn merge -rA:B trunk .
+svn commit -m "merged trunk rA:B"
+
+this way we know from the log what has been merged and next time we can
+merge the correct changes.
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Oct 16 10:30:22 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 16 Oct 2009 09:30:22 +0100
+Subject: [Glimmer-cism-devel] unittests in lanl branch
+Message-ID: <1255681822.1093.0.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+I noticed there are unit tests in the lanl branch. Excellent! How are
+they called? Where is the data the results are checked against?
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Oct 16 16:04:19 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 16 Oct 2009 15:04:19 +0100
+Subject: [Glimmer-cism-devel] scaling
+Message-ID: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+I am looking into yanking out the scaling factors. We currently have
+time in seconds. Do we want to keep the factor of 31556926? Or rescale
+everything to years which will obviously mess up people who actually
+care about calendars.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From A.J.Payne at bristol.ac.uk  Fri Oct 16 16:23:19 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Fri, 16 Oct 2009 15:23:19 +0100
+Subject: [Glimmer-cism-devel] scaling
+In-Reply-To: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+References: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+Message-ID: <4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>
+
+magi
+
+i think years is a better unit for time in our work.  recommend that we keep keep 
+parameter for 31556926 available.
+
+tony
+
+--On 2009-10-16 15:04 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+
+> Hi all,
+> I am looking into yanking out the scaling factors. We currently have
+> time in seconds. Do we want to keep the factor of 31556926? Or rescale
+> everything to years which will obviously mess up people who actually
+> care about calendars.
+>
+> Cheers
+> magi
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From I.C.Rutt at swansea.ac.uk  Fri Oct 16 16:36:32 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 16 Oct 2009 15:36:32 +0100
+Subject: [Glimmer-cism-devel] scaling
+In-Reply-To: <4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>
+References: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+	<4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>
+Message-ID: <4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>
+
+
+Hi All,
+
+I agree with Tony - this is the most practical approach. However, we  
+have the problem that the length of a year may vary, and the ISM needs  
+to know what it is in order to convert certain physical constants  
+correctly. Ideally, the user should be able to specify the length of  
+the year somehow. However, I guess we should probably defer that for a  
+future development.
+
+Cheers,
+
+Ian
+
+On 16 Oct 2009, at 15:23, AJ Payne, Geographical Sciences wrote:
+
+> magi
+>
+> i think years is a better unit for time in our work.  recommend that  
+> we keep keep
+> parameter for 31556926 available.
+>
+> tony
+>
+> --On 2009-10-16 15:04 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>  
+> wrote:
+>
+>> Hi all,
+>> I am looking into yanking out the scaling factors. We currently have
+>> time in seconds. Do we want to keep the factor of 31556926? Or  
+>> rescale
+>> everything to years which will obviously mess up people who actually
+>> care about calendars.
+>>
+>> Cheers
+>> magi
+>>
+>> --
+>> The University of Edinburgh is a charitable body, registered in
+>> Scotland, with registration number SC005336.
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+>
+> ------------------------<>---------------------------
+> Tony Payne
+> School of Geographical Sciences,
+> University of Bristol,
+> Bristol BS8 1SS, UK.
+> Telephone:      +117 331 4156
+> Fax:            +117 928 7878
+> Email:          A.J.Payne at bristol.ac.uk
+> ------------------------<>---------------------------
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From A.J.Payne at bristol.ac.uk  Fri Oct 16 16:52:08 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Fri, 16 Oct 2009 15:52:08 +0100
+Subject: [Glimmer-cism-devel] scaling
+In-Reply-To: <4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>
+References: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+	<4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>
+	<4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>
+Message-ID: <27905E5BB3A8587CF95B1928@geog-bsq78.ggy.bris.ac.uk>
+
+yes the length of year may vary according to application, in particular the number of 
+days per year is typically 360 in climate models but 365/6 if we are forcing with 
+observations.  i have a function for obtaining days per year (ie leap year calculator) if 
+that is useful.
+
+tony
+
+--On 2009-10-16 15:36 +0100 Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+
+>
+> Hi All,
+>
+> I agree with Tony - this is the most practical approach. However, we  have the problem
+> that the length of a year may vary, and the ISM needs  to know what it is in order to
+> convert certain physical constants  correctly. Ideally, the user should be able to
+> specify the length of  the year somehow. However, I guess we should probably defer that
+> for a  future development.
+>
+> Cheers,
+>
+> Ian
+>
+> On 16 Oct 2009, at 15:23, AJ Payne, Geographical Sciences wrote:
+>
+>> magi
+>>
+>> i think years is a better unit for time in our work.  recommend that
+>> we keep keep
+>> parameter for 31556926 available.
+>>
+>> tony
+>>
+>> --On 2009-10-16 15:04 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>> wrote:
+>>
+>>> Hi all,
+>>> I am looking into yanking out the scaling factors. We currently have
+>>> time in seconds. Do we want to keep the factor of 31556926? Or
+>>> rescale
+>>> everything to years which will obviously mess up people who actually
+>>> care about calendars.
+>>>
+>>> Cheers
+>>> magi
+>>>
+>>> --
+>>> The University of Edinburgh is a charitable body, registered in
+>>> Scotland, with registration number SC005336.
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>
+>>
+>> ------------------------<>---------------------------
+>> Tony Payne
+>> School of Geographical Sciences,
+>> University of Bristol,
+>> Bristol BS8 1SS, UK.
+>> Telephone:      +117 331 4156
+>> Fax:            +117 928 7878
+>> Email:          A.J.Payne at bristol.ac.uk
+>> ------------------------<>---------------------------
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From jesse.v.johnson at gmail.com  Fri Oct 16 16:48:31 2009
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Fri, 16 Oct 2009 08:48:31 -0600
+Subject: [Glimmer-cism-devel] scaling
+In-Reply-To: <4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>
+References: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+	<4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>
+	<4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>
+Message-ID: <9288095c0910160748x1bc92517s4f5c07f0972af45a@mail.gmail.com>
+
+Hi,
+
+I've been talking to PISM people and think that we should all
+standardize on the tropical year specified in UDUNITS.
+
+3.15569259747e7
+
+Preposterous accuracy! But this way we are consistent.
+
+On rescale, I would propose that the default is no rescaling, but it
+can still be invoked. Right now, my understanding is that the Glam
+core requires rescaled variables.
+
+Jesse
+
+
+
+
+On Fri, Oct 16, 2009 at 8:36 AM, Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+>
+> Hi All,
+>
+> I agree with Tony - this is the most practical approach. However, we
+> have the problem that the length of a year may vary, and the ISM needs
+> to know what it is in order to convert certain physical constants
+> correctly. Ideally, the user should be able to specify the length of
+> the year somehow. However, I guess we should probably defer that for a
+> future development.
+>
+> Cheers,
+>
+> Ian
+>
+> On 16 Oct 2009, at 15:23, AJ Payne, Geographical Sciences wrote:
+>
+>> magi
+>>
+>> i think years is a better unit for time in our work. ?recommend that
+>> we keep keep
+>> parameter for 31556926 available.
+>>
+>> tony
+>>
+>> --On 2009-10-16 15:04 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>> wrote:
+>>
+>>> Hi all,
+>>> I am looking into yanking out the scaling factors. We currently have
+>>> time in seconds. Do we want to keep the factor of 31556926? Or
+>>> rescale
+>>> everything to years which will obviously mess up people who actually
+>>> care about calendars.
+>>>
+>>> Cheers
+>>> magi
+>>>
+>>> --
+>>> The University of Edinburgh is a charitable body, registered in
+>>> Scotland, with registration number SC005336.
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>
+>>
+>> ------------------------<>---------------------------
+>> Tony Payne
+>> School of Geographical Sciences,
+>> University of Bristol,
+>> Bristol BS8 1SS, UK.
+>> Telephone: ? ? ?+117 331 4156
+>> Fax: ? ? ? ? ? ?+117 928 7878
+>> Email: ? ? ? ? ?A.J.Payne at bristol.ac.uk
+>> ------------------------<>---------------------------
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From A.J.Payne at bristol.ac.uk  Fri Oct 16 16:59:18 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Fri, 16 Oct 2009 15:59:18 +0100
+Subject: [Glimmer-cism-devel] scaling
+In-Reply-To: <9288095c0910160748x1bc92517s4f5c07f0972af45a@mail.gmail.com>
+References: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+	<4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>
+	<4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>
+	<9288095c0910160748x1bc92517s4f5c07f0972af45a@mail.gmail.com>
+Message-ID: <27DC8F352DC47C46D938AEE4@geog-bsq78.ggy.bris.ac.uk>
+
+suggest that default is unscaled so that if a particular DC needs to scale, it must do so 
+internally as part of initialization and remember to descale once finished.
+
+tony
+
+--On 2009-10-16 08:48 -0600 Jesse Johnson <jesse.v.johnson at gmail.com> wrote:
+
+> Hi,
+>
+> I've been talking to PISM people and think that we should all
+> standardize on the tropical year specified in UDUNITS.
+>
+> 3.15569259747e7
+>
+> Preposterous accuracy! But this way we are consistent.
+>
+> On rescale, I would propose that the default is no rescaling, but it
+> can still be invoked. Right now, my understanding is that the Glam
+> core requires rescaled variables.
+>
+> Jesse
+>
+>
+>
+>
+> On Fri, Oct 16, 2009 at 8:36 AM, Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+>>
+>> Hi All,
+>>
+>> I agree with Tony - this is the most practical approach. However, we
+>> have the problem that the length of a year may vary, and the ISM needs
+>> to know what it is in order to convert certain physical constants
+>> correctly. Ideally, the user should be able to specify the length of
+>> the year somehow. However, I guess we should probably defer that for a
+>> future development.
+>>
+>> Cheers,
+>>
+>> Ian
+>>
+>> On 16 Oct 2009, at 15:23, AJ Payne, Geographical Sciences wrote:
+>>
+>>> magi
+>>>
+>>> i think years is a better unit for time in our work. ?recommend that
+>>> we keep keep
+>>> parameter for 31556926 available.
+>>>
+>>> tony
+>>>
+>>> --On 2009-10-16 15:04 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>>> wrote:
+>>>
+>>>> Hi all,
+>>>> I am looking into yanking out the scaling factors. We currently have
+>>>> time in seconds. Do we want to keep the factor of 31556926? Or
+>>>> rescale
+>>>> everything to years which will obviously mess up people who actually
+>>>> care about calendars.
+>>>>
+>>>> Cheers
+>>>> magi
+>>>>
+>>>> --
+>>>> The University of Edinburgh is a charitable body, registered in
+>>>> Scotland, with registration number SC005336.
+>>>>
+>>>> _______________________________________________
+>>>> Glimmer-cism-devel mailing list
+>>>> Glimmer-cism-devel at lists.berlios.de
+>>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>
+>>>
+>>>
+>>> ------------------------<>---------------------------
+>>> Tony Payne
+>>> School of Geographical Sciences,
+>>> University of Bristol,
+>>> Bristol BS8 1SS, UK.
+>>> Telephone: ? ? ?+117 331 4156
+>>> Fax: ? ? ? ? ? ?+117 928 7878
+>>> Email: ? ? ? ? ?A.J.Payne at bristol.ac.uk
+>>> ------------------------<>---------------------------
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>
+>
+>
+> --
+> Jesse Johnson, Associate Professor
+> Department of Computer Science
+> Social Science Building, Room 417
+> The University of Montana
+> Missoula, MT  59812-5256
+>
+> tel: (406) 243-2356
+> fax: (406) 243-5139
+>
+> email: johnson at cs.umt.edu
+> http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From sprice at lanl.gov  Fri Oct 16 23:31:27 2009
+From: sprice at lanl.gov (Stephen Price)
+Date: Fri, 16 Oct 2009 15:31:27 -0600
+Subject: [Glimmer-cism-devel] scaling
+In-Reply-To: <27DC8F352DC47C46D938AEE4@geog-bsq78.ggy.bris.ac.uk>
+References: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>	<4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>	<4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>	<9288095c0910160748x1bc92517s4f5c07f0972af45a@mail.gmail.com>
+	<27DC8F352DC47C46D938AEE4@geog-bsq78.ggy.bris.ac.uk>
+Message-ID: <4AD8E62F.8080909@lanl.gov>
+
+
+Yes, currently the glam HO solver does *not* give sensible results by 
+simply compiling w/ the NO_RESCALE option set. So, I'd rather not break 
+the code just yet by removing all scales there.
+
+S.
+
+>>
+>> On rescale, I would propose that the default is no rescaling, but it
+>> can still be invoked. Right now, my understanding is that the Glam
+>> core requires rescaled variables.
+>>
+
+
+From Magnus.Hagdorn at ed.ac.uk  Sun Oct 18 00:13:17 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Sat, 17 Oct 2009 23:13:17 +0100
+Subject: [Glimmer-cism-devel] scaling
+In-Reply-To: <4AD8E62F.8080909@lanl.gov>
+References: <1255701859.1093.10.camel@muick.geos.ed.ac.uk>
+	<4D6942C560BFFF3EBE0B66ED@geog-bsq78.ggy.bris.ac.uk>
+	<4FA94DBE-AEA9-463F-B50F-4182E98FE6B1@swansea.ac.uk>
+	<9288095c0910160748x1bc92517s4f5c07f0972af45a@mail.gmail.com>
+	<27DC8F352DC47C46D938AEE4@geog-bsq78.ggy.bris.ac.uk>
+	<4AD8E62F.8080909@lanl.gov>
+Message-ID: <1255817597.2132.4.camel@swine>
+
+On Fri, 2009-10-16 at 15:31 -0600, Stephen Price wrote:
+> Yes, currently the glam HO solver does *not* give sensible results by 
+> simply compiling w/ the NO_RESCALE option set. So, I'd rather not
+> break 
+> the code just yet by removing all scales there.
+> 
+ok, I won't touch the scaling for now. Let's sort the other bits and
+bobs out first. I think either we have to consistently apply rescaling
+or not otherwise we will end up totally confused.
+Cheers
+magi
+
+
+
+From I.C.Rutt at swansea.ac.uk  Mon Oct 19 11:10:32 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 19 Oct 2009 10:10:32 +0100
+Subject: [Glimmer-cism-devel] more refactoring
+In-Reply-To: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>
+References: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>
+Message-ID: <4ADC2D08.2080201@swansea.ac.uk>
+
+
+Hi Magi,
+
+Yes, I think this works fine. There are a couple of things we should 
+think about, though.
+
+* It makes sense to work towards making the API for DCs in the same 
+'class' (i.e. all temperature solvers or all thickness solvers) 
+identical, so I would advocate using a single derived type for each 
+class. This means that the derived type will need to be extended for 
+each new DC, but that would reduce the changes which need to be made 
+elsewhere when a new DC is added. Of course, if we were using F2003, 
+we'd define a base class with some relevant virtual functions, and 
+derive the DC classes from that...
+
+* I would suggest that the size of the timestep should be specified in 
+the DC timestep call, rather than in the init function.
+
+On both points, I'm happy to be persuaded otherwise, though... ;)
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> as you might have noticed I am looking into I/O at the moment. At some
+> stage we will also need to refactor it. So I spend a little time on
+> thinking about it.
+> 
+> What about:
+> - creating a new top-level directory called dynamic-cores (or something
+> along those lines)
+> - one file per dynamic core (DC) - all sensibly named
+> - each DC defines a derived type that holds parameters and work space
+> arrays it requires
+> - each DC has an init function which
+>   * takes as arguments parameters and coord system type
+>   * allocates work arrays
+>   * returns filled in derived type
+> - each DC has a clean-up procedure which deallocates memory
+> - each DC has a time step function which takes as input DC derived type
+> and input/output fields
+> - as before DC are allowed to depend on libglimmer
+> 
+> libglide provides
+> - derived type collecting all DC derived types and fields
+> - library to initialise DC from config file (calling DC init procedures)
+> - memory management of fields
+> - field I/O using netCDF
+> - time step procedure calling individual DC
+> 
+> So people can use libglide out of the box if they want to. Others
+> wanting more control can use the DC directly.
+> 
+> What do you think?
+> 
+> Cheers
+> magi
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Oct 19 11:18:12 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 19 Oct 2009 10:18:12 +0100
+Subject: [Glimmer-cism-devel] more refactoring
+In-Reply-To: <4ADC2D08.2080201@swansea.ac.uk>
+References: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>
+	<4ADC2D08.2080201@swansea.ac.uk>
+Message-ID: <1255943892.2209.7.camel@swine>
+
+On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+> * It makes sense to work towards making the API for DCs in the same 
+> 'class' (i.e. all temperature solvers or all thickness solvers) 
+> identical, so I would advocate using a single derived type for each 
+> class. This means that the derived type will need to be extended for 
+> each new DC, but that would reduce the changes which need to be made 
+> elsewhere when a new DC is added. Of course, if we were using F2003, 
+> we'd define a base class with some relevant virtual functions, and 
+> derive the DC classes from that...
+> 
+I was thinking to have one derived type per implementation otherwise
+different implementations are dependent on each other. In glide we could
+have a wrapper DC which supports all know implementation similar to how
+we deal with different projections:
+* derived types with pointers to individual supported DC derived types
+and an ID for selecting the desired implementation
+* a time step procedures which consists of a select case structure to
+select desired implementation
+
+This way we can keep the DC as simple as possible and push complexity
+into libglide where it belongs.
+
+> * I would suggest that the size of the timestep should be specified
+> in 
+> the DC timestep call, rather than in the init function.
+> 
+yes, that makes sense, we could then support variable time steps.
+
+magi
+
+
+
+From I.C.Rutt at swansea.ac.uk  Mon Oct 19 11:28:11 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 19 Oct 2009 10:28:11 +0100
+Subject: [Glimmer-cism-devel] more refactoring
+In-Reply-To: <1255943892.2209.7.camel@swine>
+References: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>	
+	<4ADC2D08.2080201@swansea.ac.uk> <1255943892.2209.7.camel@swine>
+Message-ID: <4ADC312B.5010005@swansea.ac.uk>
+
+
+Hi Magi,
+
+> I was thinking to have one derived type per implementation otherwise
+> different implementations are dependent on each other. In glide we could
+> have a wrapper DC which supports all know implementation similar to how
+> we deal with different projections:
+> * derived types with pointers to individual supported DC derived types
+> and an ID for selecting the desired implementation
+> * a time step procedures which consists of a select case structure to
+> select desired implementation
+> 
+> This way we can keep the DC as simple as possible and push complexity
+> into libglide where it belongs.
+
+OK, fair enough - I think that's sensible.
+
+Roll on F2003... ;)
+
+Cheers,
+
+Ian
+
+
+From jed at 59A2.org  Mon Oct 19 20:07:45 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Mon, 19 Oct 2009 20:07:45 +0200
+Subject: [Glimmer-cism-devel] more refactoring
+In-Reply-To: <1255943892.2209.7.camel@swine>
+References: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>	<4ADC2D08.2080201@swansea.ac.uk>
+	<1255943892.2209.7.camel@swine>
+Message-ID: <4ADCAAF1.5040600@59A2.org>
+
+Magnus Hagdorn wrote:
+> On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+>> * It makes sense to work towards making the API for DCs in the same 
+>> 'class' (i.e. all temperature solvers or all thickness solvers) 
+>> identical, so I would advocate using a single derived type for each 
+>> class. This means that the derived type will need to be extended for 
+>> each new DC, but that would reduce the changes which need to be made 
+>> elsewhere when a new DC is added. Of course, if we were using F2003, 
+>> we'd define a base class with some relevant virtual functions, and 
+>> derive the DC classes from that...
+>>
+> I was thinking to have one derived type per implementation otherwise
+> different implementations are dependent on each other. In glide we could
+> have a wrapper DC which supports all know implementation similar to how
+> we deal with different projections:
+> * derived types with pointers to individual supported DC derived types
+> and an ID for selecting the desired implementation
+> * a time step procedures which consists of a select case structure to
+> select desired implementation
+
+This relates to plugins, as we were discussing them long ago.  I never
+follow up with an example, but here is the idea (in C, apparently we
+could do something similar with F2003; note that this chunk being in C
+makes no assumption on the language it is being called from or the
+language that implementations are written in).  Skip to the line of hash
+marks (##) for the benefits of this design.
+
+
+The public interface is something like
+
+cism.h:
+
+  typedef _p_DC *DC;                     /* opaque handle */
+  int DCCreate(MPI_Comm,DC *newdc);      /* allocate */
+  int DCSetType(DC,const char *name);    /* 
+  int DCLoad(DC,const char *filename);   /* loads grid */
+  int DCStep(DC,double dt,Vec x,Vec y);  /* take a time step */
+  int DCDestroy(DC);                     /* deallocate */
+
+  /* Associate a string with an implementation */
+  int DCRegister(const char*,int (*)(DC));
+
+  /* If command-line options are stored globally, you can have this
+   * so that the type and implementation-specific options are easy
+   * to set at runtime
+   */
+  int DCSetFromOptions(DC);
+  
+  /* To support implicit integration, you could include */
+  int DCResidual(DC,double dt,Vec x,Vec xdot,Vec res);
+
+
+The climate model only sees the interface above.  The implementation
+looks like
+
+cismimpl.h:
+
+  #include <cism.h>
+
+  struct _DCOps {
+    int (*setfromoptions)(DC);
+    int (*load)(DC,const char*);
+    int (*step)(DC,double,Vec,Vec);
+    int (*residual)(DC,double,Vec,Vec,Vec);
+    int (*destroy)(DC);
+  };
+  struct _p_DC {
+    struct _DCOp *ops;
+    void *data;              /* implementation-specific data */
+    MPI_Comm comm;
+    /* anything else common to all implementations goes here */
+  };
+
+
+I assume that we allocate a different ops pointer for every instance.
+This is more dynamic than a C++ delegator since we can override methods
+on a per-instance rather than per-class basis (this capability,
+sometimes known as monkey patching, should be used sparingly).  The
+implementation of the interface (cism.h) looks something like
+
+cism.c:
+
+  #include <cismimpl.h>
+
+  static int DCPackageInitialized = 0;
+  static FList DCList = 0;  /* list of (string,function) pairs */
+
+  /* function declarations for the implementations that are known,
+   * various physics (shallow ice, shallow shelf, hydrostatic, stokes)
+   * from various sources */
+  extern int DCCreate_GlimmerSIA(DC);
+  extern int DCCreate_GlimmerHS(DC);
+  extern int DCCreate_PismSSA(DC);
+  extern int DCCreate_CoolStokes(DC);
+
+  static int DCInitializePackage() {
+    DCRegister("glimmersia",DCCreate_GlimmerSIA);
+    DCRegister("glimmerhs", DCCreate_GlimmerHS);
+    DCRegister("pismssa",   DCCreate_PismSSA);
+    DCRegister("coolstokes",DCCreate_CoolStokes);
+    DCPackageInitialized = 1;
+    return 0;
+  }
+
+  int DCCreate(MPI_Comm comm,DC *newdc) {
+    DC dc;
+
+    /* Initialize the package only once */
+    if (!DCPackageInitialized) DCInitializePackage();
+    dc = calloc(sizeof(*dc));
+    dc->ops = calloc(sizeof(*dc->ops));
+    dc->comm = comm;
+    /* any other generic stuff */
+    *newdc = dc;
+    return 0;
+  }
+
+  int DCRegister(const char *name,int (*f)(DC)) {
+    /* Suppose we have a generic data structure for this list */
+    return FListAdd(&DCList,name,(void(*)(void))f);
+  }
+
+  int DCSetType(DC dc,const char *name) {
+    int (*f)(DC);
+    FListGet(DCList,name,(void(**)(void))&f);
+    if (!f) ERROR(1,"requested an implementation that has not been registered");
+    if (dc->data) {dc->ops->destroy(dc);} /* destroy an old implementation */
+    return f(dc);                         /* allocate space for the new one */
+  }
+
+  int DCDestroy(DC dc) {
+    dc->ops->destroy(dc);
+    free(dc->ops);
+    free(dc);
+    return 0;
+  }
+
+  /* delegate for the other functions, just trivial wrappers given here */
+  int DCSetFromOptions(DC dc) {
+    /* ... consult the runtime options and possibly change the type */
+    /* ... other generic stuff */
+    return dc->ops->setfromoptions(DC); /* implementation-specific options */
+  }
+  int DCLoad(DC dc,const char *filename) {
+    return dc->ops->load(dc,filename);
+  }
+  int DCStep(DC dc,double dt,Vec x,Vec y) {
+    return dc->ops->step(dc,dt,x,y);
+  }
+  int DCResidual(DC dc,double dt,Vec x,Vec xdot,Vec res) {
+    return dc->ops->residual(dc,dt,x,xdot,res);
+  }
+
+
+Implementations look like:
+
+glimmerhs.c:
+
+  #include <cismimpl.h>
+
+  struct DC_GlimmerHS {
+    /* whatever private data is needed by the hydrostatic implementation,
+     * it could just be a pointer to the Fortran derived data types */
+  };
+
+  /* These can be implemented in an language */
+  extern int DCSetFromOptions_GlimmerHS(DC);
+  extern int DCLoad_GlimmerHS(DC,const char*);
+  extern int DCStep_GlimmerHS(DC,double,Vec,Vec);
+  extern int DCResidual_GlimmerHS(DC,double,Vec,Vec,Vec);
+  extern int DCDestroy_GlimmerHS(DC);
+
+  int DCCreate_GlimmerHS(DC dc) {
+    struct DC_GlimmerHS *ghs;
+
+    dc->ops->setfromoptions = DCSetFromOptions_GlimmerHS;
+    dc->ops->load           = DCLoad_GlimmerHS;
+    dc->ops->step           = DCStep_GlimmerHS;
+    dc->ops->residual       = DCResidual_GlimmerHS;
+    dc->ops->destroy        = DCDestroy_GlimmerHS;
+
+    ghs = calloc(sizeof(*ghs));
+    dc->data = ghs;
+
+    /* set defaults or call fortran to set up some private data structures */
+
+    return 0;
+  }
+
+
+
+
+########################################################################
+
+What does all of this achieve?
+
+* Climate models all see the same interface with no knowledge of what
+physics is going on underneath.
+
+* An arbitrary number of DCs can be in use at any time.  Their types are
+completely independent.
+
+* Choice of implementation occurs at runtime.
+
+* If you have a new implementation, you just have to get DCRegister(..)
+called before DCSetType() and it will be first-class (and selectable at
+runtime exactly like the "blessed" implementations that are registered
+by default).
+
+* With a variant of DCRegister(), we can distribute the implementation
+as a binary and register it via dlopen/dlsym in which case nothing needs
+to be recompiled or relinked.  (This is the strong definition of
+plugin.)
+
+* Implementations can be written in any language.
+
+* The model can be called from any language.
+
+* Implementations can share code at will (e.g. between Glimmer
+components for different physics) but this is not visible at the top
+level.
+
+* Users can extend existing implementations in a very lightweight
+per-instance way via "monkey-patching" or by creating their own
+first-class implementations that reuses code from the other
+implementation.
+
+* The type of a DC can be changed after it has been used without
+destroying it's connections to other components.  This is a benefit of
+the delegator (aka. pimpl) pattern.  This would be useful to allow
+*external* control to use one model for a while (e.g. spinup) and then
+switch to a different model.  If all climate components were written
+this way we could do some interesting simulations with very little
+effort.  For example, you could start with reconstructions or trivial
+models for atmosphere, ocean, and land while using a SIA ice model.  At
+-4k years, you could switch to an implicit ocean model (taking large
+time steps), then turn on a hydrostatic ice model at -1k years, and
+activate an atmosphere model at some time close to present along with
+changing to an ocean model with short time steps and more complete
+physics, and switching to a Stokes model for ice.  All this would
+require the user to provide one callback to the coupler (whatever has
+top-level control) that would implement the logic of when to switch,
+switching would not use the file system.
+
+
+
+I realize this sort of thing is radical and may never happen, but I
+think it is a noble long-term goal for the ice sheet modeling community.
+It would definitely benefit the various ASCR efforts.
+
+
+Jed
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091019/204878e3/attachment.pgp>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Oct 19 22:00:38 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 19 Oct 2009 21:00:38 +0100
+Subject: [Glimmer-cism-devel] more refactoring
+In-Reply-To: <4ADCAAF1.5040600@59A2.org>
+References: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>
+	<4ADC2D08.2080201@swansea.ac.uk> <1255943892.2209.7.camel@swine>
+	<4ADCAAF1.5040600@59A2.org>
+Message-ID: <1255982438.2286.8.camel@swine>
+
+On Mon, 2009-10-19 at 20:07 +0200, Jed Brown wrote:
+> I realize this sort of thing is radical and may never happen, but I
+> think it is a noble long-term goal for the ice sheet modeling
+> community.
+> It would definitely benefit the various ASCR efforts.
+> 
+
+Hi Jed,
+just a quick message before proper digestion (I am on holiday).
+
+I like it.
+
+And I think it is not too far away from what we have discussed so far.
+Using this design we could keep the DCs in Fortran (or as you said any
+other language). Using C to put it all together is quite appealing. We
+could then also have nice Python bindings.
+
+I'll think about it more carefully once I am back at work.
+
+Cheers
+magi
+
+
+
+From gethin.williams at bristol.ac.uk  Tue Oct 20 16:38:46 2009
+From: gethin.williams at bristol.ac.uk (Gethin Williams)
+Date: Tue, 20 Oct 2009 15:38:46 +0100
+Subject: [Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+In-Reply-To: <mailman.1.1256032804.24370.glimmer-cism-devel@lists.berlios.de>
+References: <mailman.1.1256032804.24370.glimmer-cism-devel@lists.berlios.de>
+Message-ID: <1256049526.3274.11.camel@gethin-desktop>
+
+Hi Jed, Magnus & all,
+
+I experimented with some short mixed C/Fortran programs earlier in the
+summer, to try out the new F2003 features available in gfortran.  In
+this regard, I found the ISO C bindings to work very well.  They greatly
+improve the robustness of mixed language calls, especially when using
+F90 derived types.
+
+For example, they handle any bytes of padding required to match a
+derived type against a C struct.  They also map floats, doubles etc. to
+the appropriate counterpart, so that you don't need to know so much
+about the number of bytes used to represent X,Y or Z in the other
+language, as decided by your current compiler etc.
+
+In case they are useful, I prepared some examples.  They are examples 3
+& 4 (NB /not/ 1 & 2) in:
+http://source.ggy.bris.ac.uk/subversion-open/polyglot/trunk/examples/example[3,4].
+
+Best wishes,
+Gethin.
+
+
+On Tue, 2009-10-20 at 12:00 +0200,
+glimmer-cism-devel-request at lists.berlios.de wrote:
+> Send Glimmer-cism-devel mailing list submissions to
+> 	glimmer-cism-devel at lists.berlios.de
+> 
+> To subscribe or unsubscribe via the World Wide Web, visit
+> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> or, via email, send a message with subject or body 'help' to
+> 	glimmer-cism-devel-request at lists.berlios.de
+> 
+> You can reach the person managing the list at
+> 	glimmer-cism-devel-owner at lists.berlios.de
+> 
+> When replying, please edit your Subject line so it is more specific
+> than "Re: Contents of Glimmer-cism-devel digest..."
+> 
+> 
+> Today's Topics:
+> 
+>    1. Re: more refactoring (Jed Brown)
+>    2. Re: more refactoring (Magnus Hagdorn)
+> 
+> 
+> ----------------------------------------------------------------------
+> 
+> Message: 1
+> Date: Mon, 19 Oct 2009 20:07:45 +0200
+> From: Jed Brown <jed at 59A2.org>
+> Subject: Re: [Glimmer-cism-devel] more refactoring
+> To: glimmer-cism-devel at lists.berlios.de
+> Message-ID: <4ADCAAF1.5040600 at 59A2.org>
+> Content-Type: text/plain; charset="iso-8859-1"
+> 
+> Magnus Hagdorn wrote:
+> > On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+> >> * It makes sense to work towards making the API for DCs in the same 
+> >> 'class' (i.e. all temperature solvers or all thickness solvers) 
+> >> identical, so I would advocate using a single derived type for each 
+> >> class. This means that the derived type will need to be extended for 
+> >> each new DC, but that would reduce the changes which need to be made 
+> >> elsewhere when a new DC is added. Of course, if we were using F2003, 
+> >> we'd define a base class with some relevant virtual functions, and 
+> >> derive the DC classes from that...
+> >>
+> > I was thinking to have one derived type per implementation otherwise
+> > different implementations are dependent on each other. In glide we could
+> > have a wrapper DC which supports all know implementation similar to how
+> > we deal with different projections:
+> > * derived types with pointers to individual supported DC derived types
+> > and an ID for selecting the desired implementation
+> > * a time step procedures which consists of a select case structure to
+> > select desired implementation
+> 
+> This relates to plugins, as we were discussing them long ago.  I never
+> follow up with an example, but here is the idea (in C, apparently we
+> could do something similar with F2003; note that this chunk being in C
+> makes no assumption on the language it is being called from or the
+> language that implementations are written in).  Skip to the line of hash
+> marks (##) for the benefits of this design.
+> 
+> 
+> The public interface is something like
+> 
+> cism.h:
+> 
+>   typedef _p_DC *DC;                     /* opaque handle */
+>   int DCCreate(MPI_Comm,DC *newdc);      /* allocate */
+>   int DCSetType(DC,const char *name);    /* 
+>   int DCLoad(DC,const char *filename);   /* loads grid */
+>   int DCStep(DC,double dt,Vec x,Vec y);  /* take a time step */
+>   int DCDestroy(DC);                     /* deallocate */
+> 
+>   /* Associate a string with an implementation */
+>   int DCRegister(const char*,int (*)(DC));
+> 
+>   /* If command-line options are stored globally, you can have this
+>    * so that the type and implementation-specific options are easy
+>    * to set at runtime
+>    */
+>   int DCSetFromOptions(DC);
+>   
+>   /* To support implicit integration, you could include */
+>   int DCResidual(DC,double dt,Vec x,Vec xdot,Vec res);
+> 
+> 
+> The climate model only sees the interface above.  The implementation
+> looks like
+> 
+> cismimpl.h:
+> 
+>   #include <cism.h>
+> 
+>   struct _DCOps {
+>     int (*setfromoptions)(DC);
+>     int (*load)(DC,const char*);
+>     int (*step)(DC,double,Vec,Vec);
+>     int (*residual)(DC,double,Vec,Vec,Vec);
+>     int (*destroy)(DC);
+>   };
+>   struct _p_DC {
+>     struct _DCOp *ops;
+>     void *data;              /* implementation-specific data */
+>     MPI_Comm comm;
+>     /* anything else common to all implementations goes here */
+>   };
+> 
+> 
+> I assume that we allocate a different ops pointer for every instance.
+> This is more dynamic than a C++ delegator since we can override methods
+> on a per-instance rather than per-class basis (this capability,
+> sometimes known as monkey patching, should be used sparingly).  The
+> implementation of the interface (cism.h) looks something like
+> 
+> cism.c:
+> 
+>   #include <cismimpl.h>
+> 
+>   static int DCPackageInitialized = 0;
+>   static FList DCList = 0;  /* list of (string,function) pairs */
+> 
+>   /* function declarations for the implementations that are known,
+>    * various physics (shallow ice, shallow shelf, hydrostatic, stokes)
+>    * from various sources */
+>   extern int DCCreate_GlimmerSIA(DC);
+>   extern int DCCreate_GlimmerHS(DC);
+>   extern int DCCreate_PismSSA(DC);
+>   extern int DCCreate_CoolStokes(DC);
+> 
+>   static int DCInitializePackage() {
+>     DCRegister("glimmersia",DCCreate_GlimmerSIA);
+>     DCRegister("glimmerhs", DCCreate_GlimmerHS);
+>     DCRegister("pismssa",   DCCreate_PismSSA);
+>     DCRegister("coolstokes",DCCreate_CoolStokes);
+>     DCPackageInitialized = 1;
+>     return 0;
+>   }
+> 
+>   int DCCreate(MPI_Comm comm,DC *newdc) {
+>     DC dc;
+> 
+>     /* Initialize the package only once */
+>     if (!DCPackageInitialized) DCInitializePackage();
+>     dc = calloc(sizeof(*dc));
+>     dc->ops = calloc(sizeof(*dc->ops));
+>     dc->comm = comm;
+>     /* any other generic stuff */
+>     *newdc = dc;
+>     return 0;
+>   }
+> 
+>   int DCRegister(const char *name,int (*f)(DC)) {
+>     /* Suppose we have a generic data structure for this list */
+>     return FListAdd(&DCList,name,(void(*)(void))f);
+>   }
+> 
+>   int DCSetType(DC dc,const char *name) {
+>     int (*f)(DC);
+>     FListGet(DCList,name,(void(**)(void))&f);
+>     if (!f) ERROR(1,"requested an implementation that has not been registered");
+>     if (dc->data) {dc->ops->destroy(dc);} /* destroy an old implementation */
+>     return f(dc);                         /* allocate space for the new one */
+>   }
+> 
+>   int DCDestroy(DC dc) {
+>     dc->ops->destroy(dc);
+>     free(dc->ops);
+>     free(dc);
+>     return 0;
+>   }
+> 
+>   /* delegate for the other functions, just trivial wrappers given here */
+>   int DCSetFromOptions(DC dc) {
+>     /* ... consult the runtime options and possibly change the type */
+>     /* ... other generic stuff */
+>     return dc->ops->setfromoptions(DC); /* implementation-specific options */
+>   }
+>   int DCLoad(DC dc,const char *filename) {
+>     return dc->ops->load(dc,filename);
+>   }
+>   int DCStep(DC dc,double dt,Vec x,Vec y) {
+>     return dc->ops->step(dc,dt,x,y);
+>   }
+>   int DCResidual(DC dc,double dt,Vec x,Vec xdot,Vec res) {
+>     return dc->ops->residual(dc,dt,x,xdot,res);
+>   }
+> 
+> 
+> Implementations look like:
+> 
+> glimmerhs.c:
+> 
+>   #include <cismimpl.h>
+> 
+>   struct DC_GlimmerHS {
+>     /* whatever private data is needed by the hydrostatic implementation,
+>      * it could just be a pointer to the Fortran derived data types */
+>   };
+> 
+>   /* These can be implemented in an language */
+>   extern int DCSetFromOptions_GlimmerHS(DC);
+>   extern int DCLoad_GlimmerHS(DC,const char*);
+>   extern int DCStep_GlimmerHS(DC,double,Vec,Vec);
+>   extern int DCResidual_GlimmerHS(DC,double,Vec,Vec,Vec);
+>   extern int DCDestroy_GlimmerHS(DC);
+> 
+>   int DCCreate_GlimmerHS(DC dc) {
+>     struct DC_GlimmerHS *ghs;
+> 
+>     dc->ops->setfromoptions = DCSetFromOptions_GlimmerHS;
+>     dc->ops->load           = DCLoad_GlimmerHS;
+>     dc->ops->step           = DCStep_GlimmerHS;
+>     dc->ops->residual       = DCResidual_GlimmerHS;
+>     dc->ops->destroy        = DCDestroy_GlimmerHS;
+> 
+>     ghs = calloc(sizeof(*ghs));
+>     dc->data = ghs;
+> 
+>     /* set defaults or call fortran to set up some private data structures */
+> 
+>     return 0;
+>   }
+> 
+> 
+> 
+> 
+> ########################################################################
+> 
+> What does all of this achieve?
+> 
+> * Climate models all see the same interface with no knowledge of what
+> physics is going on underneath.
+> 
+> * An arbitrary number of DCs can be in use at any time.  Their types are
+> completely independent.
+> 
+> * Choice of implementation occurs at runtime.
+> 
+> * If you have a new implementation, you just have to get DCRegister(..)
+> called before DCSetType() and it will be first-class (and selectable at
+> runtime exactly like the "blessed" implementations that are registered
+> by default).
+> 
+> * With a variant of DCRegister(), we can distribute the implementation
+> as a binary and register it via dlopen/dlsym in which case nothing needs
+> to be recompiled or relinked.  (This is the strong definition of
+> plugin.)
+> 
+> * Implementations can be written in any language.
+> 
+> * The model can be called from any language.
+> 
+> * Implementations can share code at will (e.g. between Glimmer
+> components for different physics) but this is not visible at the top
+> level.
+> 
+> * Users can extend existing implementations in a very lightweight
+> per-instance way via "monkey-patching" or by creating their own
+> first-class implementations that reuses code from the other
+> implementation.
+> 
+> * The type of a DC can be changed after it has been used without
+> destroying it's connections to other components.  This is a benefit of
+> the delegator (aka. pimpl) pattern.  This would be useful to allow
+> *external* control to use one model for a while (e.g. spinup) and then
+> switch to a different model.  If all climate components were written
+> this way we could do some interesting simulations with very little
+> effort.  For example, you could start with reconstructions or trivial
+> models for atmosphere, ocean, and land while using a SIA ice model.  At
+> -4k years, you could switch to an implicit ocean model (taking large
+> time steps), then turn on a hydrostatic ice model at -1k years, and
+> activate an atmosphere model at some time close to present along with
+> changing to an ocean model with short time steps and more complete
+> physics, and switching to a Stokes model for ice.  All this would
+> require the user to provide one callback to the coupler (whatever has
+> top-level control) that would implement the logic of when to switch,
+> switching would not use the file system.
+> 
+> 
+> 
+> I realize this sort of thing is radical and may never happen, but I
+> think it is a noble long-term goal for the ice sheet modeling community.
+> It would definitely benefit the various ASCR efforts.
+> 
+> 
+> Jed
+> 
+> 
+> -------------- next part --------------
+> A non-text attachment was scrubbed...
+> Name: signature.asc
+> Type: application/pgp-signature
+> Size: 261 bytes
+> Desc: OpenPGP digital signature
+> Url : https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091019/204878e3/attachment-0001.pgp 
+> 
+> ------------------------------
+> 
+> Message: 2
+> Date: Mon, 19 Oct 2009 21:00:38 +0100
+> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> Subject: Re: [Glimmer-cism-devel] more refactoring
+> To: glimmer-cism-devel at lists.berlios.de
+> Message-ID: <1255982438.2286.8.camel at swine>
+> Content-Type: text/plain; charset="UTF-8"
+> 
+> On Mon, 2009-10-19 at 20:07 +0200, Jed Brown wrote:
+> > I realize this sort of thing is radical and may never happen, but I
+> > think it is a noble long-term goal for the ice sheet modeling
+> > community.
+> > It would definitely benefit the various ASCR efforts.
+> > 
+> 
+> Hi Jed,
+> just a quick message before proper digestion (I am on holiday).
+> 
+> I like it.
+> 
+> And I think it is not too far away from what we have discussed so far.
+> Using this design we could keep the DCs in Fortran (or as you said any
+> other language). Using C to put it all together is quite appealing. We
+> could then also have nice Python bindings.
+> 
+> I'll think about it more carefully once I am back at work.
+> 
+> Cheers
+> magi
+> 
+> 
+> 
+> ------------------------------
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> 
+> 
+> End of Glimmer-cism-devel Digest, Vol 4, Issue 10
+> *************************************************
+
+
+
+From jed at 59A2.org  Tue Oct 20 23:37:39 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Tue, 20 Oct 2009 23:37:39 +0200
+Subject: [Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+In-Reply-To: <1256049526.3274.11.camel@gethin-desktop>
+References: <mailman.1.1256032804.24370.glimmer-cism-devel@lists.berlios.de>
+	<1256049526.3274.11.camel@gethin-desktop>
+Message-ID: <4ADE2DA3.9000307@59A2.org>
+
+Gethin Williams wrote:
+> Hi Jed, Magnus & all,
+> 
+> I experimented with some short mixed C/Fortran programs earlier in the
+> summer, to try out the new F2003 features available in gfortran.  In
+> this regard, I found the ISO C bindings to work very well.  They greatly
+> improve the robustness of mixed language calls, especially when using
+> F90 derived types.
+>
+> For example, they handle any bytes of padding required to match a
+> derived type against a C struct.  They also map floats, doubles etc. to
+> the appropriate counterpart, so that you don't need to know so much
+> about the number of bytes used to represent X,Y or Z in the other
+> language, as decided by your current compiler etc.
+
+I think the major concern about such F2003 features is that they are
+likely to not be properly implemented by all the compilers.  The scheme
+I have described does not need to pass any data structures between
+Fortran and C, just opaque pointers.  If an implementation wanted to
+have a hybrid code, then the F2003 features might be nice, but that use
+can stay completely isolated.  Also note that C has a well-defined ABI
+so there is no requirement that each component be compiled using the
+same toolchain.
+
+Jed
+
+> In case they are useful, I prepared some examples.  They are examples 3
+> & 4 (NB /not/ 1 & 2) in:
+> http://source.ggy.bris.ac.uk/subversion-open/polyglot/trunk/examples/example[3,4].
+> 
+> Best wishes,
+> Gethin.
+> 
+> 
+> On Tue, 2009-10-20 at 12:00 +0200,
+> glimmer-cism-devel-request at lists.berlios.de wrote:
+>> Send Glimmer-cism-devel mailing list submissions to
+>> 	glimmer-cism-devel at lists.berlios.de
+>>
+>> To subscribe or unsubscribe via the World Wide Web, visit
+>> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>> or, via email, send a message with subject or body 'help' to
+>> 	glimmer-cism-devel-request at lists.berlios.de
+>>
+>> You can reach the person managing the list at
+>> 	glimmer-cism-devel-owner at lists.berlios.de
+>>
+>> When replying, please edit your Subject line so it is more specific
+>> than "Re: Contents of Glimmer-cism-devel digest..."
+>>
+>>
+>> Today's Topics:
+>>
+>>    1. Re: more refactoring (Jed Brown)
+>>    2. Re: more refactoring (Magnus Hagdorn)
+>>
+>>
+>> ----------------------------------------------------------------------
+>>
+>> Message: 1
+>> Date: Mon, 19 Oct 2009 20:07:45 +0200
+>> From: Jed Brown <jed at 59A2.org>
+>> Subject: Re: [Glimmer-cism-devel] more refactoring
+>> To: glimmer-cism-devel at lists.berlios.de
+>> Message-ID: <4ADCAAF1.5040600 at 59A2.org>
+>> Content-Type: text/plain; charset="iso-8859-1"
+>>
+>> Magnus Hagdorn wrote:
+>>> On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+>>>> * It makes sense to work towards making the API for DCs in the same 
+>>>> 'class' (i.e. all temperature solvers or all thickness solvers) 
+>>>> identical, so I would advocate using a single derived type for each 
+>>>> class. This means that the derived type will need to be extended for 
+>>>> each new DC, but that would reduce the changes which need to be made 
+>>>> elsewhere when a new DC is added. Of course, if we were using F2003, 
+>>>> we'd define a base class with some relevant virtual functions, and 
+>>>> derive the DC classes from that...
+>>>>
+>>> I was thinking to have one derived type per implementation otherwise
+>>> different implementations are dependent on each other. In glide we could
+>>> have a wrapper DC which supports all know implementation similar to how
+>>> we deal with different projections:
+>>> * derived types with pointers to individual supported DC derived types
+>>> and an ID for selecting the desired implementation
+>>> * a time step procedures which consists of a select case structure to
+>>> select desired implementation
+>> This relates to plugins, as we were discussing them long ago.  I never
+>> follow up with an example, but here is the idea (in C, apparently we
+>> could do something similar with F2003; note that this chunk being in C
+>> makes no assumption on the language it is being called from or the
+>> language that implementations are written in).  Skip to the line of hash
+>> marks (##) for the benefits of this design.
+>>
+>>
+>> The public interface is something like
+>>
+>> cism.h:
+>>
+>>   typedef _p_DC *DC;                     /* opaque handle */
+>>   int DCCreate(MPI_Comm,DC *newdc);      /* allocate */
+>>   int DCSetType(DC,const char *name);    /* 
+>>   int DCLoad(DC,const char *filename);   /* loads grid */
+>>   int DCStep(DC,double dt,Vec x,Vec y);  /* take a time step */
+>>   int DCDestroy(DC);                     /* deallocate */
+>>
+>>   /* Associate a string with an implementation */
+>>   int DCRegister(const char*,int (*)(DC));
+>>
+>>   /* If command-line options are stored globally, you can have this
+>>    * so that the type and implementation-specific options are easy
+>>    * to set at runtime
+>>    */
+>>   int DCSetFromOptions(DC);
+>>   
+>>   /* To support implicit integration, you could include */
+>>   int DCResidual(DC,double dt,Vec x,Vec xdot,Vec res);
+>>
+>>
+>> The climate model only sees the interface above.  The implementation
+>> looks like
+>>
+>> cismimpl.h:
+>>
+>>   #include <cism.h>
+>>
+>>   struct _DCOps {
+>>     int (*setfromoptions)(DC);
+>>     int (*load)(DC,const char*);
+>>     int (*step)(DC,double,Vec,Vec);
+>>     int (*residual)(DC,double,Vec,Vec,Vec);
+>>     int (*destroy)(DC);
+>>   };
+>>   struct _p_DC {
+>>     struct _DCOp *ops;
+>>     void *data;              /* implementation-specific data */
+>>     MPI_Comm comm;
+>>     /* anything else common to all implementations goes here */
+>>   };
+>>
+>>
+>> I assume that we allocate a different ops pointer for every instance.
+>> This is more dynamic than a C++ delegator since we can override methods
+>> on a per-instance rather than per-class basis (this capability,
+>> sometimes known as monkey patching, should be used sparingly).  The
+>> implementation of the interface (cism.h) looks something like
+>>
+>> cism.c:
+>>
+>>   #include <cismimpl.h>
+>>
+>>   static int DCPackageInitialized = 0;
+>>   static FList DCList = 0;  /* list of (string,function) pairs */
+>>
+>>   /* function declarations for the implementations that are known,
+>>    * various physics (shallow ice, shallow shelf, hydrostatic, stokes)
+>>    * from various sources */
+>>   extern int DCCreate_GlimmerSIA(DC);
+>>   extern int DCCreate_GlimmerHS(DC);
+>>   extern int DCCreate_PismSSA(DC);
+>>   extern int DCCreate_CoolStokes(DC);
+>>
+>>   static int DCInitializePackage() {
+>>     DCRegister("glimmersia",DCCreate_GlimmerSIA);
+>>     DCRegister("glimmerhs", DCCreate_GlimmerHS);
+>>     DCRegister("pismssa",   DCCreate_PismSSA);
+>>     DCRegister("coolstokes",DCCreate_CoolStokes);
+>>     DCPackageInitialized = 1;
+>>     return 0;
+>>   }
+>>
+>>   int DCCreate(MPI_Comm comm,DC *newdc) {
+>>     DC dc;
+>>
+>>     /* Initialize the package only once */
+>>     if (!DCPackageInitialized) DCInitializePackage();
+>>     dc = calloc(sizeof(*dc));
+>>     dc->ops = calloc(sizeof(*dc->ops));
+>>     dc->comm = comm;
+>>     /* any other generic stuff */
+>>     *newdc = dc;
+>>     return 0;
+>>   }
+>>
+>>   int DCRegister(const char *name,int (*f)(DC)) {
+>>     /* Suppose we have a generic data structure for this list */
+>>     return FListAdd(&DCList,name,(void(*)(void))f);
+>>   }
+>>
+>>   int DCSetType(DC dc,const char *name) {
+>>     int (*f)(DC);
+>>     FListGet(DCList,name,(void(**)(void))&f);
+>>     if (!f) ERROR(1,"requested an implementation that has not been registered");
+>>     if (dc->data) {dc->ops->destroy(dc);} /* destroy an old implementation */
+>>     return f(dc);                         /* allocate space for the new one */
+>>   }
+>>
+>>   int DCDestroy(DC dc) {
+>>     dc->ops->destroy(dc);
+>>     free(dc->ops);
+>>     free(dc);
+>>     return 0;
+>>   }
+>>
+>>   /* delegate for the other functions, just trivial wrappers given here */
+>>   int DCSetFromOptions(DC dc) {
+>>     /* ... consult the runtime options and possibly change the type */
+>>     /* ... other generic stuff */
+>>     return dc->ops->setfromoptions(DC); /* implementation-specific options */
+>>   }
+>>   int DCLoad(DC dc,const char *filename) {
+>>     return dc->ops->load(dc,filename);
+>>   }
+>>   int DCStep(DC dc,double dt,Vec x,Vec y) {
+>>     return dc->ops->step(dc,dt,x,y);
+>>   }
+>>   int DCResidual(DC dc,double dt,Vec x,Vec xdot,Vec res) {
+>>     return dc->ops->residual(dc,dt,x,xdot,res);
+>>   }
+>>
+>>
+>> Implementations look like:
+>>
+>> glimmerhs.c:
+>>
+>>   #include <cismimpl.h>
+>>
+>>   struct DC_GlimmerHS {
+>>     /* whatever private data is needed by the hydrostatic implementation,
+>>      * it could just be a pointer to the Fortran derived data types */
+>>   };
+>>
+>>   /* These can be implemented in an language */
+>>   extern int DCSetFromOptions_GlimmerHS(DC);
+>>   extern int DCLoad_GlimmerHS(DC,const char*);
+>>   extern int DCStep_GlimmerHS(DC,double,Vec,Vec);
+>>   extern int DCResidual_GlimmerHS(DC,double,Vec,Vec,Vec);
+>>   extern int DCDestroy_GlimmerHS(DC);
+>>
+>>   int DCCreate_GlimmerHS(DC dc) {
+>>     struct DC_GlimmerHS *ghs;
+>>
+>>     dc->ops->setfromoptions = DCSetFromOptions_GlimmerHS;
+>>     dc->ops->load           = DCLoad_GlimmerHS;
+>>     dc->ops->step           = DCStep_GlimmerHS;
+>>     dc->ops->residual       = DCResidual_GlimmerHS;
+>>     dc->ops->destroy        = DCDestroy_GlimmerHS;
+>>
+>>     ghs = calloc(sizeof(*ghs));
+>>     dc->data = ghs;
+>>
+>>     /* set defaults or call fortran to set up some private data structures */
+>>
+>>     return 0;
+>>   }
+>>
+>>
+>>
+>>
+>> ########################################################################
+>>
+>> What does all of this achieve?
+>>
+>> * Climate models all see the same interface with no knowledge of what
+>> physics is going on underneath.
+>>
+>> * An arbitrary number of DCs can be in use at any time.  Their types are
+>> completely independent.
+>>
+>> * Choice of implementation occurs at runtime.
+>>
+>> * If you have a new implementation, you just have to get DCRegister(..)
+>> called before DCSetType() and it will be first-class (and selectable at
+>> runtime exactly like the "blessed" implementations that are registered
+>> by default).
+>>
+>> * With a variant of DCRegister(), we can distribute the implementation
+>> as a binary and register it via dlopen/dlsym in which case nothing needs
+>> to be recompiled or relinked.  (This is the strong definition of
+>> plugin.)
+>>
+>> * Implementations can be written in any language.
+>>
+>> * The model can be called from any language.
+>>
+>> * Implementations can share code at will (e.g. between Glimmer
+>> components for different physics) but this is not visible at the top
+>> level.
+>>
+>> * Users can extend existing implementations in a very lightweight
+>> per-instance way via "monkey-patching" or by creating their own
+>> first-class implementations that reuses code from the other
+>> implementation.
+>>
+>> * The type of a DC can be changed after it has been used without
+>> destroying it's connections to other components.  This is a benefit of
+>> the delegator (aka. pimpl) pattern.  This would be useful to allow
+>> *external* control to use one model for a while (e.g. spinup) and then
+>> switch to a different model.  If all climate components were written
+>> this way we could do some interesting simulations with very little
+>> effort.  For example, you could start with reconstructions or trivial
+>> models for atmosphere, ocean, and land while using a SIA ice model.  At
+>> -4k years, you could switch to an implicit ocean model (taking large
+>> time steps), then turn on a hydrostatic ice model at -1k years, and
+>> activate an atmosphere model at some time close to present along with
+>> changing to an ocean model with short time steps and more complete
+>> physics, and switching to a Stokes model for ice.  All this would
+>> require the user to provide one callback to the coupler (whatever has
+>> top-level control) that would implement the logic of when to switch,
+>> switching would not use the file system.
+>>
+>>
+>>
+>> I realize this sort of thing is radical and may never happen, but I
+>> think it is a noble long-term goal for the ice sheet modeling community.
+>> It would definitely benefit the various ASCR efforts.
+>>
+>>
+>> Jed
+>>
+>>
+>> -------------- next part --------------
+>> A non-text attachment was scrubbed...
+>> Name: signature.asc
+>> Type: application/pgp-signature
+>> Size: 261 bytes
+>> Desc: OpenPGP digital signature
+>> Url : https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091019/204878e3/attachment-0001.pgp 
+>>
+>> ------------------------------
+>>
+>> Message: 2
+>> Date: Mon, 19 Oct 2009 21:00:38 +0100
+>> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>> Subject: Re: [Glimmer-cism-devel] more refactoring
+>> To: glimmer-cism-devel at lists.berlios.de
+>> Message-ID: <1255982438.2286.8.camel at swine>
+>> Content-Type: text/plain; charset="UTF-8"
+>>
+>> On Mon, 2009-10-19 at 20:07 +0200, Jed Brown wrote:
+>>> I realize this sort of thing is radical and may never happen, but I
+>>> think it is a noble long-term goal for the ice sheet modeling
+>>> community.
+>>> It would definitely benefit the various ASCR efforts.
+>>>
+>> Hi Jed,
+>> just a quick message before proper digestion (I am on holiday).
+>>
+>> I like it.
+>>
+>> And I think it is not too far away from what we have discussed so far.
+>> Using this design we could keep the DCs in Fortran (or as you said any
+>> other language). Using C to put it all together is quite appealing. We
+>> could then also have nice Python bindings.
+>>
+>> I'll think about it more carefully once I am back at work.
+>>
+>> Cheers
+>> magi
+>>
+>>
+>>
+>> ------------------------------
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>
+>> End of Glimmer-cism-devel Digest, Vol 4, Issue 10
+>> *************************************************
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091020/179da855/attachment.pgp>
+
+From jed at 59A2.org  Wed Oct 21 00:47:42 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 21 Oct 2009 00:47:42 +0200
+Subject: [Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+In-Reply-To: <C703B2CA.9E7A%evanskj@ornl.gov>
+References: <C703B2CA.9E7A%evanskj@ornl.gov>
+Message-ID: <4ADE3E0E.20007@59A2.org>
+
+Evans, Kate J. wrote:
+> Hi all-
+> 
+> I have lost track of who made what point, but I can add that I also use the ISO C
+> bindings on several platforms with very robust interoperability as well. All the
+> major compilers include the ISO C bindings -even pgi! That said, there are
+> several notable exceptions for other parts of the F2003 standard, and that
+> issue is one to consider.
+
+Thanks Kate, that's good to know.  I still believe that struct
+definitions should not be used in a public interface because it breaks
+encapsulation and puts inessential details into the ABI.  This remains
+the even case if everything is written in the same language.
+
+
+For reference, my outline of how to implement all this is here:
+
+https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/000114.html
+
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091021/95481869/attachment.pgp>
+
+From evanskj at ornl.gov  Wed Oct 21 00:32:42 2009
+From: evanskj at ornl.gov (Evans, Kate J.)
+Date: Tue, 20 Oct 2009 18:32:42 -0400
+Subject: [Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+In-Reply-To: <4ADE2DA3.9000307@59A2.org>
+Message-ID: <C703B2CA.9E7A%evanskj@ornl.gov>
+
+Hi all-
+
+I have lost track of who made what point, but I can add that I also use the ISO C
+bindings on several platforms with very robust interoperability as well. All the
+major compilers include the ISO C bindings -even pgi! That said, there are
+several notable exceptions for other parts of the F2003 standard, and that
+issue is one to consider.
+
+Kate
+
+On 10/20/09 5:37 PM, "Jed Brown" <jed at 59A2.org> wrote:
+
+Gethin Williams wrote:
+> Hi Jed, Magnus & all,
+>
+> I experimented with some short mixed C/Fortran programs earlier in the
+> summer, to try out the new F2003 features available in gfortran.  In
+> this regard, I found the ISO C bindings to work very well.  They greatly
+> improve the robustness of mixed language calls, especially when using
+> F90 derived types.
+>
+> For example, they handle any bytes of padding required to match a
+> derived type against a C struct.  They also map floats, doubles etc. to
+> the appropriate counterpart, so that you don't need to know so much
+> about the number of bytes used to represent X,Y or Z in the other
+> language, as decided by your current compiler etc.
+
+I think the major concern about such F2003 features is that they are
+likely to not be properly implemented by all the compilers.  The scheme
+I have described does not need to pass any data structures between
+Fortran and C, just opaque pointers.  If an implementation wanted to
+have a hybrid code, then the F2003 features might be nice, but that use
+can stay completely isolated.  Also note that C has a well-defined ABI
+so there is no requirement that each component be compiled using the
+same toolchain.
+
+Jed
+
+> In case they are useful, I prepared some examples.  They are examples 3
+> & 4 (NB /not/ 1 & 2) in:
+> http://source.ggy.bris.ac.uk/subversion-open/polyglot/trunk/examples/example[3,4].
+>
+> Best wishes,
+> Gethin.
+>
+>
+> On Tue, 2009-10-20 at 12:00 +0200,
+> glimmer-cism-devel-request at lists.berlios.de wrote:
+>> Send Glimmer-cism-devel mailing list submissions to
+>>      glimmer-cism-devel at lists.berlios.de
+>>
+>> To subscribe or unsubscribe via the World Wide Web, visit
+>>      https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>> or, via email, send a message with subject or body 'help' to
+>>      glimmer-cism-devel-request at lists.berlios.de
+>>
+>> You can reach the person managing the list at
+>>      glimmer-cism-devel-owner at lists.berlios.de
+>>
+>> When replying, please edit your Subject line so it is more specific
+>> than "Re: Contents of Glimmer-cism-devel digest..."
+>>
+>>
+>> Today's Topics:
+>>
+>>    1. Re: more refactoring (Jed Brown)
+>>    2. Re: more refactoring (Magnus Hagdorn)
+>>
+>>
+>> ----------------------------------------------------------------------
+>>
+>> Message: 1
+>> Date: Mon, 19 Oct 2009 20:07:45 +0200
+>> From: Jed Brown <jed at 59A2.org>
+>> Subject: Re: [Glimmer-cism-devel] more refactoring
+>> To: glimmer-cism-devel at lists.berlios.de
+>> Message-ID: <4ADCAAF1.5040600 at 59A2.org>
+>> Content-Type: text/plain; charset="iso-8859-1"
+>>
+>> Magnus Hagdorn wrote:
+>>> On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+>>>> * It makes sense to work towards making the API for DCs in the same
+>>>> 'class' (i.e. all temperature solvers or all thickness solvers)
+>>>> identical, so I would advocate using a single derived type for each
+>>>> class. This means that the derived type will need to be extended for
+>>>> each new DC, but that would reduce the changes which need to be made
+>>>> elsewhere when a new DC is added. Of course, if we were using F2003,
+>>>> we'd define a base class with some relevant virtual functions, and
+>>>> derive the DC classes from that...
+>>>>
+>>> I was thinking to have one derived type per implementation otherwise
+>>> different implementations are dependent on each other. In glide we could
+>>> have a wrapper DC which supports all know implementation similar to how
+>>> we deal with different projections:
+>>> * derived types with pointers to individual supported DC derived types
+>>> and an ID for selecting the desired implementation
+>>> * a time step procedures which consists of a select case structure to
+>>> select desired implementation
+>> This relates to plugins, as we were discussing them long ago.  I never
+>> follow up with an example, but here is the idea (in C, apparently we
+>> could do something similar with F2003; note that this chunk being in C
+>> makes no assumption on the language it is being called from or the
+>> language that implementations are written in).  Skip to the line of hash
+>> marks (##) for the benefits of this design.
+>>
+>>
+>> The public interface is something like
+>>
+>> cism.h:
+>>
+>>   typedef _p_DC *DC;                     /* opaque handle */
+>>   int DCCreate(MPI_Comm,DC *newdc);      /* allocate */
+>>   int DCSetType(DC,const char *name);    /*
+>>   int DCLoad(DC,const char *filename);   /* loads grid */
+>>   int DCStep(DC,double dt,Vec x,Vec y);  /* take a time step */
+>>   int DCDestroy(DC);                     /* deallocate */
+>>
+>>   /* Associate a string with an implementation */
+>>   int DCRegister(const char*,int (*)(DC));
+>>
+>>   /* If command-line options are stored globally, you can have this
+>>    * so that the type and implementation-specific options are easy
+>>    * to set at runtime
+>>    */
+>>   int DCSetFromOptions(DC);
+>>
+>>   /* To support implicit integration, you could include */
+>>   int DCResidual(DC,double dt,Vec x,Vec xdot,Vec res);
+>>
+>>
+>> The climate model only sees the interface above.  The implementation
+>> looks like
+>>
+>> cismimpl.h:
+>>
+>>   #include <cism.h>
+>>
+>>   struct _DCOps {
+>>     int (*setfromoptions)(DC);
+>>     int (*load)(DC,const char*);
+>>     int (*step)(DC,double,Vec,Vec);
+>>     int (*residual)(DC,double,Vec,Vec,Vec);
+>>     int (*destroy)(DC);
+>>   };
+>>   struct _p_DC {
+>>     struct _DCOp *ops;
+>>     void *data;              /* implementation-specific data */
+>>     MPI_Comm comm;
+>>     /* anything else common to all implementations goes here */
+>>   };
+>>
+>>
+>> I assume that we allocate a different ops pointer for every instance.
+>> This is more dynamic than a C++ delegator since we can override methods
+>> on a per-instance rather than per-class basis (this capability,
+>> sometimes known as monkey patching, should be used sparingly).  The
+>> implementation of the interface (cism.h) looks something like
+>>
+>> cism.c:
+>>
+>>   #include <cismimpl.h>
+>>
+>>   static int DCPackageInitialized = 0;
+>>   static FList DCList = 0;  /* list of (string,function) pairs */
+>>
+>>   /* function declarations for the implementations that are known,
+>>    * various physics (shallow ice, shallow shelf, hydrostatic, stokes)
+>>    * from various sources */
+>>   extern int DCCreate_GlimmerSIA(DC);
+>>   extern int DCCreate_GlimmerHS(DC);
+>>   extern int DCCreate_PismSSA(DC);
+>>   extern int DCCreate_CoolStokes(DC);
+>>
+>>   static int DCInitializePackage() {
+>>     DCRegister("glimmersia",DCCreate_GlimmerSIA);
+>>     DCRegister("glimmerhs", DCCreate_GlimmerHS);
+>>     DCRegister("pismssa",   DCCreate_PismSSA);
+>>     DCRegister("coolstokes",DCCreate_CoolStokes);
+>>     DCPackageInitialized = 1;
+>>     return 0;
+>>   }
+>>
+>>   int DCCreate(MPI_Comm comm,DC *newdc) {
+>>     DC dc;
+>>
+>>     /* Initialize the package only once */
+>>     if (!DCPackageInitialized) DCInitializePackage();
+>>     dc = calloc(sizeof(*dc));
+>>     dc->ops = calloc(sizeof(*dc->ops));
+>>     dc->comm = comm;
+>>     /* any other generic stuff */
+>>     *newdc = dc;
+>>     return 0;
+>>   }
+>>
+>>   int DCRegister(const char *name,int (*f)(DC)) {
+>>     /* Suppose we have a generic data structure for this list */
+>>     return FListAdd(&DCList,name,(void(*)(void))f);
+>>   }
+>>
+>>   int DCSetType(DC dc,const char *name) {
+>>     int (*f)(DC);
+>>     FListGet(DCList,name,(void(**)(void))&f);
+>>     if (!f) ERROR(1,"requested an implementation that has not been registered");
+>>     if (dc->data) {dc->ops->destroy(dc);} /* destroy an old implementation */
+>>     return f(dc);                         /* allocate space for the new one */
+>>   }
+>>
+>>   int DCDestroy(DC dc) {
+>>     dc->ops->destroy(dc);
+>>     free(dc->ops);
+>>     free(dc);
+>>     return 0;
+>>   }
+>>
+>>   /* delegate for the other functions, just trivial wrappers given here */
+>>   int DCSetFromOptions(DC dc) {
+>>     /* ... consult the runtime options and possibly change the type */
+>>     /* ... other generic stuff */
+>>     return dc->ops->setfromoptions(DC); /* implementation-specific options */
+>>   }
+>>   int DCLoad(DC dc,const char *filename) {
+>>     return dc->ops->load(dc,filename);
+>>   }
+>>   int DCStep(DC dc,double dt,Vec x,Vec y) {
+>>     return dc->ops->step(dc,dt,x,y);
+>>   }
+>>   int DCResidual(DC dc,double dt,Vec x,Vec xdot,Vec res) {
+>>     return dc->ops->residual(dc,dt,x,xdot,res);
+>>   }
+>>
+>>
+>> Implementations look like:
+>>
+>> glimmerhs.c:
+>>
+>>   #include <cismimpl.h>
+>>
+>>   struct DC_GlimmerHS {
+>>     /* whatever private data is needed by the hydrostatic implementation,
+>>      * it could just be a pointer to the Fortran derived data types */
+>>   };
+>>
+>>   /* These can be implemented in an language */
+>>   extern int DCSetFromOptions_GlimmerHS(DC);
+>>   extern int DCLoad_GlimmerHS(DC,const char*);
+>>   extern int DCStep_GlimmerHS(DC,double,Vec,Vec);
+>>   extern int DCResidual_GlimmerHS(DC,double,Vec,Vec,Vec);
+>>   extern int DCDestroy_GlimmerHS(DC);
+>>
+>>   int DCCreate_GlimmerHS(DC dc) {
+>>     struct DC_GlimmerHS *ghs;
+>>
+>>     dc->ops->setfromoptions = DCSetFromOptions_GlimmerHS;
+>>     dc->ops->load           = DCLoad_GlimmerHS;
+>>     dc->ops->step           = DCStep_GlimmerHS;
+>>     dc->ops->residual       = DCResidual_GlimmerHS;
+>>     dc->ops->destroy        = DCDestroy_GlimmerHS;
+>>
+>>     ghs = calloc(sizeof(*ghs));
+>>     dc->data = ghs;
+>>
+>>     /* set defaults or call fortran to set up some private data structures */
+>>
+>>     return 0;
+>>   }
+>>
+>>
+>>
+>>
+>> ########################################################################
+>>
+>> What does all of this achieve?
+>>
+>> * Climate models all see the same interface with no knowledge of what
+>> physics is going on underneath.
+>>
+>> * An arbitrary number of DCs can be in use at any time.  Their types are
+>> completely independent.
+>>
+>> * Choice of implementation occurs at runtime.
+>>
+>> * If you have a new implementation, you just have to get DCRegister(..)
+>> called before DCSetType() and it will be first-class (and selectable at
+>> runtime exactly like the "blessed" implementations that are registered
+>> by default).
+>>
+>> * With a variant of DCRegister(), we can distribute the implementation
+>> as a binary and register it via dlopen/dlsym in which case nothing needs
+>> to be recompiled or relinked.  (This is the strong definition of
+>> plugin.)
+>>
+>> * Implementations can be written in any language.
+>>
+>> * The model can be called from any language.
+>>
+>> * Implementations can share code at will (e.g. between Glimmer
+>> components for different physics) but this is not visible at the top
+>> level.
+>>
+>> * Users can extend existing implementations in a very lightweight
+>> per-instance way via "monkey-patching" or by creating their own
+>> first-class implementations that reuses code from the other
+>> implementation.
+>>
+>> * The type of a DC can be changed after it has been used without
+>> destroying it's connections to other components.  This is a benefit of
+>> the delegator (aka. pimpl) pattern.  This would be useful to allow
+>> *external* control to use one model for a while (e.g. spinup) and then
+>> switch to a different model.  If all climate components were written
+>> this way we could do some interesting simulations with very little
+>> effort.  For example, you could start with reconstructions or trivial
+>> models for atmosphere, ocean, and land while using a SIA ice model.  At
+>> -4k years, you could switch to an implicit ocean model (taking large
+>> time steps), then turn on a hydrostatic ice model at -1k years, and
+>> activate an atmosphere model at some time close to present along with
+>> changing to an ocean model with short time steps and more complete
+>> physics, and switching to a Stokes model for ice.  All this would
+>> require the user to provide one callback to the coupler (whatever has
+>> top-level control) that would implement the logic of when to switch,
+>> switching would not use the file system.
+>>
+>>
+>>
+>> I realize this sort of thing is radical and may never happen, but I
+>> think it is a noble long-term goal for the ice sheet modeling community.
+>> It would definitely benefit the various ASCR efforts.
+>>
+>>
+>> Jed
+>>
+>>
+>> -------------- next part --------------
+>> A non-text attachment was scrubbed...
+>> Name: signature.asc
+>> Type: application/pgp-signature
+>> Size: 261 bytes
+>> Desc: OpenPGP digital signature
+>> Url : https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091019/204878e3/attachment-0001.pgp
+>>
+>> ------------------------------
+>>
+>> Message: 2
+>> Date: Mon, 19 Oct 2009 21:00:38 +0100
+>> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>> Subject: Re: [Glimmer-cism-devel] more refactoring
+>> To: glimmer-cism-devel at lists.berlios.de
+>> Message-ID: <1255982438.2286.8.camel at swine>
+>> Content-Type: text/plain; charset="UTF-8"
+>>
+>> On Mon, 2009-10-19 at 20:07 +0200, Jed Brown wrote:
+>>> I realize this sort of thing is radical and may never happen, but I
+>>> think it is a noble long-term goal for the ice sheet modeling
+>>> community.
+>>> It would definitely benefit the various ASCR efforts.
+>>>
+>> Hi Jed,
+>> just a quick message before proper digestion (I am on holiday).
+>>
+>> I like it.
+>>
+>> And I think it is not too far away from what we have discussed so far.
+>> Using this design we could keep the DCs in Fortran (or as you said any
+>> other language). Using C to put it all together is quite appealing. We
+>> could then also have nice Python bindings.
+>>
+>> I'll think about it more carefully once I am back at work.
+>>
+>> Cheers
+>> magi
+>>
+>>
+>>
+>> ------------------------------
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>
+>> End of Glimmer-cism-devel Digest, Vol 4, Issue 10
+>> *************************************************
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+
+
+From gethin.williams at bristol.ac.uk  Wed Oct 21 17:33:12 2009
+From: gethin.williams at bristol.ac.uk (Gethin Williams)
+Date: Wed, 21 Oct 2009 16:33:12 +0100
+Subject: [Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+In-Reply-To: <4ADE2DA3.9000307@59A2.org>
+References: <mailman.1.1256032804.24370.glimmer-cism-devel@lists.berlios.de>
+	<1256049526.3274.11.camel@gethin-desktop> <4ADE2DA3.9000307@59A2.org>
+Message-ID: <1256139192.3550.26.camel@gethin-desktop>
+
+Hi Jed, Kate & all,
+
+Good to hear that other people have found the F2003 features to be
+useful too, and that support is wider than just gfortran.
+
+> I think the major concern about such F2003 features is that they are
+> likely to not be properly implemented by all the compilers.  The scheme
+> I have described does not need to pass any data structures between
+> Fortran and C, just opaque pointers.  If an implementation wanted to
+> have a hybrid code, then the F2003 features might be nice, but that use
+> can stay completely isolated.  Also note that C has a well-defined ABI
+> so there is no requirement that each component be compiled using the
+> same toolchain.
+
+Yes, apologies for not reading your example code more closely.  All good
+points.  I've successfully used opaque pointers in the past when working
+for a company where we wanted to protect the contents of the libraries
+that we shipped, and the interface worked well.
+
+(Following Magi's comment, we used SWIG to create a binding to python
+for the top-level calls, and that worked well too.)
+
+I wonder if it is worth drilling down on the timestep calls, as we may
+unearth some devils in the details?
+
+One aspect is the sheer number of fields that may need to be passed from
+the climate model to the icesheet model.  Another is support for
+different interfaces to different climate models.  A third consideration
+is the data type of the fields to be passed.  Perhaps 'Vec' is not
+sufficient?
+
+One proposal which may address the first two points--if there is an
+issue--would be to break the call into a number of puts() & gets().
+These could be bundled into a single timestep call, of course, but would
+provide flexibility at the interface that would be straightforward to
+understand.
+
+Best wishes,
+Gethin.
+
+> 
+> > In case they are useful, I prepared some examples.  They are examples 3
+> > & 4 (NB /not/ 1 & 2) in:
+> > http://source.ggy.bris.ac.uk/subversion-open/polyglot/trunk/examples/example[3,4].
+> > 
+> > Best wishes,
+> > Gethin.
+> > 
+> > 
+> > On Tue, 2009-10-20 at 12:00 +0200,
+> > glimmer-cism-devel-request at lists.berlios.de wrote:
+> >> Send Glimmer-cism-devel mailing list submissions to
+> >> 	glimmer-cism-devel at lists.berlios.de
+> >>
+> >> To subscribe or unsubscribe via the World Wide Web, visit
+> >> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> >> or, via email, send a message with subject or body 'help' to
+> >> 	glimmer-cism-devel-request at lists.berlios.de
+> >>
+> >> You can reach the person managing the list at
+> >> 	glimmer-cism-devel-owner at lists.berlios.de
+> >>
+> >> When replying, please edit your Subject line so it is more specific
+> >> than "Re: Contents of Glimmer-cism-devel digest..."
+> >>
+> >>
+> >> Today's Topics:
+> >>
+> >>    1. Re: more refactoring (Jed Brown)
+> >>    2. Re: more refactoring (Magnus Hagdorn)
+> >>
+> >>
+> >> ----------------------------------------------------------------------
+> >>
+> >> Message: 1
+> >> Date: Mon, 19 Oct 2009 20:07:45 +0200
+> >> From: Jed Brown <jed at 59A2.org>
+> >> Subject: Re: [Glimmer-cism-devel] more refactoring
+> >> To: glimmer-cism-devel at lists.berlios.de
+> >> Message-ID: <4ADCAAF1.5040600 at 59A2.org>
+> >> Content-Type: text/plain; charset="iso-8859-1"
+> >>
+> >> Magnus Hagdorn wrote:
+> >>> On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+> >>>> * It makes sense to work towards making the API for DCs in the same 
+> >>>> 'class' (i.e. all temperature solvers or all thickness solvers) 
+> >>>> identical, so I would advocate using a single derived type for each 
+> >>>> class. This means that the derived type will need to be extended for 
+> >>>> each new DC, but that would reduce the changes which need to be made 
+> >>>> elsewhere when a new DC is added. Of course, if we were using F2003, 
+> >>>> we'd define a base class with some relevant virtual functions, and 
+> >>>> derive the DC classes from that...
+> >>>>
+> >>> I was thinking to have one derived type per implementation otherwise
+> >>> different implementations are dependent on each other. In glide we could
+> >>> have a wrapper DC which supports all know implementation similar to how
+> >>> we deal with different projections:
+> >>> * derived types with pointers to individual supported DC derived types
+> >>> and an ID for selecting the desired implementation
+> >>> * a time step procedures which consists of a select case structure to
+> >>> select desired implementation
+> >> This relates to plugins, as we were discussing them long ago.  I never
+> >> follow up with an example, but here is the idea (in C, apparently we
+> >> could do something similar with F2003; note that this chunk being in C
+> >> makes no assumption on the language it is being called from or the
+> >> language that implementations are written in).  Skip to the line of hash
+> >> marks (##) for the benefits of this design.
+> >>
+> >>
+> >> The public interface is something like
+> >>
+> >> cism.h:
+> >>
+> >>   typedef _p_DC *DC;                     /* opaque handle */
+> >>   int DCCreate(MPI_Comm,DC *newdc);      /* allocate */
+> >>   int DCSetType(DC,const char *name);    /* 
+> >>   int DCLoad(DC,const char *filename);   /* loads grid */
+> >>   int DCStep(DC,double dt,Vec x,Vec y);  /* take a time step */
+> >>   int DCDestroy(DC);                     /* deallocate */
+> >>
+> >>   /* Associate a string with an implementation */
+> >>   int DCRegister(const char*,int (*)(DC));
+> >>
+> >>   /* If command-line options are stored globally, you can have this
+> >>    * so that the type and implementation-specific options are easy
+> >>    * to set at runtime
+> >>    */
+> >>   int DCSetFromOptions(DC);
+> >>   
+> >>   /* To support implicit integration, you could include */
+> >>   int DCResidual(DC,double dt,Vec x,Vec xdot,Vec res);
+> >>
+> >>
+> >> The climate model only sees the interface above.  The implementation
+> >> looks like
+> >>
+> >> cismimpl.h:
+> >>
+> >>   #include <cism.h>
+> >>
+> >>   struct _DCOps {
+> >>     int (*setfromoptions)(DC);
+> >>     int (*load)(DC,const char*);
+> >>     int (*step)(DC,double,Vec,Vec);
+> >>     int (*residual)(DC,double,Vec,Vec,Vec);
+> >>     int (*destroy)(DC);
+> >>   };
+> >>   struct _p_DC {
+> >>     struct _DCOp *ops;
+> >>     void *data;              /* implementation-specific data */
+> >>     MPI_Comm comm;
+> >>     /* anything else common to all implementations goes here */
+> >>   };
+> >>
+> >>
+> >> I assume that we allocate a different ops pointer for every instance.
+> >> This is more dynamic than a C++ delegator since we can override methods
+> >> on a per-instance rather than per-class basis (this capability,
+> >> sometimes known as monkey patching, should be used sparingly).  The
+> >> implementation of the interface (cism.h) looks something like
+> >>
+> >> cism.c:
+> >>
+> >>   #include <cismimpl.h>
+> >>
+> >>   static int DCPackageInitialized = 0;
+> >>   static FList DCList = 0;  /* list of (string,function) pairs */
+> >>
+> >>   /* function declarations for the implementations that are known,
+> >>    * various physics (shallow ice, shallow shelf, hydrostatic, stokes)
+> >>    * from various sources */
+> >>   extern int DCCreate_GlimmerSIA(DC);
+> >>   extern int DCCreate_GlimmerHS(DC);
+> >>   extern int DCCreate_PismSSA(DC);
+> >>   extern int DCCreate_CoolStokes(DC);
+> >>
+> >>   static int DCInitializePackage() {
+> >>     DCRegister("glimmersia",DCCreate_GlimmerSIA);
+> >>     DCRegister("glimmerhs", DCCreate_GlimmerHS);
+> >>     DCRegister("pismssa",   DCCreate_PismSSA);
+> >>     DCRegister("coolstokes",DCCreate_CoolStokes);
+> >>     DCPackageInitialized = 1;
+> >>     return 0;
+> >>   }
+> >>
+> >>   int DCCreate(MPI_Comm comm,DC *newdc) {
+> >>     DC dc;
+> >>
+> >>     /* Initialize the package only once */
+> >>     if (!DCPackageInitialized) DCInitializePackage();
+> >>     dc = calloc(sizeof(*dc));
+> >>     dc->ops = calloc(sizeof(*dc->ops));
+> >>     dc->comm = comm;
+> >>     /* any other generic stuff */
+> >>     *newdc = dc;
+> >>     return 0;
+> >>   }
+> >>
+> >>   int DCRegister(const char *name,int (*f)(DC)) {
+> >>     /* Suppose we have a generic data structure for this list */
+> >>     return FListAdd(&DCList,name,(void(*)(void))f);
+> >>   }
+> >>
+> >>   int DCSetType(DC dc,const char *name) {
+> >>     int (*f)(DC);
+> >>     FListGet(DCList,name,(void(**)(void))&f);
+> >>     if (!f) ERROR(1,"requested an implementation that has not been registered");
+> >>     if (dc->data) {dc->ops->destroy(dc);} /* destroy an old implementation */
+> >>     return f(dc);                         /* allocate space for the new one */
+> >>   }
+> >>
+> >>   int DCDestroy(DC dc) {
+> >>     dc->ops->destroy(dc);
+> >>     free(dc->ops);
+> >>     free(dc);
+> >>     return 0;
+> >>   }
+> >>
+> >>   /* delegate for the other functions, just trivial wrappers given here */
+> >>   int DCSetFromOptions(DC dc) {
+> >>     /* ... consult the runtime options and possibly change the type */
+> >>     /* ... other generic stuff */
+> >>     return dc->ops->setfromoptions(DC); /* implementation-specific options */
+> >>   }
+> >>   int DCLoad(DC dc,const char *filename) {
+> >>     return dc->ops->load(dc,filename);
+> >>   }
+> >>   int DCStep(DC dc,double dt,Vec x,Vec y) {
+> >>     return dc->ops->step(dc,dt,x,y);
+> >>   }
+> >>   int DCResidual(DC dc,double dt,Vec x,Vec xdot,Vec res) {
+> >>     return dc->ops->residual(dc,dt,x,xdot,res);
+> >>   }
+> >>
+> >>
+> >> Implementations look like:
+> >>
+> >> glimmerhs.c:
+> >>
+> >>   #include <cismimpl.h>
+> >>
+> >>   struct DC_GlimmerHS {
+> >>     /* whatever private data is needed by the hydrostatic implementation,
+> >>      * it could just be a pointer to the Fortran derived data types */
+> >>   };
+> >>
+> >>   /* These can be implemented in an language */
+> >>   extern int DCSetFromOptions_GlimmerHS(DC);
+> >>   extern int DCLoad_GlimmerHS(DC,const char*);
+> >>   extern int DCStep_GlimmerHS(DC,double,Vec,Vec);
+> >>   extern int DCResidual_GlimmerHS(DC,double,Vec,Vec,Vec);
+> >>   extern int DCDestroy_GlimmerHS(DC);
+> >>
+> >>   int DCCreate_GlimmerHS(DC dc) {
+> >>     struct DC_GlimmerHS *ghs;
+> >>
+> >>     dc->ops->setfromoptions = DCSetFromOptions_GlimmerHS;
+> >>     dc->ops->load           = DCLoad_GlimmerHS;
+> >>     dc->ops->step           = DCStep_GlimmerHS;
+> >>     dc->ops->residual       = DCResidual_GlimmerHS;
+> >>     dc->ops->destroy        = DCDestroy_GlimmerHS;
+> >>
+> >>     ghs = calloc(sizeof(*ghs));
+> >>     dc->data = ghs;
+> >>
+> >>     /* set defaults or call fortran to set up some private data structures */
+> >>
+> >>     return 0;
+> >>   }
+> >>
+> >>
+> >>
+> >>
+> >> ########################################################################
+> >>
+> >> What does all of this achieve?
+> >>
+> >> * Climate models all see the same interface with no knowledge of what
+> >> physics is going on underneath.
+> >>
+> >> * An arbitrary number of DCs can be in use at any time.  Their types are
+> >> completely independent.
+> >>
+> >> * Choice of implementation occurs at runtime.
+> >>
+> >> * If you have a new implementation, you just have to get DCRegister(..)
+> >> called before DCSetType() and it will be first-class (and selectable at
+> >> runtime exactly like the "blessed" implementations that are registered
+> >> by default).
+> >>
+> >> * With a variant of DCRegister(), we can distribute the implementation
+> >> as a binary and register it via dlopen/dlsym in which case nothing needs
+> >> to be recompiled or relinked.  (This is the strong definition of
+> >> plugin.)
+> >>
+> >> * Implementations can be written in any language.
+> >>
+> >> * The model can be called from any language.
+> >>
+> >> * Implementations can share code at will (e.g. between Glimmer
+> >> components for different physics) but this is not visible at the top
+> >> level.
+> >>
+> >> * Users can extend existing implementations in a very lightweight
+> >> per-instance way via "monkey-patching" or by creating their own
+> >> first-class implementations that reuses code from the other
+> >> implementation.
+> >>
+> >> * The type of a DC can be changed after it has been used without
+> >> destroying it's connections to other components.  This is a benefit of
+> >> the delegator (aka. pimpl) pattern.  This would be useful to allow
+> >> *external* control to use one model for a while (e.g. spinup) and then
+> >> switch to a different model.  If all climate components were written
+> >> this way we could do some interesting simulations with very little
+> >> effort.  For example, you could start with reconstructions or trivial
+> >> models for atmosphere, ocean, and land while using a SIA ice model.  At
+> >> -4k years, you could switch to an implicit ocean model (taking large
+> >> time steps), then turn on a hydrostatic ice model at -1k years, and
+> >> activate an atmosphere model at some time close to present along with
+> >> changing to an ocean model with short time steps and more complete
+> >> physics, and switching to a Stokes model for ice.  All this would
+> >> require the user to provide one callback to the coupler (whatever has
+> >> top-level control) that would implement the logic of when to switch,
+> >> switching would not use the file system.
+> >>
+> >>
+> >>
+> >> I realize this sort of thing is radical and may never happen, but I
+> >> think it is a noble long-term goal for the ice sheet modeling community.
+> >> It would definitely benefit the various ASCR efforts.
+> >>
+> >>
+> >> Jed
+> >>
+> >>
+> >> -------------- next part --------------
+> >> A non-text attachment was scrubbed...
+> >> Name: signature.asc
+> >> Type: application/pgp-signature
+> >> Size: 261 bytes
+> >> Desc: OpenPGP digital signature
+> >> Url : https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091019/204878e3/attachment-0001.pgp 
+> >>
+> >> ------------------------------
+> >>
+> >> Message: 2
+> >> Date: Mon, 19 Oct 2009 21:00:38 +0100
+> >> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> >> Subject: Re: [Glimmer-cism-devel] more refactoring
+> >> To: glimmer-cism-devel at lists.berlios.de
+> >> Message-ID: <1255982438.2286.8.camel at swine>
+> >> Content-Type: text/plain; charset="UTF-8"
+> >>
+> >> On Mon, 2009-10-19 at 20:07 +0200, Jed Brown wrote:
+> >>> I realize this sort of thing is radical and may never happen, but I
+> >>> think it is a noble long-term goal for the ice sheet modeling
+> >>> community.
+> >>> It would definitely benefit the various ASCR efforts.
+> >>>
+> >> Hi Jed,
+> >> just a quick message before proper digestion (I am on holiday).
+> >>
+> >> I like it.
+> >>
+> >> And I think it is not too far away from what we have discussed so far.
+> >> Using this design we could keep the DCs in Fortran (or as you said any
+> >> other language). Using C to put it all together is quite appealing. We
+> >> could then also have nice Python bindings.
+> >>
+> >> I'll think about it more carefully once I am back at work.
+> >>
+> >> Cheers
+> >> magi
+> >>
+> >>
+> >>
+> >> ------------------------------
+> >>
+> >> _______________________________________________
+> >> Glimmer-cism-devel mailing list
+> >> Glimmer-cism-devel at lists.berlios.de
+> >> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> >>
+> >>
+> >> End of Glimmer-cism-devel Digest, Vol 4, Issue 10
+> >> *************************************************
+> > 
+> > _______________________________________________
+> > Glimmer-cism-devel mailing list
+> > Glimmer-cism-devel at lists.berlios.de
+> > https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> 
+> 
+
+
+
+From I.C.Rutt at swansea.ac.uk  Mon Oct 26 12:22:37 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 26 Oct 2009 11:22:37 +0000
+Subject: [Glimmer-cism-devel] Refactoring progress
+Message-ID: <4AE5867D.8090908@swansea.ac.uk>
+
+
+Dear All,
+
+I've now completed a draft refactoring of the temperature code in 
+Glimmer-CISM. I would very much welcome your comments. As a reminder, 
+the branch I've been working on is here:
+
+/glimmer-cism/glimmer-cism2/branches/GCISM2-refactor-ICR
+
+Some information:
+
+1) The full solution code is now in glide_tempFullSoln.F90. The main 
+calls are init_tempFullSoln and tstep_tempFullSoln. A single derived 
+type (type_tempFullSoln) is used to pass grid parameters, etc, which are 
+initialised in init_tempFullSoln.
+
+2) The module as a whole only depends on libglimmer. However, to do 
+this, various bits and pieces were moved from libglide to libglimmer 
+(for example the several subroutines and functions which calculate the 
+pressure melting point are now in glimmer_pmpt.F90). This in itself 
+needs some reorganisation.
+
+3) I separated out the basal hydrology models into a separate module. 
+These still need some work.
+
+4) Grid staggering has been moved inside the temperature code: i.e. only 
+the 'original' fields are passed through the interface.
+
+5) The refactoring has made glide.F90 messier, but this should be 
+improved as more refactoring takes place.
+
+6) I would be very much in favour of removing scaling asap, as it will 
+make the dynamical cores much easier to use as stand-alone calls.
+
+And a couple of questions:
+
+1) Because of the way I did the refactoring - essentially taking the 
+code apart and putting it back together - the necessary work arrays are 
+currently allocated on the stack as assumed-shape local arrays. This is 
+probably not ideal (stack overflow potential), but has the virtue of 
+simplicity (no allocation/deallocation to manage). There are two other 
+options: put the work arrays in type_tempFullSoln and allocate during 
+the call to init_tempFullSoln, or use local allocatable arrays which are 
+allocated and deallocated on each call. My suspicion is that for AD 
+purposes the first of these might be best, but I'd like to hear Jean or 
+Paul's thoughts on the matter.
+
+2) A question of style: the arrays in the interface to 
+tstep_tempFullSoln are currently declared as assumed shape (i.e. (:,:), 
+etc.). Since grid extents are contained in type_tempFullSoln, the 
+interface arrays could have their shape explicitly stated (i.e. 
+(params%ewn, params%nsn), etc). I think the latter might be better, as a 
+bounds-checking compiler should pick up if the subroutine is being 
+called with arrays of the wrong shape.
+
+As I said, please do read the code and send me your comments.
+
+Best wishes,
+
+Ian
+
+P.S. One of the consequences of refactoring is to make the code slightly 
+less efficient in places (for example, some coefficients which were 
+formerly calculated just once are now recalculated each timestep, to 
+allow variable time-steps). My own tests do not indicate that these 
+changes impact significantly on the run-time of the model (I doubt the 
+effect is measurable), and in any case they are the necessary cost of 
+improving modularity. On this point, I broadly agree with Donald Knuth 
+(author of TeX, etc):
+
+?We should forget about small efficiencies, say about 97% of the time: 
+premature optimization is the root of all evil. Yet we should not pass 
+up our opportunities in that critical 3%. A good programmer will not be 
+lulled into complacency by such reasoning, he will be wise to look 
+carefully at the critical code; but only after that code has been 
+identified?
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 09:45:44 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 08:45:44 +0000
+Subject: [Glimmer-cism-devel] Refactoring help?
+In-Reply-To: <63DEF06C-C015-4D49-BC50-3C76C37D20F0@swansea.ac.uk>
+References: <9288095c0910271053h3cecdb52wdb48229fb2e55814@mail.gmail.com>
+	<1256673294.4657.2.camel@hog.marsupium.org>
+	<63DEF06C-C015-4D49-BC50-3C76C37D20F0@swansea.ac.uk>
+Message-ID: <1256719544.6328.6.camel@hog.marsupium.org>
+
+On Tue, 2009-10-27 at 22:38 +0000, Ian Rutt wrote:
+> I'm glad the refactoring looks good to you so far. I'm pressing
+> ahead  
+> when I have 10 minutes here and there. :) Since the trunk is
+> starting  
+> to get structural changes now, I'm wondering whether I should start
+> to  
+> merge some of my changes back the trunk. Any thoughts?
+> 
+
+I think we should try to keep structural changes on trunk as small as
+possible so that merging in features from the lanl branch is less of a
+pain. There is no pressing need to merge changes from the refactoring
+branch into trunk yet.
+
+Cheers
+magi
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 11:16:04 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 10:16:04 +0000
+Subject: [Glimmer-cism-devel] glide_temp refactoring
+Message-ID: <1256724964.6328.51.camel@hog.marsupium.org>
+
+Hi Ian (and the rest),
+I am looking through your changes and have a few comments/suggestions:
+
+- I don't like the names of the procedures. I think it is clearer if
+routines are prefixed by the name space rather than attaching the name
+space as a suffix: 
+  type_tempFullSoln -> tempFullSoln_type
+  init_tempFullSoln -> tempFullSoln_init
+
+- the temperature type is carrying around coordinate system info
+  I think we should move that into it's own type so it can be shared
+among other modules. I can look into that.
+
+- everything is double precision - we should use rk which is either sp
+or dp depending on configury options
+
+- vertCoord type should contain sigma levels
+
+- documentation is missing :-)
+
+On Mon, 2009-10-26 at 11:22 +0000, Ian Rutt wrote:
+
+> 1) Because of the way I did the refactoring - essentially taking the 
+> code apart and putting it back together - the necessary work arrays
+are 
+> currently allocated on the stack as assumed-shape local arrays. This
+is 
+> probably not ideal (stack overflow potential), but has the virtue of 
+> simplicity (no allocation/deallocation to manage). There are two
+other 
+> options: put the work arrays in type_tempFullSoln and allocate during 
+> the call to init_tempFullSoln, or use local allocatable arrays which
+are 
+> allocated and deallocated on each call. My suspicion is that for AD 
+> purposes the first of these might be best, but I'd like to hear Jean
+or 
+> Paul's thoughts on the matter.
+
+I think allocating large arrays on the stack is fine. I have used a
+model with 10 of GB on the stack and had no problems (with newer linux
+kernels - 2.4 died miserably). Allocating variables on the stack has the
+benefit of making parallelisation using OpenMP simpler.
+
+2) A question of style: the arrays in the interface to 
+> tstep_tempFullSoln are currently declared as assumed shape (i.e.
+(:,:), 
+> etc.). Since grid extents are contained in type_tempFullSoln, the 
+> interface arrays could have their shape explicitly stated (i.e. 
+> (params%ewn, params%nsn), etc). I think the latter might be better, as
+a 
+> bounds-checking compiler should pick up if the subroutine is being 
+
+Yes, I think using explicit arrays also improves readability.
+
+
+P.S. One of the consequences of refactoring is to make the code
+slightly 
+> less efficient in places (for example, some coefficients which were 
+> formerly calculated just once are now recalculated each timestep, to 
+> allow variable time-steps). My own tests do not indicate that these 
+> changes impact significantly on the run-time of the model (I doubt
+the 
+> effect is measurable), and in any case they are the necessary cost of 
+> improving modularity.
+
+well, we can worry about performance later and figure out how to avoid
+recomputing surface gradients, etc.
+
+Cheers for all the work and getting refactoring going. This will
+definitely improve the code.
+
+magi
+
+
+
+
+From Gethin.Williams at bristol.ac.uk  Wed Oct 28 12:17:45 2009
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Wed, 28 Oct 2009 11:17:45 +0000
+Subject: [Glimmer-cism-devel] compile time precision
+Message-ID: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+
+Hi Magnus and all,
+
+A small point, but I wonder what the cost benefit tradeoff of the following 
+is?
+
+> - everything is double precision - we should use rk which is either sp
+> or dp depending on configury options
+
+We have a good deal of this manoeuvre in GENIE, dating from the days of 
+32bit CPUs and a desire for flexibility regarding speed vs model precision. 
+Since all new CPUs are 64bit, a DP operation should cost the same as an SP 
+op, (SSE optimisations aside) true?
+
+The down side, is that it adds a good deal of complexity to the code and 
+the compile-time configuration which has proved to be a pain (admittedly 
+GENIE has some components working in SP and others in DP).
+
+Just thought I'd raise it.
+
+Cheers,
+Gethin.
+
+
+From jed at 59A2.org  Wed Oct 28 12:25:22 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 28 Oct 2009 12:25:22 +0100
+Subject: [Glimmer-cism-devel] glide_temp refactoring
+In-Reply-To: <1256724964.6328.51.camel@hog.marsupium.org>
+References: <1256724964.6328.51.camel@hog.marsupium.org>
+Message-ID: <4AE82A22.80503@59A2.org>
+
+Magnus Hagdorn wrote:
+> I think allocating large arrays on the stack is fine. I have used a
+> model with 10 of GB on the stack and had no problems (with newer linux
+> kernels - 2.4 died miserably). Allocating variables on the stack has the
+> benefit of making parallelisation using OpenMP simpler.
+
+The kernel can handle huge stacks, but it's probably not actually going
+on the stack.  With gfortran, large allocations are done on the heap
+regardless of what they look like in the source if they are larger than
+32 KiB (by default, see -fmax-stack-var-size).  You can completely
+disable this by using -frecursive in which case your program will
+dump core until you fix up your limits (ulimit -s unlimited).
+
+However, allocating "on the stack" is cumbersome when you want to move
+control outside of your code.  Temporary arrays can be allocated
+locally, but state that needs to be persistent really should be
+allocated dynamically in some create function so that external control
+doesn't need to know about it.
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091028/f02eb7f7/attachment.pgp>
+
+From jed at 59A2.org  Wed Oct 28 12:30:25 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 28 Oct 2009 12:30:25 +0100
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+Message-ID: <4AE82B51.1010704@59A2.org>
+
+DAG Williams, Geographical Sciences wrote:
+
+> Since all new CPUs are 64bit, a DP operation should cost the same as an SP 
+> op, (SSE optimisations aside) true?
+
+The FPU is almost always much faster than memory, and typically spend
+more than 80% of it's time idle.  Single precision takes half the
+memory, thus you can supply twice as many operands per cycle.  So single
+isn't worthless, but you have to be careful because it's easy to have
+issues with rounding errors due to ill conditioning.
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091028/5d0efd87/attachment.pgp>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 12:33:53 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 11:33:53 +0000
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+Message-ID: <1256729633.6328.60.camel@hog.marsupium.org>
+
+On Wed, 2009-10-28 at 11:17 +0000, DAG Williams, Geographical Sciences
+wrote:
+> Hi Magnus and all,
+> 
+> A small point, but I wonder what the cost benefit tradeoff of the following 
+> is?
+> 
+> > - everything is double precision - we should use rk which is either sp
+> > or dp depending on configury options
+> 
+> We have a good deal of this manoeuvre in GENIE, dating from the days of 
+> 32bit CPUs and a desire for flexibility regarding speed vs model precision. 
+> Since all new CPUs are 64bit, a DP operation should cost the same as an SP 
+> op, (SSE optimisations aside) true?
+> 
+> The down side, is that it adds a good deal of complexity to the code and 
+> the compile-time configuration which has proved to be a pain (admittedly 
+> GENIE has some components working in SP and others in DP).
+> 
+
+Jed answered that a while ago. CPUs might be 64bit these days, however
+32bit is still faster since modern CPUs can do two 32bit operations at
+the same time. Also there is only half the memory to deal with. 
+
+I don't think it's much extra complexity to support switching precision
+at compile time. You just need to remember to use real(rk) where
+precision is allowed to vary and real(sp) or real(dp) where absolutely
+required (e.g. the solver).
+
+As far as I am concerned: use 64bit floats only where the precision is
+absolutely needed.
+
+Cheers
+magi
+
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct 28 12:38:51 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 28 Oct 2009 11:38:51 +0000
+Subject: [Glimmer-cism-devel] glide_temp refactoring
+In-Reply-To: <1256724964.6328.51.camel@hog.marsupium.org>
+References: <1256724964.6328.51.camel@hog.marsupium.org>
+Message-ID: <4AE82D4B.6080507@swansea.ac.uk>
+
+
+Hi Magi,
+
+Thanks for looking at the refactoring, and for your useful comments. 
+Comments/responses inline...
+
+> - I don't like the names of the procedures. I think it is clearer if
+> routines are prefixed by the name space rather than attaching the name
+> space as a suffix: 
+>   type_tempFullSoln -> tempFullSoln_type
+>   init_tempFullSoln -> tempFullSoln_init
+
+I think it depends how you think of these names. To me, they mentally 
+expand to 'initialise the full temp solution', 'do a timestep of the 
+full temp soln', etc, so putting the action first makes sense. I think 
+it's also visually clearer to put the bit which is different between 
+different subroutine names (i.e. init, etc) at the start, rather than 
+being caught between the namespace and the list of parameters.
+
+But, this is largely a matter of personal preference. The main thing is 
+to agree something consistent and stick to it. Would anyone else like to 
+offer an opinion?
+
+Of course, we wouldn't be having this conversation if we were using the 
+OOP features of F2003... ;)
+
+> - the temperature type is carrying around coordinate system info
+>   I think we should move that into it's own type so it can be shared
+> among other modules. I can look into that.
+
+This is a tricky point - it's a question of how modular we want to be. 
+One thing I was trying to do was to eliminate the need for the user to 
+declare a load of derived types for the grid, etc, to be passed to each 
+timestep call. So, the principle was initialise everything in the init 
+call, then call the timestep with a single object representing the model 
+and all its parameters. I like this approach because it means the user 
+of the dynamical cores doesn't have to set up a load of derived types. 
+Of course, we could still have an interface to the init call which will 
+take a grid derived type in addition to the one which takes the 
+individual grid parameters in a list.
+
+But I don't mind what we do - again, it's important to have this 
+discussion and then be consistent.
+
+> - vertCoord type should contain sigma levels
+
+Yes.
+
+> - documentation is missing :-)
+
+Indeed. :)
+
+> Yes, I think using explicit arrays also improves readability.
+
+Good. I'll move to using that style.
+
+> well, we can worry about performance later and figure out how to avoid
+> recomputing surface gradients, etc.
+
+Yes. Personally, I think the recomputation of surface gradients might 
+well fall into the 97% which isn't worth worrying about, especially as 
+the computational cost of the dynamical cores increases. However, it 
+would be possible to provide pre-computed surface gradients as optional 
+arguments, and only recompute them if they're absent. That might be a 
+good solution.
+
+Thanks again,
+
+Ian
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 12:47:44 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 11:47:44 +0000
+Subject: [Glimmer-cism-devel] horizontal coordinates
+Message-ID: <1256730465.6328.67.camel@hog.marsupium.org>
+
+Hi all,
+I am looking into sorting out the horizontal coordinate system. I
+noticed that we already have just such a module and use it:
+
+libglimmer/glimmer_coordinates.F90
+
+So I would propose to keep using it and expand it's use to other places.
+
+magi
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct 28 12:51:34 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 28 Oct 2009 11:51:34 +0000
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <1256729633.6328.60.camel@hog.marsupium.org>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+	<1256729633.6328.60.camel@hog.marsupium.org>
+Message-ID: <4AE83046.5040207@swansea.ac.uk>
+
+
+Hi All,
+
+I understand the point about SP being faster - that's worth knowing. 
+However, I think that having parts which whose precision can be changed 
+at compile-time does make things more complex. The main thing is that 
+you have to test the build with both precision settings, which (I'm 
+guessing) most of us don't have the patience to do.
+
+I'm also not really sure what the point of compile-time precision is if 
+we stick to the rule that we use SP unless DP is absolutely necessary. 
+Presumably we are providing this so users can select the precision of 
+the API? The question then becomes how deep into the code the RK part 
+should penetrate. At one extreme, we convert if necessary just beneath 
+the interface; at the other, everything is declared RK unless it 
+absolutely must be DP. This is important if we're considering this 
+because of performance issues - converting between precisions isn't cheap.
+
+I don't know what the answer is, but I don't think it's a simple 
+decision. I think I would personally favour removing compile-time 
+precision selection.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> On Wed, 2009-10-28 at 11:17 +0000, DAG Williams, Geographical Sciences
+> wrote:
+>> Hi Magnus and all,
+>>
+>> A small point, but I wonder what the cost benefit tradeoff of the following 
+>> is?
+>>
+>>> - everything is double precision - we should use rk which is either sp
+>>> or dp depending on configury options
+>> We have a good deal of this manoeuvre in GENIE, dating from the days of 
+>> 32bit CPUs and a desire for flexibility regarding speed vs model precision. 
+>> Since all new CPUs are 64bit, a DP operation should cost the same as an SP 
+>> op, (SSE optimisations aside) true?
+>>
+>> The down side, is that it adds a good deal of complexity to the code and 
+>> the compile-time configuration which has proved to be a pain (admittedly 
+>> GENIE has some components working in SP and others in DP).
+>>
+> 
+> Jed answered that a while ago. CPUs might be 64bit these days, however
+> 32bit is still faster since modern CPUs can do two 32bit operations at
+> the same time. Also there is only half the memory to deal with. 
+> 
+> I don't think it's much extra complexity to support switching precision
+> at compile time. You just need to remember to use real(rk) where
+> precision is allowed to vary and real(sp) or real(dp) where absolutely
+> required (e.g. the solver).
+> 
+> As far as I am concerned: use 64bit floats only where the precision is
+> absolutely needed.
+> 
+> Cheers
+> magi
+> 
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From jed at 59A2.org  Wed Oct 28 12:51:07 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 28 Oct 2009 12:51:07 +0100
+Subject: [Glimmer-cism-devel] glide_temp refactoring
+In-Reply-To: <4AE82D4B.6080507@swansea.ac.uk>
+References: <1256724964.6328.51.camel@hog.marsupium.org>
+	<4AE82D4B.6080507@swansea.ac.uk>
+Message-ID: <4AE8302B.6010408@59A2.org>
+
+Ian Rutt wrote:
+
+> Would anyone else like to offer an opinion?
+
+I ifdn ilttel neidna umhc omer erdabael.
+
+Though big endian sorts better.  ;-)
+
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091028/9785543b/attachment.pgp>
+
+From jed at 59A2.org  Wed Oct 28 12:44:15 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 28 Oct 2009 12:44:15 +0100
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <1256729633.6328.60.camel@hog.marsupium.org>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+	<1256729633.6328.60.camel@hog.marsupium.org>
+Message-ID: <4AE82E8F.6020601@59A2.org>
+
+Magnus Hagdorn wrote:
+
+> CPUs might be 64bit these days, however 32bit is still faster since
+> modern CPUs can do two 32bit operations at the same time.
+
+Actually, they do 2 64-bit or 4 32-bit ops at a time.  This depends on
+SSE, but compilers are getting better at properly using SSE.  (The x87
+unit is almost never used, but naive compilation yields SSE instructions
+that don't actually use the whole 128-bit register (when you look at the
+disassembly, these are the *ss and *sd instructions), they need to do
+extra work to do packed operations (the *ps and *pd instructions).)
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091028/1cfd451c/attachment.pgp>
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct 28 14:25:00 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 28 Oct 2009 13:25:00 +0000
+Subject: [Glimmer-cism-devel] glide_temp refactoring
+In-Reply-To: <4AE82A22.80503@59A2.org>
+References: <1256724964.6328.51.camel@hog.marsupium.org>
+	<4AE82A22.80503@59A2.org>
+Message-ID: <4AE8462C.7010506@swansea.ac.uk>
+
+
+Hi Jed,
+
+Thanks for the insight - that's helpful.
+
+These local arrays are all for temporary storage when the subroutine 
+executes - none have the 'save' attribute. Persistent variables are all 
+in the relevant derived type, so the timestep subroutine is stateless.
+
+(I think that answers your question, though I may have misunderstood).
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Jed Brown wrote:
+> Magnus Hagdorn wrote:
+>> I think allocating large arrays on the stack is fine. I have used a
+>> model with 10 of GB on the stack and had no problems (with newer linux
+>> kernels - 2.4 died miserably). Allocating variables on the stack has the
+>> benefit of making parallelisation using OpenMP simpler.
+> 
+> The kernel can handle huge stacks, but it's probably not actually going
+> on the stack.  With gfortran, large allocations are done on the heap
+> regardless of what they look like in the source if they are larger than
+> 32 KiB (by default, see -fmax-stack-var-size).  You can completely
+> disable this by using -frecursive in which case your program will
+> dump core until you fix up your limits (ulimit -s unlimited).
+> 
+> However, allocating "on the stack" is cumbersome when you want to move
+> control outside of your code.  Temporary arrays can be allocated
+> locally, but state that needs to be persistent really should be
+> allocated dynamically in some create function so that external control
+> doesn't need to know about it.
+> 
+> Jed
+> 
+> 
+> 
+> ------------------------------------------------------------------------
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From worleyph at ornl.gov  Wed Oct 28 14:53:44 2009
+From: worleyph at ornl.gov (Patrick Worley)
+Date: Wed, 28 Oct 2009 09:53:44 -0400
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <4AE83046.5040207@swansea.ac.uk>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+	<1256729633.6328.60.camel@hog.marsupium.org>
+	<4AE83046.5040207@swansea.ac.uk>
+Message-ID: <4AE84CE8.7050004@ornl.gov>
+
+Pat Worley here, at Oak Ridge, working with the LANL branch. I've just 
+started looking at performance of the current (LANL branch) of the code. 
+As far as I can tell, using the tests cases that I have been directed to 
+use, all of the time is being spent in the solver. Given that, I do not 
+anticipate much performance savings from using single precision outside 
+of the solver. Is my test case skewed, or is the nonsolver part of the 
+code likely to become significantly more expensive as the code evolves?
+
+Thanks.
+
+Pat
+
+Ian Rutt wrote:
+> Hi All,
+>
+> I understand the point about SP being faster - that's worth knowing. 
+> However, I think that having parts which whose precision can be changed 
+> at compile-time does make things more complex. The main thing is that 
+> you have to test the build with both precision settings, which (I'm 
+> guessing) most of us don't have the patience to do.
+>
+> I'm also not really sure what the point of compile-time precision is if 
+> we stick to the rule that we use SP unless DP is absolutely necessary. 
+> Presumably we are providing this so users can select the precision of 
+> the API? The question then becomes how deep into the code the RK part 
+> should penetrate. At one extreme, we convert if necessary just beneath 
+> the interface; at the other, everything is declared RK unless it 
+> absolutely must be DP. This is important if we're considering this 
+> because of performance issues - converting between precisions isn't cheap.
+>
+> I don't know what the answer is, but I don't think it's a simple 
+> decision. I think I would personally favour removing compile-time 
+> precision selection.
+>
+> Cheers,
+>
+> Ian
+>
+> Dr Ian Rutt
+> School of the Environment and Society
+> Swansea University
+> Singleton Park
+> Swansea
+> SA2 8PP
+> Tel. (01792) 602685
+> i.c.rutt at swansea.ac.uk
+>
+>
+> Magnus Hagdorn wrote:
+>   
+>> On Wed, 2009-10-28 at 11:17 +0000, DAG Williams, Geographical Sciences
+>> wrote:
+>>     
+>>> Hi Magnus and all,
+>>>
+>>> A small point, but I wonder what the cost benefit tradeoff of the following 
+>>> is?
+>>>
+>>>       
+>>>> - everything is double precision - we should use rk which is either sp
+>>>> or dp depending on configury options
+>>>>         
+>>> We have a good deal of this manoeuvre in GENIE, dating from the days of 
+>>> 32bit CPUs and a desire for flexibility regarding speed vs model precision. 
+>>> Since all new CPUs are 64bit, a DP operation should cost the same as an SP 
+>>> op, (SSE optimisations aside) true?
+>>>
+>>> The down side, is that it adds a good deal of complexity to the code and 
+>>> the compile-time configuration which has proved to be a pain (admittedly 
+>>> GENIE has some components working in SP and others in DP).
+>>>
+>>>       
+>> Jed answered that a while ago. CPUs might be 64bit these days, however
+>> 32bit is still faster since modern CPUs can do two 32bit operations at
+>> the same time. Also there is only half the memory to deal with. 
+>>
+>> I don't think it's much extra complexity to support switching precision
+>> at compile time. You just need to remember to use real(rk) where
+>> precision is allowed to vary and real(sp) or real(dp) where absolutely
+>> required (e.g. the solver).
+>>
+>> As far as I am concerned: use 64bit floats only where the precision is
+>> absolutely needed.
+>>
+>> Cheers
+>> magi
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>     
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>   
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 15:53:27 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 14:53:27 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+Message-ID: <1256741607.6328.73.camel@hog.marsupium.org>
+
+Hi all,
+I have just committed a set of new preprocessor macros to the
+refactoring branch. These macros should get used whereever memory is
+allocated/deallocated. They macros include procedures which check the
+error state of allocate/deallocate intrinsic.
+
+I have used them for vertCoord_type. An example:
+
+!> example of how the glimmer memory management routines are used
+!! \author Magnus Hagdorn
+
+! to start with the preprocessor file containing the memory management
+! macros needs to be loaded
+#include "glimmer_memory.inc"
+
+program handlememory
+  ! load the module containing the logging routines
+  use glimmer_log, only : glimmer_allocErr, glimmer_deallocErr
+  implicit none
+
+  ! an example allocatable array
+  real, dimension(:), allocatable :: a
+  ! an example pointer
+  real, dimension(:,:), pointer :: p
+
+  ! need to define the flag which records the status
+  integer merr
+
+  ! allocate a 1D array of size 10
+  GLIMMER_ALLOC1D(a,10)
+  ! allocate a 2D array of shape (/10,2/)
+  GLIMMER_ALLOC2D(p,10,2)
+
+  ! and deallocate them again
+  GLIMMER_DEALLOC(a)
+  GLIMMER_DEALLOC(p)
+end program handlememory
+
+
+Similar macros for 3D and 4D arrays are available. Higher dimensional
+ones are easy to add.
+
+Cheers
+magi
+
+
+
+From lipscomb at lanl.gov  Wed Oct 28 15:39:54 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 28 Oct 2009 08:39:54 -0600
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <4AE84CE8.7050004@ornl.gov>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+	<1256729633.6328.60.camel@hog.marsupium.org>
+	<4AE83046.5040207@swansea.ac.uk> <4AE84CE8.7050004@ornl.gov>
+Message-ID: <5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+
+
+Hi Pat,
+
+I don't think your test case is skewed.  Most of the cost will  
+probably be in the solver for the foreseeable future.  So it would  
+seem that the only place we would see significant savings from moving  
+to single precision (the solver) is also the place where we are most  
+likely to need double precision.
+
+My preference (though maybe I could be convinced otherwise) is to have  
+precision as a compile-time option.  For instance, I would prefer to  
+develop a given solver using DP, but then someone like Jed may come  
+along and halve the cost by getting the solver to converge with SP.
+
+- Bill
+
+
+On Oct 28, 2009, at 7:53 AM, Patrick Worley wrote:
+
+> Pat Worley here, at Oak Ridge, working with the LANL branch. I've just
+> started looking at performance of the current (LANL branch) of the  
+> code.
+> As far as I can tell, using the tests cases that I have been  
+> directed to
+> use, all of the time is being spent in the solver. Given that, I do  
+> not
+> anticipate much performance savings from using single precision  
+> outside
+> of the solver. Is my test case skewed, or is the nonsolver part of the
+> code likely to become significantly more expensive as the code  
+> evolves?
+>
+> Thanks.
+>
+> Pat
+>
+> Ian Rutt wrote:
+>> Hi All,
+>>
+>> I understand the point about SP being faster - that's worth knowing.
+>> However, I think that having parts which whose precision can be  
+>> changed
+>> at compile-time does make things more complex. The main thing is that
+>> you have to test the build with both precision settings, which (I'm
+>> guessing) most of us don't have the patience to do.
+>>
+>> I'm also not really sure what the point of compile-time precision  
+>> is if
+>> we stick to the rule that we use SP unless DP is absolutely  
+>> necessary.
+>> Presumably we are providing this so users can select the precision of
+>> the API? The question then becomes how deep into the code the RK part
+>> should penetrate. At one extreme, we convert if necessary just  
+>> beneath
+>> the interface; at the other, everything is declared RK unless it
+>> absolutely must be DP. This is important if we're considering this
+>> because of performance issues - converting between precisions isn't  
+>> cheap.
+>>
+>> I don't know what the answer is, but I don't think it's a simple
+>> decision. I think I would personally favour removing compile-time
+>> precision selection.
+>>
+>> Cheers,
+>>
+>> Ian
+>>
+>> Dr Ian Rutt
+>> School of the Environment and Society
+>> Swansea University
+>> Singleton Park
+>> Swansea
+>> SA2 8PP
+>> Tel. (01792) 602685
+>> i.c.rutt at swansea.ac.uk
+>>
+>>
+>> Magnus Hagdorn wrote:
+>>
+>>> On Wed, 2009-10-28 at 11:17 +0000, DAG Williams, Geographical  
+>>> Sciences
+>>> wrote:
+>>>
+>>>> Hi Magnus and all,
+>>>>
+>>>> A small point, but I wonder what the cost benefit tradeoff of the  
+>>>> following
+>>>> is?
+>>>>
+>>>>
+>>>>> - everything is double precision - we should use rk which is  
+>>>>> either sp
+>>>>> or dp depending on configury options
+>>>>>
+>>>> We have a good deal of this manoeuvre in GENIE, dating from the  
+>>>> days of
+>>>> 32bit CPUs and a desire for flexibility regarding speed vs model  
+>>>> precision.
+>>>> Since all new CPUs are 64bit, a DP operation should cost the same  
+>>>> as an SP
+>>>> op, (SSE optimisations aside) true?
+>>>>
+>>>> The down side, is that it adds a good deal of complexity to the  
+>>>> code and
+>>>> the compile-time configuration which has proved to be a pain  
+>>>> (admittedly
+>>>> GENIE has some components working in SP and others in DP).
+>>>>
+>>>>
+>>> Jed answered that a while ago. CPUs might be 64bit these days,  
+>>> however
+>>> 32bit is still faster since modern CPUs can do two 32bit  
+>>> operations at
+>>> the same time. Also there is only half the memory to deal with.
+>>>
+>>> I don't think it's much extra complexity to support switching  
+>>> precision
+>>> at compile time. You just need to remember to use real(rk) where
+>>> precision is allowed to vary and real(sp) or real(dp) where  
+>>> absolutely
+>>> required (e.g. the solver).
+>>>
+>>> As far as I am concerned: use 64bit floats only where the  
+>>> precision is
+>>> absolutely needed.
+>>>
+>>> Cheers
+>>> magi
+>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From worleyph at ornl.gov  Wed Oct 28 16:03:27 2009
+From: worleyph at ornl.gov (Patrick Worley)
+Date: Wed, 28 Oct 2009 11:03:27 -0400
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+	<1256729633.6328.60.camel@hog.marsupium.org>
+	<4AE83046.5040207@swansea.ac.uk> <4AE84CE8.7050004@ornl.gov>
+	<5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+Message-ID: <4AE85D3F.10300@ornl.gov>
+
+Hi Bill,
+    Thanks. The question (for this list) then is whether to build in 
+(compile-time) support for mixed single/double precision in the same 
+code, or compile-time support for changing between all single and all 
+double precision. Personally, I am very wary of compiler flag precision 
+modification. The CCSM weaned itself of that a couple of years back, and 
+portability of the code improved tremendously. Currently, the CCSM uses 
+a "kind" module
+
+MODULE shr_kind_mod
+
+   
+!----------------------------------------------------------------------------
+   ! precision/kind constants add data public
+   
+!----------------------------------------------------------------------------
+   public
+   integer,parameter :: SHR_KIND_R8 = selected_real_kind(12) ! 8 byte real
+   integer,parameter :: SHR_KIND_R4 = selected_real_kind( 6) ! 4 byte real
+   integer,parameter :: SHR_KIND_RN = kind(1.0)              ! native real
+   integer,parameter :: SHR_KIND_I8 = selected_int_kind (13) ! 8 byte 
+integer
+   integer,parameter :: SHR_KIND_I4 = selected_int_kind ( 6) ! 4 byte 
+integer
+   integer,parameter :: SHR_KIND_IN = kind(1)                ! native 
+integer
+   integer,parameter :: SHR_KIND_CS = 80                     ! short char
+   integer,parameter :: SHR_KIND_CL = 256                    ! long char
+   integer,parameter :: SHR_KIND_CX = 512                    ! 
+extra-long char
+
+END MODULE shr_kind_mod
+
+with variables defined as, for example,
+...
+   use shr_kind_mod, only: r8 => shr_kind_r8, r4 => shr_kind_r4
+
+real(r8)
+
+and all constants are also typed explicitly, e.g.
+
+    area_d = 0.0_r8
+
+We could do something similar, explicitly typing everything, perhaps 
+"r4" outside of the solver and "r8" inside of the solver, then use
+
+#ifdef DP
+   integer,parameter :: SHR_KIND_R8 = selected_real_kind(12) ! 8 byte real
+#else
+   integer,parameter :: SHR_KIND_R8 = selected_real_kind(6) ! 4 byte real
+#endif
+
+This does not address the overhead of copying between single and double 
+precision arrays in order to support a mixed precision code. If we do 
+not need to mix precision, then the above strategy becomes sufficient. 
+Note that if the solver package does it's own single/double precision 
+mixing to improve performance, that is the solver's responsibility.
+
+Pat
+
+
+William Lipscomb wrote:
+> Hi Pat,
+>
+> I don't think your test case is skewed.  Most of the cost will  
+> probably be in the solver for the foreseeable future.  So it would  
+> seem that the only place we would see significant savings from moving  
+> to single precision (the solver) is also the place where we are most  
+> likely to need double precision.
+>
+> My preference (though maybe I could be convinced otherwise) is to have  
+> precision as a compile-time option.  For instance, I would prefer to  
+> develop a given solver using DP, but then someone like Jed may come  
+> along and halve the cost by getting the solver to converge with SP.
+>
+> - Bill
+>
+>
+> On Oct 28, 2009, at 7:53 AM, Patrick Worley wrote:
+>
+>   
+>> Pat Worley here, at Oak Ridge, working with the LANL branch. I've just
+>> started looking at performance of the current (LANL branch) of the  
+>> code.
+>> As far as I can tell, using the tests cases that I have been  
+>> directed to
+>> use, all of the time is being spent in the solver. Given that, I do  
+>> not
+>> anticipate much performance savings from using single precision  
+>> outside
+>> of the solver. Is my test case skewed, or is the nonsolver part of the
+>> code likely to become significantly more expensive as the code  
+>> evolves?
+>>
+>> Thanks.
+>>
+>> Pat
+>>
+>>
+>>     
+>   
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 16:08:39 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 15:08:39 +0000
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <4AE85D3F.10300@ornl.gov>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>
+	<1256729633.6328.60.camel@hog.marsupium.org>
+	<4AE83046.5040207@swansea.ac.uk> <4AE84CE8.7050004@ornl.gov>
+	<5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+	<4AE85D3F.10300@ornl.gov>
+Message-ID: <1256742520.6328.76.camel@hog.marsupium.org>
+
+On Wed, 2009-10-28 at 11:03 -0400, Patrick Worley wrote:
+>     Thanks. The question (for this list) then is whether to build in 
+> (compile-time) support for mixed single/double precision in the same 
+> code, or compile-time support for changing between all single and all 
+> double precision. Personally, I am very wary of compiler flag
+> precision 
+> modification. The CCSM weaned itself of that a couple of years back,
+> and 
+> portability of the code improved tremendously. Currently, the CCSM
+> uses 
+> a "kind" module
+> 
+> 
+
+We already have something like this in glimmer_global.F90
+
+we would just need to use it consistently if we so desired.
+
+magi
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct 28 16:10:40 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 28 Oct 2009 15:10:40 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <1256741607.6328.73.camel@hog.marsupium.org>
+References: <1256741607.6328.73.camel@hog.marsupium.org>
+Message-ID: <4AE85EF0.1050907@swansea.ac.uk>
+
+
+Hi Magi,
+
+Thanks for these. I must admit that I'm a bit ambivalent about them, 
+though, for several reasons:
+
+1) The preprocessor isn't part of the fortran standard. Although it's 
+safe to assume that simple stuff (macro constants, conditional 
+compilation and includes) is always going to be available (or work 
+consistently), I'm more nervous about the more complex stuff. It depends 
+on how standards-compliant we need to be.
+
+2) Although I see the point of making our allocation and deallocation 
+error-checked wherever it occurs, the programmer needs to do as much 
+extra effort to use the macros as he/she would have to do to just add 
+the error checking manually, with the disadvantage that the detail is 
+hidden in the macro.
+
+3) It makes the code more opaque. It's not obvious reading the code why 
+the variable merr needs to be declared, or the error handling functions 
+included. Someone unfamiliar with the code needs to go hunting round the 
+  to find out the answers to those questions
+
+In short, I'm not convinced the advantages outweigh the extra complexity 
+and opacity.
+
+But, others may disagree. Again, this is an issue worth discussing.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> I have just committed a set of new preprocessor macros to the
+> refactoring branch. These macros should get used whereever memory is
+> allocated/deallocated. They macros include procedures which check the
+> error state of allocate/deallocate intrinsic.
+> 
+> I have used them for vertCoord_type. An example:
+> 
+> !> example of how the glimmer memory management routines are used
+> !! \author Magnus Hagdorn
+> 
+> ! to start with the preprocessor file containing the memory management
+> ! macros needs to be loaded
+> #include "glimmer_memory.inc"
+> 
+> program handlememory
+>   ! load the module containing the logging routines
+>   use glimmer_log, only : glimmer_allocErr, glimmer_deallocErr
+>   implicit none
+> 
+>   ! an example allocatable array
+>   real, dimension(:), allocatable :: a
+>   ! an example pointer
+>   real, dimension(:,:), pointer :: p
+> 
+>   ! need to define the flag which records the status
+>   integer merr
+> 
+>   ! allocate a 1D array of size 10
+>   GLIMMER_ALLOC1D(a,10)
+>   ! allocate a 2D array of shape (/10,2/)
+>   GLIMMER_ALLOC2D(p,10,2)
+> 
+>   ! and deallocate them again
+>   GLIMMER_DEALLOC(a)
+>   GLIMMER_DEALLOC(p)
+> end program handlememory
+> 
+> 
+> Similar macros for 3D and 4D arrays are available. Higher dimensional
+> ones are easy to add.
+> 
+> Cheers
+> magi
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From jed at 59A2.org  Wed Oct 28 16:11:04 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 28 Oct 2009 16:11:04 +0100
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>	<1256729633.6328.60.camel@hog.marsupium.org>	<4AE83046.5040207@swansea.ac.uk>
+	<4AE84CE8.7050004@ornl.gov>
+	<5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+Message-ID: <4AE85F08.5010103@59A2.org>
+
+William Lipscomb wrote:
+> Hi Pat,
+> 
+> I don't think your test case is skewed.  Most of the cost will  
+> probably be in the solver for the foreseeable future.  So it would  
+> seem that the only place we would see significant savings from moving  
+> to single precision (the solver) is also the place where we are most  
+> likely to need double precision.
+
+Double precision is not normally needed in the preconditioner.  The
+PETSc-FUN3D papers show nice results, but nobody seems to use it.
+
+> My preference (though maybe I could be convinced otherwise) is to have  
+> precision as a compile-time option.
+
+So it is quite easy to leave it as a compile-time option as long as
+everything uses the same precision.  When a mix is used, you typically
+need some extra copies and a bit of clutter.  My suggestion is to leave
+it a compile-time option, but keep everything in the same precision.  If
+you want to run in double, but precondition with single, you still
+compute the entries in double and cast to single for storage (because
+the only point of single is to reduce memory bandwidth requirements
+during preconditioner application).
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091028/e97bf346/attachment.pgp>
+
+From lipscomb at lanl.gov  Wed Oct 28 16:48:22 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 28 Oct 2009 09:48:22 -0600
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <4AE85F08.5010103@59A2.org>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>	<1256729633.6328.60.camel@hog.marsupium.org>	<4AE83046.5040207@swansea.ac.uk>
+	<4AE84CE8.7050004@ornl.gov>
+	<5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+	<4AE85F08.5010103@59A2.org>
+Message-ID: <7F740F76-ACC4-45C3-A064-8D85753A03BB@lanl.gov>
+
+
+Jed and Pat,
+
+Thanks for the clarifications.  I like the idea of keeping everything  
+in the same precision (with the option to cast from double to single  
+for storage, as Jed suggests).
+
+- Bill
+
+
+On Oct 28, 2009, at 9:11 AM, Jed Brown wrote:
+
+> William Lipscomb wrote:
+>> Hi Pat,
+>>
+>> I don't think your test case is skewed.  Most of the cost will
+>> probably be in the solver for the foreseeable future.  So it would
+>> seem that the only place we would see significant savings from moving
+>> to single precision (the solver) is also the place where we are most
+>> likely to need double precision.
+>
+> Double precision is not normally needed in the preconditioner.  The
+> PETSc-FUN3D papers show nice results, but nobody seems to use it.
+>
+>> My preference (though maybe I could be convinced otherwise) is to  
+>> have
+>> precision as a compile-time option.
+>
+> So it is quite easy to leave it as a compile-time option as long as
+> everything uses the same precision.  When a mix is used, you typically
+> need some extra copies and a bit of clutter.  My suggestion is to  
+> leave
+> it a compile-time option, but keep everything in the same  
+> precision.  If
+> you want to run in double, but precondition with single, you still
+> compute the entries in double and cast to single for storage (because
+> the only point of single is to reduce memory bandwidth requirements
+> during preconditioner application).
+>
+> Jed
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct 28 16:55:14 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 28 Oct 2009 15:55:14 +0000
+Subject: [Glimmer-cism-devel] Thickness solver refactoring
+Message-ID: <4AE86962.1050300@swansea.ac.uk>
+
+
+Dear All,
+
+I've begun to work on refactoring the thickness dynamical core, but 
+there are a few of points I'd like to discuss with you before I go much 
+further.
+
+1) What to do about velocity calculations. The velocity field is not 
+needed for the thickness calculation in the SIA, except for the basal 
+velocity, which also needs to be recalculated during the Picard 
+iteration in the nonlinear case. The post-hoc diagnostic calculation of 
+velocities is only relevant to the SIA, so I propose incorporating the 
+velocity and thickness calculations into a single DC, so one call 
+calculates the whole lot.
+
+2) The linear and non-linear codes are very similar, so I would suggest 
+merging the two, and then selecting non-linearity using an 
+initialisation flag, if required. This keeps the amount of code to be 
+maintained smaller.
+
+3) Several bits of thickness code are used by both 'standard' thickness 
+DCs as well as the ADI scheme, so I would suggest having a 
+glide_thckShared module (or a different name) to contain those parts.
+
+All comments most welcome.
+
+Best wishes,
+
+Ian
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 16:57:24 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 15:57:24 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <4AE85EF0.1050907@swansea.ac.uk>
+References: <1256741607.6328.73.camel@hog.marsupium.org>
+	<4AE85EF0.1050907@swansea.ac.uk>
+Message-ID: <1256745444.6328.84.camel@hog.marsupium.org>
+
+On Wed, 2009-10-28 at 15:10 +0000, Ian Rutt wrote:
+> Hi Magi,
+> 
+> Thanks for these. I must admit that I'm a bit ambivalent about them, 
+> though, for several reasons:
+> 
+> 1) The preprocessor isn't part of the fortran standard. Although it's 
+> safe to assume that simple stuff (macro constants, conditional 
+> compilation and includes) is always going to be available (or work 
+> consistently), I'm more nervous about the more complex stuff. It depends 
+> on how standards-compliant we need to be.
+> 
+
+we are already relying on the preprocessor. AFAIK, Jesse has refactored
+hsum to use a preprocessor macro. Automake handles compilers that do not
+know about .F90 suffix and runs the preprocessor transparently. I have
+used something like this with a whole range of compilers (gfortran, PGI,
+SUN and IBM, I would anticipate that it's no prob with the Intel
+compiler) without problems.
+
+> 2) Although I see the point of making our allocation and deallocation 
+> error-checked wherever it occurs, the programmer needs to do as much 
+> extra effort to use the macros as he/she would have to do to just add 
+> the error checking manually, with the disadvantage that the detail is 
+> hidden in the macro.
+> 
+not really, it's three (one) lines of repetitive code less and it just
+happens.
+
+> 3) It makes the code more opaque. It's not obvious reading the code why 
+> the variable merr needs to be declared, or the error handling functions 
+> included. Someone unfamiliar with the code needs to go hunting round the 
+>   to find out the answers to those questions
+> 
+
+we could unconditionally include some modules which would get rid of
+having to include the two procedures. we shouldn't hide merr.
+
+
+> In short, I'm not convinced the advantages outweigh the extra complexity 
+> and opacity.
+> 
+
+it's a little extra complexity for having error checking everywhere. I
+think it is well worth it.
+
+magi
+
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct 28 17:05:43 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 28 Oct 2009 16:05:43 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <1256745444.6328.84.camel@hog.marsupium.org>
+References: <1256741607.6328.73.camel@hog.marsupium.org>	<4AE85EF0.1050907@swansea.ac.uk>
+	<1256745444.6328.84.camel@hog.marsupium.org>
+Message-ID: <4AE86BD7.4080200@swansea.ac.uk>
+
+
+Hi Magi,
+
+Many thanks for answering my points, especially about compatibility and 
+other uses of macros.
+
+Preprocessor macros make me anxious, but I'll probably get over it. ;) 
+So, I don't object if we adopt this approach - thanks for implementing it.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> On Wed, 2009-10-28 at 15:10 +0000, Ian Rutt wrote:
+>> Hi Magi,
+>>
+>> Thanks for these. I must admit that I'm a bit ambivalent about them, 
+>> though, for several reasons:
+>>
+>> 1) The preprocessor isn't part of the fortran standard. Although it's 
+>> safe to assume that simple stuff (macro constants, conditional 
+>> compilation and includes) is always going to be available (or work 
+>> consistently), I'm more nervous about the more complex stuff. It depends 
+>> on how standards-compliant we need to be.
+>>
+> 
+> we are already relying on the preprocessor. AFAIK, Jesse has refactored
+> hsum to use a preprocessor macro. Automake handles compilers that do not
+> know about .F90 suffix and runs the preprocessor transparently. I have
+> used something like this with a whole range of compilers (gfortran, PGI,
+> SUN and IBM, I would anticipate that it's no prob with the Intel
+> compiler) without problems.
+> 
+>> 2) Although I see the point of making our allocation and deallocation 
+>> error-checked wherever it occurs, the programmer needs to do as much 
+>> extra effort to use the macros as he/she would have to do to just add 
+>> the error checking manually, with the disadvantage that the detail is 
+>> hidden in the macro.
+>>
+> not really, it's three (one) lines of repetitive code less and it just
+> happens.
+> 
+>> 3) It makes the code more opaque. It's not obvious reading the code why 
+>> the variable merr needs to be declared, or the error handling functions 
+>> included. Someone unfamiliar with the code needs to go hunting round the 
+>>   to find out the answers to those questions
+>>
+> 
+> we could unconditionally include some modules which would get rid of
+> having to include the two procedures. we shouldn't hide merr.
+> 
+> 
+>> In short, I'm not convinced the advantages outweigh the extra complexity 
+>> and opacity.
+>>
+> 
+> it's a little extra complexity for having error checking everywhere. I
+> think it is well worth it.
+> 
+> magi
+> 
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 17:06:23 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 16:06:23 +0000
+Subject: [Glimmer-cism-devel] Thickness solver refactoring
+In-Reply-To: <4AE86962.1050300@swansea.ac.uk>
+References: <4AE86962.1050300@swansea.ac.uk>
+Message-ID: <1256745983.6328.90.camel@hog.marsupium.org>
+
+On Wed, 2009-10-28 at 15:55 +0000, Ian Rutt wrote:
+> 1) What to do about velocity calculations. The velocity field is not 
+> needed for the thickness calculation in the SIA, except for the basal 
+> velocity, which also needs to be recalculated during the Picard 
+> iteration in the nonlinear case. The post-hoc diagnostic calculation
+> of 
+> velocities is only relevant to the SIA, so I propose incorporating
+> the 
+> velocity and thickness calculations into a single DC, so one call 
+> calculates the whole lot.
+> 
+
+what about moving the velo calculations into a separate module which
+gets called by the SIA model? I know, I suggested no dependencies
+between DCs, however, I guess in this case it would be one DC which is
+spread over multiple files so that's ok. I think splitting large modules
+up into smaller ones makes it easier to read/maintain.
+
+> 2) The linear and non-linear codes are very similar, so I would
+> suggest 
+> merging the two, and then selecting non-linearity using an 
+> initialisation flag, if required. This keeps the amount of code to be 
+> maintained smaller.
+> 
+
+fair enough, although the non-lin could presumably also depend on the
+linear step.
+
+> 3) Several bits of thickness code are used by both 'standard'
+> thickness 
+> DCs as well as the ADI scheme, so I would suggest having a 
+> glide_thckShared module (or a different name) to contain those parts. 
+
+yes, that makes sense.
+
+Cheers
+magi
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 17:09:32 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 16:09:32 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <4AE86BD7.4080200@swansea.ac.uk>
+References: <1256741607.6328.73.camel@hog.marsupium.org>
+	<4AE85EF0.1050907@swansea.ac.uk>
+	<1256745444.6328.84.camel@hog.marsupium.org>
+	<4AE86BD7.4080200@swansea.ac.uk>
+Message-ID: <1256746172.6328.93.camel@hog.marsupium.org>
+
+On Wed, 2009-10-28 at 16:05 +0000, Ian Rutt wrote:
+> Hi Magi,
+> 
+> Many thanks for answering my points, especially about compatibility and 
+> other uses of macros.
+> 
+
+I forgot to mention the masking which also uses macros in the lanl
+branch.
+
+
+> Preprocessor macros make me anxious, but I'll probably get over it. ;) 
+> So, I don't object if we adopt this approach - thanks for implementing it.
+> 
+
+it's just a glorified sed :-) and - ok - it works better in C it's ok
+for basic things. You might as well make your life simpler when
+possible.
+
+I guess we can see how it goes and what people think. 
+
+I suspect we will use preprocessor macros more and more....
+
+
+Cheers
+magi
+
+
+
+From jed at 59A2.org  Wed Oct 28 17:28:15 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 28 Oct 2009 17:28:15 +0100
+Subject: [Glimmer-cism-devel] compile time precision
+In-Reply-To: <7F740F76-ACC4-45C3-A064-8D85753A03BB@lanl.gov>
+References: <7BCF328457B76A125FBDF054@geog-a81.ggy.bris.ac.uk>	<1256729633.6328.60.camel@hog.marsupium.org>	<4AE83046.5040207@swansea.ac.uk>
+	<4AE84CE8.7050004@ornl.gov>
+	<5606EDC1-C2D9-469F-9CBB-A5F9FA1E1D60@lanl.gov>
+	<4AE85F08.5010103@59A2.org>
+	<7F740F76-ACC4-45C3-A064-8D85753A03BB@lanl.gov>
+Message-ID: <4AE8711F.4040406@59A2.org>
+
+William Lipscomb wrote:
+> Thanks for the clarifications.  I like the idea of keeping everything in
+> the same precision (with the option to cast from double to single for
+> storage, as Jed suggests).
+
+Bill, I was referring to in-memory storage for the preconditioner, not
+something Glimmer should to worry about, and really only an issue once
+you have an algorithm for preconditioning that you like, but want to
+speed up a little.  Using single precision on disk is trivial, NetCDF
+and HDF5 do this transparently (you don't need to know the on-disk
+representation when writing to it).
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091028/667c65f8/attachment.pgp>
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct 28 18:02:14 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 28 Oct 2009 17:02:14 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <1256746172.6328.93.camel@hog.marsupium.org>
+References: <1256741607.6328.73.camel@hog.marsupium.org>	<4AE85EF0.1050907@swansea.ac.uk>	<1256745444.6328.84.camel@hog.marsupium.org>	<4AE86BD7.4080200@swansea.ac.uk>
+	<1256746172.6328.93.camel@hog.marsupium.org>
+Message-ID: <4AE87916.9070809@swansea.ac.uk>
+
+
+Hi Magi,
+
+There's just one problem with these macros: at present, they generate 
+lines which are greater than 132 characters long, which causes a strict 
+compiler to fail. Of course, most compilers will have a switch to allow 
+longer lines, but presently (for gfortran) that's not enabled in the 
+build. Again, we need to decide how standards-compliant we want to be: 
+132 characters is what the standard specifies.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> On Wed, 2009-10-28 at 16:05 +0000, Ian Rutt wrote:
+>> Hi Magi,
+>>
+>> Many thanks for answering my points, especially about compatibility and 
+>> other uses of macros.
+>>
+> 
+> I forgot to mention the masking which also uses macros in the lanl
+> branch.
+> 
+> 
+>> Preprocessor macros make me anxious, but I'll probably get over it. ;) 
+>> So, I don't object if we adopt this approach - thanks for implementing it.
+>>
+> 
+> it's just a glorified sed :-) and - ok - it works better in C it's ok
+> for basic things. You might as well make your life simpler when
+> possible.
+> 
+> I guess we can see how it goes and what people think. 
+> 
+> I suspect we will use preprocessor macros more and more....
+> 
+> 
+> Cheers
+> magi
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 18:13:31 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 17:13:31 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <4AE87916.9070809@swansea.ac.uk>
+References: <1256741607.6328.73.camel@hog.marsupium.org>
+	<4AE85EF0.1050907@swansea.ac.uk>
+	<1256745444.6328.84.camel@hog.marsupium.org>
+	<4AE86BD7.4080200@swansea.ac.uk>
+	<1256746172.6328.93.camel@hog.marsupium.org>
+	<4AE87916.9070809@swansea.ac.uk>
+Message-ID: <1256750011.6328.94.camel@hog.marsupium.org>
+
+On Wed, 2009-10-28 at 17:02 +0000, Ian Rutt wrote:
+> There's just one problem with these macros: at present, they generate 
+> lines which are greater than 132 characters long, which causes a
+> strict 
+> compiler to fail. Of course, most compilers will have a switch to
+> allow 
+> longer lines, but presently (for gfortran) that's not enabled in the 
+> build. Again, we need to decide how standards-compliant we want to
+> be: 
+> 132 characters is what the standard specifies.
+> 
+
+yes, but that one bites us anyway when compiling out of tree.
+
+grr, who came up with a limit of 132 characters per line?
+
+magi
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Oct 28 18:29:21 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Oct 2009 17:29:21 +0000
+Subject: [Glimmer-cism-devel] vertical coord system and glide_tempFullSoln
+Message-ID: <1256750961.6328.99.camel@hog.marsupium.org>
+
+Hi all,
+I have somewhat rearranged where the temperature module gets its
+vertical coordinate system from. The vertical coord system structure is
+initialised in glide_setup and passed into the temperature
+initialisation procedure. The temperature derived type just points to
+the data structure. I would suggest to use a similar approach to the
+horizontal coordinates.
+
+I dislike the use of pointers, but I think the make sense in this
+instance.
+
+What do you think?
+
+Cheers
+magi
+
+
+
+From I.C.Rutt at swansea.ac.uk  Thu Oct 29 11:29:55 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 29 Oct 2009 10:29:55 +0000
+Subject: [Glimmer-cism-devel] vertical coord system and
+	glide_tempFullSoln
+In-Reply-To: <1256750961.6328.99.camel@hog.marsupium.org>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+Message-ID: <4AE96EA3.1080104@swansea.ac.uk>
+
+
+Hi Magi,
+
+I think I would be much happier if we just copy the vertical coordinate 
+system structure into the temperature derived type. If we use pointers, 
+then we break data encapsulation - the grid can be changed without the 
+temperature code's knowledge, or (worse still) be deallocated and the 
+pointer left dangling, in an extreme case. In essence, it gives the user 
+an additional burden of responsibility and makes the code less robust, 
+without any benefits.
+
+OTOH, if we copy the data in, then the temperature code can be sure that 
+having been initialised correctly, it will remain initialised. Yes, 
+copying involves duplication, but the amount of data involved is 
+trivial. I would have a different view if a large structure was involved.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> I have somewhat rearranged where the temperature module gets its
+> vertical coordinate system from. The vertical coord system structure is
+> initialised in glide_setup and passed into the temperature
+> initialisation procedure. The temperature derived type just points to
+> the data structure. I would suggest to use a similar approach to the
+> horizontal coordinates.
+> 
+> I dislike the use of pointers, but I think the make sense in this
+> instance.
+> 
+> What do you think?
+> 
+> Cheers
+> magi
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From a.j.payne at bristol.ac.uk  Thu Oct 29 12:39:02 2009
+From: a.j.payne at bristol.ac.uk (tony payne)
+Date: Thu, 29 Oct 2009 11:39:02 +0000
+Subject: [Glimmer-cism-devel] Thickness solver refactoring
+In-Reply-To: <4AE86962.1050300@swansea.ac.uk>
+References: <4AE86962.1050300@swansea.ac.uk>
+Message-ID: <4AE97ED6.4070709@bristol.ac.uk>
+
+hi ian
+
+1/  could we have a structure where all of the various thickness are 
+located in the same module/file?  there will be 5-6 in the end and all 
+will have the basic structure of taking vel and mass balance as inputs 
+and returning either thickness or surface (or both).  in a similar vein 
+in thickness all of the velocity routines shpould be in the same module.
+
+likely thickness solvers -
+incremental remapping
+piecewise parabolic
+simple explicit euler
+leapfrog etc
+linear diffusion etc
+bueler scheme
+
+2/ there are some ancillary bits of code for finding lower surface etc 
+from flotation and it would make sense to have them here also.  i 
+wonnder if the standard should be that the DCR returns thcikness, upp 
+and lower surface (ie that we ensure the thickness solver remembers to 
+call floatation etc).  i think this would get over the problem of some 
+solvers returning surface elavtion and others thickness.
+
+3/ the floatation code is likely to be changed shortly to include a 
+density calculation with firm depth (a 2d field).  this will be very 
+important for antarctica and ensuring the GL is consistent with obs.
+
+4/ the one exception to 1/ should be the non-linear diffision which is 
+limited to O(0) SIA.   i think this is a separate methodology but should 
+be retained as legacy.  it would not necessariliy then need to take vel 
+as an input.
+
+5/ i think the linear diffusion should be retained in module 1. because 
+it takes vel as an input (e.g., from O(1) SIA models).
+
+6/ i think the adi scheme can be dispensed with.
+
+7/ the call to SLAP (or whatever linear matrix code we use) occurs 
+several times within the code (eg isostasy and higher order vel codes). 
+  it might be worth separating this off into a separate module.  this 
+would be the subr that do the packing, the actual slap call etc etc.
+
+all the best
+
+tony
+
+
+
+Ian Rutt wrote:
+> Dear All,
+> 
+> I've begun to work on refactoring the thickness dynamical core, but 
+> there are a few of points I'd like to discuss with you before I go much 
+> further.
+> 
+> 1) What to do about velocity calculations. The velocity field is not 
+> needed for the thickness calculation in the SIA, except for the basal 
+> velocity, which also needs to be recalculated during the Picard 
+> iteration in the nonlinear case. The post-hoc diagnostic calculation of 
+> velocities is only relevant to the SIA, so I propose incorporating the 
+> velocity and thickness calculations into a single DC, so one call 
+> calculates the whole lot.
+> 
+> 2) The linear and non-linear codes are very similar, so I would suggest 
+> merging the two, and then selecting non-linearity using an 
+> initialisation flag, if required. This keeps the amount of code to be 
+> maintained smaller.
+> 
+> 3) Several bits of thickness code are used by both 'standard' thickness 
+> DCs as well as the ADI scheme, so I would suggest having a 
+> glide_thckShared module (or a different name) to contain those parts.
+> 
+> All comments most welcome.
+> 
+> Best wishes,
+> 
+> Ian
+> 
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+From a.j.payne at bristol.ac.uk  Thu Oct 29 12:51:39 2009
+From: a.j.payne at bristol.ac.uk (tony payne)
+Date: Thu, 29 Oct 2009 11:51:39 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <4AE85EF0.1050907@swansea.ac.uk>
+References: <1256741607.6328.73.camel@hog.marsupium.org>
+	<4AE85EF0.1050907@swansea.ac.uk>
+Message-ID: <4AE981CB.6000001@bristol.ac.uk>
+
+hi
+
+i am with ian on this.  i would like to keep as clear and as simple as 
+possible to read.
+
+tony
+
+Ian Rutt wrote:
+> Hi Magi,
+> 
+> Thanks for these. I must admit that I'm a bit ambivalent about them, 
+> though, for several reasons:
+> 
+> 1) The preprocessor isn't part of the fortran standard. Although it's 
+> safe to assume that simple stuff (macro constants, conditional 
+> compilation and includes) is always going to be available (or work 
+> consistently), I'm more nervous about the more complex stuff. It depends 
+> on how standards-compliant we need to be.
+> 
+> 2) Although I see the point of making our allocation and deallocation 
+> error-checked wherever it occurs, the programmer needs to do as much 
+> extra effort to use the macros as he/she would have to do to just add 
+> the error checking manually, with the disadvantage that the detail is 
+> hidden in the macro.
+> 
+> 3) It makes the code more opaque. It's not obvious reading the code why 
+> the variable merr needs to be declared, or the error handling functions 
+> included. Someone unfamiliar with the code needs to go hunting round the 
+>   to find out the answers to those questions
+> 
+> In short, I'm not convinced the advantages outweigh the extra complexity 
+> and opacity.
+> 
+> But, others may disagree. Again, this is an issue worth discussing.
+> 
+> Cheers,
+> 
+> Ian
+> 
+> Dr Ian Rutt
+> School of the Environment and Society
+> Swansea University
+> Singleton Park
+> Swansea
+> SA2 8PP
+> Tel. (01792) 602685
+> i.c.rutt at swansea.ac.uk
+> 
+> 
+> Magnus Hagdorn wrote:
+>> Hi all,
+>> I have just committed a set of new preprocessor macros to the
+>> refactoring branch. These macros should get used whereever memory is
+>> allocated/deallocated. They macros include procedures which check the
+>> error state of allocate/deallocate intrinsic.
+>>
+>> I have used them for vertCoord_type. An example:
+>>
+>> !> example of how the glimmer memory management routines are used
+>> !! \author Magnus Hagdorn
+>>
+>> ! to start with the preprocessor file containing the memory management
+>> ! macros needs to be loaded
+>> #include "glimmer_memory.inc"
+>>
+>> program handlememory
+>>   ! load the module containing the logging routines
+>>   use glimmer_log, only : glimmer_allocErr, glimmer_deallocErr
+>>   implicit none
+>>
+>>   ! an example allocatable array
+>>   real, dimension(:), allocatable :: a
+>>   ! an example pointer
+>>   real, dimension(:,:), pointer :: p
+>>
+>>   ! need to define the flag which records the status
+>>   integer merr
+>>
+>>   ! allocate a 1D array of size 10
+>>   GLIMMER_ALLOC1D(a,10)
+>>   ! allocate a 2D array of shape (/10,2/)
+>>   GLIMMER_ALLOC2D(p,10,2)
+>>
+>>   ! and deallocate them again
+>>   GLIMMER_DEALLOC(a)
+>>   GLIMMER_DEALLOC(p)
+>> end program handlememory
+>>
+>>
+>> Similar macros for 3D and 4D arrays are available. Higher dimensional
+>> ones are easy to add.
+>>
+>> Cheers
+>> magi
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Oct 29 12:57:00 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 29 Oct 2009 11:57:00 +0000
+Subject: [Glimmer-cism-devel] vertical coord system
+	and	glide_tempFullSoln
+In-Reply-To: <4AE96EA3.1080104@swansea.ac.uk>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+	<4AE96EA3.1080104@swansea.ac.uk>
+Message-ID: <1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+
+
+On Thu, 2009-10-29 at 10:29 +0000, Ian Rutt wrote:
+> I think I would be much happier if we just copy the vertical
+> coordinate 
+> system structure into the temperature derived type. If we use
+> pointers, 
+> then we break data encapsulation - the grid can be changed without
+> the 
+> temperature code's knowledge, or (worse still) be deallocated and the 
+> pointer left dangling, in an extreme case. In essence, it gives the
+> user 
+> an additional burden of responsibility and makes the code less
+> robust, 
+> without any benefits.
+> 
+> OTOH, if we copy the data in, then the temperature code can be sure
+> that 
+> having been initialised correctly, it will remain initialised. Yes, 
+> copying involves duplication, but the amount of data involved is 
+> trivial. I would have a different view if a large structure was
+> involved.
+
+I agree, however if the coordinate system is changed without the DC
+knowing then something is badly broken. The nice thing about fortran is
+that copying derived types is straight forward - although in this case
+we need to first initialise the data structure because we use
+dynamically allocated arrays.
+
+I don't like replicating data because there is a chance of it going out
+of sync. But then if the data changed we would need to re-initialise the
+code. So yes, let's just copy it in.
+
+What do others think?
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+

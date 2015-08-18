@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] build system for glimmer-cism
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C4F45EA5B-D082-4977-BE28-08329DD6FD59%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000029.html">
+   <LINK REL="Next"  HREF="000032.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] build system for glimmer-cism</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C4F45EA5B-D082-4977-BE28-08329DD6FD59%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] build system for glimmer-cism">lipscomb at lanl.gov
+       </A><BR>
+    <I>Wed Aug 26 16:41:58 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000029.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+        <LI>Next message: <A HREF="000032.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Magi,
+
+There are a lot of new Glimmer-CISM developers who may not be  
+interested in this discussion, so I think we should take it offline  
+for now.  Perhaps you and Ian and I can hash out the details over the  
+next couple of days.  More to follow . . .
+
+- Bill
+
+
+On Aug 26, 2009, at 7:54 AM, Magnus Hagdorn wrote:
+
+&gt;<i> Hi Bill,
+</I>&gt;<i> I am not quite sure if I understand your problem.
+</I>&gt;<i>
+</I>&gt;<i> On Wed, 2009-08-26 at 07:42 -0600, William Lipscomb wrote:
+</I>&gt;&gt;<i> One of the nice features of Glimmer-CISM is that you can add
+</I>&gt;&gt;<i> diagnostic fields by modifying a single file, without intimate
+</I>&gt;&gt;<i> knowledge of the code.  When I work with Glimmer in CCSM, things are
+</I>&gt;&gt;<i> more complicated.  I have to either (1) rebuild the code offline and
+</I>&gt;&gt;<i> copy the appropriate modules to my CCSM source (taking care not to
+</I>&gt;&gt;<i> copy other modules that prevent CCSM from compiling or to copy over
+</I>&gt;&gt;<i> modules I have modified) or
+</I>&gt;<i>
+</I>&gt;<i> You should be able to run make install which will put the modules  
+</I>&gt;<i> into a
+</I>&gt;<i> sensible place. When you compile your CCSM you just tell the compiler
+</I>&gt;<i> where to find the modules and libraries and everything should work  
+</I>&gt;<i> fine.
+</I>&gt;<i>
+</I>&gt;<i> If there are any clashes we should fix them.
+</I>&gt;<i>
+</I>&gt;&gt;<i> (2) hand-code changes in several places,
+</I>&gt;&gt;<i> knowing that I'll have to do this over again when I update the
+</I>&gt;&gt;<i> code.
+</I>&gt;<i>
+</I>&gt;<i> If you are a 'mere' user then ideally you won't have to do any changes
+</I>&gt;<i> to the code. If you do then these changes should get moved into the  
+</I>&gt;<i> main
+</I>&gt;<i> glimmer code. If this is not possible then I guess you need to  
+</I>&gt;<i> maintain
+</I>&gt;<i> your own repo and track upstream glimmer-cism in a vendor branch. You
+</I>&gt;<i> can then keep your modified version in trunk and merge changes in
+</I>&gt;<i> upstream glimmer into your own version. This is a lot more effort  
+</I>&gt;<i> and I
+</I>&gt;<i> guess should be avoided if at all possible.
+</I>&gt;<i>
+</I>&gt;&gt;<i> If I could build Glimmer-CISM as part of the CCSM build, I'd save a
+</I>&gt;&gt;<i> lot of trouble.  Does that make sense?
+</I>&gt;<i>
+</I>&gt;<i> You'd save even more time if you didn't need to build glimmer-cism at
+</I>&gt;<i> all (or only infrequently) and just depend on it as an external
+</I>&gt;<i> dependency.
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -- 
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000029.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+	<LI>Next message: <A HREF="000032.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

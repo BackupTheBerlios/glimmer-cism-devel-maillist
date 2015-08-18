@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] [Glimmer-cism-autodiff] Glimmer refactoring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BGlimmer-cism-autodiff%5D%20Glimmer%20refactoring&In-Reply-To=%3C4AB89F8A.8080409%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000066.html">
+   <LINK REL="Next"  HREF="000068.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] [Glimmer-cism-autodiff] Glimmer refactoring</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BGlimmer-cism-autodiff%5D%20Glimmer%20refactoring&In-Reply-To=%3C4AB89F8A.8080409%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] [Glimmer-cism-autodiff] Glimmer refactoring">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Tue Sep 22 11:57:30 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000066.html">[Glimmer-cism-devel] [Glimmer-cism-autodiff] Glimmer refactoring
+</A></li>
+        <LI>Next message: <A HREF="000068.html">[Glimmer-cism-devel] distributed version control systems
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#67">[ date ]</a>
+              <a href="thread.html#67">[ thread ]</a>
+              <a href="subject.html#67">[ subject ]</a>
+              <a href="author.html#67">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magi,
+
+Thanks for taking a look at what I've been doing, and for your 
+constructive comments. I don't regard either patch as 'finished', but as 
+work-in-progress and food for thought.
+
+&gt;<i> * could you put in a bug report regarding the netCDF autoconf problem
+</I>
+OK, will do.
+
+&gt;<i> * when you change files could you also change the doxygen strings
+</I>
+This means I'll need to learn how to write doxygen strings in the first 
+place... ;)
+
+&gt;<i> The bigger question is one of namespaces. So for example you called your
+</I>&gt;<i> module glide_glenflow and prefix new procedures with glenflow_...
+</I>&gt;<i> However, you do not prefix the old procedures. 
+</I>
+This is a very worthwhile discussion to have. I don't really know what 
+the 'scheme' should look like, although I guess it should specify things 
+like the fact that the module should have the same name as the source 
+file. One problem with Fortran is that a module names are not special 
+(as far as I know) - i.e. the compiler will probably complain if a 
+module contains an entity with the same name.
+
+For subroutine names, I have four immediate thoughts:
+
+1) On reflection (c.f. glenflow) I don't think it's necessary to prefix 
+each name with the name of its 'owner'.
+
+2) It's good for subroutine names to start with a verb (e.g. 'calc', 
+'get', 'write', or whatever)
+
+3) We need a set of standard name-parts for this (for example, I 
+prefixed the temperature subroutine names with 'calc', but had started 
+with 'set' for the isothermal case, before changing it. Afterwards, it 
+occurred to me that 'step' might have been better, but I don't know.
+
+4) I like camelCase for names, even though Fortran is case-insensitive: 
+they're shorter and more readable than using lots of underscores.
+
+I'm also keen on the notion that a subroutine should generally do only 
+one, clearly-defined task, and that the code should be sufficiently 
+clear that it doesn't need many comments (I was browsing 'Clean Code'[1] 
+in a bookshop on Saturday, which gave me lots of subversive ideas... ;)) 
+After all, the most detailed specification of the task the code should 
+perform is the code itself.
+
+&gt;<i> in your second patch I like the new names. Also as a general comment I
+</I>&gt;<i> think it is a good idea not to import modules whole and to only load the
+</I>&gt;<i> required symbols.
+</I>
+Absolutely agree. I'm a recent convert to this opinion...
+
+I plan to do some more work on this, but we can discuss it some more as 
+we go. Looking at the temperature code, there are multiple tasks going 
+on, many of which should really be located elsewhere (e.g. the 
+calculations of vertical velocities), and then there's duplicated code 
+in the picard iteration. It's going to need quite a bit of work to get 
+it straight.
+
+Cheers,
+
+Ian
+
+[1] 
+<A HREF="http://www.amazon.co.uk/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/">http://www.amazon.co.uk/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000066.html">[Glimmer-cism-devel] [Glimmer-cism-autodiff] Glimmer refactoring
+</A></li>
+	<LI>Next message: <A HREF="000068.html">[Glimmer-cism-devel] distributed version control systems
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#67">[ date ]</a>
+              <a href="thread.html#67">[ thread ]</a>
+              <a href="subject.html#67">[ subject ]</a>
+              <a href="author.html#67">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] restarts and DVCS
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts%20and%20DVCS&In-Reply-To=%3C4ABB64C7.5070506%4059A2.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000071.html">
+   <LINK REL="Next"  HREF="000073.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] restarts and DVCS</H1>
+    <B>Jed Brown</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts%20and%20DVCS&In-Reply-To=%3C4ABB64C7.5070506%4059A2.org%3E"
+       TITLE="[Glimmer-cism-devel] restarts and DVCS">jed at 59A2.org
+       </A><BR>
+    <I>Thu Sep 24 14:23:35 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000071.html">[Glimmer-cism-devel] restarts and DVCS
+</A></li>
+        <LI>Next message: <A HREF="000073.html">[Glimmer-cism-devel] testing - please ignore
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#72">[ date ]</a>
+              <a href="thread.html#72">[ thread ]</a>
+              <a href="subject.html#72">[ subject ]</a>
+              <a href="author.html#72">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ian Rutt wrote:
+&gt;<i> 
+</I>&gt;<i> Hi All,
+</I>&gt;<i> 
+</I>&gt;<i> Many thanks, Jed, for your comments.
+</I>&gt;<i> 
+</I>&gt;&gt;<i> * restarts
+</I>&gt;&gt;<i> BLCR will store much more data than is actually required to
+</I>&gt;&gt;<i> restart your program.  This situation is much worse when you have an
+</I>&gt;&gt;<i> assembled matrix hanging around.  While it will work in parallel, and
+</I>&gt;&gt;<i> can be used to migrate a running job to different nodes, it can't do
+</I>&gt;&gt;<i> things like change the number of nodes.  A possible option is to do what
+</I>&gt;&gt;<i> PISM does which is to have a signal handler.  Thus &quot;pkill -USR1 pismr&quot;
+</I>&gt;&gt;<i> would instruct PISM to write a checkpoint (the usual NetCDF file from
+</I>&gt;&gt;<i> which we can restart) at the end of the current time step.  Is this the
+</I>&gt;&gt;<i> sort of functionality that you were after, or am I missing the point?
+</I>&gt;<i> 
+</I>&gt;<i> I think this is the kind of thing. The model essentially needs to be
+</I>&gt;<i> restartable from an arbitrary point, in order to play well with a
+</I>&gt;<i> climate model (the Hadley Centre models in particular, but probably true
+</I>&gt;<i> of other cases). The thing is that these restart dumps might be due to
+</I>&gt;<i> routine checkpointing or other mid-run event, but they might also be the
+</I>&gt;<i> end-point of a spin-up run, and then be used as the starting point of
+</I>&gt;<i> multiple other runs of the coupled model. So, the ability to write an
+</I>&gt;<i> unambiguous state-dump of the model on demand is what is required. The
+</I>&gt;<i> appropriate technology, especially in a parallel context, is less clear.
+</I>
+Forgive my naivety, but do you currently have planned (i.e. known when
+the model is started instead of changing your mind after it's running)
+restart capability, or are the current NetCDF output files only usable
+for diagnostics?
+
+In the parallel context, you have to make a choice of IO library.
+NetCDF-4 has a parallel interface, but you have to commit to it, the
+format is not backward compatible with 3 (since it uses the HDF5
+backend).  There is also pnetcdf
+
+  <A HREF="http://trac.mcs.anl.gov/projects/parallel-netcdf">http://trac.mcs.anl.gov/projects/parallel-netcdf</A>
+
+But these solutions are based on MPI-IO which requires a good parallel
+filesystem.  If you are running on a cheap cluster, you might just have
+NFS and perhaps a faster local disk.  Simultaneously hitting NFS from a
+bunch of nodes can be much slower than doing contiguous reads from a
+single node.  PISM does all IO from node 0, in chunks (since the model
+state can be much bigger than single-node memory) which are sent to/from
+each process.  On machines with good filesystems, it just takes a few
+seconds to read and distribute tens of GB of model state so this isn't a
+terrible limitation for the sort of work we do (the day when we need
+more than 10GB/s disk bandwidth is still a ways off).
+
+&gt;<i> On that point, I had a play with the run-time plugin possibilities in
+</I>&gt;<i> F2003, and got dynamic loading to work without intermediate C code (but
+</I>&gt;<i> using libdl). Not suitable for us at the moment, as we're using F95
+</I>&gt;<i> standards, but perhaps something for the future. In the meantime, clear,
+</I>&gt;<i> consistent interfaces will help a lot.
+</I>
+Object creation is the interesting thing here.  The most common scheme
+is to have a factory object which can be manipulated and perhaps fed
+runtime options.  In the classical pattern, the factory's create method
+has a switch over the implementations it knows about.  This isn't so
+terrible, but it means that whoever provides a new implementation has to
+be able to modify this switch statement.  A solution that is trivial in
+C, and should also work with F2003's function pointers although I have
+no experience with that, is to keep a map (usually global) from name
+(string) to creation function.  Then the factory's create method just
+looks up the name in the list.  When a library with a new implementation
+is loaded, it registers itself in this map and all future creations will
+be able to use it (with appropriate runtime options).
+
+The classical factory pattern has some limitations.  I prefer a variant
+of delegator/pimpl for this sort of thing, but the map of name to
+creation function is the same.
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090924/0c9fe79e/attachment.pgp">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090924/0c9fe79e/attachment.pgp</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000071.html">[Glimmer-cism-devel] restarts and DVCS
+</A></li>
+	<LI>Next message: <A HREF="000073.html">[Glimmer-cism-devel] testing - please ignore
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#72">[ date ]</a>
+              <a href="thread.html#72">[ thread ]</a>
+              <a href="subject.html#72">[ subject ]</a>
+              <a href="author.html#72">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

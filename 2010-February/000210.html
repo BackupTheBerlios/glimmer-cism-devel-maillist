@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] exact restart again
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C4B83AD29.1060405%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000209.html">
+   <LINK REL="Next"  HREF="000211.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] exact restart again</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C4B83AD29.1060405%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] exact restart again">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Tue Feb 23 11:25:45 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000209.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+        <LI>Next message: <A HREF="000211.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>DAG Williams, Geographical Sciences wrote:
+&gt;<i> Hi Bill &amp; all,
+</I>&gt;<i> 
+</I>&gt;<i> Concern about space (disk and memory) is a very valid point, and it could 
+</I>&gt;<i> well make sense for us to use single precision for diagnostic fields.
+</I>&gt;<i> 
+</I>&gt;<i> However, given that the single NetCDF file approach is so much simpler to 
+</I>&gt;<i> implement and so much more robust to potential bugs, I wonder whether we 
+</I>&gt;<i> could pool some information about run-time memory usage and output file 
+</I>&gt;<i> size?
+</I>&gt;<i> 
+</I>&gt;<i> For example, I'm running a simple version of glimmer with genie right now, 
+</I>&gt;<i> and the memory footprint is very modest indeed.  Does memory usage climb 
+</I>&gt;<i> dramatically when we switch to HO physics etc?  If it is a modest hit in 
+</I>&gt;<i> terms of memory &amp; disk, could we trade it against simpler code, without 
+</I>&gt;<i> duplication?  Or--looking forward to antarctic scale runs--is the bloat too 
+</I>&gt;<i> large to accommodate?
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+Well, I was thinking that we could specify the precision we want to 
+output in the configuration file. The simplest way would be to have a 
+single switch to set all variables to dp or sp on a per file basis.
+
+i'll stick that into a todo for the netcdf i/o.
+cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000209.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+	<LI>Next message: <A HREF="000211.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] include .inc files
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20include%20.inc%20files&In-Reply-To=%3C1285055077.2482.3.camel%40bacon.marsupium.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000346.html">
+   <LINK REL="Next"  HREF="000348.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] include .inc files</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20include%20.inc%20files&In-Reply-To=%3C1285055077.2482.3.camel%40bacon.marsupium.org%3E"
+       TITLE="[Glimmer-cism-devel] include .inc files">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Tue Sep 21 09:44:37 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000346.html">[Glimmer-cism-devel] include .inc files
+</A></li>
+        <LI>Next message: <A HREF="000348.html">[Glimmer-cism-devel] include .inc files
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#347">[ date ]</a>
+              <a href="thread.html#347">[ thread ]</a>
+              <a href="subject.html#347">[ subject ]</a>
+              <a href="author.html#347">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, 2010-09-20 at 20:30 -0600, Stephen Price wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> 
+</I>&gt;<i> I'm looking for a quick explanation on something.
+</I>&gt;<i> 
+</I>&gt;<i> At the start of most .F90 files there is something like ...
+</I>&gt;<i> 
+</I>&gt;<i> #include &quot;glide_nan.inc&quot;
+</I>&gt;<i> #include &quot;glide_mask.inc&quot;
+</I>&gt;<i> 
+</I>&gt;<i> ... for example, at the head of glide_velo_higher.F90.
+</I>&gt;<i> 
+</I>&gt;<i> I recently made some seemingly trivial changes to that file so that some 
+</I>&gt;<i> options could be specified at run time rather than being hardwired into 
+</I>&gt;<i> the code. When I did this, I got a build error that I have not seen before:
+</I>&gt;<i> 
+</I>&gt;<i> *** No rule to make target `config.inc', needed by 
+</I>&gt;<i> `glide_velo_higher.o'.  Stop.
+</I>&gt;<i> 
+</I>&gt;<i> I fixed this by adding:
+</I>&gt;<i> 
+</I>&gt;<i> #include &quot;config.inc&quot;
+</I>&gt;<i> 
+</I>&gt;<i> to the head of glide_velo_higher.F90. This also required that I comment 
+</I>&gt;<i> out, or remove, an existing line there:
+</I>&gt;<i> 
+</I>&gt;<i> #ifdef HAVE_CONFIG_H #include &quot;config.inc&quot; #endif
+</I>&gt;<i> 
+</I>&gt;<i> Can someone provide a simple explanation? I've made similar changes to 
+</I>&gt;<i> this and other parts of the code before but have never seen this error 
+</I>&gt;<i> come up.
+</I>&gt;<i> 
+</I>
+
+Hi Steve,
+how did you run configure? the macro HAVE_CONFIG should be defined after
+you have run configure.  When you run make what options are passed to
+the compiler? You should see something like -DHAVE_CONFIG.
+
+Is there a bug in glide_nan.inc or glide_mask.inc? These should also
+come after including config.inc.
+
+No answer - but some suggestions
+magi
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000346.html">[Glimmer-cism-devel] include .inc files
+</A></li>
+	<LI>Next message: <A HREF="000348.html">[Glimmer-cism-devel] include .inc files
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#347">[ date ]</a>
+              <a href="thread.html#347">[ thread ]</a>
+              <a href="subject.html#347">[ subject ]</a>
+              <a href="author.html#347">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

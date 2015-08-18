@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] program files
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-June/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20program%20files&In-Reply-To=%3C4C188A71.2080309%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000268.html">
+   <LINK REL="Next"  HREF="000270.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] program files</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20program%20files&In-Reply-To=%3C4C188A71.2080309%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] program files">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Wed Jun 16 10:25:21 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000268.html">[Glimmer-cism-devel] program files
+</A></li>
+        <LI>Next message: <A HREF="000270.html">[Glimmer-cism-devel] libphaml directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#269">[ date ]</a>
+              <a href="thread.html#269">[ thread ]</a>
+              <a href="subject.html#269">[ subject ]</a>
+              <a href="author.html#269">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>William Lipscomb wrote:
+&gt;<i> 
+</I>&gt;<i> Hi all,
+</I>&gt;<i> 
+</I>&gt;<i> For those who have an interest in glimmer-cism2 development:  I just 
+</I>&gt;<i> checked in the latest contents of the CESM glimmer-cism source 
+</I>&gt;<i> directory.  The CESM release is scheduled for next week.  This means 
+</I>&gt;<i> we're almost ready for a Glimmer-CISM 1.6 release, which will include 
+</I>&gt;<i> the new GCM coupling infrastructure but not the higher-order dynamics.  
+</I>&gt;<i> (The HO dynamics will go in version 1.8.)
+</I>&gt;<i> 
+</I>&gt;<i> Here's a question.  I'm wondering if it would be possible to include 
+</I>&gt;<i> only modules, and not programs, in the libglide, libglimmer, and 
+</I>&gt;<i> libglint directories.  This would mean moving the program files 
+</I>&gt;<i> elsewhere, for example to somewhere in the example_drivers directory.  
+</I>&gt;<i> Is there any reason why we shouldn't do this?  Assuming it's OK to move 
+</I>&gt;<i> the files, where should they go?
+</I>&gt;<i> 
+</I>&gt;<i> The reason I'd like to move these program files is that CESM won't 
+</I>&gt;<i> compile them, which means that I currently have to remove them by hand 
+</I>&gt;<i> each time I copy a fresh version of the code into CESM.
+</I>&gt;<i> 
+</I>
+
+There is only one program in libglimmer - nc2config. We could move that 
+to the utils directory where it belongs.
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000268.html">[Glimmer-cism-devel] program files
+</A></li>
+	<LI>Next message: <A HREF="000270.html">[Glimmer-cism-devel] libphaml directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#269">[ date ]</a>
+              <a href="thread.html#269">[ thread ]</a>
+              <a href="subject.html#269">[ subject ]</a>
+              <a href="author.html#269">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

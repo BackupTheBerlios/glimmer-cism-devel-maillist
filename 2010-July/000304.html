@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] automated nightly build &amp; test
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3CC31A86C6DF3D3321C6A93C21%40geog-a81.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000303.html">
+   <LINK REL="Next"  HREF="000305.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] automated nightly build &amp; test</H1>
+    <B>DAG Williams, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3CC31A86C6DF3D3321C6A93C21%40geog-a81.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] automated nightly build &amp; test">Gethin.Williams at bristol.ac.uk
+       </A><BR>
+    <I>Tue Jul 27 17:56:38 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000303.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+        <LI>Next message: <A HREF="000305.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#304">[ date ]</a>
+              <a href="thread.html#304">[ thread ]</a>
+              <a href="subject.html#304">[ subject ]</a>
+              <a href="author.html#304">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Bill,
+
+Thanks for the suggestions about what would constitute useful tests.
+
+The division of labour sounds right to me.  Contributions of suggested 
+tests--especially config files--from the scientists is key.
+
+We'll make a start on things here in Bristol, and we'll try to make it as 
+simple as possible for other folks to add to and grow a suite of tests.
+
+There will be some trial and error to find the right tolerances for the 
+empirical tests, but this is in the nature of the beast I think.  The 
+addition of some analytical tests provides an excellent and welcome 
+constraint.
+
+Cheers,
+Gethin.
+
+--On 27 July 2010 09:06 -0600 William Lipscomb &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt; wrote:
+
+&gt;<i>
+</I>&gt;<i> Hi all,
+</I>&gt;<i>
+</I>&gt;<i> A few more thoughts on testing:
+</I>&gt;<i>
+</I>&gt;<i> I like the idea of automated nightly checkouts and testing, as Gethin
+</I>&gt;<i> suggests.  And comparing netCDF files seems like a good idea, although it
+</I>&gt;<i> could take some trial and error to figure out what the tolerances should
+</I>&gt;<i> be.
+</I>&gt;<i>
+</I>&gt;<i> It would also be good to have some tests where we know to a high degree
+</I>&gt;<i> of precision what the answer should be--for instance, Ed Bueler's
+</I>&gt;<i> analytical tests.  My experience is that it's fairly easy to introduce a
+</I>&gt;<i> bug and not know it from comparing netCDF files.
+</I>&gt;<i>
+</I>&gt;<i> I'd suggest that those of us who develop code suggest some useful test
+</I>&gt;<i> cases.  For starters, we could consider these:
+</I>&gt;<i>
+</I>&gt;<i> * EISMINT-2 (some subset of tests A through H)
+</I>&gt;<i> * ISMIP-HOM (a subset of tests A through F, for higher-order models only)
+</I>&gt;<i> * Ross ice shelf (for shelf and/or HO models)
+</I>&gt;<i> * the &quot;hump&quot; test on the parallel branch
+</I>&gt;<i> * one or more analytical tests, as in the Bueler papers
+</I>&gt;<i> * a glint-example test case for Greenland (I think it's important to test
+</I>&gt;<i> Glint, since it's a key part of coupled climate experiments)
+</I>&gt;<i> * spinup tests for Greenland and Antarctica.  Here it may be less
+</I>&gt;<i> important to get a particular answer than to demonstrate that the code
+</I>&gt;<i> can run for a long time without crashing (though not so long that the
+</I>&gt;<i> test can't run overnight).
+</I>&gt;<i> * some exact restart tests--very important for climate models
+</I>&gt;<i>
+</I>&gt;<i> We'll have to think about which dynamical schemes (e.g., SIA and HO) and
+</I>&gt;<i> which options (e.g., evolution solvers and basal physics) to specify with
+</I>&gt;<i> each case.   Hopefully we can design a set of tests that give most of the
+</I>&gt;<i> code a good workout.
+</I>&gt;<i>
+</I>&gt;<i> In addition to looking at netCDF files, the test scripts could compare
+</I>&gt;<i> diagnostic output in the log files, if that's useful.  The diagnostic
+</I>&gt;<i> subroutines are in the module glide_diagnostics.F90, and it's easy to add
+</I>&gt;<i> new diagnostics.
+</I>&gt;<i>
+</I>&gt;<i> Developers who are familiar with the various test cases can supply
+</I>&gt;<i> appropriate config files (many of which already exist).  For instance, I
+</I>&gt;<i> volunteer to set up config files to test exact restart.
+</I>&gt;<i>
+</I>&gt;<i> Then we will need some skilled software engineers (like Gethin) to write
+</I>&gt;<i> the scripts that do the testing.  Jeff Nichols, who is working on Kate
+</I>&gt;<i> Evans's ISICLES project, could probably help.  (Jeff, sorry to volunteer
+</I>&gt;<i> you for another task, but this one is pretty important.)  Are there any
+</I>&gt;<i> other volunteers?
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i>
+</I>&gt;<i> Bill
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Jul 27, 2010, at 4:23 AM, DAG Williams, Geographical Sciences wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi Folks,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I run a nightly build &amp; test for the GENIE model and find it to be
+</I>&gt;&gt;<i> very useful.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> an automated test suite would be very nice. i suspect it will be
+</I>&gt;&gt;&gt;<i> fairly
+</I>&gt;&gt;&gt;<i> difficult to implement. since we would need to take into account
+</I>&gt;&gt;&gt;<i> various
+</I>&gt;&gt;&gt;<i> bits of middleware that handle scheduling on clusters. On the other
+</I>&gt;&gt;&gt;<i> hand, there might well be an existing test harness we could use.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Credential caching in Subversion is really handy in this regard.  It
+</I>&gt;&gt;<i> means that after the first checkout, one can write a cron job to
+</I>&gt;&gt;<i> make a fresh checkout on a nightly basis.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I have a program that will compare (the intersection between) 2
+</I>&gt;&gt;<i> NetCDF files, allowing for tolerances in both absolute and relative
+</I>&gt;&gt;<i> differences (command line options).  This makes comparing an output
+</I>&gt;&gt;<i> to a reference file pretty straightforward.  Glimmer is very welcome
+</I>&gt;&gt;<i> to this program, and I can commit it somewhere if desired.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I create 'test-xzy' rules in the makefile, which trigger the
+</I>&gt;&gt;<i> relevant build and run commands (contained in small shell scripts
+</I>&gt;&gt;<i> for neatness).  The test definitions are encapsulated as
+</I>&gt;&gt;<i> configuration files kept in the repos.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The remainder of the harness is a very small amount of shell-
+</I>&gt;&gt;<i> scripting (called from cron).  Like you say, people have different
+</I>&gt;&gt;<i> setups, perhaps including a queuing system etc.  I wouldn't bother
+</I>&gt;&gt;<i> trying to create something which works for everyone--this part could
+</I>&gt;&gt;<i> be bespoke as it's not many lines:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 1- fresh checkout
+</I>&gt;&gt;<i> 2- runtests in makefile (perhaps calling bespoke qsub command if
+</I>&gt;&gt;<i> necessary)
+</I>&gt;&gt;<i> 3- run diagnostics script, kept in repos
+</I>&gt;&gt;<i> 4- run the email script, also in repos
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The email part could send the results back to berlios in some way.
+</I>&gt;&gt;<i> I just email the key developers directly, as human intervention is
+</I>&gt;&gt;<i> required sooner or later if the tests show a failure.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> The other question is, how do we define a successful test? Do results
+</I>&gt;&gt;&gt;<i> have to be exactly the same (I don't think so). If not we need to
+</I>&gt;&gt;&gt;<i> define
+</I>&gt;&gt;&gt;<i> what is acceptable.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I anyone going to pick this up?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I hope the above is helpful.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cheers,
+</I>&gt;&gt;<i> Gethin.
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i> *************************************************************************
+</I>&gt;<i> ******
+</I>&gt;<i> William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+</I>&gt;<i> Los Alamos National Laboratory		Phone: (505) 667-0395
+</I>&gt;<i> Group T-3, Mail Stop B216			Fax: (505) 665-5926
+</I>&gt;<i> Los Alamos, NM 87545
+</I>&gt;<i> *************************************************************************
+</I>&gt;<i> ******
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+
+Cheers,
+Gethin.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000303.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+	<LI>Next message: <A HREF="000305.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#304">[ date ]</a>
+              <a href="thread.html#304">[ thread ]</a>
+              <a href="subject.html#304">[ subject ]</a>
+              <a href="author.html#304">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

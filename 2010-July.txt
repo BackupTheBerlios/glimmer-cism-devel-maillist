@@ -1,0 +1,2860 @@
+From lipscomb at lanl.gov  Sat Jul  3 05:31:28 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 2 Jul 2010 21:31:28 -0600
+Subject: [Glimmer-cism-devel] Glimmer-CISM 1.6
+Message-ID: <69FFC4F2-5CB2-47CC-8B34-83C9984CF3BD@lanl.gov>
+
+
+Hi all,
+
+The code changes I checked in this evening bring the glimmer-cism2  
+trunk up to date with the initial release of CESM (actually, with a  
+tag one step beyond the initial release).  I don't plan to do any more  
+development on this branch, though I will fix bugs if we find any.   I  
+made sure that the code compiles with the changes and gives the same  
+answers in a glint-example test case as before the changes.
+
+Magnus, could you please tag this version as Glimmer-CISM 1.6?   Then  
+we'll be ready to merge the glimmer-cism2 HO branch into the main  
+glimmer-cism2 trunk in preparation for a Glimmer-CISM 1.8 tag.
+
+Rupert and Ian, please feel free to clean up the glint interfaces as  
+we've talked about.  Once I see what you've done, I can go back and  
+modify my CESM wrapper code.
+
+I'll be away on vacation for the next two weeks, though I plan to  
+check email occasionally.
+
+Cheers,
+
+Bill
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Jul  5 11:15:47 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 05 Jul 2010 10:15:47 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM 1.6
+In-Reply-To: <69FFC4F2-5CB2-47CC-8B34-83C9984CF3BD@lanl.gov>
+References: <69FFC4F2-5CB2-47CC-8B34-83C9984CF3BD@lanl.gov>
+Message-ID: <4C31A2C3.5010306@ed.ac.uk>
+
+William Lipscomb wrote:
+> 
+> Hi all,
+> 
+> The code changes I checked in this evening bring the glimmer-cism2 trunk 
+> up to date with the initial release of CESM (actually, with a tag one 
+> step beyond the initial release).  I don't plan to do any more 
+> development on this branch, though I will fix bugs if we find any.   I 
+> made sure that the code compiles with the changes and gives the same 
+> answers in a glint-example test case as before the changes.
+> 
+> Magnus, could you please tag this version as Glimmer-CISM 1.6?   Then 
+> we'll be ready to merge the glimmer-cism2 HO branch into the main 
+> glimmer-cism2 trunk in preparation for a Glimmer-CISM 1.8 tag.
+> 
+> 
+
+Hi Bill,
+I have created a STABLE_1_6 branch. Any bug fixes and future releases of 
+the 1.6 series should be done there (and merged into trunk). Shall I 
+upload the tar-ball for 1.6.0 and generate the docs? Someone (Bill?) 
+needs to make an announcement.
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Jul  5 22:14:00 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 05 Jul 2010 21:14:00 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM 1.6
+Message-ID: <1278360840.2425.1.camel@bacon.marsupium.org>
+
+Hi all,
+I have just finished merging the glimmer-cism2-extensions branch into 
+trunk. This adds an erosion module and some plotting capabilities. I 
+will document the plotting at some stage. If you run the EISMINT2 tests 
+and the eis examples you can run make graphics which will do some 
+plotting. Have a look at the relevant Makefiles to get an idea how they 
+work.
+        
+We now also have a new top level directory extensions. I'd like to put 
+various non-core extensions (such as the erosion module) into this 
+directory). Have a look at the configure.in script to see how the 
+erosion-extension is enabled.
+        
+I'd like to move the libphaml directory into the extensions directory. 
+Tim are you ok with that?
+        
+Finally, there is also the branch
+http://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/glimmer-cism-gcm
+the code has been merged into trunk a while ago and indeed has been 
+released as version 1.6. Bill, can we remove this branch?
+        
+Cheers
+magi
+        
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Jul 14 19:30:48 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 14 Jul 2010 18:30:48 +0100
+Subject: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+Message-ID: <1279128648.1654.1.camel@swine>
+
+Hi Marion,
+forwarded to glimmer-cism developer mailing list...
+
+-------- Forwarded Message --------
+
+> Dear Magnus and Ian,
+> 
+> 
+> A student of Slawek is currently visiting from Santa Cruz, and I am
+> trying to share with her a version of glimmer-cism that I am currently
+> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+> mac, and somehow, we can't run ./bootstrap. 
+> The error message is copied below - 
+> 
+> 
+> *********************************
+> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+> 
+> 
+> Checking if required version of automake is installed
+> 
+> 
+> -n checking for autoconf >= 2.54 ... 
+> yes (version 2.63)
+> -n checking for automake >= 1.9.6 ... 
+> yes (version 1.10)
+> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+> You have another version of autoconf.  If you want to use that,
+> you should regenerate the build system entirely.
+> aclocal.m4:14: the top level
+> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+> *************************************
+> 
+> 
+> It looks like it could be a problem with the version of autoconf? 
+> It would be great if you would be able to confirm on this, and if not,
+> if you'd have any idea of what the problem is.
+> 
+> 
+> Many thanks,
+> 
+> 
+> Marion
+> 
+> 
+
+
+
+
+
+From gladish at cims.nyu.edu  Wed Jul 14 20:07:18 2010
+From: gladish at cims.nyu.edu (Carl Gladish)
+Date: Wed, 14 Jul 2010 14:07:18 -0400
+Subject: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+In-Reply-To: <1279128648.1654.1.camel@swine>
+References: <1279128648.1654.1.camel@swine>
+Message-ID: <AANLkTiklQ_7aJImjTZh6Rr8sthjXbDvE9uqFIQLqKuSW@mail.gmail.com>
+
+Hi Marion (I trust you're going to get this message...) ,
+
+I recall having some problem like this when building glimmer-cism on my mac
+laptop.
+
+Try deleting the file aclocal.m4 (it is automatically generated, so you're
+not doing anything risky) and then running 'autoreconf'.  Then run bootstrap
+again.
+
+Cheers,
+Carl Gladish
+
+On Wed, Jul 14, 2010 at 1:30 PM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> Hi Marion,
+> forwarded to glimmer-cism developer mailing list...
+>
+> -------- Forwarded Message --------
+>
+> > Dear Magnus and Ian,
+> >
+> >
+> > A student of Slawek is currently visiting from Santa Cruz, and I am
+> > trying to share with her a version of glimmer-cism that I am currently
+> > using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+> > mac, and somehow, we can't run ./bootstrap.
+> > The error message is copied below -
+> >
+> >
+> > *********************************
+> > Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+> >
+> >
+> > Checking if required version of automake is installed
+> >
+> >
+> > -n checking for autoconf >= 2.54 ...
+> > yes (version 2.63)
+> > -n checking for automake >= 1.9.6 ...
+> > yes (version 1.10)
+> > aclocal.m4:14: error: this file was generated for autoconf 2.61.
+> > You have another version of autoconf.  If you want to use that,
+> > you should regenerate the build system entirely.
+> > aclocal.m4:14: the top level
+> > autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+> > autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+> > *************************************
+> >
+> >
+> > It looks like it could be a problem with the version of autoconf?
+> > It would be great if you would be able to confirm on this, and if not,
+> > if you'd have any idea of what the problem is.
+> >
+> >
+> > Many thanks,
+> >
+> >
+> > Marion
+> >
+> >
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+http://www.cims.nyu.edu/~gladish
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100714/b8babb81/attachment.html>
+
+From I.C.Rutt at swansea.ac.uk  Thu Jul 15 10:45:25 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 15 Jul 2010 09:45:25 +0100
+Subject: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+In-Reply-To: <1279128648.1654.1.camel@swine>
+References: <1279128648.1654.1.camel@swine>
+Message-ID: <4C3ECAA5.8030907@swansea.ac.uk>
+
+
+Hi Marion,
+
+I'm afraid building on a Mac is likely to be a bit more technically- 
+involved than on a Linux distro.
+
+My hunch is that the problem might be caused by some mismatch between 
+the build tools supplied as part of Mac OS (Xcode), and those from Fink 
+(in /sw), on the basis of your error message. However, I can't test 
+this, and wouldn't know how to solve it.
+
+Your best bet is to hope that someone else on the developer list knows 
+what to do.
+
+Cheers,
+
+Ian
+
+P.S. If Saffia is going to be using Glimmer-CISM, perhaps you could 
+encourage her to join the mailing lists herself? The lists are our 
+preferred forum for this kind of problem-solving.
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Hi Marion,
+> forwarded to glimmer-cism developer mailing list...
+> 
+> -------- Forwarded Message --------
+> 
+>> Dear Magnus and Ian,
+>>
+>>
+>> A student of Slawek is currently visiting from Santa Cruz, and I am
+>> trying to share with her a version of glimmer-cism that I am currently
+>> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+>> mac, and somehow, we can't run ./bootstrap. 
+>> The error message is copied below - 
+>>
+>>
+>> *********************************
+>> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+>>
+>>
+>> Checking if required version of automake is installed
+>>
+>>
+>> -n checking for autoconf >= 2.54 ... 
+>> yes (version 2.63)
+>> -n checking for automake >= 1.9.6 ... 
+>> yes (version 1.10)
+>> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+>> You have another version of autoconf.  If you want to use that,
+>> you should regenerate the build system entirely.
+>> aclocal.m4:14: the top level
+>> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+>> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+>> *************************************
+>>
+>>
+>> It looks like it could be a problem with the version of autoconf? 
+>> It would be great if you would be able to confirm on this, and if not,
+>> if you'd have any idea of what the problem is.
+>>
+>>
+>> Many thanks,
+>>
+>>
+>> Marion
+>>
+>>
+> 
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From flocolleoni at gmail.com  Thu Jul 15 11:16:21 2010
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Thu, 15 Jul 2010 11:16:21 +0200
+Subject: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+In-Reply-To: <4C3ECAA5.8030907@swansea.ac.uk>
+References: <1279128648.1654.1.camel@swine>
+	<4C3ECAA5.8030907@swansea.ac.uk>
+Message-ID: <AANLkTimQjGofxGLw21AOlL9ypInRrxeswMNcXIzuR_Go@mail.gmail.com>
+
+Dear Marion,
+
+I have not try to install Glimmer-cism version but I recently installed the
+last relasea on Glimmer
+on both Macbook Pro and iMac and I was not able to run the bootstrap.
+Instead I had to avoid
+all tools from the sw/ directory and install all the unix component required
+by hand in usr/local/bin
+(or /usr/bin if preferred). Then after some tentatives I could install
+properly Glimmer and it is perfectly
+working.
+
+I don't know if it can help you
+
+Flo
+
+2010/7/15 Ian Rutt <I.C.Rutt at swansea.ac.uk>
+
+>
+> Hi Marion,
+>
+> I'm afraid building on a Mac is likely to be a bit more technically-
+> involved than on a Linux distro.
+>
+> My hunch is that the problem might be caused by some mismatch between the
+> build tools supplied as part of Mac OS (Xcode), and those from Fink (in
+> /sw), on the basis of your error message. However, I can't test this, and
+> wouldn't know how to solve it.
+>
+> Your best bet is to hope that someone else on the developer list knows what
+> to do.
+>
+> Cheers,
+>
+> Ian
+>
+> P.S. If Saffia is going to be using Glimmer-CISM, perhaps you could
+> encourage her to join the mailing lists herself? The lists are our preferred
+> forum for this kind of problem-solving.
+>
+> Dr Ian Rutt
+> School of the Environment and Society
+> Swansea University
+> Singleton Park
+> Swansea
+> SA2 8PP
+> Tel. (01792) 602685
+> i.c.rutt at swansea.ac.uk
+>
+>
+> Magnus Hagdorn wrote:
+>
+>> Hi Marion,
+>> forwarded to glimmer-cism developer mailing list...
+>>
+>> -------- Forwarded Message --------
+>>
+>>  Dear Magnus and Ian,
+>>>
+>>>
+>>> A student of Slawek is currently visiting from Santa Cruz, and I am
+>>> trying to share with her a version of glimmer-cism that I am currently
+>>> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+>>> mac, and somehow, we can't run ./bootstrap. The error message is copied
+>>> below -
+>>>
+>>> *********************************
+>>> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+>>>
+>>>
+>>> Checking if required version of automake is installed
+>>>
+>>>
+>>> -n checking for autoconf >= 2.54 ... yes (version 2.63)
+>>> -n checking for automake >= 1.9.6 ... yes (version 1.10)
+>>> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+>>> You have another version of autoconf.  If you want to use that,
+>>> you should regenerate the build system entirely.
+>>> aclocal.m4:14: the top level
+>>> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+>>> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+>>> *************************************
+>>>
+>>>
+>>> It looks like it could be a problem with the version of autoconf? It
+>>> would be great if you would be able to confirm on this, and if not,
+>>> if you'd have any idea of what the problem is.
+>>>
+>>>
+>>> Many thanks,
+>>>
+>>>
+>>> Marion
+>>>
+>>>
+>>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+......................................................................
+Florence Colleoni
+CMCC, Bologna (Italy)
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.u7n.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100715/8c97b588/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Jul 15 11:30:34 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 15 Jul 2010 10:30:34 +0100
+Subject: [Glimmer-cism-devel] mailing lists (and general BerliOS usage)
+Message-ID: <4C3ED53A.3070603@ed.ac.uk>
+
+Hi all,
+sorry for the cross-posting but I think this email should reach everyone.
+
+In short, I will forward every [1] question regarding Glimmer-CISM I 
+receive to one of the mailing lists as appropriate and I would encourage 
+everyone else who receives emails directly regarding GC to do the same.
+
+We currently have 29 subscribers of the user mailing list and 30 
+subscribers of the developer list. 21 subscribers are subscribed to both 
+lists and in total we have 38 people that can be reached through one of 
+the mailing lists. As a group this represents a significant body of 
+knowledge both specific to the inner workings of Glimmer-CISM and ice 
+sheet and climate modelling in general. I think (and that certainly goes 
+for myself) the group is much more knowledgeable then any individual. 
+Therefore, you will get better answers on the mailing list.
+
+There are other benefits to using the mailing list: The lists are 
+archived and newcomers (and obviously us as well) can browse these 
+archives to find solutions to previous problems.
+
+However, another very import reason is that having an active mailing 
+list indicates and active and healthy project, which will attract more 
+people.
+
+There are other ways to engage with the project:
+1. We have the forums
+    http://developer.berlios.de/forum/?group_id=10995
+    which could get used in a similar way. Personally, I prefer the
+    mailing lists because I get the emails automatically and do not need
+    to actively monitor another thing [2].
+2. Other BerliOS features: bug tracker, task manager, support and
+    feature requests:
+    * The bug tracker is very useful and we should make more use of it.
+    * I just realised that we have an item in the support manager since
+      March which we haven't dealt with, that's bad.
+    * Feature and task manager are also useful to organise ourselves what
+      we want to do for our next releases.
+
+Again, making use of these features increases the visibility of our 
+project and allows us all to participate in the project, communicate 
+with each other and coordinate our efforts to produce a most excellent 
+and useful ice sheet model.
+
+Cheers
+magi
+
+[1] obviously, there might be genuinely private matters which I might 
+decide to pass on the steering committee or deal with directly.
+[2] well, you can get forum posts automatically mailed and reply to them 
+using email, which I do. But then, the formus are no different from the 
+mailing list and are just another thing to search through for solutions.
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Gethin.Williams at bristol.ac.uk  Thu Jul 15 18:26:34 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Thu, 15 Jul 2010 17:26:34 +0100
+Subject: [Glimmer-cism-devel] Macs & GNU tools
+Message-ID: <90CB3E36581D175E9660F4D7@geog-a81.ggy.bris.ac.uk>
+
+Hi Folks,
+
+Not strictly in answer of Marion's original question, so perhaps not so 
+useful, but I've had some good experience with Macports 
+(<http://www.macports.org/>) when installing Genie on Macs.
+
+It seems likely that some version mismatching is going on (due to having 
+several versions of the same tools available on the machine).  To that end, 
+a sanity preserving strategy could be to uninstall the fink additions etc. 
+getting back to as bare bones as possible, and then to build up the tool 
+chain as consistently as you can, using only tools from macports, say.
+
+Cheers,
+Gethin.
+
+
+--On 15 July 2010 11:30 +0200 glimmer-cism-devel-request at lists.berlios.de 
+wrote:
+
+> Send Glimmer-cism-devel mailing list submissions to
+> 	glimmer-cism-devel at lists.berlios.de
+>
+> To subscribe or unsubscribe via the World Wide Web, visit
+> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> or, via email, send a message with subject or body 'help' to
+> 	glimmer-cism-devel-request at lists.berlios.de
+>
+> You can reach the person managing the list at
+> 	glimmer-cism-devel-owner at lists.berlios.de
+>
+> When replying, please edit your Subject line so it is more specific
+> than "Re: Contents of Glimmer-cism-devel digest..."
+>
+>
+> Today's Topics:
+>
+>    1. [Fwd: Autoconf and glimmer-cism] (Magnus Hagdorn)
+>    2. Re: [Fwd: Autoconf and glimmer-cism] (Carl Gladish)
+>    3. Re: [Fwd: Autoconf and glimmer-cism] (Ian Rutt)
+>    4. Re: [Fwd: Autoconf and glimmer-cism] (Florence Colleoni)
+>    5. mailing lists (and general BerliOS usage) (Magnus Hagdorn)
+>
+>
+> ----------------------------------------------------------------------
+>
+> Message: 1
+> Date: Wed, 14 Jul 2010 18:30:48 +0100
+> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> To: gc-devel <glimmer-cism-devel at lists.berlios.de>
+> Subject: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+> Message-ID: <1279128648.1654.1.camel at swine>
+> Content-Type: text/plain; charset="UTF-8"
+>
+> Hi Marion,
+> forwarded to glimmer-cism developer mailing list...
+>
+> -------- Forwarded Message --------
+>
+>> Dear Magnus and Ian,
+>>
+>>
+>> A student of Slawek is currently visiting from Santa Cruz, and I am
+>> trying to share with her a version of glimmer-cism that I am currently
+>> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+>> mac, and somehow, we can't run ./bootstrap.
+>> The error message is copied below -
+>>
+>>
+>> *********************************
+>> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+>>
+>>
+>> Checking if required version of automake is installed
+>>
+>>
+>> -n checking for autoconf >= 2.54 ...
+>> yes (version 2.63)
+>> -n checking for automake >= 1.9.6 ...
+>> yes (version 1.10)
+>> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+>> You have another version of autoconf.  If you want to use that,
+>> you should regenerate the build system entirely.
+>> aclocal.m4:14: the top level
+>> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+>> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+>> *************************************
+>>
+>>
+>> It looks like it could be a problem with the version of autoconf?
+>> It would be great if you would be able to confirm on this, and if not,
+>> if you'd have any idea of what the problem is.
+>>
+>>
+>> Many thanks,
+>>
+>>
+>> Marion
+>>
+>>
+>
+>
+>
+>
+>
+> ------------------------------
+>
+> Message: 2
+> Date: Wed, 14 Jul 2010 14:07:18 -0400
+> From: Carl Gladish <gladish at cims.nyu.edu>
+> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>,	gc-devel
+> 	<glimmer-cism-devel at lists.berlios.de>
+> Cc: Carl Gladish <carl.gladish at gmail.com>
+> Subject: Re: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+> Message-ID:
+> 	<AANLkTiklQ_7aJImjTZh6Rr8sthjXbDvE9uqFIQLqKuSW at mail.gmail.com>
+> Content-Type: text/plain; charset="iso-8859-1"
+>
+> Hi Marion (I trust you're going to get this message...) ,
+>
+> I recall having some problem like this when building glimmer-cism on my
+> mac laptop.
+>
+> Try deleting the file aclocal.m4 (it is automatically generated, so you're
+> not doing anything risky) and then running 'autoreconf'.  Then run
+> bootstrap again.
+>
+> Cheers,
+> Carl Gladish
+>
+> On Wed, Jul 14, 2010 at 1:30 PM, Magnus Hagdorn
+> <Magnus.Hagdorn at ed.ac.uk>wrote:
+>
+>> Hi Marion,
+>> forwarded to glimmer-cism developer mailing list...
+>>
+>> -------- Forwarded Message --------
+>>
+>> > Dear Magnus and Ian,
+>> >
+>> >
+>> > A student of Slawek is currently visiting from Santa Cruz, and I am
+>> > trying to share with her a version of glimmer-cism that I am currently
+>> > using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+>> > mac, and somehow, we can't run ./bootstrap.
+>> > The error message is copied below -
+>> >
+>> >
+>> > *********************************
+>> > Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+>> >
+>> >
+>> > Checking if required version of automake is installed
+>> >
+>> >
+>> > -n checking for autoconf >= 2.54 ...
+>> > yes (version 2.63)
+>> > -n checking for automake >= 1.9.6 ...
+>> > yes (version 1.10)
+>> > aclocal.m4:14: error: this file was generated for autoconf 2.61.
+>> > You have another version of autoconf.  If you want to use that,
+>> > you should regenerate the build system entirely.
+>> > aclocal.m4:14: the top level
+>> > autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+>> > autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+>> > *************************************
+>> >
+>> >
+>> > It looks like it could be a problem with the version of autoconf?
+>> > It would be great if you would be able to confirm on this, and if not,
+>> > if you'd have any idea of what the problem is.
+>> >
+>> >
+>> > Many thanks,
+>> >
+>> >
+>> > Marion
+>> >
+>> >
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>
+>
+>
+> --
+> Carl Gladish
+> cell: (917) 502 - 1818
+> home: (718) 626 - 2504
+> office: (212) 998 - 3198
+> Warren Weaver Hall rm 708, 251 Mercer NY,NY
+> http://www.cims.nyu.edu/~gladish
+> -------------- next part --------------
+> An HTML attachment was scrubbed...
+> URL:
+> <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201007
+> 14/b8babb81/attachment-0001.html>
+>
+> ------------------------------
+>
+> Message: 3
+> Date: Thu, 15 Jul 2010 09:45:25 +0100
+> From: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> Cc: gc-devel <glimmer-cism-devel at lists.berlios.de>
+> Subject: Re: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+> Message-ID: <4C3ECAA5.8030907 at swansea.ac.uk>
+> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>
+>
+> Hi Marion,
+>
+> I'm afraid building on a Mac is likely to be a bit more technically-
+> involved than on a Linux distro.
+>
+> My hunch is that the problem might be caused by some mismatch between
+> the build tools supplied as part of Mac OS (Xcode), and those from Fink
+> (in /sw), on the basis of your error message. However, I can't test
+> this, and wouldn't know how to solve it.
+>
+> Your best bet is to hope that someone else on the developer list knows
+> what to do.
+>
+> Cheers,
+>
+> Ian
+>
+> P.S. If Saffia is going to be using Glimmer-CISM, perhaps you could
+> encourage her to join the mailing lists herself? The lists are our
+> preferred forum for this kind of problem-solving.
+>
+> Dr Ian Rutt
+> School of the Environment and Society
+> Swansea University
+> Singleton Park
+> Swansea
+> SA2 8PP
+> Tel. (01792) 602685
+> i.c.rutt at swansea.ac.uk
+>
+>
+> Magnus Hagdorn wrote:
+>> Hi Marion,
+>> forwarded to glimmer-cism developer mailing list...
+>>
+>> -------- Forwarded Message --------
+>>
+>>> Dear Magnus and Ian,
+>>>
+>>>
+>>> A student of Slawek is currently visiting from Santa Cruz, and I am
+>>> trying to share with her a version of glimmer-cism that I am currently
+>>> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+>>> mac, and somehow, we can't run ./bootstrap.
+>>> The error message is copied below -
+>>>
+>>>
+>>> *********************************
+>>> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+>>>
+>>>
+>>> Checking if required version of automake is installed
+>>>
+>>>
+>>> -n checking for autoconf >= 2.54 ...
+>>> yes (version 2.63)
+>>> -n checking for automake >= 1.9.6 ...
+>>> yes (version 1.10)
+>>> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+>>> You have another version of autoconf.  If you want to use that,
+>>> you should regenerate the build system entirely.
+>>> aclocal.m4:14: the top level
+>>> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+>>> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+>>> *************************************
+>>>
+>>>
+>>> It looks like it could be a problem with the version of autoconf?
+>>> It would be great if you would be able to confirm on this, and if not,
+>>> if you'd have any idea of what the problem is.
+>>>
+>>>
+>>> Many thanks,
+>>>
+>>>
+>>> Marion
+>>>
+>>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+> ------------------------------
+>
+> Message: 4
+> Date: Thu, 15 Jul 2010 11:16:21 +0200
+> From: Florence Colleoni <flocolleoni at gmail.com>
+> To: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+> Cc: gc-devel <glimmer-cism-devel at lists.berlios.de>
+> Subject: Re: [Glimmer-cism-devel] [Fwd: Autoconf and glimmer-cism]
+> Message-ID:
+> 	<AANLkTimQjGofxGLw21AOlL9ypInRrxeswMNcXIzuR_Go at mail.gmail.com>
+> Content-Type: text/plain; charset="iso-8859-1"
+>
+> Dear Marion,
+>
+> I have not try to install Glimmer-cism version but I recently installed
+> the last relasea on Glimmer
+> on both Macbook Pro and iMac and I was not able to run the bootstrap.
+> Instead I had to avoid
+> all tools from the sw/ directory and install all the unix component
+> required by hand in usr/local/bin
+> (or /usr/bin if preferred). Then after some tentatives I could install
+> properly Glimmer and it is perfectly
+> working.
+>
+> I don't know if it can help you
+>
+> Flo
+>
+> 2010/7/15 Ian Rutt <I.C.Rutt at swansea.ac.uk>
+>
+>>
+>> Hi Marion,
+>>
+>> I'm afraid building on a Mac is likely to be a bit more technically-
+>> involved than on a Linux distro.
+>>
+>> My hunch is that the problem might be caused by some mismatch between the
+>> build tools supplied as part of Mac OS (Xcode), and those from Fink (in
+>> /sw), on the basis of your error message. However, I can't test this, and
+>> wouldn't know how to solve it.
+>>
+>> Your best bet is to hope that someone else on the developer list knows
+>> what to do.
+>>
+>> Cheers,
+>>
+>> Ian
+>>
+>> P.S. If Saffia is going to be using Glimmer-CISM, perhaps you could
+>> encourage her to join the mailing lists herself? The lists are our
+>> preferred forum for this kind of problem-solving.
+>>
+>> Dr Ian Rutt
+>> School of the Environment and Society
+>> Swansea University
+>> Singleton Park
+>> Swansea
+>> SA2 8PP
+>> Tel. (01792) 602685
+>> i.c.rutt at swansea.ac.uk
+>>
+>>
+>> Magnus Hagdorn wrote:
+>>
+>>> Hi Marion,
+>>> forwarded to glimmer-cism developer mailing list...
+>>>
+>>> -------- Forwarded Message --------
+>>>
+>>>  Dear Magnus and Ian,
+>>>>
+>>>>
+>>>> A student of Slawek is currently visiting from Santa Cruz, and I am
+>>>> trying to share with her a version of glimmer-cism that I am currently
+>>>> using (glimmer-cism-lanl/branches/basalproc) - She has a brand new
+>>>> mac, and somehow, we can't run ./bootstrap. The error message is copied
+>>>> below -
+>>>>
+>>>> *********************************
+>>>> Saffia-Hossainzadehs-MacBook-Pro:basalproc shossai2$  ./bootstrap
+>>>>
+>>>>
+>>>> Checking if required version of automake is installed
+>>>>
+>>>>
+>>>> -n checking for autoconf >= 2.54 ... yes (version 2.63)
+>>>> -n checking for automake >= 1.9.6 ... yes (version 1.10)
+>>>> aclocal.m4:14: error: this file was generated for autoconf 2.61.
+>>>> You have another version of autoconf.  If you want to use that,
+>>>> you should regenerate the build system entirely.
+>>>> aclocal.m4:14: the top level
+>>>> autom4te-2.63: /sw/bin/m4 failed with exit status: 63
+>>>> autoheader: '/sw/bin/autom4te-2.63' failed with exit status: 63
+>>>> *************************************
+>>>>
+>>>>
+>>>> It looks like it could be a problem with the version of autoconf? It
+>>>> would be great if you would be able to confirm on this, and if not,
+>>>> if you'd have any idea of what the problem is.
+>>>>
+>>>>
+>>>> Many thanks,
+>>>>
+>>>>
+>>>> Marion
+>>>>
+>>>>
+>>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>
+>
+>
+> --
+> ......................................................................
+> Florence Colleoni
+> CMCC, Bologna (Italy)
+>      Phone: +39 051 3782622
+>      Email: flocolleoni at gmail.com
+>      URL: http://flocolleoni.u7n.org
+> ......................................................................
+> -------------- next part --------------
+> An HTML attachment was scrubbed...
+> URL:
+> <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201007
+> 15/8c97b588/attachment-0001.html>
+>
+> ------------------------------
+>
+> Message: 5
+> Date: Thu, 15 Jul 2010 10:30:34 +0100
+> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> To: gc-devel <glimmer-cism-devel at lists.berlios.de>,	gc-user
+> 	<glimmer-cism-user at lists.berlios.de>
+> Subject: [Glimmer-cism-devel] mailing lists (and general BerliOS
+> 	usage)
+> Message-ID: <4C3ED53A.3070603 at ed.ac.uk>
+> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>
+> Hi all,
+> sorry for the cross-posting but I think this email should reach everyone.
+>
+> In short, I will forward every [1] question regarding Glimmer-CISM I
+> receive to one of the mailing lists as appropriate and I would encourage
+> everyone else who receives emails directly regarding GC to do the same.
+>
+> We currently have 29 subscribers of the user mailing list and 30
+> subscribers of the developer list. 21 subscribers are subscribed to both
+> lists and in total we have 38 people that can be reached through one of
+> the mailing lists. As a group this represents a significant body of
+> knowledge both specific to the inner workings of Glimmer-CISM and ice
+> sheet and climate modelling in general. I think (and that certainly goes
+> for myself) the group is much more knowledgeable then any individual.
+> Therefore, you will get better answers on the mailing list.
+>
+> There are other benefits to using the mailing list: The lists are
+> archived and newcomers (and obviously us as well) can browse these
+> archives to find solutions to previous problems.
+>
+> However, another very import reason is that having an active mailing
+> list indicates and active and healthy project, which will attract more
+> people.
+>
+> There are other ways to engage with the project:
+> 1. We have the forums
+>     http://developer.berlios.de/forum/?group_id=10995
+>     which could get used in a similar way. Personally, I prefer the
+>     mailing lists because I get the emails automatically and do not need
+>     to actively monitor another thing [2].
+> 2. Other BerliOS features: bug tracker, task manager, support and
+>     feature requests:
+>     * The bug tracker is very useful and we should make more use of it.
+>     * I just realised that we have an item in the support manager since
+>       March which we haven't dealt with, that's bad.
+>     * Feature and task manager are also useful to organise ourselves what
+>       we want to do for our next releases.
+>
+> Again, making use of these features increases the visibility of our
+> project and allows us all to participate in the project, communicate
+> with each other and coordinate our efforts to produce a most excellent
+> and useful ice sheet model.
+>
+> Cheers
+> magi
+>
+> [1] obviously, there might be genuinely private matters which I might
+> decide to pass on the steering committee or deal with directly.
+> [2] well, you can get forum posts automatically mailed and reply to them
+> using email, which I do. But then, the formus are no different from the
+> mailing list and are just another thing to search through for solutions.
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+>
+>
+> ------------------------------
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+> End of Glimmer-cism-devel Digest, Vol 13, Issue 4
+> *************************************************
+
+
+
+Cheers,
+Gethin.
+
+
+From lipscomb at lanl.gov  Thu Jul 22 19:21:16 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Thu, 22 Jul 2010 11:21:16 -0600
+Subject: [Glimmer-cism-devel] bootstrapping error on the parallel branch
+Message-ID: <02DBB0BF-CD1A-4FA1-8A68-DA5DACF5D0D8@lanl.gov>
+
+
+Hi,
+
+This is a question for those developing the glimmer-cism-lanl/parallel  
+branch.
+
+Today I did a fresh checkout of the parallel branch on LANL's coyote  
+machine, typed 'bootstrap', and got the error below.   Does anyone  
+know why this is happening and how to fix it?
+
+Thanks,
+
+Bill
+
+*******************************************************************************
+
+Checking if required version of automake is installed
+
+checking for autoconf >= 2.54 ... yes (version 2.59)
+checking for automake >= 1.9.6 ... yes (version 1.9.6)
+configure.in: installing `./install-sh'
+configure.in: installing `./missing'
+src/cpp/Makefile.am: installing `./depcomp'
+automake: CXXLD was already defined in condition TRILINOS, which is  
+included in condition TRUE ...
+src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+
+
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From lipscomb at lanl.gov  Thu Jul 22 19:53:11 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Thu, 22 Jul 2010 11:53:11 -0600
+Subject: [Glimmer-cism-devel] building the parallel branch
+In-Reply-To: <C86DCEEF.82C%erin.barker@pnl.gov>
+References: <C86DCEEF.82C%erin.barker@pnl.gov>
+Message-ID: <3F6CDCA2-1FFF-45ED-B0F4-209F414DF612@lanl.gov>
+
+
+Hi all,
+
+Erin Barker answered my question.  I'm able to build the code.
+
+Thanks,
+Bill
+
+
+On Jul 22, 2010, at 11:33 AM, Barker, Erin I wrote:
+
+> Bill,
+>
+> What you are seeing is really a warning message, not an error.  The
+> bootstrap should still create the configure file and you should be  
+> able to
+> proceed.  Are you getting a follow on error or no configure file?
+>
+> The warning comes from how I forced autoconf to use a particular  
+> compiler
+> for linking rather than the usual default.  Typically with mixed  
+> language
+> programs you use the highest level compiler to do the linking, in  
+> this case
+> C++ because of Trilinos.  However, C++ is getting called by Fortran  
+> so the
+> "main" is in the fortran part not the c++ part.  The newer fortran  
+> compilers
+> have a beginfortran library that deals with this.  However, the  
+> compilers on
+> Coyote are too old.  So I had to force autoconf to use the fortran  
+> compiler
+> for linking.
+>
+> There is probably a cleaner way to do it that won't produce the  
+> warning
+> message, but it gets the right compilers in the right places.
+>
+> Erin
+>
+> __________________________________________________
+> Erin I Barker
+> Scientist
+> Computational Sciences & Mathematics Division
+> Pacific Northwest National Laboratory
+> Tel:  509-372-4727
+>
+>
+>> From: William Lipscomb <lipscomb at lanl.gov>
+>> Date: Thu, 22 Jul 2010 09:13:49 -0700
+>> To: Stephen Price <sprice at lanl.gov>
+>> Cc: "Barker, Erin I" <erin.barker at pnl.gov>
+>> Subject: building the parallel branch
+>>
+>>
+>> Steve,
+>>
+>> I get the error below when I try to bootstrap the parallel branch on
+>> coyote (after a fresh checkout).  Do you know what's wrong here?
+>>
+>> I'll copying Erin in case she's seen this.  It looks vaguely familiar
+>> to me.
+>>
+>> Thanks,
+>> Bill
+>>
+>> **********************************
+>>
+>> Checking if required version of automake is installed
+>>
+>> checking for autoconf >= 2.54 ... yes (version 2.59)
+>> checking for automake >= 1.9.6 ... yes (version 1.9.6)
+>> configure.in: installing `./install-sh'
+>> configure.in: installing `./missing'
+>> src/cpp/Makefile.am: installing `./depcomp'
+>> automake: CXXLD was already defined in condition TRILINOS, which is
+>> included in condition TRUE ...
+>> src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+>>
+>>
+>>
+>>
+> ******************************************************************************>
+> *
+>> William H. Lipscomb     E-mail: lipscomb at lanl.gov
+>> Los Alamos National Laboratory  Phone: (505) 667-0395
+>> Group T-3, Mail Stop B216   Fax: (505) 665-5926
+>> Los Alamos, NM 87545
+>>
+> ******************************************************************************>
+> *
+>>
+>>
+>>
+>>
+>
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From a.j.payne at bristol.ac.uk  Fri Jul 23 00:43:50 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Thu, 22 Jul 2010 23:43:50 +0100
+Subject: [Glimmer-cism-devel] building the parallel branch
+In-Reply-To: <3F6CDCA2-1FFF-45ED-B0F4-209F414DF612@lanl.gov>
+References: <C86DCEEF.82C%erin.barker@pnl.gov>
+	<3F6CDCA2-1FFF-45ED-B0F4-209F414DF612@lanl.gov>
+Message-ID: <4C48C9A6.9030202@bristol.ac.uk>
+
+hi
+
+i got the same warming message as Bill but the rest of the install went 
+well until ...
+
+i tried compiling the trilinos example in
+
+$GLIMMER_PREFIX/examples/TrilinosSolversUnitTest
+
+i edited the Makefile for our local system but we do not have openmpi 
+with cc which is used in the Makefile
+
+.cpp.o:
+         $(NOX_CXX_COMPILER) $(NOX_CXX_FLAGS) $(INC_PATH) 
+-I/usr/lib64/openmpi/1.3.2-gcc/include -c $<
+
+the make fails at linking with
+
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to 
+`__intel_new_proc_init'
+TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to 
+`for_set_reentrancy'
+TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.o:TrilinosSolversUnitTest.F90:(.text+0x4bc): 
+more undefined references to `for_write_seq_lis' follow
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to 
+`for_stop_core'
+sparse_trilinos.o: In function 
+`sparse_trilinos_mp_trilinos_solver_postprocess_':
+sparse_trilinos.F90:(.text+0x3e): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x77): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x127): undefined reference to 
+`for_write_seq_lis'
+sparse_trilinos.o: In function `sparse_trilinos_mp_trilinos_solve_':
+sparse_trilinos.F90:(.text+0x19b): undefined reference to 
+`for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x1dd): undefined reference to 
+`for_write_seq_lis'
+sparse_trilinos.o:sparse_trilinos.F90:(.text+0xc58): more undefined 
+references to `for_write_seq_lis' follow
+collect2: ld returned 1 exit status
+make: *** [TrilinosSolversUnitTest.exe] Error 1
+
+my question is: does this error stem from the missing openmpi/**gcc?  do 
+we need to install openmpi/gcc?
+
+any ideas?
+
+thanks
+
+tony
+
+
+
+On 22/07/2010 18:53, William Lipscomb wrote:
+>
+> Hi all,
+>
+> Erin Barker answered my question.  I'm able to build the code.
+>
+> Thanks,
+> Bill
+>
+>
+> On Jul 22, 2010, at 11:33 AM, Barker, Erin I wrote:
+>
+>> Bill,
+>>
+>> What you are seeing is really a warning message, not an error.  The
+>> bootstrap should still create the configure file and you should be 
+>> able to
+>> proceed.  Are you getting a follow on error or no configure file?
+>>
+>> The warning comes from how I forced autoconf to use a particular 
+>> compiler
+>> for linking rather than the usual default.  Typically with mixed 
+>> language
+>> programs you use the highest level compiler to do the linking, in 
+>> this case
+>> C++ because of Trilinos.  However, C++ is getting called by Fortran 
+>> so the
+>> "main" is in the fortran part not the c++ part.  The newer fortran 
+>> compilers
+>> have a beginfortran library that deals with this.  However, the 
+>> compilers on
+>> Coyote are too old.  So I had to force autoconf to use the fortran 
+>> compiler
+>> for linking.
+>>
+>> There is probably a cleaner way to do it that won't produce the warning
+>> message, but it gets the right compilers in the right places.
+>>
+>> Erin
+>>
+>> __________________________________________________
+>> Erin I Barker
+>> Scientist
+>> Computational Sciences & Mathematics Division
+>> Pacific Northwest National Laboratory
+>> Tel:  509-372-4727
+>>
+>>
+>>> From: William Lipscomb <lipscomb at lanl.gov>
+>>> Date: Thu, 22 Jul 2010 09:13:49 -0700
+>>> To: Stephen Price <sprice at lanl.gov>
+>>> Cc: "Barker, Erin I" <erin.barker at pnl.gov>
+>>> Subject: building the parallel branch
+>>>
+>>>
+>>> Steve,
+>>>
+>>> I get the error below when I try to bootstrap the parallel branch on
+>>> coyote (after a fresh checkout).  Do you know what's wrong here?
+>>>
+>>> I'll copying Erin in case she's seen this.  It looks vaguely familiar
+>>> to me.
+>>>
+>>> Thanks,
+>>> Bill
+>>>
+>>> **********************************
+>>>
+>>> Checking if required version of automake is installed
+>>>
+>>> checking for autoconf >= 2.54 ... yes (version 2.59)
+>>> checking for automake >= 1.9.6 ... yes (version 1.9.6)
+>>> configure.in: installing `./install-sh'
+>>> configure.in: installing `./missing'
+>>> src/cpp/Makefile.am: installing `./depcomp'
+>>> automake: CXXLD was already defined in condition TRILINOS, which is
+>>> included in condition TRUE ...
+>>> src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+>>>
+>>>
+>>>
+>>>
+>> ******************************************************************************> 
+>>
+>> *
+>>> William H. Lipscomb     E-mail: lipscomb at lanl.gov
+>>> Los Alamos National Laboratory  Phone: (505) 667-0395
+>>> Group T-3, Mail Stop B216   Fax: (505) 665-5926
+>>> Los Alamos, NM 87545
+>>>
+>> ******************************************************************************> 
+>>
+>> *
+>>>
+>>>
+>>>
+>>>
+>>
+>
+> ******************************************************************************* 
+>
+> William H. Lipscomb                    E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory        Phone: (505) 667-0395
+> Group T-3, Mail Stop B216            Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> ******************************************************************************* 
+>
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100722/de7c6f18/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Jul 23 11:48:40 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 23 Jul 2010 10:48:40 +0100
+Subject: [Glimmer-cism-devel] refactor branch
+In-Reply-To: <0828BBAD-462B-4E4E-9141-E7A289DBA312@lanl.gov>
+References: <0828BBAD-462B-4E4E-9141-E7A289DBA312@lanl.gov>
+Message-ID: <4C496578.1010404@ed.ac.uk>
+
+William Lipscomb wrote:
+> 
+> Hi Magnus and Ian,
+> 
+> I'm trying to build the GCISM2-refactor-ICR branch.  I did a fresh 
+> checkout and was able to configure the code.  Then I get this error when 
+> I type 'make':
+> 
+> ******
+> Making all in libglimmer-solve
+> make[2]: Entering directory 
+> `/usr/projects/climate/lipscomb/glimmer-cism2/GCISM2-refactor-ICR/libglimmer-solve' 
+> 
+> make[2]: *** No rule to make target `glimmer_vers.F90', needed by 
+> `f90_dep.mak'.  Stop.
+> make[2]: Leaving directory 
+> `/usr/projects/climate/lipscomb/glimmer-cism2/GCISM2-refactor-ICR/libglimmer-solve' 
+> 
+> make[1]: *** [all-recursive] Error 1
+> ******
+> 
+> Is this a bug, or am I doing something wrong?
+> 
+>
+fixed in subversion
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Jul 23 12:50:46 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 23 Jul 2010 11:50:46 +0100
+Subject: [Glimmer-cism-devel] GC-1.6 and merging HO stuff into trunk
+Message-ID: <4C497406.50307@ed.ac.uk>
+
+Hi all,
+I was wondering what the plans are for releasing Glimmer-CISM 1.6 and 
+merging the higher order stuff into glimmer-cism2/trunk.
+
+Bill said, we still need to run our available tests on GC-1.6 to make 
+sure everything still works as expected. Any volunteers?
+
+We also need to delete glimmer-cism2/branches/glimmer-cism-gcm since 
+that has been merged into trunk and is part of GC-1.6.
+
+The other task is to merge glimmer-cism2/branches/glimmer-cism-lanl into
+glimmer-cism2/trunk. This should be relatively straight-forward. No-one 
+has changed the branch since the 15 of June so I presume it is ready to 
+be merged. Who is going to do this task?
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From lipscomb at lanl.gov  Sat Jul 24 00:23:03 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 23 Jul 2010 16:23:03 -0600
+Subject: [Glimmer-cism-devel] development on parallel branch
+Message-ID: <CCDAEBDC-30FA-44BF-B9D8-8B8303DFBC9A@lanl.gov>
+
+
+Hi all,
+
+This week I started working on the parallel branch and noticed a  
+couple of issues.
+
+First, the SIA nonlinear thickness solver was broken because the RHS  
+of the matrix was erroneously being recomputed for each Picard  
+iteration (instead of being computed only on the first pass).  I don't  
+know how long the solver has been broken, but this mistake would have  
+been found earlier if the code were being tested regularly (for  
+example, by running standard ESIMINT-2 tests).  Since there are many  
+more developers now than there were a year or two ago, I wonder if  
+it's time to introduce automated testing so that we catch major bugs  
+sooner.
+
+Second, the ChangeLog hadn't been updated since May 2009.  Am I right  
+that we're supposed to update the log when we check in new code?  Or  
+is this somehow handled automatically?
+
+- Bill
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From evanskj at ornl.gov  Sat Jul 24 03:12:38 2010
+From: evanskj at ornl.gov (Evans, Kate J.)
+Date: Fri, 23 Jul 2010 21:12:38 -0400
+Subject: [Glimmer-cism-devel] development on parallel branch
+In-Reply-To: <CCDAEBDC-30FA-44BF-B9D8-8B8303DFBC9A@lanl.gov>
+Message-ID: <C86FB646.2F3C%evanskj@ornl.gov>
+
+Hi Bill-
+
+I'm glad you found that issue! You bring up several good points for
+discussion. In fact I was thinking about this since Tony sent in his 'tests'
+issue and I realized there was no documentation for them (I never run them
+myself and they are very architecture dependent). I am going to send an
+email soon asking for more info with regards to your issue, Tony. I just
+built the code again myself and will take a look this weekend.
+
+I think regular testing and changelog updates are crucial. This branch is a
+mix of model development types (performance, ice sheet modeling, third party
+packages...), so perhaps its a bit more of a challenge to keep clean? One
+suggestion is to take a pause to do some clean up, post that and list the
+overall changes, and start from a more firm footing with testing. Since I'll
+be at LANL next week Bill we can look at a to do list?
+
+Kate
+
+
+
+
+On 7/23/10 6:23 PM, "Bill Lipscomb" <lipscomb at lanl.gov> wrote:
+
+> 
+> Hi all,
+> 
+> This week I started working on the parallel branch and noticed a
+> couple of issues.
+> 
+> First, the SIA nonlinear thickness solver was broken because the RHS
+> of the matrix was erroneously being recomputed for each Picard
+> iteration (instead of being computed only on the first pass).  I don't
+> know how long the solver has been broken, but this mistake would have
+> been found earlier if the code were being tested regularly (for
+> example, by running standard ESIMINT-2 tests).  Since there are many
+> more developers now than there were a year or two ago, I wonder if
+> it's time to introduce automated testing so that we catch major bugs
+> sooner.
+> 
+> Second, the ChangeLog hadn't been updated since May 2009.  Am I right
+> that we're supposed to update the log when we check in new code?  Or
+> is this somehow handled automatically?
+> 
+> - Bill
+> 
+> 
+******************************************************************************>
+*
+> William H. Lipscomb     E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory  Phone: (505) 667-0395
+> Group T-3, Mail Stop B216   Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> 
+******************************************************************************>
+*
+> 
+> 
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From evanskj at ornl.gov  Sun Jul 25 15:51:05 2010
+From: evanskj at ornl.gov (Evans, Kate J.)
+Date: Sun, 25 Jul 2010 09:51:05 -0400
+Subject: [Glimmer-cism-devel] building the parallel branch
+In-Reply-To: <4C48C9A6.9030202@bristol.ac.uk>
+Message-ID: <C871B989.2F46%evanskj@ornl.gov>
+
+HI Tony-
+
+Sorry for the delay in replying. I haven?t played with the example code at all, so I waited to see if anyone who has used it had replied.
+Have you already built and run the parallel branch with a test case first before utilizing this example feature? I would have thought that it would give you linking errors too if the example did.
+
+Anyway, I think the errors point to missing fortran libraries used by your intel fortran. The ones currently in the Makefile are for gcc.  I don?t have access to an intel compiler, but the configure script of the main code should have flagged this issue. I don?t know of anyone our our project using intel so thanks for helping us increase our portability!
+
+Your intel compiler can probably do a better job of finding the right libraries. Try this (but I found the libraries online, so they may not be right):
+
+FORTRAN_COMPILER=ifort
+FORTRAN_LIBRARIES=-lifport -lifcore -limf
+
+Let me know.
+Kate
+
+
+On 7/22/10 6:43 PM, "Tony Payne" <a.j.payne at bristol.ac.uk> wrote:
+
+hi
+
+i got the same warming message as Bill but the rest of the install went well until ...
+
+i tried compiling the trilinos example in
+
+$GLIMMER_PREFIX/examples/TrilinosSolversUnitTest
+
+i edited the Makefile for our local system but we do not have openmpi with cc which is used in the Makefile
+
+.cpp.o:
+        $(NOX_CXX_COMPILER) $(NOX_CXX_FLAGS) $(INC_PATH) -I/usr/lib64/openmpi/1.3.2-gcc/include -c $<
+
+the make fails at linking with
+
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to `__intel_new_proc_init'
+TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to `for_set_reentrancy'
+TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to `for_write_seq_lis'
+TrilinosSolversUnitTest.o:TrilinosSolversUnitTest.F90:(.text+0x4bc): more undefined references to `for_write_seq_lis' follow
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to `for_stop_core'
+sparse_trilinos.o: In function `sparse_trilinos_mp_trilinos_solver_postprocess_':
+sparse_trilinos.F90:(.text+0x3e): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x77): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x127): undefined reference to `for_write_seq_lis'
+sparse_trilinos.o: In function `sparse_trilinos_mp_trilinos_solve_':
+sparse_trilinos.F90:(.text+0x19b): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x1dd): undefined reference to `for_write_seq_lis'
+sparse_trilinos.o:sparse_trilinos.F90:(.text+0xc58): more undefined references to `for_write_seq_lis' follow
+collect2: ld returned 1 exit status
+make: *** [TrilinosSolversUnitTest.exe] Error 1
+
+my question is: does this error stem from the missing openmpi/**gcc? do we need to install openmpi/gcc?
+
+any ideas?
+
+thanks
+
+tony
+
+
+
+On 22/07/2010 18:53, William Lipscomb wrote:
+
+Hi all,
+
+Erin Barker answered my question.  I'm able to build the code.
+
+Thanks,
+Bill
+
+
+On Jul 22, 2010, at 11:33 AM, Barker, Erin I wrote:
+
+
+Bill,
+
+What you are seeing is really a warning message, not an error.  The
+bootstrap should still create the configure file and you should be able to
+proceed.  Are you getting a follow on error or no configure file?
+
+The warning comes from how I forced autoconf to use a particular compiler
+for linking rather than the usual default.  Typically with mixed language
+programs you use the highest level compiler to do the linking, in this case
+C++ because of Trilinos.  However, C++ is getting called by Fortran so the
+"main" is in the fortran part not the c++ part.  The newer fortran compilers
+have a beginfortran library that deals with this.  However, the compilers on
+Coyote are too old.  So I had to force autoconf to use the fortran compiler
+for linking.
+
+There is probably a cleaner way to do it that won't produce the warning
+message, but it gets the right compilers in the right places.
+
+Erin
+
+__________________________________________________
+Erin I Barker
+Scientist
+Computational Sciences & Mathematics Division
+Pacific Northwest National Laboratory
+Tel:  509-372-4727
+
+
+
+From: William Lipscomb <lipscomb at lanl.gov> <mailto:lipscomb at lanl.gov>
+Date: Thu, 22 Jul 2010 09:13:49 -0700
+To: Stephen Price <sprice at lanl.gov> <mailto:sprice at lanl.gov>
+Cc: "Barker, Erin I" <erin.barker at pnl.gov> <mailto:erin.barker at pnl.gov>
+Subject: building the parallel branch
+
+
+Steve,
+
+I get the error below when I try to bootstrap the parallel branch on
+coyote (after a fresh checkout).  Do you know what's wrong here?
+
+I'll copying Erin in case she's seen this.  It looks vaguely familiar
+to me.
+
+Thanks,
+Bill
+
+**********************************
+
+Checking if required version of automake is installed
+
+checking for autoconf >= 2.54 ... yes (version 2.59)
+checking for automake >= 1.9.6 ... yes (version 1.9.6)
+configure.in: installing `./install-sh'
+configure.in: installing `./missing'
+src/cpp/Makefile.am: installing `./depcomp'
+automake: CXXLD was already defined in condition TRILINOS, which is
+included in condition TRUE ...
+src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+
+
+
+
+
+******************************************************************************>
+*
+
+William H. Lipscomb     E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory  Phone: (505) 667-0395
+Group T-3, Mail Stop B216   Fax: (505) 665-5926
+Los Alamos, NM 87545
+
+
+******************************************************************************>
+*
+
+
+
+
+
+
+
+
+
+*******************************************************************************
+William H. Lipscomb                    E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory        Phone: (505) 667-0395
+Group T-3, Mail Stop B216            Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+_______________________________________________
+Glimmer-cism-devel mailing list
+Glimmer-cism-devel at lists.berlios.de
+https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From sarah.shannon at bristol.ac.uk  Mon Jul 26 09:57:03 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Mon, 26 Jul 2010 08:57:03 +0100
+Subject: [Glimmer-cism-devel] trilinos example error messages
+Message-ID: <4C4D3FCF.4030402@bristol.ac.uk>
+
+Hi,
+
+I have checked out the parallel version of  glimmer-cism and I am trying 
+to run the example located in
+/example/TrilinosSolversUnitTest
+
+Would anyone know why I get the error messages below?. I am using the 
+intel fortran compiler.
+
+Thanks,
+Sarah
+
+
+(.text+0x20): undefined reference to `main'
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to 
+`__intel_new_proc_init'
+TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to 
+`for_set_reentrancy'
+TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3e6): undefined reference to 
+`sparse_trilinos_mp_trilinos_solver_preprocess_'
+TrilinosSolversUnitTest.F90:(.text+0x3fc): undefined reference to 
+`sparse_trilinos_mp_trilinos_solve_'
+TrilinosSolversUnitTest.F90:(.text+0x408): undefined reference to 
+`sparse_trilinos_mp_trilinos_solver_postprocess_'
+TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x4bc): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to 
+`for_stop_core'
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100726/2efdbaf9/attachment.vcf>
+
+From evanskj at ornl.gov  Mon Jul 26 14:46:03 2010
+From: evanskj at ornl.gov (Evans, Kate J.)
+Date: Mon, 26 Jul 2010 08:46:03 -0400
+Subject: [Glimmer-cism-devel] trilinos example error messages
+In-Reply-To: <4C4D3FCF.4030402@bristol.ac.uk>
+Message-ID: <C872FBCB.2F78%evanskj@ornl.gov>
+
+Hi Sarah, 
+The email response from Tony probably crossed in the ether, but his email
+explains that they found the right libraries. If you svn update, their
+Makefile.ifort is there and probably will work for you.
+
+Let me know ...
+Kate
+
+
+On 7/26/10 3:57 AM, "Sarah Shannon" <sarah.shannon at bristol.ac.uk> wrote:
+
+> Hi,
+> 
+> I have checked out the parallel version of  glimmer-cism and I am trying
+> to run the example located in
+> /example/TrilinosSolversUnitTest
+> 
+> Would anyone know why I get the error messages below?. I am using the
+> intel fortran compiler.
+> 
+> Thanks,
+> Sarah
+> 
+> 
+> (.text+0x20): undefined reference to `main'
+> TrilinosSolversUnitTest.o: In function `MAIN__':
+> TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to
+> `__intel_new_proc_init'
+> TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to
+> `for_set_reentrancy'
+> TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to
+> `for_write_seq_lis'
+> TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to
+> `for_write_seq_lis'
+> TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to
+> `for_write_seq_lis'
+> TrilinosSolversUnitTest.F90:(.text+0x3e6): undefined reference to
+> `sparse_trilinos_mp_trilinos_solver_preprocess_'
+> TrilinosSolversUnitTest.F90:(.text+0x3fc): undefined reference to
+> `sparse_trilinos_mp_trilinos_solve_'
+> TrilinosSolversUnitTest.F90:(.text+0x408): undefined reference to
+> `sparse_trilinos_mp_trilinos_solver_postprocess_'
+> TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to
+> `for_write_seq_lis'
+> TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to
+> `for_write_seq_lis'
+> TrilinosSolversUnitTest.F90:(.text+0x4bc): undefined reference to
+> `for_write_seq_lis'
+> TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to
+> `for_stop_core'
+> 
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Jul 26 15:08:36 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 26 Jul 2010 14:08:36 +0100
+Subject: [Glimmer-cism-devel] trilinos example error messages
+In-Reply-To: <C872FBCB.2F78%evanskj@ornl.gov>
+References: <C872FBCB.2F78%evanskj@ornl.gov>
+Message-ID: <4C4D88D4.40004@ed.ac.uk>
+
+Evans, Kate J. wrote:
+> Hi Sarah, 
+> The email response from Tony probably crossed in the ether, but his email
+> explains that they found the right libraries. If you svn update, their
+> Makefile.ifort is there and probably will work for you.
+> 
+
+so no automake is used? this is the sort of thing automake avoids.
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Jul 26 15:18:56 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 26 Jul 2010 14:18:56 +0100
+Subject: [Glimmer-cism-devel] development on parallel branch
+In-Reply-To: <CCDAEBDC-30FA-44BF-B9D8-8B8303DFBC9A@lanl.gov>
+References: <CCDAEBDC-30FA-44BF-B9D8-8B8303DFBC9A@lanl.gov>
+Message-ID: <4C4D8B40.2000009@ed.ac.uk>
+
+William Lipscomb wrote:
+> 
+> Hi all,
+> 
+> This week I started working on the parallel branch and noticed a couple 
+> of issues.
+> 
+> First, the SIA nonlinear thickness solver was broken because the RHS of 
+> the matrix was erroneously being recomputed for each Picard iteration 
+> (instead of being computed only on the first pass).  I don't know how 
+> long the solver has been broken, but this mistake would have been found 
+> earlier if the code were being tested regularly (for example, by running 
+> standard ESIMINT-2 tests).  Since there are many more developers now 
+> than there were a year or two ago, I wonder if it's time to introduce 
+> automated testing so that we catch major bugs sooner.
+> 
+
+an automated test suite would be very nice. i suspect it will be fairly 
+difficult to implement. since we would need to take into account various 
+bits of middleware that handle scheduling on clusters. On the other 
+hand, there might well be an existing test harness we could use.
+
+The other question is, how do we define a successful test? Do results 
+have to be exactly the same (I don't think so). If not we need to define 
+what is acceptable.
+
+I anyone going to pick this up?
+
+> Second, the ChangeLog hadn't been updated since May 2009.  Am I right 
+> that we're supposed to update the log when we check in new code?  Or is 
+> this somehow handled automatically?
+> 
+The ChangeLog has not been updated. The ChangeLog is very useful. 
+Although similar information can be obtained by looking through the 
+submission log and figuring out which files have been changed, it is 
+much simpler to just have a look at the ChangeLog. In particular, trying 
+to figure out which files have been changed is a bit of a pain. I also 
+quite like filling in the ChangeLog because it forces me to look through 
+a changeset and think about the changes. Also, the person who submits 
+the changes might not be the same person who wrote the patch.
+
+To some extend I don't mind so much what happens on the branches that's 
+up to the branch maintainer but I would insist on ChangeLog entries in 
+trunk and the stable branches (and all the branches I maintain).
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Tue Jul 27 12:18:17 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 27 Jul 2010 11:18:17 +0100
+Subject: [Glimmer-cism-devel] trilinos-humps
+In-Reply-To: <mailman.49.1280224809.11716.glimmer-cism-devel@lists.berlios.de>
+References: <mailman.49.1280224809.11716.glimmer-cism-devel@lists.berlios.de>
+Message-ID: <4C4EB269.4080807@bristol.ac.uk>
+
+Hi,
+
+The trilinos example runs for me now using the intel fortran compiler. I 
+used Makefile.ifort and commented out the lines referring to the solver 
+"GCRODR"  in the strat1.xml.
+
+I am now trying to run the humps example and with trilinos. The 
+simulations runs for a while but crashes with the error messages below.
+
+Has anyone come across this type of error before?
+
+Cheers,
+
+Sarah
+
+
+Total linear solve time so far 35.5485790000000
+31 0.739038E-04 0.739038E-04 0.100000E-03
+
+time = 200001.0
+size of the matrix 0
+XXX doPartition has mySize = 0
+my size of the partitioned matrix 0
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image PC Routine Line Source
+simple_glide 00000000004BCAA6 glam_strs2_mp_gla 336 glam_strs2.F90
+simple_glide 0000000000449EFC glide_velo_higher 188 glide_velo_higher.F90
+simple_glide 00000000004B4715 glam_mp_inc_remap 56 glam.F90
+simple_glide 0000000000412693 glide_mp_glide_ts 432 glide.F90
+simple_glide 000000000040A7CD MAIN__ 142 simple_glide.F90
+simple_glide 000000000040A602 Unknown Unknown Unknown
+libc.so.6 000000391CC1D994 Unknown Unknown Unknown
+simple_glide 000000000040A529 Unknown Unknown Unknown
+
+
+
+
+
+
+
+
+glimmer-cism-devel-request at lists.berlios.de wrote:
+> Send Glimmer-cism-devel mailing list submissions to
+> 	glimmer-cism-devel at lists.berlios.de
+>
+> To subscribe or unsubscribe via the World Wide Web, visit
+> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> or, via email, send a message with subject or body 'help' to
+> 	glimmer-cism-devel-request at lists.berlios.de
+>
+> You can reach the person managing the list at
+> 	glimmer-cism-devel-owner at lists.berlios.de
+>
+> When replying, please edit your Subject line so it is more specific
+> than "Re: Contents of Glimmer-cism-devel digest..."
+>
+>
+> Today's Topics:
+>
+>    1. Re: trilinos example error messages (Evans, Kate J.)
+>    2. Re: trilinos example error messages (Magnus Hagdorn)
+>    3. Re: development on parallel branch (Magnus Hagdorn)
+>
+>
+> ----------------------------------------------------------------------
+>
+> Message: 1
+> Date: Mon, 26 Jul 2010 08:46:03 -0400
+> From: "Evans, Kate J." <evanskj at ornl.gov>
+> To: Sarah Shannon <sarah.shannon at bristol.ac.uk>,
+> 	"glimmer-cism-devel at lists.berlios.de"
+> 	<glimmer-cism-devel at lists.berlios.de>
+> Subject: Re: [Glimmer-cism-devel] trilinos example error messages
+> Message-ID: <C872FBCB.2F78%evanskj at ornl.gov>
+> Content-Type: text/plain; charset=us-ascii
+>
+> Hi Sarah, 
+> The email response from Tony probably crossed in the ether, but his email
+> explains that they found the right libraries. If you svn update, their
+> Makefile.ifort is there and probably will work for you.
+>
+> Let me know ...
+> Kate
+>
+>
+> On 7/26/10 3:57 AM, "Sarah Shannon" <sarah.shannon at bristol.ac.uk> wrote:
+>
+>   
+>> Hi,
+>>
+>> I have checked out the parallel version of  glimmer-cism and I am trying
+>> to run the example located in
+>> /example/TrilinosSolversUnitTest
+>>
+>> Would anyone know why I get the error messages below?. I am using the
+>> intel fortran compiler.
+>>
+>> Thanks,
+>> Sarah
+>>
+>>
+>> (.text+0x20): undefined reference to `main'
+>> TrilinosSolversUnitTest.o: In function `MAIN__':
+>> TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to
+>> `__intel_new_proc_init'
+>> TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to
+>> `for_set_reentrancy'
+>> TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to
+>> `for_write_seq_lis'
+>> TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to
+>> `for_write_seq_lis'
+>> TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to
+>> `for_write_seq_lis'
+>> TrilinosSolversUnitTest.F90:(.text+0x3e6): undefined reference to
+>> `sparse_trilinos_mp_trilinos_solver_preprocess_'
+>> TrilinosSolversUnitTest.F90:(.text+0x3fc): undefined reference to
+>> `sparse_trilinos_mp_trilinos_solve_'
+>> TrilinosSolversUnitTest.F90:(.text+0x408): undefined reference to
+>> `sparse_trilinos_mp_trilinos_solver_postprocess_'
+>> TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to
+>> `for_write_seq_lis'
+>> TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to
+>> `for_write_seq_lis'
+>> TrilinosSolversUnitTest.F90:(.text+0x4bc): undefined reference to
+>> `for_write_seq_lis'
+>> TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to
+>> `for_stop_core'
+>>
+>>     
+>
+>
+>
+> ------------------------------
+>
+> Message: 2
+> Date: Mon, 26 Jul 2010 14:08:36 +0100
+> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> To: glimmer-cism-devel at lists.berlios.de
+> Subject: Re: [Glimmer-cism-devel] trilinos example error messages
+> Message-ID: <4C4D88D4.40004 at ed.ac.uk>
+> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>
+> Evans, Kate J. wrote:
+>   
+>> Hi Sarah, 
+>> The email response from Tony probably crossed in the ether, but his email
+>> explains that they found the right libraries. If you svn update, their
+>> Makefile.ifort is there and probably will work for you.
+>>
+>>     
+>
+> so no automake is used? this is the sort of thing automake avoids.
+> magi
+>
+>
+>
+>   
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100727/fc24b55d/attachment.vcf>
+
+From Gethin.Williams at bristol.ac.uk  Tue Jul 27 12:23:30 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Tue, 27 Jul 2010 11:23:30 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+Message-ID: <0A767684525AC9FD5CE180D9@geog-a81.ggy.bris.ac.uk>
+
+Hi Folks,
+
+I run a nightly build & test for the GENIE model and find it to be very 
+useful.
+
+> an automated test suite would be very nice. i suspect it will be fairly
+> difficult to implement. since we would need to take into account various
+> bits of middleware that handle scheduling on clusters. On the other
+> hand, there might well be an existing test harness we could use.
+
+Credential caching in Subversion is really handy in this regard.  It means 
+that after the first checkout, one can write a cron job to make a fresh 
+checkout on a nightly basis.
+
+I have a program that will compare (the intersection between) 2 NetCDF 
+files, allowing for tolerances in both absolute and relative differences 
+(command line options).  This makes comparing an output to a reference file 
+pretty straightforward.  Glimmer is very welcome to this program, and I can 
+commit it somewhere if desired.
+
+I create 'test-xzy' rules in the makefile, which trigger the relevant build 
+and run commands (contained in small shell scripts for neatness).  The test 
+definitions are encapsulated as configuration files kept in the repos.
+
+The remainder of the harness is a very small amount of shell-scripting 
+(called from cron).  Like you say, people have different setups, perhaps 
+including a queuing system etc.  I wouldn't bother trying to create 
+something which works for everyone--this part could be bespoke as it's not 
+many lines:
+
+1- fresh checkout
+2- runtests in makefile (perhaps calling bespoke qsub command if necessary)
+3- run diagnostics script, kept in repos
+4- run the email script, also in repos
+
+The email part could send the results back to berlios in some way.  I just 
+email the key developers directly, as human intervention is required sooner 
+or later if the tests show a failure.
+
+> The other question is, how do we define a successful test? Do results
+> have to be exactly the same (I don't think so). If not we need to define
+> what is acceptable.
+>
+> I anyone going to pick this up?
+
+I hope the above is helpful.
+
+Cheers,
+Gethin.
+
+
+From evanskj at ornl.gov  Tue Jul 27 14:40:50 2010
+From: evanskj at ornl.gov (Evans, Kate J.)
+Date: Tue, 27 Jul 2010 08:40:50 -0400
+Subject: [Glimmer-cism-devel] trilinos-humps
+In-Reply-To: <4C4EB269.4080807@bristol.ac.uk>
+Message-ID: <C8744C12.2FE1%evanskj@ornl.gov>
+
+Hi Sarah-
+
+Try running without trilinos first. This looks like a shared library error
+(compiler compatibility) and not to do with trilinos (although running
+without trilinos successfully would prove me wrong).
+
+Kate
+
+
+On 7/27/10 6:18 AM, "Sarah Shannon" <sarah.shannon at bristol.ac.uk> wrote:
+
+> Hi,
+> 
+> The trilinos example runs for me now using the intel fortran compiler. I
+> used Makefile.ifort and commented out the lines referring to the solver
+> "GCRODR"  in the strat1.xml.
+> 
+> I am now trying to run the humps example and with trilinos. The
+> simulations runs for a while but crashes with the error messages below.
+> 
+> Has anyone come across this type of error before?
+> 
+> Cheers,
+> 
+> Sarah
+> 
+> 
+> Total linear solve time so far 35.5485790000000
+> 31 0.739038E-04 0.739038E-04 0.100000E-03
+> 
+> time = 200001.0
+> size of the matrix 0
+> XXX doPartition has mySize = 0
+> my size of the partitioned matrix 0
+> forrtl: severe (174): SIGSEGV, segmentation fault occurred
+> Image PC Routine Line Source
+> simple_glide 00000000004BCAA6 glam_strs2_mp_gla 336 glam_strs2.F90
+> simple_glide 0000000000449EFC glide_velo_higher 188 glide_velo_higher.F90
+> simple_glide 00000000004B4715 glam_mp_inc_remap 56 glam.F90
+> simple_glide 0000000000412693 glide_mp_glide_ts 432 glide.F90
+> simple_glide 000000000040A7CD MAIN__ 142 simple_glide.F90
+> simple_glide 000000000040A602 Unknown Unknown Unknown
+> libc.so.6 000000391CC1D994 Unknown Unknown Unknown
+> simple_glide 000000000040A529 Unknown Unknown Unknown
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> glimmer-cism-devel-request at lists.berlios.de wrote:
+>> Send Glimmer-cism-devel mailing list submissions to
+>> glimmer-cism-devel at lists.berlios.de
+>> 
+>> To subscribe or unsubscribe via the World Wide Web, visit
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>> or, via email, send a message with subject or body 'help' to
+>> glimmer-cism-devel-request at lists.berlios.de
+>> 
+>> You can reach the person managing the list at
+>> glimmer-cism-devel-owner at lists.berlios.de
+>> 
+>> When replying, please edit your Subject line so it is more specific
+>> than "Re: Contents of Glimmer-cism-devel digest..."
+>> 
+>> 
+>> Today's Topics:
+>> 
+>>    1. Re: trilinos example error messages (Evans, Kate J.)
+>>    2. Re: trilinos example error messages (Magnus Hagdorn)
+>>    3. Re: development on parallel branch (Magnus Hagdorn)
+>> 
+>> 
+>> ----------------------------------------------------------------------
+>> 
+>> Message: 1
+>> Date: Mon, 26 Jul 2010 08:46:03 -0400
+>> From: "Evans, Kate J." <evanskj at ornl.gov>
+>> To: Sarah Shannon <sarah.shannon at bristol.ac.uk>,
+>> "glimmer-cism-devel at lists.berlios.de"
+>> <glimmer-cism-devel at lists.berlios.de>
+>> Subject: Re: [Glimmer-cism-devel] trilinos example error messages
+>> Message-ID: <C872FBCB.2F78%evanskj at ornl.gov>
+>> Content-Type: text/plain; charset=us-ascii
+>> 
+>> Hi Sarah, 
+>> The email response from Tony probably crossed in the ether, but his email
+>> explains that they found the right libraries. If you svn update, their
+>> Makefile.ifort is there and probably will work for you.
+>> 
+>> Let me know ...
+>> Kate
+>> 
+>> 
+>> On 7/26/10 3:57 AM, "Sarah Shannon" <sarah.shannon at bristol.ac.uk> wrote:
+>> 
+>>   
+>>> Hi,
+>>> 
+>>> I have checked out the parallel version of  glimmer-cism and I am trying
+>>> to run the example located in
+>>> /example/TrilinosSolversUnitTest
+>>> 
+>>> Would anyone know why I get the error messages below?. I am using the
+>>> intel fortran compiler.
+>>> 
+>>> Thanks,
+>>> Sarah
+>>> 
+>>> 
+>>> (.text+0x20): undefined reference to `main'
+>>> TrilinosSolversUnitTest.o: In function `MAIN__':
+>>> TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to
+>>> `__intel_new_proc_init'
+>>> TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to
+>>> `for_set_reentrancy'
+>>> TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to
+>>> `for_write_seq_lis'
+>>> TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to
+>>> `for_write_seq_lis'
+>>> TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to
+>>> `for_write_seq_lis'
+>>> TrilinosSolversUnitTest.F90:(.text+0x3e6): undefined reference to
+>>> `sparse_trilinos_mp_trilinos_solver_preprocess_'
+>>> TrilinosSolversUnitTest.F90:(.text+0x3fc): undefined reference to
+>>> `sparse_trilinos_mp_trilinos_solve_'
+>>> TrilinosSolversUnitTest.F90:(.text+0x408): undefined reference to
+>>> `sparse_trilinos_mp_trilinos_solver_postprocess_'
+>>> TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to
+>>> `for_write_seq_lis'
+>>> TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to
+>>> `for_write_seq_lis'
+>>> TrilinosSolversUnitTest.F90:(.text+0x4bc): undefined reference to
+>>> `for_write_seq_lis'
+>>> TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to
+>>> `for_stop_core'
+>>> 
+>>>     
+>> 
+>> 
+>> 
+>> ------------------------------
+>> 
+>> Message: 2
+>> Date: Mon, 26 Jul 2010 14:08:36 +0100
+>> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>> To: glimmer-cism-devel at lists.berlios.de
+>> Subject: Re: [Glimmer-cism-devel] trilinos example error messages
+>> Message-ID: <4C4D88D4.40004 at ed.ac.uk>
+>> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>> 
+>> Evans, Kate J. wrote:
+>>   
+>>> Hi Sarah, 
+>>> The email response from Tony probably crossed in the ether, but his email
+>>> explains that they found the right libraries. If you svn update, their
+>>> Makefile.ifort is there and probably will work for you.
+>>> 
+>>>     
+>> 
+>> so no automake is used? this is the sort of thing automake avoids.
+>> magi
+>> 
+>> 
+>> 
+>>   
+> 
+
+
+
+From lipscomb at lanl.gov  Tue Jul 27 17:06:03 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Tue, 27 Jul 2010 09:06:03 -0600
+Subject: [Glimmer-cism-devel] automated nightly build & test
+In-Reply-To: <0A767684525AC9FD5CE180D9@geog-a81.ggy.bris.ac.uk>
+References: <0A767684525AC9FD5CE180D9@geog-a81.ggy.bris.ac.uk>
+Message-ID: <316AE54B-83E6-4BA0-8CAC-904DBD0BEAD0@lanl.gov>
+
+
+Hi all,
+
+A few more thoughts on testing:
+
+I like the idea of automated nightly checkouts and testing, as Gethin  
+suggests.  And comparing netCDF files seems like a good idea, although  
+it could take some trial and error to figure out what the tolerances  
+should be.
+
+It would also be good to have some tests where we know to a high  
+degree of precision what the answer should be--for instance, Ed  
+Bueler's analytical tests.  My experience is that it's fairly easy to  
+introduce a bug and not know it from comparing netCDF files.
+
+I'd suggest that those of us who develop code suggest some useful test  
+cases.  For starters, we could consider these:
+
+* EISMINT-2 (some subset of tests A through H)
+* ISMIP-HOM (a subset of tests A through F, for higher-order models  
+only)
+* Ross ice shelf (for shelf and/or HO models)
+* the "hump" test on the parallel branch
+* one or more analytical tests, as in the Bueler papers
+* a glint-example test case for Greenland (I think it's important to  
+test Glint, since it's a key part of coupled climate experiments)
+* spinup tests for Greenland and Antarctica.  Here it may be less  
+important to get a particular answer than to demonstrate that the code  
+can run for a long time without crashing (though not so long that the  
+test can't run overnight).
+* some exact restart tests--very important for climate models
+
+We'll have to think about which dynamical schemes (e.g., SIA and HO)  
+and which options (e.g., evolution solvers and basal physics) to  
+specify with each case.   Hopefully we can design a set of tests that  
+give most of the code a good workout.
+
+In addition to looking at netCDF files, the test scripts could compare  
+diagnostic output in the log files, if that's useful.  The diagnostic  
+subroutines are in the module glide_diagnostics.F90, and it's easy to  
+add new diagnostics.
+
+Developers who are familiar with the various test cases can supply  
+appropriate config files (many of which already exist).  For instance,  
+I volunteer to set up config files to test exact restart.
+
+Then we will need some skilled software engineers (like Gethin) to  
+write the scripts that do the testing.  Jeff Nichols, who is working  
+on Kate Evans's ISICLES project, could probably help.  (Jeff, sorry to  
+volunteer you for another task, but this one is pretty important.)   
+Are there any other volunteers?
+
+Cheers,
+
+Bill
+
+
+On Jul 27, 2010, at 4:23 AM, DAG Williams, Geographical Sciences wrote:
+
+> Hi Folks,
+>
+> I run a nightly build & test for the GENIE model and find it to be  
+> very useful.
+>
+>> an automated test suite would be very nice. i suspect it will be  
+>> fairly
+>> difficult to implement. since we would need to take into account  
+>> various
+>> bits of middleware that handle scheduling on clusters. On the other
+>> hand, there might well be an existing test harness we could use.
+>
+> Credential caching in Subversion is really handy in this regard.  It  
+> means that after the first checkout, one can write a cron job to  
+> make a fresh checkout on a nightly basis.
+>
+> I have a program that will compare (the intersection between) 2  
+> NetCDF files, allowing for tolerances in both absolute and relative  
+> differences (command line options).  This makes comparing an output  
+> to a reference file pretty straightforward.  Glimmer is very welcome  
+> to this program, and I can commit it somewhere if desired.
+>
+> I create 'test-xzy' rules in the makefile, which trigger the  
+> relevant build and run commands (contained in small shell scripts  
+> for neatness).  The test definitions are encapsulated as  
+> configuration files kept in the repos.
+>
+> The remainder of the harness is a very small amount of shell- 
+> scripting (called from cron).  Like you say, people have different  
+> setups, perhaps including a queuing system etc.  I wouldn't bother  
+> trying to create something which works for everyone--this part could  
+> be bespoke as it's not many lines:
+>
+> 1- fresh checkout
+> 2- runtests in makefile (perhaps calling bespoke qsub command if  
+> necessary)
+> 3- run diagnostics script, kept in repos
+> 4- run the email script, also in repos
+>
+> The email part could send the results back to berlios in some way.   
+> I just email the key developers directly, as human intervention is  
+> required sooner or later if the tests show a failure.
+>
+>> The other question is, how do we define a successful test? Do results
+>> have to be exactly the same (I don't think so). If not we need to  
+>> define
+>> what is acceptable.
+>>
+>> I anyone going to pick this up?
+>
+> I hope the above is helpful.
+>
+> Cheers,
+> Gethin.
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Gethin.Williams at bristol.ac.uk  Tue Jul 27 17:56:38 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Tue, 27 Jul 2010 16:56:38 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+In-Reply-To: <316AE54B-83E6-4BA0-8CAC-904DBD0BEAD0@lanl.gov>
+References: <0A767684525AC9FD5CE180D9@geog-a81.ggy.bris.ac.uk>
+	<316AE54B-83E6-4BA0-8CAC-904DBD0BEAD0@lanl.gov>
+Message-ID: <C31A86C6DF3D3321C6A93C21@geog-a81.ggy.bris.ac.uk>
+
+Hi Bill,
+
+Thanks for the suggestions about what would constitute useful tests.
+
+The division of labour sounds right to me.  Contributions of suggested 
+tests--especially config files--from the scientists is key.
+
+We'll make a start on things here in Bristol, and we'll try to make it as 
+simple as possible for other folks to add to and grow a suite of tests.
+
+There will be some trial and error to find the right tolerances for the 
+empirical tests, but this is in the nature of the beast I think.  The 
+addition of some analytical tests provides an excellent and welcome 
+constraint.
+
+Cheers,
+Gethin.
+
+--On 27 July 2010 09:06 -0600 William Lipscomb <lipscomb at lanl.gov> wrote:
+
+>
+> Hi all,
+>
+> A few more thoughts on testing:
+>
+> I like the idea of automated nightly checkouts and testing, as Gethin
+> suggests.  And comparing netCDF files seems like a good idea, although it
+> could take some trial and error to figure out what the tolerances should
+> be.
+>
+> It would also be good to have some tests where we know to a high degree
+> of precision what the answer should be--for instance, Ed Bueler's
+> analytical tests.  My experience is that it's fairly easy to introduce a
+> bug and not know it from comparing netCDF files.
+>
+> I'd suggest that those of us who develop code suggest some useful test
+> cases.  For starters, we could consider these:
+>
+> * EISMINT-2 (some subset of tests A through H)
+> * ISMIP-HOM (a subset of tests A through F, for higher-order models only)
+> * Ross ice shelf (for shelf and/or HO models)
+> * the "hump" test on the parallel branch
+> * one or more analytical tests, as in the Bueler papers
+> * a glint-example test case for Greenland (I think it's important to test
+> Glint, since it's a key part of coupled climate experiments)
+> * spinup tests for Greenland and Antarctica.  Here it may be less
+> important to get a particular answer than to demonstrate that the code
+> can run for a long time without crashing (though not so long that the
+> test can't run overnight).
+> * some exact restart tests--very important for climate models
+>
+> We'll have to think about which dynamical schemes (e.g., SIA and HO) and
+> which options (e.g., evolution solvers and basal physics) to specify with
+> each case.   Hopefully we can design a set of tests that give most of the
+> code a good workout.
+>
+> In addition to looking at netCDF files, the test scripts could compare
+> diagnostic output in the log files, if that's useful.  The diagnostic
+> subroutines are in the module glide_diagnostics.F90, and it's easy to add
+> new diagnostics.
+>
+> Developers who are familiar with the various test cases can supply
+> appropriate config files (many of which already exist).  For instance, I
+> volunteer to set up config files to test exact restart.
+>
+> Then we will need some skilled software engineers (like Gethin) to write
+> the scripts that do the testing.  Jeff Nichols, who is working on Kate
+> Evans's ISICLES project, could probably help.  (Jeff, sorry to volunteer
+> you for another task, but this one is pretty important.)  Are there any
+> other volunteers?
+>
+> Cheers,
+>
+> Bill
+>
+>
+> On Jul 27, 2010, at 4:23 AM, DAG Williams, Geographical Sciences wrote:
+>
+>> Hi Folks,
+>>
+>> I run a nightly build & test for the GENIE model and find it to be
+>> very useful.
+>>
+>>> an automated test suite would be very nice. i suspect it will be
+>>> fairly
+>>> difficult to implement. since we would need to take into account
+>>> various
+>>> bits of middleware that handle scheduling on clusters. On the other
+>>> hand, there might well be an existing test harness we could use.
+>>
+>> Credential caching in Subversion is really handy in this regard.  It
+>> means that after the first checkout, one can write a cron job to
+>> make a fresh checkout on a nightly basis.
+>>
+>> I have a program that will compare (the intersection between) 2
+>> NetCDF files, allowing for tolerances in both absolute and relative
+>> differences (command line options).  This makes comparing an output
+>> to a reference file pretty straightforward.  Glimmer is very welcome
+>> to this program, and I can commit it somewhere if desired.
+>>
+>> I create 'test-xzy' rules in the makefile, which trigger the
+>> relevant build and run commands (contained in small shell scripts
+>> for neatness).  The test definitions are encapsulated as
+>> configuration files kept in the repos.
+>>
+>> The remainder of the harness is a very small amount of shell-
+>> scripting (called from cron).  Like you say, people have different
+>> setups, perhaps including a queuing system etc.  I wouldn't bother
+>> trying to create something which works for everyone--this part could
+>> be bespoke as it's not many lines:
+>>
+>> 1- fresh checkout
+>> 2- runtests in makefile (perhaps calling bespoke qsub command if
+>> necessary)
+>> 3- run diagnostics script, kept in repos
+>> 4- run the email script, also in repos
+>>
+>> The email part could send the results back to berlios in some way.
+>> I just email the key developers directly, as human intervention is
+>> required sooner or later if the tests show a failure.
+>>
+>>> The other question is, how do we define a successful test? Do results
+>>> have to be exactly the same (I don't think so). If not we need to
+>>> define
+>>> what is acceptable.
+>>>
+>>> I anyone going to pick this up?
+>>
+>> I hope the above is helpful.
+>>
+>> Cheers,
+>> Gethin.
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> *************************************************************************
+> ******
+> William H. Lipscomb					E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory		Phone: (505) 667-0395
+> Group T-3, Mail Stop B216			Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *************************************************************************
+> ******
+>
+>
+>
+>
+
+
+
+Cheers,
+Gethin.
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Jul 28 10:35:16 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 28 Jul 2010 09:35:16 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+In-Reply-To: <C31A86C6DF3D3321C6A93C21@geog-a81.ggy.bris.ac.uk>
+References: <0A767684525AC9FD5CE180D9@geog-a81.ggy.bris.ac.uk>	<316AE54B-83E6-4BA0-8CAC-904DBD0BEAD0@lanl.gov>
+	<C31A86C6DF3D3321C6A93C21@geog-a81.ggy.bris.ac.uk>
+Message-ID: <4C4FEBC4.5030705@ed.ac.uk>
+
+DAG Williams, Geographical Sciences wrote:
+> Hi Bill,
+> 
+> Thanks for the suggestions about what would constitute useful tests.
+> 
+> The division of labour sounds right to me.  Contributions of suggested 
+> tests--especially config files--from the scientists is key.
+> 
+> We'll make a start on things here in Bristol, and we'll try to make it 
+> as simple as possible for other folks to add to and grow a suite of tests.
+> 
+> There will be some trial and error to find the right tolerances for the 
+> empirical tests, but this is in the nature of the beast I think.  The 
+> addition of some analytical tests provides an excellent and welcome 
+> constraint.
+> 
+
+Hi all,
+I'd like to see some document outlining how the test harness works. how 
+are the tests configured. presumably we keep a gold standard somewhere. 
+are we going to provide it for others. are we going to have some form of 
+policy of how it is changed.
+
+We should have a look around if there is a framework which we could use 
+for integration tests. How are we going to integrate the test suite with 
+the  gc code - new subversion tree for test harness and test 
+configurations in gc-tree? I think we should also see if we could figure 
+out a way of transparently using clusters. There is the glide_launch.py 
+script which can either start glimmer directly or submit it to a cluster 
+using SGE. It would be easy to add other schedulers. How do we resolve 
+model run dependencies - e.g. some of the EISMINT2 runs depend on other 
+EISMINT2 runs. I think if we could figure out a way how to sort out 
+dependencies when jobs are submitted to a cluster we could use make to 
+do the checking.
+
+DAG Williams, Geographical Sciences wrote:
+ > Credential caching in Subversion is really handy in this regard.  It
+ > means that after the first checkout, one can write a cron job to make
+ > a fresh checkout on a nightly basis.
+ >
+no need for credentials, just use anonymous checkouts.
+
+
+looking forward to getting this sorted.
+cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Jul 30 13:34:13 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 30 Jul 2010 12:34:13 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+In-Reply-To: <4C4FEBC4.5030705@ed.ac.uk>
+References: <0A767684525AC9FD5CE180D9@geog-a81.ggy.bris.ac.uk>	<316AE54B-83E6-4BA0-8CAC-904DBD0BEAD0@lanl.gov>	<C31A86C6DF3D3321C6A93C21@geog-a81.ggy.bris.ac.uk>
+	<4C4FEBC4.5030705@ed.ac.uk>
+Message-ID: <4C52B8B5.3050908@ed.ac.uk>
+
+Hi all,
+replying to myself...
+
+Magnus Hagdorn wrote:
+> We should have a look around if there is a framework which we could use 
+> for integration tests. 
+
+I had a look around and couldn't find anything useful for doing 
+integration tests. There are plenty of frameworks which will do unit 
+tests however. We might want to revisit that in future.
+
+> How are we going to integrate the test suite with 
+> the  gc code - new subversion tree for test harness and test 
+> configurations in gc-tree? I think we should also see if we could figure 
+> out a way of transparently using clusters. There is the glide_launch.py 
+> script which can either start glimmer directly or submit it to a cluster 
+> using SGE. It would be easy to add other schedulers. How do we resolve 
+> model run dependencies - e.g. some of the EISMINT2 runs depend on other 
+> EISMINT2 runs. I think if we could figure out a way how to sort out 
+> dependencies when jobs are submitted to a cluster we could use make to 
+> do the checking.
+> 
+
+my changeset r1888 attempts to sort out dependencies when the grid 
+engine is used. The glide launcher script now produces an extra file 
+which stores the job ID. The launcher now takes an extra command line 
+argument specifying a dependency on another model run. It will then look 
+for the job ID in the corresponding job ID file and submit the job with 
+the correct options. With a little refactoring this approach could also 
+be used for other schedulers.
+
+we could now write a wrapper for the netcdf output file comparer which 
+takes 3 arguments: the name of the file to be checked, the name of the 
+file to be checked against and the name of the output file which will 
+contain the results. we can then use a make rule to run the checker once 
+the model has been run.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+

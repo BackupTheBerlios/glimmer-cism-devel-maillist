@@ -1,0 +1,1826 @@
+From sarah.shannon at bristol.ac.uk  Mon Feb  7 19:27:46 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Mon, 07 Feb 2011 18:27:46 +0000
+Subject: [Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+Message-ID: <4D5039A2.60505@bristol.ac.uk>
+
+Hi all,
+
+
+I have question- perhaps someone maybe able to help with.
+
+I ran an EISMINT-1 test  (e1_fm.1) on the parallel branch and compared 
+the temperature profile at the divide to the Huybrechts and Payne 
+EISMINT benchmarks paper (1996).  I seem to get basal temperatures that 
+are too high compared to the paper.  Also, the vertical velocity profile 
+at the divide is linear with depth, when it should be slighted curved.
+
+I was wondering if anyone has come across this before? I ran the same 
+EISMINT-1 test on an older version of glimmer (version 1.0.4). This 
+version outputs values that match the paper. Two plots are attached, one 
+from the parallel branch and the other from the old version of glimmer.
+
+Would anyone have any suggestions on what to check in the code to figure 
+out why this happens?
+
+Cheers,
+
+Sarah
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: e1_fm_1_version_parallel.bmp
+Type: image/bmp
+Size: 900918 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110207/85332ae9/attachment.bin>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: e1_fm_1_version_1.0.4.bmp
+Type: image/bmp
+Size: 900918 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110207/85332ae9/attachment-0001.bin>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110207/85332ae9/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Feb  8 12:00:03 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 08 Feb 2011 11:00:03 +0000
+Subject: [Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+In-Reply-To: <4D5039A2.60505@bristol.ac.uk>
+References: <4D5039A2.60505@bristol.ac.uk>
+Message-ID: <4D512233.3020007@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi all,
+> 
+> 
+> I have question- perhaps someone maybe able to help with.
+> 
+> I ran an EISMINT-1 test  (e1_fm.1) on the parallel branch and compared 
+> the temperature profile at the divide to the Huybrechts and Payne 
+> EISMINT benchmarks paper (1996).  I seem to get basal temperatures that 
+> are too high compared to the paper.  Also, the vertical velocity profile 
+> at the divide is linear with depth, when it should be slighted curved.
+> 
+> I was wondering if anyone has come across this before? I ran the same 
+> EISMINT-1 test on an older version of glimmer (version 1.0.4). This 
+> version outputs values that match the paper. Two plots are attached, one 
+> from the parallel branch and the other from the old version of glimmer.
+> 
+> Would anyone have any suggestions on what to check in the code to figure 
+> out why this happens?
+> 
+> 
+
+Hi Sarah,
+I have run the same test case on gc2-trunk and it works as expected. So 
+the problem must be in the parallel branch. Debugging this sort of thing 
+is tedious. I remember Ian and/or I looking into this sort of problem in 
+the past. Does the ice surface match? You could try running the 
+experiment isothermally. The next option is then to switch on/off 
+various parts of the temperature equation.
+I hope this is a reasonably ok starting point albeit vague.
+Cheers
+magi
+
+PS: the mailing list doesn't like large attachments. I'd suggest to 
+discuss these things on the wiki and send a pointer to the mailing list.
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Tue Feb  8 12:20:20 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 08 Feb 2011 11:20:20 +0000
+Subject: [Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+In-Reply-To: <4D512233.3020007@ed.ac.uk>
+References: <4D5039A2.60505@bristol.ac.uk> <4D512233.3020007@ed.ac.uk>
+Message-ID: <4D5126F4.9000507@swansea.ac.uk>
+
+
+Hi Sarah,
+
+You could also check the current release (1.7.0) - it may help to nail 
+down how/where the bug was introduced.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+On 08/02/11 11:00, Magnus Hagdorn wrote:
+> Sarah Shannon wrote:
+>> Hi all,
+>>
+>>
+>> I have question- perhaps someone maybe able to help with.
+>>
+>> I ran an EISMINT-1 test (e1_fm.1) on the parallel branch and compared
+>> the temperature profile at the divide to the Huybrechts and Payne
+>> EISMINT benchmarks paper (1996). I seem to get basal temperatures that
+>> are too high compared to the paper. Also, the vertical velocity
+>> profile at the divide is linear with depth, when it should be slighted
+>> curved.
+>>
+>> I was wondering if anyone has come across this before? I ran the same
+>> EISMINT-1 test on an older version of glimmer (version 1.0.4). This
+>> version outputs values that match the paper. Two plots are attached,
+>> one from the parallel branch and the other from the old version of
+>> glimmer.
+>>
+>> Would anyone have any suggestions on what to check in the code to
+>> figure out why this happens?
+>>
+>>
+>
+> Hi Sarah,
+> I have run the same test case on gc2-trunk and it works as expected. So
+> the problem must be in the parallel branch. Debugging this sort of thing
+> is tedious. I remember Ian and/or I looking into this sort of problem in
+> the past. Does the ice surface match? You could try running the
+> experiment isothermally. The next option is then to switch on/off
+> various parts of the temperature equation.
+> I hope this is a reasonably ok starting point albeit vague.
+> Cheers
+> magi
+>
+> PS: the mailing list doesn't like large attachments. I'd suggest to
+> discuss these things on the wiki and send a pointer to the mailing list.
+>
+>
+
+
+From flocolleoni at gmail.com  Tue Feb  8 12:57:17 2011
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Tue, 8 Feb 2011 12:57:17 +0100
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid: space2grid routine
+Message-ID: <AANLkTinjeP-Ox0Zg5C0J499YpdGhcrtL3Hxn6tuheTMr@mail.gmail.com>
+
+Hi all,
+
+I am developing the Northern Hemisphere grid in Lambert Azimuthal Equal Area
+(LAEA).
+I have already interpolate the ETOPO1 topography and all the needed
+variables (relaxed
+bed rock topography, ice thickness, mask etc...).
+
+But now I have a question concerning the projection coordinates. I saw that
+there is this subroutine
+into glimmer_map_trans.F90 called space2grid which transforms the (X,Y)
+coordinates of the projection
+into grid point.
+
+The question is: in the ESMINT3 experiment and glint-example Greenland basic
+map used by GLIMMER
+to downscale all the climate fields and the original orography from GCM
+files, there are X and Y coordinates.
+But do these coordinates correspond to the projected LAEA real space X,Y or
+to the transformation obtained
+using space2grid subroutine?
+
+Florence
+
+-- 
+*"Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution
+avec la Libert?: c'est le tr?s petit nombre; les autres veulent la
+R?volution avec le Pouvoir: c'est l'immense majorit?."
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC <http://www.cmcc.it>
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110208/cd6ea19b/attachment.html>
+
+From sarah.shannon at bristol.ac.uk  Tue Feb  8 16:16:34 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 08 Feb 2011 15:16:34 +0000
+Subject: [Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+Message-ID: <4D515E52.3070203@bristol.ac.uk>
+
+Hi Magnus,
+Thanks for the pointers.
+I ran the same test using an isothermal temperature distribution for the 
+parallel and the old version of glimmer. The ice surface, thicknesses 
+and horizontal velocities are different. This narrows down the bug a 
+little. Ill use the wiki space for posting images next time.
+Cheers,
+Sarah
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110208/3f8c9ed3/attachment.vcf>
+
+From sarah.shannon at bristol.ac.uk  Wed Feb  9 11:31:47 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Wed, 09 Feb 2011 10:31:47 +0000
+Subject: [Glimmer-cism-devel] EISMINT-1 test: results from different
+	versions of glimmer
+Message-ID: <4D526D13.9080103@bristol.ac.uk>
+
+Hi  Ian and developers,
+
+I ran an EISMINT-1 fixed margin test on four different versions of 
+glimmer-cism. The results were different for each version.
+
+The code I tested was :
+
+1. parallel 
+(https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism-lanl/branches/parallel)
+2. released version 1.7.0 from the main berlios web page
+3. glimmer-cism2 
+(https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk)
+4. glimmer version 1.0.4
+
+Some plots of the output are on the wiki here-
+
+http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug
+
+There may be a bug in version 1.7.0 and the parallel version which 
+results in basal temperatures being too warm at the divide.
+
+Ian, I noticed that you posted a similar problem with version 1.7.0 on 
+the wiki last year. Were you able to figure out why it happened?
+
+The temperature profile looks OK for versions 1.0.4 and glimmer-cism2. 
+
+Cheers,
+
+Sarah
+
+
+
+
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110209/7d579d15/attachment.vcf>
+
+From I.C.Rutt at swansea.ac.uk  Wed Feb  9 17:39:00 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 09 Feb 2011 16:39:00 +0000
+Subject: [Glimmer-cism-devel] EISMINT-1 test: results from different
+	versions of glimmer
+In-Reply-To: <4D526D13.9080103@bristol.ac.uk>
+References: <4D526D13.9080103@bristol.ac.uk>
+Message-ID: <4D52C324.1070203@swansea.ac.uk>
+
+
+Hi Sarah,
+
+> Ian, I noticed that you posted a similar problem with version 1.7.0 on
+> the wiki last year. Were you able to figure out why it happened?
+
+Unfortunately, I didn't have time to figure it out. I just reverted to 
+the latest 1.0.x release.
+
+Cheers,
+
+Ian
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Feb  9 17:47:03 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 09 Feb 2011 16:47:03 +0000
+Subject: [Glimmer-cism-devel] EISMINT-1 test: results from
+ different	versions of glimmer
+In-Reply-To: <4D52C324.1070203@swansea.ac.uk>
+References: <4D526D13.9080103@bristol.ac.uk> <4D52C324.1070203@swansea.ac.uk>
+Message-ID: <4D52C507.6050806@ed.ac.uk>
+
+Ian Rutt wrote:
+> Unfortunately, I didn't have time to figure it out. I just reverted to 
+> the latest 1.0.x release.
+> 
+
+If I remember correctly, this is what spurned the idea for the test suite...
+
+On trunk I have added a new python program which can be used to visually 
+display the differences between two netCDF files for a particular 
+variable/time. This might help in your particular case. I also thought 
+it might be useful to understand what we need to do to make the test 
+suite work.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Thu Feb 10 14:46:43 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Thu, 10 Feb 2011 13:46:43 +0000
+Subject: [Glimmer-cism-devel] bug fix in vertical velocity
+Message-ID: <4D53EC43.3080105@bristol.ac.uk>
+
+Hi Steve,
+
+Will Roberts who works with us, has been using glimmer-cism and 
+identified the bug.
+
+The subroutines which calculate wvel (wvelintg and chckwvel) use 
+model%velocity_hom rather than model%velocity.  In the SIA mode, 
+model%velocity_hom have values of zero.
+
+The bug would not show up when running with the HO physics.
+
+There is a plot of the EISMINT-1 test on the wiki 
+(http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug). 
+The vertical velocity profile is curved and basal temperature is colder.
+
+Cheers,
+
+Sarah
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110210/c9190a42/attachment.vcf>
+
+From I.C.Rutt at swansea.ac.uk  Thu Feb 10 17:00:17 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 10 Feb 2011 16:00:17 +0000
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid: space2grid
+	routine
+In-Reply-To: <AANLkTinjeP-Ox0Zg5C0J499YpdGhcrtL3Hxn6tuheTMr@mail.gmail.com>
+References: <AANLkTinjeP-Ox0Zg5C0J499YpdGhcrtL3Hxn6tuheTMr@mail.gmail.com>
+Message-ID: <4D540B91.7010106@swansea.ac.uk>
+
+
+Hi Flo,
+
+The x,y coordinates in the input files (.nc) are all Cartesian, 
+real-space coordinates (in metres), within the map projection.
+
+The function of space2grid is to convert this to the location in terms 
+of the grid nodes (i.e. numbered from 1 to n in each direction) used by 
+the model.
+
+So, if the origin of the grid is (0m, 0m), and the grid spacing is 
+1000m, a grid location of (2,3) corresponds with a space location of 
+(1000m,2000m), as the nodes number from 1.
+
+Hope that makes sense,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+On 08/02/11 11:57, Florence Colleoni wrote:
+> Hi all,
+>
+> I am developing the Northern Hemisphere grid in Lambert Azimuthal Equal
+> Area (LAEA).
+> I have already interpolate the ETOPO1 topography and all the needed
+> variables (relaxed
+> bed rock topography, ice thickness, mask etc...).
+>
+> But now I have a question concerning the projection coordinates. I saw
+> that there is this subroutine
+> into glimmer_map_trans.F90 called space2grid which transforms the (X,Y)
+> coordinates of the projection
+> into grid point.
+>
+> The question is: in the ESMINT3 experiment and glint-example Greenland
+> basic map used by GLIMMER
+> to downscale all the climate fields and the original orography from GCM
+> files, there are X and Y coordinates.
+> But do these coordinates correspond to the projected LAEA real space X,Y
+> or to the transformation obtained
+> using space2grid subroutine?
+>
+> Florence
+>
+> --
+> /"Il existe deux sortes de r?volutionnaires; les uns d?sirent la
+> R?volution avec la Libert?: c'est le tr?s petit nombre; les autres
+> veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+> Chateaubriand/
+> ......................................................................
+> Florence Colleoni
+> CMCC <http://www.cmcc.it>
+> Viale Aldo Moro, 44
+> 40127 Bologna - Italy
+>
+>       Phone: +39 051 3782622
+>       Email: flocolleoni at gmail.com <mailto:flocolleoni at gmail.com>
+>       URL: http://flocolleoni.org
+> ......................................................................
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From sprice at lanl.gov  Wed Feb 16 22:08:56 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Wed, 16 Feb 2011 14:08:56 -0700
+Subject: [Glimmer-cism-devel] bug fix in vertical velocity
+In-Reply-To: <4D53EC43.3080105@bristol.ac.uk>
+References: <4D53EC43.3080105@bristol.ac.uk>
+Message-ID: <4D5C3CE8.3040909@lanl.gov>
+
+
+Hi Sarah,
+
+I don't know if we resolved how to fix this bug moving forward. I guess 
+we could put a "case select" (or if clause) in the wvel calc. 
+subroutine, e.g. ...
+
+
+%% declare "wvel_local" above somewhere
+
+select case (evolution)
+
+   case( EVOL_DIFFUSION )
+
+     wvel_local = model%velocity
+
+   case( EVOL_INC_REMAP )
+
+     wvel_local = model%velocity_hom
+
+end select
+
+%% now pass "wvel_local" when the vert velocity profile is needed
+
+
+... or something like this.
+
+The only issue there is that there are other "evolution" options that 
+may need to be considered as well (e.g. pseudo-diff, 1st-order 
+upwinding, ADI, etc.).
+
+Anyone else want to weigh in on the best way to correct this? Jesse, I 
+don't recall why we started using two derived types for velo to begin 
+with (%velocity vs. %velocity_hom). Was it because of the A-grid issues 
+w/ the PB&J core? If so, we might not be under that constraint anymore 
+(if we aren't supporting that core in future releases that is), in which 
+case we might be able to get rid of %velocity_hom and just use the more 
+generic %velocity.
+
+Steve
+
+
+On 2/10/11 6:46 AM, Sarah Shannon wrote:
+> Hi Steve,
+>
+> Will Roberts who works with us, has been using glimmer-cism and
+> identified the bug.
+>
+> The subroutines which calculate wvel (wvelintg and chckwvel) use
+> model%velocity_hom rather than model%velocity. In the SIA mode,
+> model%velocity_hom have values of zero.
+>
+> The bug would not show up when running with the HO physics.
+>
+> There is a plot of the EISMINT-1 test on the wiki
+> (http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug).
+> The vertical velocity profile is curved and basal temperature is colder.
+>
+> Cheers,
+>
+> Sarah
+
+
+From lipscomb at lanl.gov  Wed Feb 16 22:45:32 2011
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 16 Feb 2011 14:45:32 -0700
+Subject: [Glimmer-cism-devel] bug fix in vertical velocity
+In-Reply-To: <4D5C3CE8.3040909@lanl.gov>
+References: <4D53EC43.3080105@bristol.ac.uk> <4D5C3CE8.3040909@lanl.gov>
+Message-ID: <D8F5B9BB-B3F8-4DBD-BC7C-5C58F2E8F0E7@lanl.gov>
+
+
+Hi all,
+
+I've run into issues myself with having two derived types for the  
+velocity, and I would favor removing model%velocity_hom.  But I'll  
+wait to hear from Jesse about why velocity_hom was added.
+
+Cheers,
+
+Bill
+
+On Feb 16, 2011, at 2:08 PM, Stephen Price wrote:
+
+>
+> Hi Sarah,
+>
+> I don't know if we resolved how to fix this bug moving forward. I  
+> guess we could put a "case select" (or if clause) in the wvel calc.  
+> subroutine, e.g. ...
+>
+>
+> %% declare "wvel_local" above somewhere
+>
+> select case (evolution)
+>
+>  case( EVOL_DIFFUSION )
+>
+>    wvel_local = model%velocity
+>
+>  case( EVOL_INC_REMAP )
+>
+>    wvel_local = model%velocity_hom
+>
+> end select
+>
+> %% now pass "wvel_local" when the vert velocity profile is needed
+>
+>
+> ... or something like this.
+>
+> The only issue there is that there are other "evolution" options  
+> that may need to be considered as well (e.g. pseudo-diff, 1st-order  
+> upwinding, ADI, etc.).
+>
+> Anyone else want to weigh in on the best way to correct this? Jesse,  
+> I don't recall why we started using two derived types for velo to  
+> begin with (%velocity vs. %velocity_hom). Was it because of the A- 
+> grid issues w/ the PB&J core? If so, we might not be under that  
+> constraint anymore (if we aren't supporting that core in future  
+> releases that is), in which case we might be able to get rid of  
+> %velocity_hom and just use the more generic %velocity.
+>
+> Steve
+>
+>
+> On 2/10/11 6:46 AM, Sarah Shannon wrote:
+>> Hi Steve,
+>>
+>> Will Roberts who works with us, has been using glimmer-cism and
+>> identified the bug.
+>>
+>> The subroutines which calculate wvel (wvelintg and chckwvel) use
+>> model%velocity_hom rather than model%velocity. In the SIA mode,
+>> model%velocity_hom have values of zero.
+>>
+>> The bug would not show up when running with the HO physics.
+>>
+>> There is a plot of the EISMINT-1 test on the wiki
+>> (http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug 
+>> ).
+>> The vertical velocity profile is curved and basal temperature is  
+>> colder.
+>>
+>> Cheers,
+>>
+>> Sarah
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From a.j.payne at bristol.ac.uk  Wed Feb 16 23:13:40 2011
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Wed, 16 Feb 2011 22:13:40 +0000
+Subject: [Glimmer-cism-devel] bug fix in vertical velocity
+In-Reply-To: <4D5C3CE8.3040909@lanl.gov>
+References: <4D53EC43.3080105@bristol.ac.uk> <4D5C3CE8.3040909@lanl.gov>
+Message-ID: <4D5C4C14.9030407@bristol.ac.uk>
+
+hi
+
+i think i would happier to drop the second velocity unless it is there 
+for a very good reason.
+
+tony
+
+On 16/02/2011 21:08, Stephen Price wrote:
+>
+> Hi Sarah,
+>
+> I don't know if we resolved how to fix this bug moving forward. I 
+> guess we could put a "case select" (or if clause) in the wvel calc. 
+> subroutine, e.g. ...
+>
+>
+> %% declare "wvel_local" above somewhere
+>
+> select case (evolution)
+>
+>   case( EVOL_DIFFUSION )
+>
+>     wvel_local = model%velocity
+>
+>   case( EVOL_INC_REMAP )
+>
+>     wvel_local = model%velocity_hom
+>
+> end select
+>
+> %% now pass "wvel_local" when the vert velocity profile is needed
+>
+>
+> ... or something like this.
+>
+> The only issue there is that there are other "evolution" options that 
+> may need to be considered as well (e.g. pseudo-diff, 1st-order 
+> upwinding, ADI, etc.).
+>
+> Anyone else want to weigh in on the best way to correct this? Jesse, I 
+> don't recall why we started using two derived types for velo to begin 
+> with (%velocity vs. %velocity_hom). Was it because of the A-grid 
+> issues w/ the PB&J core? If so, we might not be under that constraint 
+> anymore (if we aren't supporting that core in future releases that 
+> is), in which case we might be able to get rid of %velocity_hom and 
+> just use the more generic %velocity.
+>
+> Steve
+>
+>
+> On 2/10/11 6:46 AM, Sarah Shannon wrote:
+>> Hi Steve,
+>>
+>> Will Roberts who works with us, has been using glimmer-cism and
+>> identified the bug.
+>>
+>> The subroutines which calculate wvel (wvelintg and chckwvel) use
+>> model%velocity_hom rather than model%velocity. In the SIA mode,
+>> model%velocity_hom have values of zero.
+>>
+>> The bug would not show up when running with the HO physics.
+>>
+>> There is a plot of the EISMINT-1 test on the wiki
+>> (http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug). 
+>>
+>> The vertical velocity profile is curved and basal temperature is colder.
+>>
+>> Cheers,
+>>
+>> Sarah
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110216/c7a31c2f/attachment.html>
+
+From jesse.v.johnson at gmail.com  Thu Feb 17 07:12:15 2011
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Thu, 17 Feb 2011 08:12:15 +0200
+Subject: [Glimmer-cism-devel] bug fix in vertical velocity
+In-Reply-To: <4D5C4C14.9030407@bristol.ac.uk>
+References: <4D53EC43.3080105@bristol.ac.uk> <4D5C3CE8.3040909@lanl.gov>
+	<4D5C4C14.9030407@bristol.ac.uk>
+Message-ID: <AANLkTimNYGUcbyuYQKWavdo7RehuKzp72AOLoTqSXwmi@mail.gmail.com>
+
+Hi All,
+
+yes, velocity_hom was introduced because of the difference in grids. I
+don't see a reason to keep it.
+
+Jesse
+
+On Thu, Feb 17, 2011 at 12:13 AM, Tony Payne <a.j.payne at bristol.ac.uk> wrote:
+> hi
+>
+> i think i would happier to drop the second velocity unless it is there for a
+> very good reason.
+>
+> tony
+>
+> On 16/02/2011 21:08, Stephen Price wrote:
+>
+> Hi Sarah,
+>
+> I don't know if we resolved how to fix this bug moving forward. I guess we
+> could put a "case select" (or if clause) in the wvel calc. subroutine, e.g.
+> ...
+>
+>
+> %% declare "wvel_local" above somewhere
+>
+> select case (evolution)
+>
+> ? case( EVOL_DIFFUSION )
+>
+> ??? wvel_local = model%velocity
+>
+> ? case( EVOL_INC_REMAP )
+>
+> ??? wvel_local = model%velocity_hom
+>
+> end select
+>
+> %% now pass "wvel_local" when the vert velocity profile is needed
+>
+>
+> ... or something like this.
+>
+> The only issue there is that there are other "evolution" options that may
+> need to be considered as well (e.g. pseudo-diff, 1st-order upwinding, ADI,
+> etc.).
+>
+> Anyone else want to weigh in on the best way to correct this? Jesse, I don't
+> recall why we started using two derived types for velo to begin with
+> (%velocity vs. %velocity_hom). Was it because of the A-grid issues w/ the
+> PB&J core? If so, we might not be under that constraint anymore (if we
+> aren't supporting that core in future releases that is), in which case we
+> might be able to get rid of %velocity_hom and just use the more generic
+> %velocity.
+>
+> Steve
+>
+>
+> On 2/10/11 6:46 AM, Sarah Shannon wrote:
+>
+> Hi Steve,
+>
+> Will Roberts who works with us, has been using glimmer-cism and
+> identified the bug.
+>
+> The subroutines which calculate wvel (wvelintg and chckwvel) use
+> model%velocity_hom rather than model%velocity. In the SIA mode,
+> model%velocity_hom have values of zero.
+>
+> The bug would not show up when running with the HO physics.
+>
+> There is a plot of the EISMINT-1 test on the wiki
+> (http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1FM_bug).
+> The vertical velocity profile is curved and basal temperature is colder.
+>
+> Cheers,
+>
+> Sarah
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> --
+> ------------------------<>---------------------------
+> Tony Payne
+> School of Geographical Sciences,
+> University of Bristol,
+> Bristol BS8 1SS, UK.
+> Telephone:????? +117 331 4156
+> Fax:??????????? +117 928 7878
+> Email:????????? A.J.Payne at bristol.ac.uk
+> ------------------------<>---------------------------
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+The University of Montana, Missoula
+
+On Sabbatical at:
+
+CERECAM, The University of Cape Town
+Private Bag X3
+Room 529.6 Menzies Bld.
+Rondebosch 7701
+South Africa
+
+tel: +27 21 650 2086
+
+email: jesse.v.johnson at gmail.com
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From sprice at lanl.gov  Thu Feb 17 17:35:00 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Thu, 17 Feb 2011 09:35:00 -0700
+Subject: [Glimmer-cism-devel]  bug fix in vertical velocity
+Message-ID: <4D5D4E34.3000602@lanl.gov>
+
+
+It sounds like removing the additional velocity derived type for the 
+higher order dyn core is what we should aim for. We'll add this to the 
+list of things to be done as part of the ongoing merge for the 2.0 release.
+
+Steve
+
+
+-------- Original Message --------
+Subject: Re: [Glimmer-cism-devel] bug fix in vertical velocity
+Date: Thu, 17 Feb 2011 08:12:15 +0200
+From: Jesse Johnson <jesse.v.johnson at gmail.com>
+
+Hi All,
+
+yes, velocity_hom was introduced because of the difference in grids. I
+don't see a reason to keep it.
+
+Jesse
+
+
+
+From sprice at lanl.gov  Fri Feb 18 21:15:56 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Fri, 18 Feb 2011 13:15:56 -0700
+Subject: [Glimmer-cism-devel] merge question;
+ move simple_glide from tests/EISMINT/ to example_drivers/ ?
+Message-ID: <4D5ED37C.4030408@lanl.gov>
+
+
+Hi all,
+
+While working on the merge for the next code release, we've found that 
+the most used driver (simple_glide) is sitting in a strange place and 
+we'd like to move it.
+
+In the current dir structure, the source code for simple_glide sits in:
+
+/tests/EISMINT/src/
+
+We'd like to move it to a more sensible location:
+
+/example_drivers/simple_glide/src/
+
+A few questions for the folks who set things up w/ the assumption that 
+simple_glide lives in EISMINT/src/:
+
+1) if we move simple_glide, should we also move simple_forcing and 
+simple_erosion? Bill suggests putting simple_erosion in example_drivers 
+as well. It seems to me like the erosion code is more of an extension, 
+however. Where does simple_forcing logically go? Bill suggests that it 
+should go in libglide.
+
+2) what other changes to the build system will this require?
+
+3) how will this affect the (working I think) automated test suite 
+(which currently only runs SIA EISMINT-type tests), and how do we fix 
+that if we move simple_glide?
+
+Thanks for any input -
+
+Steve
+
+
+From flocolleoni at gmail.com  Sun Feb 20 18:15:41 2011
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Sun, 20 Feb 2011 18:15:41 +0100
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid: segmentation fault
+Message-ID: <AANLkTimD_PZKLvJ6414JeFrr6Zu+gWE95RQtPMygPCgs@mail.gmail.com>
+
+Hi, all
+
+I finished to construct the Northern Hemisphere grid (40km spacing-  317*317
+horizontal res. and 11 vertical signa layers).
+The file is identical to that of the glint-example gland20.input.nc.
+
+However, when I try to use the Northern Hemisphere grid with GLINT it stops
+at the beginning with a Segmentation fault error.
+
+I mean, it reads the input file parameters well but when it starts
+calculating the ice variables from
+the model, it stops before writing the first step results in the output
+file.
+
+Do somebody have an idea? Are the number of points too large for the model?
+
+Florence
+
+-- 
+*"Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution
+avec la Libert?: c'est le tr?s petit nombre; les autres veulent la
+R?volution avec le Pouvoir: c'est l'immense majorit?."
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC <http://www.cmcc.it>
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110220/3af674ae/attachment.html>
+
+From flocolleoni at gmail.com  Sun Feb 20 21:05:36 2011
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Sun, 20 Feb 2011 21:05:36 +0100
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid: segmentation
+	fault
+In-Reply-To: <AANLkTimD_PZKLvJ6414JeFrr6Zu+gWE95RQtPMygPCgs@mail.gmail.com>
+References: <AANLkTimD_PZKLvJ6414JeFrr6Zu+gWE95RQtPMygPCgs@mail.gmail.com>
+Message-ID: <AANLkTi=jcmFVbAm7fAdKyedSAFJw5srGcvE1FGVaJ5Dc@mail.gmail.com>
+
+Sorry, I should be a little bit more specific:
+
+when the model ouputs are written, the variable already provided by the
+input file
+are red and written very well. The only thing that comes to my mind is that
+there maybe a problem when the model downscales the climate fields (which I
+already tested
+in the Greenland grid and work pefectly): maybe the way I performed the
+projection
+and the mapping informations I provide in the input file do not allow the
+mapping
+codes to interpolate on the x,y grid.
+
+But even if the downscaling where slightly different from the projection
+grid prived in the input file,
+would the fields not be interpolated and written in the ouput file?
+
+Florence
+
+2011/2/20 Florence Colleoni <flocolleoni at gmail.com>
+
+> Hi, all
+>
+> I finished to construct the Northern Hemisphere grid (40km spacing-
+> 317*317 horizontal res. and 11 vertical signa layers).
+> The file is identical to that of the glint-example gland20.input.nc.
+>
+> However, when I try to use the Northern Hemisphere grid with GLINT it stops
+> at the beginning with a Segmentation fault error.
+>
+> I mean, it reads the input file parameters well but when it starts
+> calculating the ice variables from
+> the model, it stops before writing the first step results in the output
+> file.
+>
+> Do somebody have an idea? Are the number of points too large for the model?
+>
+> Florence
+>
+> --
+> *"Il existe deux sortes de r?volutionnaires; les uns d?sirent la
+> R?volution avec la Libert?: c'est le tr?s petit nombre; les autres veulent
+> la R?volution avec le Pouvoir: c'est l'immense majorit?."
+> Chateaubriand*
+> ......................................................................
+> Florence Colleoni
+> CMCC <http://www.cmcc.it>
+> Viale Aldo Moro, 44
+> 40127 Bologna - Italy
+>
+>      Phone: +39 051 3782622
+>      Email: flocolleoni at gmail.com
+>      URL: http://flocolleoni.org
+> ......................................................................
+>
+
+
+
+-- 
+*"Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution
+avec la Libert?: c'est le tr?s petit nombre; les autres veulent la
+R?volution avec le Pouvoir: c'est l'immense majorit?."
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC <http://www.cmcc.it>
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110220/02b2df7b/attachment.html>
+
+From I.C.Rutt at swansea.ac.uk  Mon Feb 21 11:11:20 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 21 Feb 2011 10:11:20 +0000
+Subject: [Glimmer-cism-devel] merge question;
+ move simple_glide from tests/EISMINT/ to example_drivers/ ?
+In-Reply-To: <4D5ED37C.4030408@lanl.gov>
+References: <4D5ED37C.4030408@lanl.gov>
+Message-ID: <4D623A48.5020602@swansea.ac.uk>
+
+
+Hi Steve,
+
+I think I'd be in favour of moving simple_glide - it's useful as an 
+example driver beyond it's use as a test.
+
+Magi - what do you think?
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+Department of Geography
+College of Science
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. +44 (0)1792 602685
+i.c.rutt at swansea.ac.uk
+
+On 18/02/11 20:15, Stephen Price wrote:
+>
+> Hi all,
+>
+> While working on the merge for the next code release, we've found that
+> the most used driver (simple_glide) is sitting in a strange place and
+> we'd like to move it.
+>
+> In the current dir structure, the source code for simple_glide sits in:
+>
+> /tests/EISMINT/src/
+>
+> We'd like to move it to a more sensible location:
+>
+> /example_drivers/simple_glide/src/
+>
+> A few questions for the folks who set things up w/ the assumption that
+> simple_glide lives in EISMINT/src/:
+>
+> 1) if we move simple_glide, should we also move simple_forcing and
+> simple_erosion? Bill suggests putting simple_erosion in example_drivers
+> as well. It seems to me like the erosion code is more of an extension,
+> however. Where does simple_forcing logically go? Bill suggests that it
+> should go in libglide.
+>
+> 2) what other changes to the build system will this require?
+>
+> 3) how will this affect the (working I think) automated test suite
+> (which currently only runs SIA EISMINT-type tests), and how do we fix
+> that if we move simple_glide?
+>
+> Thanks for any input -
+>
+> Steve
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From sarah.shannon at bristol.ac.uk  Mon Feb 21 12:29:43 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Mon, 21 Feb 2011 11:29:43 +0000
+Subject: [Glimmer-cism-devel] change to build moving simple_glide directory
+Message-ID: <4D624CA7.8030900@bristol.ac.uk>
+
+Hi Steve,
+  
+It looks like several changes are necessary to move simple_glide.F90 
+from /tests/EISMINT/src to /example-drivers/simple_glide/src/ and to 
+move simple_forcing.F90 to libglide
+Ill make a list of the changes and forward them on to you for the merging,
+Cheers,
+Sarah
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110221/0c10a0a0/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Feb 21 12:45:48 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 21 Feb 2011 11:45:48 +0000
+Subject: [Glimmer-cism-devel] merge question;
+ move simple_glide from tests/EISMINT/ to example_drivers/ ?
+In-Reply-To: <4D5ED37C.4030408@lanl.gov>
+References: <4D5ED37C.4030408@lanl.gov>
+Message-ID: <4D62506C.2080905@ed.ac.uk>
+
+Stephen Price wrote:
+> 
+> Hi all,
+> 
+> While working on the merge for the next code release, we've found that 
+> the most used driver (simple_glide) is sitting in a strange place and 
+> we'd like to move it.
+> 
+> In the current dir structure, the source code for simple_glide sits in:
+> 
+> /tests/EISMINT/src/
+> 
+> We'd like to move it to a more sensible location:
+> 
+> /example_drivers/simple_glide/src/
+> 
+
+I would call it
+example_drivers/EISMINT in analogy to example_drivers/EISMINT-3
+
+also keep the EISMINT-1 and EISMINT-2 directories together with the 
+script dir, i.e. move
+tests/EISMINT/EISMINT-1, tests/EISMINT/EISMINT-2, tests/EISMINT/src and
+tests/EISMINT/scripts
+to
+example-drivers/EISMINT
+
+> A few questions for the folks who set things up w/ the assumption that 
+> simple_glide lives in EISMINT/src/:
+> 
+> 1) if we move simple_glide, should we also move simple_forcing and 
+> simple_erosion? Bill suggests putting simple_erosion in example_drivers 
+> as well. It seems to me like the erosion code is more of an extension, 
+> however. Where does simple_forcing logically go? Bill suggests that it 
+> should go in libglide.
+> 
+
+simple_erosion and model setup could go in the extension directory where 
+it really belongs.
+
+I don't think simple_forcing should go into libglide. It is a library 
+and any other program wanting to use it can just link to it.
+
+> 2) what other changes to the build system will this require?
+> 
+We'd probably need to change the order in which the tests and 
+example-drivers directories are built.
+
+> 3) how will this affect the (working I think) automated test suite 
+> (which currently only runs SIA EISMINT-type tests), and how do we fix 
+> that if we move simple_glide?
+> 
+
+That'll just work.
+
+
+So, I can look into moving simple_erosion into the extension directory. 
+It is then just a matter of moving the directories.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Mon Feb 21 15:54:41 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 21 Feb 2011 14:54:41 +0000
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid:
+	segmentation	fault
+In-Reply-To: <AANLkTi=jcmFVbAm7fAdKyedSAFJw5srGcvE1FGVaJ5Dc@mail.gmail.com>
+References: <AANLkTimD_PZKLvJ6414JeFrr6Zu+gWE95RQtPMygPCgs@mail.gmail.com>
+	<AANLkTi=jcmFVbAm7fAdKyedSAFJw5srGcvE1FGVaJ5Dc@mail.gmail.com>
+Message-ID: <4D627CB1.1020703@swansea.ac.uk>
+
+
+Hi Flo,
+
+Could you post to the list two things which might help narrow down the 
+problem:
+
+1) Your .config file for the model
+2) The header of your NetCDF input file (i.e. when you run ncdump -h on it)
+
+Also - which version of Glimmer-CISM are you using?
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+Department of Geography
+College of Science
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. +44 (0)1792 602685
+i.c.rutt at swansea.ac.uk
+
+On 20/02/11 20:05, Florence Colleoni wrote:
+> Sorry, I should be a little bit more specific:
+>
+> when the model ouputs are written, the variable already provided by the
+> input file
+> are red and written very well. The only thing that comes to my mind is that
+> there maybe a problem when the model downscales the climate fields
+> (which I already tested
+> in the Greenland grid and work pefectly): maybe the way I performed the
+> projection
+> and the mapping informations I provide in the input file do not allow
+> the mapping
+> codes to interpolate on the x,y grid.
+>
+> But even if the downscaling where slightly different from the projection
+> grid prived in the input file,
+> would the fields not be interpolated and written in the ouput file?
+>
+> Florence
+>
+> 2011/2/20 Florence Colleoni <flocolleoni at gmail.com
+> <mailto:flocolleoni at gmail.com>>
+>
+>     Hi, all
+>
+>     I finished to construct the Northern Hemisphere grid (40km spacing-
+>     317*317 horizontal res. and 11 vertical signa layers).
+>     The file is identical to that of the glint-example gland20.input.nc
+>     <http://gland20.input.nc>.
+>
+>     However, when I try to use the Northern Hemisphere grid with GLINT
+>     it stops at the beginning with a Segmentation fault error.
+>
+>     I mean, it reads the input file parameters well but when it starts
+>     calculating the ice variables from
+>     the model, it stops before writing the first step results in the
+>     output file.
+>
+>     Do somebody have an idea? Are the number of points too large for the
+>     model?
+>
+>     Florence
+>
+>     --
+>     /"Il existe deux sortes de r?volutionnaires; les uns d?sirent la
+>     R?volution avec la Libert?: c'est le tr?s petit nombre; les autres
+>     veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+>     Chateaubriand/
+>     ......................................................................
+>     Florence Colleoni
+>     CMCC <http://www.cmcc.it>
+>     Viale Aldo Moro, 44
+>     40127 Bologna - Italy
+>
+>           Phone: +39 051 3782622
+>           Email: flocolleoni at gmail.com <mailto:flocolleoni at gmail.com>
+>           URL: http://flocolleoni.org
+>     ......................................................................
+>
+>
+>
+>
+> --
+> /"Il existe deux sortes de r?volutionnaires; les uns d?sirent la
+> R?volution avec la Libert?: c'est le tr?s petit nombre; les autres
+> veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+> Chateaubriand/
+> ......................................................................
+> Florence Colleoni
+> CMCC <http://www.cmcc.it>
+> Viale Aldo Moro, 44
+> 40127 Bologna - Italy
+>
+>       Phone: +39 051 3782622
+>       Email: flocolleoni at gmail.com <mailto:flocolleoni at gmail.com>
+>       URL: http://flocolleoni.org
+> ......................................................................
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From sarah.shannon at bristol.ac.uk  Mon Feb 21 19:15:32 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Mon, 21 Feb 2011 18:15:32 +0000
+Subject: [Glimmer-cism-devel] autoconf dependencies
+Message-ID: <4D62ABC4.9080405@bristol.ac.uk>
+
+Hi Magnus,
+
+I've been looking at what changes to make, to move the location of 
+simple_glide. F90 and simple_forcing.F90 as suggested by Steve.
+
+I was wondering how the file libglimmer-simple.la is created? I guess 
+it's some dependency related thing. After making the changes to the 
+relevant Makefile.am's I get this error
+
+'No rule to make target `libglimmer-simple.lo', needed by 
+`libglimmer-simple.la'
+
+Cheers,
+Sarah
+
+
+
+
+
+
+ 
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110221/47f87a5d/attachment.vcf>
+
+From sprice at lanl.gov  Mon Feb 21 20:34:09 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Mon, 21 Feb 2011 12:34:09 -0700
+Subject: [Glimmer-cism-devel] merge question;
+ move simple_glide from tests/EISMINT/ to example_drivers/ ?
+In-Reply-To: <4D623A48.5020602@swansea.ac.uk>
+References: <4D5ED37C.4030408@lanl.gov> <4D623A48.5020602@swansea.ac.uk>
+Message-ID: <4D62BE31.8030000@lanl.gov>
+
+
+Thanks Ian. In fact, it is the standard driver that we use for all of 
+the higher-order test cases and as a starting point for any other simple 
+driver (stand alone, non-coupled) that we want (e.g. Greenland and Ant 
+ice sheets). For this reason, I think it is important to move it 
+somewhere more generic (again, example_drivers seems the most obvious 
+place).
+
+Steve
+
+On 2/21/11 3:11 AM, Ian Rutt wrote:
+>
+> Hi Steve,
+>
+> I think I'd be in favour of moving simple_glide - it's useful as an
+> example driver beyond it's use as a test.
+>
+> Magi - what do you think?
+>
+> Cheers,
+>
+> Ian
+
+
+From sarah.shannon at bristol.ac.uk  Tue Feb 22 14:51:53 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 22 Feb 2011 13:51:53 +0000
+Subject: [Glimmer-cism-devel] possible bug in eismint-1 moving margin
+	experiment
+Message-ID: <4D63BF79.8050002@bristol.ac.uk>
+
+Hi
+
+I think there may be a bug in the parallel version when running an 
+EISMINT-1 moving margin experiment (e1-mm.2)
+
+At the ice-ocean boundary, the temperature for each model level appears 
+to be set to the air temperature even though the thickness and velocity 
+is zero.
+
+I put some plots up on the wiki here.
+
+http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_e1-mm.2_bug
+
+The code that sets the ice temperature to zero if no ice is present is 
+this:
+
+! set temperature of thin ice to the air temperature and set ice free 
+nodes to zero
+
+|||       do ns = 1,model%general%nsn
+||          do ew = 1,model%general%ewn
+||             if (GLIDE_IS_THIN(model%geometry%thkmask(ew,ns))) then
+||                model%temper%temp(:,ew,ns) = min(0.0d0,dble(model%climate%artm(ew,ns)))
+||             else if (model%geometry%thkmask(ew,ns) < 0) then
+||                model%temper%temp(:,ew,ns) = min(0.0d0,dble(model%climate%artm(ew,ns)))
+||             !else if (model%geometry%thkmask(ew,ns)<-1) then
+||             !   model%temper%temp(:,ew,ns) = 0.0d0
+||             end if
+||          end do
+||       end do
+|
+
+The part which should set ice free notes to zero is commented out and 
+would only happen if the mask is negative. As far as I can see, the mask 
+does not become negative.
+
+I set the temperature to zero, if no ice is present by doing the 
+following and this seems to fix the bug.
+
+       do ns = 1,model%general%nsn
+          do ew = 1,model%general%ewn
+             if (GLIDE_IS_THIN(model%geometry%thkmask(ew,ns))) then
+                model%temper%temp(:,ew,ns) = 
+min(0.0d0,dble(model%climate%artm(ew,ns)))
+             elseif (GLIDE_NO_ICE(model%geometry%thkmask(ew,ns))) then
+                model%temper%temp(:,ew,ns) = 0.0d0
+             end if
+          end do
+       end do
+
+
+I was wondering if that's the correct thing to do?
+
+Cheers,
+Sarah
+
+
+
+
+
+
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110222/7b6d06a4/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Feb 22 15:35:16 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 22 Feb 2011 14:35:16 +0000
+Subject: [Glimmer-cism-devel] merge question;
+ move simple_glide from tests/EISMINT/ to example_drivers/ ?
+In-Reply-To: <4D62506C.2080905@ed.ac.uk>
+References: <4D5ED37C.4030408@lanl.gov> <4D62506C.2080905@ed.ac.uk>
+Message-ID: <4D63C9A4.5070104@ed.ac.uk>
+
+Magnus Hagdorn wrote:
+
+> So, I can look into moving simple_erosion into the extension directory. 
+> It is then just a matter of moving the directories.
+> 
+>
+On further reflection, what about moving both subdirectories from the 
+test directory to example-drivers directory. There is no reason why we 
+should have two separate directories. We can already decided which tests 
+to run for the automatic test suite.
+
+The reason why the simple_erosion sources are in the same place as the 
+other simple_glide drivers is because it uses the same input files as 
+the simple_glide examples. This is particularly relevant to the eis 
+driver, where eis_erosion uses the same topo input file and climate 
+forcing files. So, if we were to move the erosion drivers to the erosion 
+  subdirectory we would need to somehow handle those files. We could 
+just copy them which would increase storage and more importantly might 
+cause them to differ if we update only one but not the other. Another 
+solution might be to have the autotools create symbolic links.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Feb 22 15:48:45 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 22 Feb 2011 14:48:45 +0000
+Subject: [Glimmer-cism-devel] possible bug in eismint-1 moving margin
+ experiment
+In-Reply-To: <4D63BF79.8050002@bristol.ac.uk>
+References: <4D63BF79.8050002@bristol.ac.uk>
+Message-ID: <4D63CCCD.6030308@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi
+> 
+> I think there may be a bug in the parallel version when running an 
+> EISMINT-1 moving margin experiment (e1-mm.2)
+> 
+> At the ice-ocean boundary, the temperature for each model level appears 
+> to be set to the air temperature even though the thickness and velocity 
+> is zero.
+> 
+> I put some plots up on the wiki here.
+> 
+> http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_e1-mm.2_bug 
+> 
+> 
+
+<snip>
+
+> The part which should set ice free notes to zero is commented out and 
+> would only happen if the mask is negative. As far as I can see, the mask 
+> does not become negative.
+> 
+
+<snip>
+
+> 
+> I was wondering if that's the correct thing to do?
+
+This sounds more like a bug where the mask isn't correctly set.
+
+However, your suggestion to use GLIDE_NO_ICE is quite sensible.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Tue Feb 22 17:51:22 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 22 Feb 2011 16:51:22 +0000
+Subject: [Glimmer-cism-devel] change to build moving simple_glide
+	directory
+In-Reply-To: <4D62BE55.8010705@lanl.gov>
+References: <4D624CA7.8030900@bristol.ac.uk> <4D62BE55.8010705@lanl.gov>
+Message-ID: <4D63E98A.5080309@bristol.ac.uk>
+
+Hi Steve,
+Here are the changes to make if you wanted to move simple_glide.F90 and 
+simple_forcing.F90 from /tests/EISMINT/src into 
+example_drivers/simple_glide/src and leave the test directory where it is.
+
+Sorry it's a bit tedious.......
+
+1. Create the new directory /example_drivers/simple_glide/src
+2. Copy simple_glide.F90, simple_forcing.F90  and the Makefile.am from 
+/tests/EISMINT/src into the new directory
+3. Modify the Makefile.am that you just copied by removing any lines 
+where erosion is mentioned - if you get stuck here I have a Makefile.am 
+I can send you
+4. You need to then change the configure.in file at the bottom where 
+AC_CONFIG_FILES are listed
+Remove the line '/tests/EISMINT/src' which is about 8 or 9 lines down 
+the list
+
+and add this line
+
+'example-drivers/simple_glide/Makefile 
+example-drivers/simple_glide/src/Makefile\ '
+
+5. Copy example-drivers/EISMINT-3/Makefile.am to 
+example-drivers/simple_glide. Remove the first two lines and insert 
+SUBDIRS = src
+
+6. Remove the old directory containing the simple_glide code by deleting 
+/tests/EISMINT/src
+
+7. In /example-drivers/Makefile.am add simple_glide to the list of SUBDIRS
+
+8. For the tests to work you have to point towards the new location of 
+the simple_glide executable
+    In tests/EISMINT/EISMINT-1/Makefile.am change the line
+
+MODEL_BINARY=$(top_builddir)/tests/EISMINT/src/simple_glide
+to
+MODEL_BINARY=$(top_builddir)/example-drivers/simple_glide/src/simple_glide
+
+You will need to do this for the other tests that use simple_glide by 
+changing the Makefile.am in the same way.
+
+That's it. I hope it works for you, let me know if you run into any 
+problems.
+
+Cheers,
+
+Sarah
+
+Stephen Price wrote:
+>
+> Thanks Sarah, that would be a big help.
+>
+> Steve
+>
+> On 2/21/11 4:29 AM, Sarah Shannon wrote:
+>> Hi Steve,
+>>
+>> It looks like several changes are necessary to move simple_glide.F90
+>> from /tests/EISMINT/src to /example-drivers/simple_glide/src/ and to
+>> move simple_forcing.F90 to libglide
+>> Ill make a list of the changes and forward them on to you for the 
+>> merging,
+>> Cheers,
+>> Sarah
+>>
+>>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110222/6597a782/attachment.vcf>
+
+From sprice at lanl.gov  Tue Feb 22 23:08:50 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Tue, 22 Feb 2011 15:08:50 -0700
+Subject: [Glimmer-cism-devel] merge question;
+ move simple_glide from tests/EISMINT/ to example_drivers/ ?
+In-Reply-To: <4D63C9A4.5070104@ed.ac.uk>
+References: <4D5ED37C.4030408@lanl.gov> <4D62506C.2080905@ed.ac.uk>
+	<4D63C9A4.5070104@ed.ac.uk>
+Message-ID: <4D6433F2.3080307@lanl.gov>
+
+
+I'm fine with this option Magi. Anyone else (Sarah?) have objections?
+
+thanks -
+
+Steve
+
+
+On 2/22/11 7:35 AM, Magnus Hagdorn wrote:
+> Magnus Hagdorn wrote:
+>
+>> So, I can look into moving simple_erosion into the extension
+>> directory. It is then just a matter of moving the directories.
+>>
+>>
+> On further reflection, what about moving both subdirectories from the
+> test directory to example-drivers directory. There is no reason why we
+> should have two separate directories. We can already decided which tests
+> to run for the automatic test suite.
+>
+> The reason why the simple_erosion sources are in the same place as the
+> other simple_glide drivers is because it uses the same input files as
+> the simple_glide examples. This is particularly relevant to the eis
+> driver, where eis_erosion uses the same topo input file and climate
+> forcing files. So, if we were to move the erosion drivers to the erosion
+> subdirectory we would need to somehow handle those files. We could just
+> copy them which would increase storage and more importantly might cause
+> them to differ if we update only one but not the other. Another solution
+> might be to have the autotools create symbolic links.
+>
+> Cheers
+> magi
+>
+
+
+From sprice at lanl.gov  Tue Feb 22 23:59:20 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Tue, 22 Feb 2011 15:59:20 -0700
+Subject: [Glimmer-cism-devel] change to build moving simple_glide
+	directory
+In-Reply-To: <4D63E98A.5080309@bristol.ac.uk>
+References: <4D624CA7.8030900@bristol.ac.uk> <4D62BE55.8010705@lanl.gov>
+	<4D63E98A.5080309@bristol.ac.uk>
+Message-ID: <4D643FC8.40200@lanl.gov>
+
+
+Thanks for the cookbook on how to do this Sarah. Hopefully I'll get 
+around to working on it sometime this week (at which point I might have 
+a few more specific questions for you).
+
+Offhand, do you (or anyone) know which test cases use simple_glide? All 
+of the current test cases for the higher-order code will use it.
+
+thanks -
+
+Steve
+
+On 2/22/11 9:51 AM, Sarah Shannon wrote:
+> Hi Steve,
+> Here are the changes to make if you wanted to move simple_glide.F90 and
+> simple_forcing.F90 from /tests/EISMINT/src into
+> example_drivers/simple_glide/src and leave the test directory where it is.
+>
+> Sorry it's a bit tedious.......
+>
+> 1. Create the new directory /example_drivers/simple_glide/src
+> 2. Copy simple_glide.F90, simple_forcing.F90 and the Makefile.am from
+> /tests/EISMINT/src into the new directory
+> 3. Modify the Makefile.am that you just copied by removing any lines
+> where erosion is mentioned - if you get stuck here I have a Makefile.am
+> I can send you
+> 4. You need to then change the configure.in file at the bottom where
+> AC_CONFIG_FILES are listed
+> Remove the line '/tests/EISMINT/src' which is about 8 or 9 lines down
+> the list
+>
+> and add this line
+>
+> 'example-drivers/simple_glide/Makefile
+> example-drivers/simple_glide/src/Makefile\ '
+>
+> 5. Copy example-drivers/EISMINT-3/Makefile.am to
+> example-drivers/simple_glide. Remove the first two lines and insert
+> SUBDIRS = src
+>
+> 6. Remove the old directory containing the simple_glide code by deleting
+> /tests/EISMINT/src
+>
+> 7. In /example-drivers/Makefile.am add simple_glide to the list of SUBDIRS
+>
+> 8. For the tests to work you have to point towards the new location of
+> the simple_glide executable
+> In tests/EISMINT/EISMINT-1/Makefile.am change the line
+>
+> MODEL_BINARY=$(top_builddir)/tests/EISMINT/src/simple_glide
+> to
+> MODEL_BINARY=$(top_builddir)/example-drivers/simple_glide/src/simple_glide
+>
+> You will need to do this for the other tests that use simple_glide by
+> changing the Makefile.am in the same way.
+>
+> That's it. I hope it works for you, let me know if you run into any
+> problems.
+>
+> Cheers,
+>
+> Sarah
+
+
+From sarah.shannon at bristol.ac.uk  Wed Feb 23 12:39:57 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Wed, 23 Feb 2011 11:39:57 +0000
+Subject: [Glimmer-cism-devel] change to build moving simple_glide directory
+Message-ID: <4D64F20D.4040100@bristol.ac.uk>
+
+Hi Steve,
+I am happy with Magi's option as well. Other tests which use 
+simple_glide are EISMINT-1 & 2, isos, lin-non-linear and erosion.
+Cheers,
+Sarah
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110223/a7f180ff/attachment.vcf>
+

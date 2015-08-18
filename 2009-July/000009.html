@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] merged svn dump - take 2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merged%20svn%20dump%20-%20take%202&In-Reply-To=%3C4A65D14E.3000809%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000004.html">
+   <LINK REL="Next"  HREF="000005.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] merged svn dump - take 2</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merged%20svn%20dump%20-%20take%202&In-Reply-To=%3C4A65D14E.3000809%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] merged svn dump - take 2">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Tue Jul 21 16:31:42 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000004.html">[Glimmer-cism-devel] merged svn dump - take 2
+</A></li>
+        <LI>Next message: <A HREF="000005.html">[Glimmer-cism-devel] merged svn dump - take 2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Thanks, Magi - that makes sense. I think it's a good plan, and probably 
+worthwhile discussing the exact configuration of subdirectories on the Wiki.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+
+Magnus Hagdorn wrote:
+&gt;<i> [moved discussion to glimmer-cism-devel]
+</I>&gt;<i> 
+</I>&gt;<i> On Tue, 2009-07-21 at 14:07 +0100, Ian Rutt wrote:
+</I>&gt;&gt;<i> Hi Magi,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I am not particularly happy of the current layout to start with. So what
+</I>&gt;&gt;&gt;<i> about creating a top level directory called
+</I>&gt;&gt;&gt;<i> glimmer-cism 
+</I>&gt;&gt;&gt;<i> and move
+</I>&gt;&gt;&gt;<i> everything, except proj4 and PyCF into this directory.
+</I>&gt;&gt;&gt;<i> We can then create
+</I>&gt;&gt;&gt;<i> glimmer-cism2
+</I>&gt;&gt;&gt;<i> and move everything into its new and improved place.
+</I>&gt;&gt;<i> I'm not sure I quite understand what the final sentence means - could 
+</I>&gt;&gt;<i> you elaborate? What structure do we end up with as a result of this?
+</I>&gt;&gt;<i>
+</I>&gt;<i> 
+</I>&gt;<i> My basic idea is to keep the status quo for now until we have figured
+</I>&gt;<i> out what we want for the new layout.
+</I>&gt;<i> 
+</I>&gt;<i> glimmer-cism
+</I>&gt;<i>    glimmer/
+</I>&gt;<i>    glimmer-doc/
+</I>&gt;<i>    glimmer-example/
+</I>&gt;<i>    glimmer-tests/
+</I>&gt;<i>    verif/
+</I>&gt;<i> glimmer-cism2
+</I>&gt;<i>    
+</I>&gt;<i> For glimmer-cism2 I would like to propose to join all modules together
+</I>&gt;<i> again. It makes no sense to branch them independently since they belong
+</I>&gt;<i> together. We also want to host the big data files somewhere[1] else so
+</I>&gt;<i> the source tar-ball will still be small. We can use configure to disable
+</I>&gt;<i> certain parts. 
+</I>&gt;<i> 
+</I>&gt;<i> For the new structure I'd suggest something along the lines of
+</I>&gt;<i> glimmer-cism2
+</I>&gt;<i>   trunk
+</I>&gt;<i>     src
+</I>&gt;<i>     lib
+</I>&gt;<i>     doc
+</I>&gt;<i>     tests
+</I>&gt;<i>       eismint-1
+</I>&gt;<i>       eismint-2
+</I>&gt;<i>       ....
+</I>&gt;<i>   tags
+</I>&gt;<i>   branches
+</I>&gt;<i> 
+</I>&gt;<i> This is just a rough outline and in no way a concrete proposal. I
+</I>&gt;<i> suspect we would want a subdirectory for each of the modules. Anyway, I
+</I>&gt;<i> think this is a separate discussion (maybe on the wiki) for the
+</I>&gt;<i> glimmer-cism2 plan.
+</I>&gt;<i> 
+</I>&gt;<i> When we are ready to populate the new structure we can just copy (and
+</I>&gt;<i> rename) files from glimmer-cism to the correct place in glimmer-cism2.
+</I>&gt;<i> 
+</I>&gt;<i> What do you think?
+</I>&gt;<i> 
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000004.html">[Glimmer-cism-devel] merged svn dump - take 2
+</A></li>
+	<LI>Next message: <A HREF="000005.html">[Glimmer-cism-devel] merged svn dump - take 2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

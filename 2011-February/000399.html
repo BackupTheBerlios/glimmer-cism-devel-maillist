@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20EISMINT-1%20test%20basal%20temperatures%20too%20high&In-Reply-To=%3C4D512233.3020007%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000398.html">
+   <LINK REL="Next"  HREF="000400.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] EISMINT-1 test basal temperatures too high</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20EISMINT-1%20test%20basal%20temperatures%20too%20high&In-Reply-To=%3C4D512233.3020007%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] EISMINT-1 test basal temperatures too high">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Tue Feb  8 12:00:03 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000398.html">[Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+</A></li>
+        <LI>Next message: <A HREF="000400.html">[Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#399">[ date ]</a>
+              <a href="thread.html#399">[ thread ]</a>
+              <a href="subject.html#399">[ subject ]</a>
+              <a href="author.html#399">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Sarah Shannon wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> I have question- perhaps someone maybe able to help with.
+</I>&gt;<i> 
+</I>&gt;<i> I ran an EISMINT-1 test  (e1_fm.1) on the parallel branch and compared 
+</I>&gt;<i> the temperature profile at the divide to the Huybrechts and Payne 
+</I>&gt;<i> EISMINT benchmarks paper (1996).  I seem to get basal temperatures that 
+</I>&gt;<i> are too high compared to the paper.  Also, the vertical velocity profile 
+</I>&gt;<i> at the divide is linear with depth, when it should be slighted curved.
+</I>&gt;<i> 
+</I>&gt;<i> I was wondering if anyone has come across this before? I ran the same 
+</I>&gt;<i> EISMINT-1 test on an older version of glimmer (version 1.0.4). This 
+</I>&gt;<i> version outputs values that match the paper. Two plots are attached, one 
+</I>&gt;<i> from the parallel branch and the other from the old version of glimmer.
+</I>&gt;<i> 
+</I>&gt;<i> Would anyone have any suggestions on what to check in the code to figure 
+</I>&gt;<i> out why this happens?
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+Hi Sarah,
+I have run the same test case on gc2-trunk and it works as expected. So 
+the problem must be in the parallel branch. Debugging this sort of thing 
+is tedious. I remember Ian and/or I looking into this sort of problem in 
+the past. Does the ice surface match? You could try running the 
+experiment isothermally. The next option is then to switch on/off 
+various parts of the temperature equation.
+I hope this is a reasonably ok starting point albeit vague.
+Cheers
+magi
+
+PS: the mailing list doesn't like large attachments. I'd suggest to 
+discuss these things on the wiki and send a pointer to the mailing list.
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000398.html">[Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+</A></li>
+	<LI>Next message: <A HREF="000400.html">[Glimmer-cism-devel] EISMINT-1 test basal temperatures too high
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#399">[ date ]</a>
+              <a href="thread.html#399">[ thread ]</a>
+              <a href="subject.html#399">[ subject ]</a>
+              <a href="author.html#399">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Glimmer-CISM data structure
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-November/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-CISM%20data%20structure&In-Reply-To=%3C871vjnzw3d.fsf%4059A2.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000161.html">
+   <LINK REL="Next"  HREF="000162.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Glimmer-CISM data structure</H1>
+    <B>Jed Brown</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-CISM%20data%20structure&In-Reply-To=%3C871vjnzw3d.fsf%4059A2.org%3E"
+       TITLE="[Glimmer-cism-devel] Glimmer-CISM data structure">jed at 59A2.org
+       </A><BR>
+    <I>Tue Nov 24 18:11:34 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000161.html">[Glimmer-cism-devel] Glimmer-CISM data structure
+</A></li>
+        <LI>Next message: <A HREF="000162.html">[Glimmer-cism-devel] Glimmer-CISM data structure
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, 24 Nov 2009 11:36:11 -0500, Patrick Worley &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">worleyph at ornl.gov</A>&gt; wrote:
+&gt;<i> John Michalakes and I both did extensive studies of this (along with 
+</I>&gt;<i> many other) some years back, John with WRF and I with CAM physics. We 
+</I>&gt;<i> came up with completely different answers, so it might be worthwhile 
+</I>&gt;<i> doing a few empirical studies. I'll look at this is you like, but my 
+</I>&gt;<i> initial testing indicated that the solver performance dominated 
+</I>&gt;<i> everything else, so was going to wait until the choice of solvers 
+</I>&gt;<i> settled down.
+</I>
+&gt;<i> One twist to keep in mind is vectorization. The current vector-like
+</I>&gt;<i> instructions in the target architectures should be fine with vector
+</I>&gt;<i> lengths of 10, but that may not continue forever.
+</I>
+Sure, but what architecture are we building this for?  GPUs are not much
+like the older vector machines, in terms of exotic architectures, it
+seems much more likely that you would want to run things there.
+
+&gt;<i> For the CAM physics, I factored one of the horizontal dimensions into
+</I>&gt;<i> two parts - put one part as the inner index and left the rest as a
+</I>&gt;<i> later index. The inner dimension was &quot;declared&quot; at compile time
+</I>&gt;<i> (compilers do a better job if this is known), but the actual lengths
+</I>&gt;<i> were determined at runtime. With this approach we can tune for the
+</I>&gt;<i> target architecture and problem size.
+</I>
+Ah yes, you are tiling to stay in L1.  To explain for others on the
+list, there are two reasons for these smaller inner loops.  The first is
+to keep the working set within L1 cache (32 to 64 kB), the other is to
+reduce the overhead of the loop increment by unrolling.  The first makes
+a big difference, and I can say with a fair amount of confidence that
+the latter makes very little difference (in any components related to
+the velocity solve) for ice because you have to evaluate the
+constitutive relation which involves exponentials and fractional powers.
+
+If the tile sizes cannot be chosen so that they decompose the domain
+uniformly, then you will occasionally have to work with tiles of
+different size.  If the former goal (staying in L1) is your only
+objective, then this doesn't cause any problems, but if you are trying
+to unroll inner loops then you have to do some fixup on the irregular
+tiles.
+
+&gt;<i> I do not know the impact of interfacing this type of data structure
+</I>&gt;<i> with the solvers though. (For CAM physics, the indices are (i1,k,i2)
+</I>&gt;<i> where i1*i2 = i*j, that is we combined the i and j into a single
+</I>&gt;<i> index, then split this. I'm not suggesting that here - just wanted to
+</I>&gt;<i> clarify what was done. CAM FV and spectral dynamics use (i,k,j).)
+</I>
+Yes, this kind of ordering is better for solvers too, but I would be
+surprised if it matters when evaluating the physics (certainly not when
+the columns have 20+ points which is the case I'm familiar with).  With
+sparse matrix multiplication, L1 reuse is the central goal, even if you
+do everything right, you will get less than 10% of peak FPU throughput.
+As soon as there is a matrix involved, it is actually well worth the
+effort to compute an ordering of unknowns such as reverse Cuthill-McKee
+which reduces the bandwidth of the matrix [1], thus ensuring good cache
+reuse.
+
+This sort of ordering is rather complex to work with inside your
+physics, but the good news is that you can take advantage of these
+orderings (which are at least as good as the tiling that Pat describes)
+without changing your physics at all.  You simply create a &quot;local to
+global mapping&quot; (you need something like this in parallel anyway) such
+that you insert matrix entries in the ordering it will be using, and you
+compute physics with the local ordering (the naive (k,i,j)).
+
+
+[1] This has little to do with matrix factorization, low-bandwidth is
+NOT the objective of the orderings computed by direct solvers, in fact
+RCM would be a terrible ordering for this.
+
+
+Jed
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000161.html">[Glimmer-cism-devel] Glimmer-CISM data structure
+</A></li>
+	<LI>Next message: <A HREF="000162.html">[Glimmer-cism-devel] Glimmer-CISM data structure
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

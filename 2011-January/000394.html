@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4D2DDE2C.8030505%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000395.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4D2DDE2C.8030505%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Wed Jan 12 18:00:28 CET 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000395.html">[Glimmer-cism-devel] basal water bugs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#394">[ date ]</a>
+              <a href="thread.html#394">[ thread ]</a>
+              <a href="subject.html#394">[ subject ]</a>
+              <a href="author.html#394">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Sarah,
+I have made some minor changes to the gold standard creator:
+* make hard links rather than copies of the data files
+* only create gold-standard directories if they contain files
+* explicitly specify which data files should go into the gold standard
+
+It works now as I expected. Currently only EISMINT-1 and EISMINT-2 files 
+are considered. We might want to add more.
+
+I tried the test suite on runs done with the model compiled using 
+gfortran and ifort. They don't match! So I think we need to do some more 
+thinking about what is acceptable.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000395.html">[Glimmer-cism-devel] basal water bugs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#394">[ date ]</a>
+              <a href="thread.html#394">[ thread ]</a>
+              <a href="subject.html#394">[ subject ]</a>
+              <a href="author.html#394">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

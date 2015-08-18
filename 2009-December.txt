@@ -1,0 +1,319 @@
+From lipscomb at lanl.gov  Tue Dec  1 19:42:53 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Tue, 1 Dec 2009 11:42:53 -0700
+Subject: [Glimmer-cism-devel] Glimmer-CISM data structure
+In-Reply-To: <873a43zx7q.fsf@59A2.org>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+	<4AE96EA3.1080104@swansea.ac.uk>
+	<1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+	<93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+	<873a43zx7q.fsf@59A2.org>
+Message-ID: <7CF1508D-1A1C-484F-9758-24B3FB6673A5@lanl.gov>
+
+
+Hi all,
+
+Following last week's discussion of data structures for Glimmer-CISM,  
+Jed and I had an offline discussion that may be of interest to others,  
+especially those of you thinking about solvers and preconditioners.   
+I've cut and pasted the full discussion below, in chronological order  
+from top to bottom.  Comments are welcome.
+
+- Bill
+
+**********************************************************************************
+
+On Nov 24, 2009, at 9:47 AM, Jed Brown wrote:
+
+> On Tue, 24 Nov 2009 09:04:00 -0700, William Lipscomb <lipscomb at lanl.gov 
+> > wrote:
+>>
+>> In the current code, 3D arrays such as velocity and temperature are
+>> indexed as (k,i,j).  That is, the vertical 'k' index is first, so  
+>> that
+>> vertical neighbors are closer in memory than horizontal neighbors.
+>> For future developments, including full-Stokes and higher-order
+>> solvers, are there compelling reasons to maintain the (k,i,j) data
+>> structure?  Or should we consider switching to (i,j,k), so that the
+>> 'k' index is on the outside?  Our grids typically have horizontal
+>> dimensions of order 10^3 to 10^4 and vertical dimensions of order 10.
+>
+> Definitely stick with (k,i,j) and structure the loops so that k is
+> always the inner loop.  The most promising preconditioning candidate  
+> is
+> to integrate residuals within columns and solve 2D systems in the map
+> plane (this system is roughly equivalent to linearized SSA).  I'm
+> starting to play with this for oceans, but it's a very similar process
+> for ice.
+>
+> You can explain why this is a good ordering by applying the maxim
+>
+>  When the physics presents strong coupling between two points, those
+>  points should be nearby in memory.
+>
+> (Okay, I made this up on the spot, but it's actually a very good
+> guideline.)
+>
+> Also note that if you index as (k,i,j) you will have better cache  
+> reuse
+> with
+>
+>  do j = ym,ym+ys
+>    do i = xm,xm+xs
+>      do k = 1,zs
+>
+> than with
+>
+>  do i = xm,xm+xs
+>    do j = ym,ym+ys
+>      do k = 1,zs
+>
+>
+> Jed
+
+
+
+
+*****************************
+
+Jed,
+
+Thanks for your thoughts.  Before I spam the group again, I want to  
+make sure I understand the details of what you're saying.
+
+Below I've pasted some text from Wikipedia--this is the preconditioned  
+CG algorithm.  I'm guessing you would do something similar for other  
+Krylov methods.  Each time through the loop, we have to solve z = M^-1  
+r, or equivalently Mz = r.  Does M live in 3D?  Or does it live in the  
+map plane and operate on a vertically integrated form of r?  If the  
+latter, then I'm unclear on exactly how you go back and forth between  
+the map plane and 3D.
+
+Thanks,
+Bill
+
+******************************
+
+On Tue, 24 Nov 2009 10:50:32 -0700, William Lipscomb  
+<lipscomb at lanl.gov> wrote:
+> Below I've pasted some text from Wikipedia--this is the preconditioned
+> CG algorithm.  I'm guessing you would do something similar for other
+> Krylov methods.  Each time through the loop, we have to solve z = M^-1
+> r, or equivalently Mz = r.
+
+Indeed, but recall that M is just some linear operation such that we can
+apply M^-1, it is often not the case that we know how to apply M.
+
+> Does M live in 3D?
+
+Yes.
+
+> Or does it live in the map plane and operate on a vertically
+> integrated form of r?
+
+Maybe.
+
+> If the latter, then I'm unclear on exactly how you go back and forth
+> between the map plane and 3D.
+
+The idea is that M is the operation
+
+  vertically integrate r
+  apply H
+  distribute correction in the vertical
+
+plus (additive or multiplicative with above)
+
+  "tridiagional" column solve
+
+where H is the operator responsible for horizontal coupling and the
+column solve handles vertical coupling.
+
+Jed
+
+******************************
+
+Jed,
+
+I think that the paste from Wikipedia may not have worked, but anyway  
+you got the idea.
+
+The combined application of H and a column solver seems a lot like the  
+Bueler-Brown hybrid SIA/SSA solver.  Is the idea, then, that you apply  
+this solver, or something similar, to the equation Mz = r (where r =  
+Ax - r* is the residual of the full system)?  Then you use the  
+resulting z to compute your next Krylov vector and step length, as in  
+the standard PCG algorithm.  In that case, you need the following for  
+an efficient (linear) higher-order solver:
+
+* an operator that computes Ax, where A is the full higher-order matrix
+* A Bueler-Brown solver to solve Mz = r
+* a PCG solver to wrap everything
+
+For full-Stokes you can't use CG, but the general idea is the same.
+
+Now back to my original question:  Where in this process is it  
+important to have the vertical neighbors close in memory?  Obviously  
+this will make the column solve more efficient, that doesn't seem like  
+the bottleneck.
+
+Thanks again,
+
+Bill
+
+******************************
+
+> The combined application of H and a column solver seems a lot like the
+> Bueler-Brown hybrid SIA/SSA solver.
+
+Yes, sort of.
+
+> Is the idea, then, that you apply this solver, or something similar,
+> to the equation Mz = r (where r = Ax - r* is the residual of the full
+> system)?  Then you use the resulting z to compute your next Krylov
+> vector and step length, as in the standard PCG algorithm.  In that
+> case, you need the following for an efficient (linear) higher-order
+> solver:
+
+Yes
+
+> * an operator that computes Ax, where A is the full higher-order  
+> matrix
+
+Yes, but note that this does not need to be assembled.  With Newton
+schemes, it can be computed as
+
+  (F(z+e*x) - F(z))/e
+
+for some small e, where z is the state we are linearized around.  It can
+also be computed by forward-mode AD (no storage issues, and easy to keep
+contained so that only a small bit of code needs to be differentiated).
+You can also hand-code the action, this is usually easier to write than
+assembling the matrix anyway.
+
+> * A Bueler-Brown solver to solve Mz = r
+
+Pretty much.
+
+> * a PCG solver to wrap everything
+
+Yes, but this is *any* iterative method and you don't need to choose
+until runtime.
+
+> For full-Stokes you can't use CG, but the general idea is the same.
+
+Well, you can use CG if you keep all the iterates in a "benign" space,
+but you're right that it's not practical.  Instead, we would normally
+use something like MINRES or SQMR if we have a symmetric preconditioner,
+and GMRES or BiCG if we are using a nonsymmetric preconditioner.
+
+> Now back to my original question: Where in this process is it
+> important to have the vertical neighbors close in memory?  Obviously
+> this will make the column solve more efficient, that doesn't seem like
+> the bottleneck.
+
+Well, with this scheme, you do the following in 3D
+
+* evaluate residuals (the full nonlinear physics)
+* integrate in columns
+* distribute corrections throughout the column
+* solve linearized problems in columns
+
+All of these operations operate on columns.  Now, if you only have
+points per column, then you probably won't spend much time in it, you
+may indeed spend more time in the crucial 2D operation
+
+* solve linearized SSA in the map plane (a symmetric positive-definite  
+system)
+
+Note that the cheapest preconditioner for this system would just be
+pointwise multiplication (this is called Jacobi and is actually used).
+The next step up is to use 0-fill incomplete factorization on each
+process (or relaxation like SOR which has similar cost), this only does
+about 20 floating point operations per column, but needs
+9*sizeof(int)+18*sizeof(double) bytes from memory (which will not be
+reused).  These need to update ghosted values so the network latency can
+cost quite a bit if your subdomains are very small and/or your network
+is cheap.  As we move on to stronger preconditioners, we start allowing
+fill in the factorization and/or subcycle on the 2D problem and/or add
+coarse levels.
+
+If you make the preconditioner very strong then it will likely cost more
+than your 3D operations, but if it is cheap, then you also need to do
+the 3D operations more frequently and they can be a bottleneck.  Also,
+it matters if you have many levels because the cost of the 2D
+preconditioner is not dependent on the number of levels.  In any case,
+there are no operations that involve traversing the domain in layers.
+
+
+******************************
+Jed,
+
+Thanks again for the detailed reply.  Just one more issue for now:
+
+>
+> All of these operations operate on columns.  Now, if you only have
+> points per column, then you probably won't spend much time in it, you
+> may indeed spend more time in the crucial 2D operation
+
+
+There's some text missing at the end of the first line.  Did you mean  
+to say "10" or "a few"?
+
+Which leads to a follow-up question:  Is there a sweet spot for the  
+number of vertical levels?  I know that PISM uses a lot of levels  
+(~50?), whereas Glimmer uses only 10.  Is there a number in between  
+that would give us good cache re-use and accuracy while limiting the  
+total number of column operations?  I doubt the accuracy question can  
+be answered a priori, but I wonder if it might be pretty cheap to go  
+from 10 levels to, say, 20 levels for our target architectures.
+
+******************************
+
+> There's some text missing at the end of the first line.  Did you mean
+> to say "10" or "a few"?
+
+Yes that's what I meant.  (I accidentally the adjective. [1])
+
+> Which leads to a follow-up question:  Is there a sweet spot for the
+> number of vertical levels?  I know that PISM uses a lot of levels
+> (~50?), whereas Glimmer uses only 10.
+
+Note that PISM does not use sigma coordinates.  We do have unevenly
+spaced levels so that the resolution near the bed is not too bad.  There
+is a cost to low vertical resolution, mostly in how you predict the
+transition from cold to temperate bed.  We usually try to use enough
+levels such that further refinement does not significantly move this
+transition.  It may be that higher horizontal resolution is more
+important than fully converging the temperature system.  Also, it may
+not be important to such high vertical resolution for momentum, but PISM
+currently uses the same vertical spacing for both.
+
+> Is there a number in between that would give us good cache re-use and
+> accuracy while limiting the total number of column operations?  I
+> doubt the accuracy question can be answered a priori, but I wonder if
+> it might be pretty cheap to go from 10 levels to, say, 20 levels for
+> our target architectures.
+
+That cost is dependent on (a) single-process memory and (b) relative
+solver cost.
+
+Jed
+
+
+[1] Eliding the verb, on the other hand, is a silly internet meme that's
+been raging for the past year or more.
+
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091201/c796f8ec/attachment.html>
+

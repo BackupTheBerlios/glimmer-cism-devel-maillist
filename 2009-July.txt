@@ -1,0 +1,789 @@
+From A.J.Payne at bristol.ac.uk  Fri Jul  3 13:22:29 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Fri, 03 Jul 2009 12:22:29 +0100
+Subject: [Glimmer-cism-devel] BerliOS - the next steps
+In-Reply-To: <99D0F970-4C2C-44BD-879F-CF46F7E1E7E1@swansea.ac.uk>
+References: <1246270512.9055.12.camel@muick.geos.ed.ac.uk>
+	<4A48D2C0.6040904@swansea.ac.uk>
+	<1246286968.9055.20.camel@muick.geos.ed.ac.uk>
+	<9288095c0906290806h244ad944pc73c4c6df7e0f7ea@mail.gmail.com>
+	<1246289392.9055.24.camel@muick.geos.ed.ac.uk>
+	<99D0F970-4C2C-44BD-879F-CF46F7E1E7E1@swansea.ac.uk>
+Message-ID: <A7CDD53712519F1D83FE0C97@geog-bsq78.ggy.bris.ac.uk>
+
+hi
+
+sorry for not contributing to this thread earlier.  June was taken up with exam 
+management and chairing exam boards etc.  i have managed to drop the exams officer job so 
+that hopefully i will have more time for research in the future.
+
+i think the idea of having a 'shop window' website plus a wiki for more detailed stuff is 
+a good one.  i do think that a readily editable/update-able wish list and 
+ideas/developments wiki would be very helpful in managing the project.
+
+we have a wikis in bristol for a nerc project that is applying glimmer/glam/cism to wais 
+(also involves poul christofferesen and andreas vieli).  i found the wikis useful for 
+discussing larger topics (eg creation of boundary condition data sets) in that they can 
+combine images etc.  i haven't looked at the facilities that berlios offers in the 
+respect.
+
+did we come to a conclusion about auto-documentation software?
+
+all the best
+
+tony
+
+ps am registering on berlios so will be using propoer lists shortly.
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Jul 21 15:30:41 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 21 Jul 2009 14:30:41 +0100
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <4A65BDAA.9090301@swansea.ac.uk>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>
+	<4A65A691.3020008@swansea.ac.uk>
+	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>
+	<4A65BDAA.9090301@swansea.ac.uk>
+Message-ID: <1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090721/983b51c8/attachment.ksh>
+
+From tim.bocek at gmail.com  Tue Jul 21 15:47:03 2009
+From: tim.bocek at gmail.com (Tim Bocek)
+Date: Tue, 21 Jul 2009 07:47:03 -0600
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>
+	<4A65A691.3020008@swansea.ac.uk> 
+	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>
+	<4A65BDAA.9090301@swansea.ac.uk> 
+	<1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+Message-ID: <414bae770907210647x17af148fwea775d03e960e6dc@mail.gmail.com>
+
+We started out doing this on the LANL repository, but moved away from it
+since we wanted a way to check out *just* the source code and build
+infrastructure.  On the other hand, that repo was versioning some rather
+large data files, so perhaps it is much less of an issue here.
+
+On Tue, Jul 21, 2009 at 7:30 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> [moved discussion to glimmer-cism-devel]
+>
+> On Tue, 2009-07-21 at 14:07 +0100, Ian Rutt wrote:
+> > Hi Magi,
+> >
+> > > I am not particularly happy of the current layout to start with. So
+> what
+> > > about creating a top level directory called
+> > > glimmer-cism
+> > > and move
+> > > everything, except proj4 and PyCF into this directory.
+> > > We can then create
+> > > glimmer-cism2
+> > > and move everything into its new and improved place.
+> >
+> > I'm not sure I quite understand what the final sentence means - could
+> > you elaborate? What structure do we end up with as a result of this?
+> >
+>
+> My basic idea is to keep the status quo for now until we have figured
+> out what we want for the new layout.
+>
+> glimmer-cism
+>   glimmer/
+>   glimmer-doc/
+>   glimmer-example/
+>   glimmer-tests/
+>   verif/
+> glimmer-cism2
+>
+> For glimmer-cism2 I would like to propose to join all modules together
+> again. It makes no sense to branch them independently since they belong
+> together. We also want to host the big data files somewhere[1] else so
+> the source tar-ball will still be small. We can use configure to disable
+> certain parts.
+>
+> For the new structure I'd suggest something along the lines of
+> glimmer-cism2
+>  trunk
+>    src
+>    lib
+>    doc
+>    tests
+>      eismint-1
+>      eismint-2
+>      ....
+>  tags
+>  branches
+>
+> This is just a rough outline and in no way a concrete proposal. I
+> suspect we would want a subdirectory for each of the modules. Anyway, I
+> think this is a separate discussion (maybe on the wiki) for the
+> glimmer-cism2 plan.
+>
+> When we are ready to populate the new structure we can just copy (and
+> rename) files from glimmer-cism to the correct place in glimmer-cism2.
+>
+> What do you think?
+>
+> Cheers
+> magi
+>
+>
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090721/52adca24/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Jul 21 16:03:46 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 21 Jul 2009 15:03:46 +0100
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <414bae770907210647x17af148fwea775d03e960e6dc@mail.gmail.com>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>
+	<4A65A691.3020008@swansea.ac.uk>
+	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>
+	<4A65BDAA.9090301@swansea.ac.uk>
+	<1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+	<414bae770907210647x17af148fwea775d03e960e6dc@mail.gmail.com>
+Message-ID: <1248185026.29418.41.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090721/bc72e70f/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Jul 21 16:33:45 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 21 Jul 2009 15:33:45 +0100
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <4A65D14E.3000809@swansea.ac.uk>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>
+	<4A65A691.3020008@swansea.ac.uk>
+	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>
+	<4A65BDAA.9090301@swansea.ac.uk>
+	<1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+	<4A65D14E.3000809@swansea.ac.uk>
+Message-ID: <1248186825.29418.42.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090721/372464cd/attachment.ksh>
+
+From tim.bocek at gmail.com  Tue Jul 21 18:01:21 2009
+From: tim.bocek at gmail.com (Tim Bocek)
+Date: Tue, 21 Jul 2009 10:01:21 -0600
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <1248186825.29418.42.camel@muick.geos.ed.ac.uk>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>
+	<4A65A691.3020008@swansea.ac.uk> 
+	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>
+	<4A65BDAA.9090301@swansea.ac.uk> 
+	<1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+	<4A65D14E.3000809@swansea.ac.uk> 
+	<1248186825.29418.42.camel@muick.geos.ed.ac.uk>
+Message-ID: <414bae770907210901q6314e122l2d498478f5fa22de@mail.gmail.com>
+
+Just to clarify - you mean creating this structure?
+
+glimmer-cism
+  glimmer/
+     trunk
+     tags
+     branches
+  glimmer-doc/
+     trunk
+     ...
+  glimmer-example/
+  glimmer-tests/
+  verif/
+glimmer-cism2
+
+
+
+On Tue, Jul 21, 2009 at 8:33 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+>
+> On Tue, 2009-07-21 at 15:31 +0100, Ian Rutt wrote:
+> > Thanks, Magi - that makes sense. I think it's a good plan, and
+> > probably
+> > worthwhile discussing the exact configuration of subdirectories on the
+> > Wiki.
+> >
+>
+> ok, I do like your initial suggestion. So can we agree on moving the
+> top-level directories into a new top-level dir glimmer-cism?
+> Cheers
+> magi
+>
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090721/5cc54db6/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Jul 21 18:08:42 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 21 Jul 2009 17:08:42 +0100
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <414bae770907210901q6314e122l2d498478f5fa22de@mail.gmail.com>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>
+	<4A65A691.3020008@swansea.ac.uk>
+	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>
+	<4A65BDAA.9090301@swansea.ac.uk>
+	<1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+	<4A65D14E.3000809@swansea.ac.uk>
+	<1248186825.29418.42.camel@muick.geos.ed.ac.uk>
+	<414bae770907210901q6314e122l2d498478f5fa22de@mail.gmail.com>
+Message-ID: <1248192522.3499.2.camel@swine>
+
+On Tue, 2009-07-21 at 10:01 -0600, Tim Bocek wrote:
+> Just to clarify - you mean creating this structure?
+> 
+> glimmer-cism
+>   glimmer/
+>      trunk
+>      tags
+>      branches
+>   glimmer-doc/
+>      trunk
+>      ...
+>   glimmer-example/
+>   glimmer-tests/
+>   verif/
+> glimmer-cism2
+
+absolutely...
+sorry for being terse...
+magi
+
+
+
+
+From tim.bocek at gmail.com  Tue Jul 21 18:15:30 2009
+From: tim.bocek at gmail.com (Tim Bocek)
+Date: Tue, 21 Jul 2009 10:15:30 -0600
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <1248192522.3499.2.camel@swine>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>
+	<4A65A691.3020008@swansea.ac.uk> 
+	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>
+	<4A65BDAA.9090301@swansea.ac.uk> 
+	<1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+	<4A65D14E.3000809@swansea.ac.uk> 
+	<1248186825.29418.42.camel@muick.geos.ed.ac.uk>
+	<414bae770907210901q6314e122l2d498478f5fa22de@mail.gmail.com> 
+	<1248192522.3499.2.camel@swine>
+Message-ID: <414bae770907210915x44dfa7a6h6982c5c94e8c7726@mail.gmail.com>
+
+No problem!  I figured that was the case, though I wasn't sure if you meant
+the more ambitious glimmer-cism2 plan.  This sounds like a good place to
+start.
+
+On Tue, Jul 21, 2009 at 10:08 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> On Tue, 2009-07-21 at 10:01 -0600, Tim Bocek wrote:
+> > Just to clarify - you mean creating this structure?
+> >
+> > glimmer-cism
+> >   glimmer/
+> >      trunk
+> >      tags
+> >      branches
+> >   glimmer-doc/
+> >      trunk
+> >      ...
+> >   glimmer-example/
+> >   glimmer-tests/
+> >   verif/
+> > glimmer-cism2
+>
+> absolutely...
+> sorry for being terse...
+> magi
+>
+>
+>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090721/730b3632/attachment.html>
+
+From I.C.Rutt at swansea.ac.uk  Tue Jul 21 16:31:42 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 21 Jul 2009 15:31:42 +0100
+Subject: [Glimmer-cism-devel] merged svn dump - take 2
+In-Reply-To: <1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+References: <1248080486.9199.1.camel@muick.geos.ed.ac.uk>	<4A65A691.3020008@swansea.ac.uk>	<1248176614.29418.8.camel@muick.geos.ed.ac.uk>	<4A65BDAA.9090301@swansea.ac.uk>
+	<1248183041.29418.32.camel@muick.geos.ed.ac.uk>
+Message-ID: <4A65D14E.3000809@swansea.ac.uk>
+
+
+Thanks, Magi - that makes sense. I think it's a good plan, and probably 
+worthwhile discussing the exact configuration of subdirectories on the Wiki.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> [moved discussion to glimmer-cism-devel]
+> 
+> On Tue, 2009-07-21 at 14:07 +0100, Ian Rutt wrote:
+>> Hi Magi,
+>>
+>>> I am not particularly happy of the current layout to start with. So what
+>>> about creating a top level directory called
+>>> glimmer-cism 
+>>> and move
+>>> everything, except proj4 and PyCF into this directory.
+>>> We can then create
+>>> glimmer-cism2
+>>> and move everything into its new and improved place.
+>> I'm not sure I quite understand what the final sentence means - could 
+>> you elaborate? What structure do we end up with as a result of this?
+>>
+> 
+> My basic idea is to keep the status quo for now until we have figured
+> out what we want for the new layout.
+> 
+> glimmer-cism
+>    glimmer/
+>    glimmer-doc/
+>    glimmer-example/
+>    glimmer-tests/
+>    verif/
+> glimmer-cism2
+>    
+> For glimmer-cism2 I would like to propose to join all modules together
+> again. It makes no sense to branch them independently since they belong
+> together. We also want to host the big data files somewhere[1] else so
+> the source tar-ball will still be small. We can use configure to disable
+> certain parts. 
+> 
+> For the new structure I'd suggest something along the lines of
+> glimmer-cism2
+>   trunk
+>     src
+>     lib
+>     doc
+>     tests
+>       eismint-1
+>       eismint-2
+>       ....
+>   tags
+>   branches
+> 
+> This is just a rough outline and in no way a concrete proposal. I
+> suspect we would want a subdirectory for each of the modules. Anyway, I
+> think this is a separate discussion (maybe on the wiki) for the
+> glimmer-cism2 plan.
+> 
+> When we are ready to populate the new structure we can just copy (and
+> rename) files from glimmer-cism to the correct place in glimmer-cism2.
+> 
+> What do you think?
+> 
+> Cheers
+> magi
+> 
+> 
+> 
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Jul 22 10:45:15 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 22 Jul 2009 09:45:15 +0100
+Subject: [Glimmer-cism-devel] BerliOS web precense
+Message-ID: <1248252315.21420.19.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090722/96315f26/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Jul 23 15:49:56 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 23 Jul 2009 14:49:56 +0100
+Subject: [Glimmer-cism-devel] subversion repo on BerliOS
+Message-ID: <1248356996.10325.6.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090723/72ddb44c/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Jul 24 00:07:34 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 23 Jul 2009 23:07:34 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism subversion
+Message-ID: <1248386854.3310.4.camel@swine>
+
+Hi all,
+we've got the repo now. I have setup access control. Since we want to
+restrict read access we will be only able to use https rather than svn
++ssh. The access controls will be active tomorrow. So I will wait until
+then to populate the repo with the unified dump. I have also created a
+new mailing list for commit messages. This mailing list is public but
+won't be archived (no point). If you are interested in commit messages
+you can subscribe to it here (once it is active)
+https://lists.berlios.de/mailman/listinfo/glimmer-cism-commit
+Cheers
+magi
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Jul 27 11:28:12 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 27 Jul 2009 10:28:12 +0100
+Subject: [Glimmer-cism-devel] repo on BerliOS
+Message-ID: <1248686892.9235.14.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090727/c28a3763/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Mon Jul 27 11:50:06 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 27 Jul 2009 10:50:06 +0100
+Subject: [Glimmer-cism-devel] repo on BerliOS
+In-Reply-To: <1248686892.9235.14.camel@muick.geos.ed.ac.uk>
+References: <1248686892.9235.14.camel@muick.geos.ed.ac.uk>
+Message-ID: <4A6D784E.6020402@swansea.ac.uk>
+
+
+Thanks, Magi. It's a pain that it doesn't all work smoothly. I guess we 
+can manage without svn+ssh, but WebSVN would be really useful. Good luck...
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> after much faffing around I finally managed to sort out the access
+> control on the glimmer-cism repository. Access control using http/https
+> works as expected. However, ViewCVS and WebSVN seem to be broken. I'll
+> check what's going on there.
+> 
+> Beware, many subversion clients, including the command line svn, store
+> passwords in plain text[1]. You can disable this behaviour by setting
+> the option
+> store-passwords = no
+> in the [auth] section of ~/.subversion/config
+> You should certainly use a password you can afford to loose...
+> 
+> I must say I am not impressed with subversion authentication. I had to
+> disable svn+ssh access since that cannot restrict read access of
+> registered developers. 
+> 
+> Cheers
+> magi
+> 
+> [1]
+> http://svnbook.red-bean.com/nightly/en/svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache
+> 
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Jul 29 17:28:02 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 29 Jul 2009 16:28:02 +0100
+Subject: [Glimmer-cism-devel] new release
+Message-ID: <1248881282.11207.2.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090729/f02fbdfe/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Wed Jul 29 17:54:01 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 29 Jul 2009 16:54:01 +0100
+Subject: [Glimmer-cism-devel] new release
+In-Reply-To: <1248881282.11207.2.camel@muick.geos.ed.ac.uk>
+References: <1248881282.11207.2.camel@muick.geos.ed.ac.uk>
+Message-ID: <4A707099.109@swansea.ac.uk>
+
+
+Hi Magi,
+
+These are the files needed by the restart code, and they should be 
+included in the distribution. I think what you need to do is configure 
+with --enable-restarts first, then do make dist (or whatever it is)
+
+Hope that helps,
+
+Ian
+
+Magnus Hagdorn wrote:
+> Hi Ian (and all),
+> I was just trying to build a tar ball from the tagged release 1.0.16 and
+> failed. I seem to be lacking the 
+> RESTART_INC_INS=$(RESTART_STEM)_body.inc.in $(RESTART_STEM)_head.inc.in
+> files. Are the autogenerated? Should they be in the repo? Are they
+> needed? 
+> Cheers
+> magi
+> 
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Jul 30 16:29:28 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 30 Jul 2009 15:29:28 +0100
+Subject: [Glimmer-cism-devel] new stable release
+Message-ID: <1248964168.31212.8.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090730/7af82037/attachment.ksh>
+
+From tim.bocek at gmail.com  Thu Jul 30 21:25:58 2009
+From: tim.bocek at gmail.com (Tim Bocek)
+Date: Thu, 30 Jul 2009 13:25:58 -0600
+Subject: [Glimmer-cism-devel] new stable release
+In-Reply-To: <1248964168.31212.8.camel@muick.geos.ed.ac.uk>
+References: <1248964168.31212.8.camel@muick.geos.ed.ac.uk>
+Message-ID: <414bae770907301225t665c68f5h6cef9e4bbecb03a2@mail.gmail.com>
+
+If you've integrated any of the higher-order stuff, could you run a quick
+ISMIP-HOM test?  In the ISMIP-HOM test directory, running
+./verify.py -ea -s20
+will kick off ISMIP-HOM A on a 20 km domain, and this should converge to
+something convincing fairly quickly.
+
+Some other good and quickly converging higher-order tests are the confined
+shelf:
+cd tests/shelf
+./confined-shelf.py confined-shelf.config
+echo confined-shelf.config|simple_glide
+
+and an EISMINT-like parabolic ice lump:
+cd tests/ho-other
+./hump.py hump-diag.config
+echo hump-diag.config|simple_glide
+(hump-diag.config isn't there yet, I will commit it shortly).
+
+Thanks!
+Tim
+
+On Thu, Jul 30, 2009 at 8:29 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> Hi all,
+> I am preparing a new stable release version 1.0.18 in time for the
+> summer school. So far I have merged various bits from trunk (all except
+> Bill's remapping code). Currently, I am running the EISMINT tests. Is
+> there anything else I should run? Do you want to run some tests?
+>
+> To give everyone some time to reply I will make the release tomorrow.
+>
+> Cheers
+> magi
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090730/c7bfde9c/attachment.html>
+
+From jesse.johnson at mso.umt.edu  Thu Jul 30 22:18:09 2009
+From: jesse.johnson at mso.umt.edu (Jesse Johnson)
+Date: Thu, 30 Jul 2009 14:18:09 -0600
+Subject: [Glimmer-cism-devel] new stable release
+In-Reply-To: <414bae770907301225t665c68f5h6cef9e4bbecb03a2@mail.gmail.com>
+References: <1248964168.31212.8.camel@muick.geos.ed.ac.uk>
+	<414bae770907301225t665c68f5h6cef9e4bbecb03a2@mail.gmail.com>
+Message-ID: <9288095c0907301318p4d64a595j5c4bdd6c9e3c87ac@mail.gmail.com>
+
+Hold off on the lump. I thought we were holding back IR so that
+student could do the upwinding transport as a module.
+
+But, thanks Tim, for specifying the other two.
+
+Jesse
+
+
+On Thu, Jul 30, 2009 at 1:25 PM, Tim Bocek<tim.bocek at gmail.com> wrote:
+> If you've integrated any of the higher-order stuff, could you run a quick
+> ISMIP-HOM test?? In the ISMIP-HOM test directory, running
+> ./verify.py -ea -s20
+> will kick off ISMIP-HOM A on a 20 km domain, and this should converge to
+> something convincing fairly quickly.
+>
+> Some other good and quickly converging higher-order tests are the confined
+> shelf:
+> cd tests/shelf
+> ./confined-shelf.py confined-shelf.config
+> echo confined-shelf.config|simple_glide
+>
+> and an EISMINT-like parabolic ice lump:
+> cd tests/ho-other
+> ./hump.py hump-diag.config
+> echo hump-diag.config|simple_glide
+> (hump-diag.config isn't there yet, I will commit it shortly).
+>
+> Thanks!
+> Tim
+>
+> On Thu, Jul 30, 2009 at 8:29 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> wrote:
+>>
+>> Hi all,
+>> I am preparing a new stable release version 1.0.18 in time for the
+>> summer school. So far I have merged various bits from trunk (all except
+>> Bill's remapping code). Currently, I am running the EISMINT tests. Is
+>> there anything else I should run? Do you want to run some tests?
+>>
+>> To give everyone some time to reply I will make the release tomorrow.
+>>
+>> Cheers
+>> magi
+>>
+>>
+>> --
+>> The University of Edinburgh is a charitable body, registered in
+>> Scotland, with registration number SC005336.
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Jul 31 11:56:22 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 31 Jul 2009 10:56:22 +0100
+Subject: [Glimmer-cism-devel] glimmer 1.0.18
+Message-ID: <1249034182.15354.8.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090731/3414f731/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Fri Jul 31 12:29:13 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 31 Jul 2009 11:29:13 +0100
+Subject: [Glimmer-cism-devel] glimmer 1.0.18
+In-Reply-To: <1249034182.15354.8.camel@muick.geos.ed.ac.uk>
+References: <1249034182.15354.8.camel@muick.geos.ed.ac.uk>
+Message-ID: <19E616A5-0C4E-4EB5-A5EB-F91AA76AC85F@swansea.ac.uk>
+
+
+Great - thanks very much Magi. I'll update the Portland material  
+appropriately.
+
+Cheers,
+
+Ian
+
+On 31 Jul 2009, at 10:56, Magnus Hagdorn wrote:
+
+> Hi all,
+> I have just release glimmer-1.0.18 and glimmer-tests-1.2. You can find
+> the source tar-balls on the berliOS site.
+>
+> We really badly need to have shared visualisation scripts. PyCF is  
+> badly
+> broken and I don't think it's worth reviving. Matplotlib should really
+> do the trick quite nicely... Any thoughts on how we/who will want to
+> take this forward?
+>
+> Cheers
+> magi
+>
+>
+>
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+

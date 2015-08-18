@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] basic visualisation
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20basic%20visualisation&In-Reply-To=%3C4BEC174E.6000706%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000258.html">
+   <LINK REL="Next"  HREF="000260.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] basic visualisation</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20basic%20visualisation&In-Reply-To=%3C4BEC174E.6000706%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] basic visualisation">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Thu May 13 17:14:22 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000258.html">[Glimmer-cism-devel] basic visualisation
+</A></li>
+        <LI>Next message: <A HREF="000260.html">[Glimmer-cism-devel] merge notes glimmer-cism2 with	glimmer-cism-lanl
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#259">[ date ]</a>
+              <a href="thread.html#259">[ thread ]</a>
+              <a href="subject.html#259">[ subject ]</a>
+              <a href="author.html#259">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jesse Johnson wrote:
+&gt;<i> Hi Magi,
+</I>&gt;<i> 
+</I>&gt;<i> we can take this offline, but we've done a fair amount on this, and
+</I>&gt;<i> would like to contribute. 
+</I>
+let's keep it online, so we have a record and others have a chance to 
+contribute.
+
+&gt;<i> I think a single clear module is where we'd
+</I>&gt;<i> like to end up. The best reference for the way we've been doing it is
+</I>&gt;<i> in the tests directory of the lanl branch. There you will find various
+</I>&gt;<i> scripts that have a lot of redundancy.
+</I>&gt;<i> 
+</I>&gt;<i> Let's try and coordinate so that there is a consistent interface, and
+</I>&gt;<i> the dependency list doesn't grow out of control.
+</I>&gt;<i> 
+</I>
+as I said in my previous email, I would like to start with the file I/O. 
+In the first instance, this would be a generic wrapper which exposes CF 
+specifics such as global attributes like author, etc. Other useful 
+functionality might include:
+* handling projections
+* applying masks
+* extracting statistics
+* reducing dimensionality of data datasets (or slicing them in 
+interesting ways), e.g. extract data along a flowline through time.
+* handling the time coordinate
+
+I suspect that the I/O is the really tricky bit. Once we have the data, 
+plotting it is relatively straight forward using matplotlib.
+
+In terms of keeping dependencies down, I think we need
++ numpy
++ matplotlib
++ basemap
+
+I just had a closer look at the basemap toolkit, it contains bindings to 
+  proj4 and netCDF. So maybe, that's enough.
+
+I haven't thought too much about the plotting yet, although I think we 
+want to extend matplotlib axes to do CF specific plotting.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000258.html">[Glimmer-cism-devel] basic visualisation
+</A></li>
+	<LI>Next message: <A HREF="000260.html">[Glimmer-cism-devel] merge notes glimmer-cism2 with	glimmer-cism-lanl
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#259">[ date ]</a>
+              <a href="thread.html#259">[ thread ]</a>
+              <a href="subject.html#259">[ subject ]</a>
+              <a href="author.html#259">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

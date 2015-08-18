@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] automated nightly build &amp; test
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C1281164555.4039.6.camel%40swine%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000311.html">
+   <LINK REL="Next"  HREF="000313.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] automated nightly build &amp; test</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C1281164555.4039.6.camel%40swine%3E"
+       TITLE="[Glimmer-cism-devel] automated nightly build &amp; test">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Sat Aug  7 09:02:35 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000311.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+        <LI>Next message: <A HREF="000313.html">[Glimmer-cism-devel] AGU Session: Advances in Computational	Modelling in Geoscience
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#312">[ date ]</a>
+              <a href="thread.html#312">[ thread ]</a>
+              <a href="subject.html#312">[ subject ]</a>
+              <a href="author.html#312">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, 2010-08-05 at 16:33 +0100, DAG Williams, Geographical Sciences
+wrote:
+
+&gt;<i> Yes, I had come to a similar conclusion about unit testing frameworks.  Of 
+</I>&gt;<i> course, unit testing is far more useful than integration testing, so we 
+</I>&gt;<i> should keep that on our radar, while focusing on getting something working 
+</I>&gt;<i> right now.  &quot;The best can be the enemy of the good,&quot; and all that.
+</I>&gt;<i> 
+</I>absolutely, it's a shame unit tests are such a pain...
+
+&gt;<i> I've been working with Sarah Shannon, and she has created a script with 
+</I>&gt;<i> loops through the EISMINT2 tests (in order to cope with dependencies), runs 
+</I>&gt;<i> them and compares the outputs to reference files using the comparison 
+</I>&gt;<i> program from GENIE.  It's looking promising, but also needs tidying up some 
+</I>&gt;<i> more, and of course connecting to the right hooks in the overall framework.
+</I>&gt;<i> 
+</I>&gt;<i> I note that the test configuration files are held in a different directory 
+</I>&gt;<i> in the repository to the model source code.  This is problematic for a 
+</I>&gt;<i> script looking to make use of both of these things, as given the location 
+</I>&gt;<i> of one checkout, the script can't predict the location of the other (unless 
+</I>&gt;<i> the whole repos is checked out).
+</I>&gt;<i> 
+</I>
+you should work from trunk since there everything is in a single
+directory tree. we should also try to focus our efforts on trunk as the
+way forward.
+
+&gt;<i> In terms of invoking a test script, would it be sensible for autoconf to 
+</I>&gt;<i> create a 'test' rule in the top-level makefile?  Also, we would need to add 
+</I>&gt;<i> the (C++) code for the comparison program to the source tree and have 
+</I>&gt;<i> autoconf create a makefile for that too.
+</I>&gt;<i> 
+</I>I'd just use make. Currently, when you run &quot;make data&quot; all the tests
+will be run. I also figured out how to deal with dependencies when using
+SGE. We could then also have a compare target which compares the results
+against a gold standard. We should assume the file are kept in the same
+directory structure. At configure time we could set a macro (that could
+also be set on the command line) where the root of the gold standard is.
+We could then do,
+make compare SOLUTION_DIR=/here/are/the/good/data_sets
+
+Cheers
+magi 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000311.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+	<LI>Next message: <A HREF="000313.html">[Glimmer-cism-devel] AGU Session: Advances in Computational	Modelling in Geoscience
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#312">[ date ]</a>
+              <a href="thread.html#312">[ thread ]</a>
+              <a href="subject.html#312">[ subject ]</a>
+              <a href="author.html#312">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

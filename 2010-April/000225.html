@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3Ck2w8a364a0f1004081320i5d17c17ak7726aa18887be57e%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000224.html">
+   <LINK REL="Next"  HREF="000226.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk</H1>
+    <B>Carl Gladish</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%20into%0A%09glimmer-cism-lanl/trunk&In-Reply-To=%3Ck2w8a364a0f1004081320i5d17c17ak7726aa18887be57e%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk">gladish at cims.nyu.edu
+       </A><BR>
+    <I>Thu Apr  8 22:20:26 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000224.html">[Glimmer-cism-devel] Northern Hemisphere grid for CISM
+</A></li>
+        <LI>Next message: <A HREF="000226.html">[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#225">[ date ]</a>
+              <a href="thread.html#225">[ thread ]</a>
+              <a href="subject.html#225">[ subject ]</a>
+              <a href="author.html#225">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi developers,
+
+I am on the verge of merging my ongoing work involving plume coupling.  I
+don't want to scare anyone (or break the code!), so does anyone want to
+monitor what I am doing?
+
+I have merged my plume-related code into my working copy of the
+glimmer-cism-lanl trunk and I am able to build (using Sun f90 compiler, and
+gfortran) and run my own cases.  Before I commit could one of the senior
+people approve the changes?
+
+By the way, the source in branches/plume_integration doesn't look exactly
+like my working copy of the trunk since I did some of the merging by hand.
+
+The files affected by the merge, along with a description of the changes to
+existing glide code follows.
+
+src/fortran/Makefile.am
+* added libplume.a to lib_LIBRARIES
+* added shelf_driver to bin_PROGRAMS
+* added a line for libplume_a_SOURCE
+* added a line for shelf_driver_SOURCES
+* added a line for shelf_driver_LDADD
+* added $(libplume_a_SOURCES) $(shelf_driver_SOURCES) to ALL_SRC
+
+src/fortran/glide_temp.F90
+*  made bmlt intent(inout) in calcbmlt
+*  added logic to check if we are counting on the plume to write bmlt for
+floating ice
+
+src/fortran/glide_setup.F90
+* added 'use_plume' to the '[options]' section which takes values 0 or 1, 1
+meaning that we are using the plume model to calculate basal melt rates
+
+src/fortran/glide_types.F90
+* added use_plume as an integer member of the glide_options type
+
+src/fortran/shelf_driver.F90  [ a new driver]
+
+src/fortran/plume*.F90   [all plume related code]
+
+tests/petermann/*   [various tools to set up Petermann Glacier style model
+runs]
+
+
+Cheers,
+Carl Gladish
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+<A HREF="http://www.cims.nyu.edu/~gladish">http://www.cims.nyu.edu/~gladish</A> &lt;<A HREF="http://www.cims.nyu.edu/%7Egladish">http://www.cims.nyu.edu/%7Egladish</A>&gt;
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100408/a4adef2a/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100408/a4adef2a/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000224.html">[Glimmer-cism-devel] Northern Hemisphere grid for CISM
+</A></li>
+	<LI>Next message: <A HREF="000226.html">[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#225">[ date ]</a>
+              <a href="thread.html#225">[ thread ]</a>
+              <a href="subject.html#225">[ subject ]</a>
+              <a href="author.html#225">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

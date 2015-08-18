@@ -1,0 +1,2617 @@
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep  1 14:20:36 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 01 Sep 2009 13:20:36 +0100
+Subject: [Glimmer-cism-devel] glimmer v2 directory layout
+Message-ID: <1251807636.23214.33.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090901/4fc63c9d/attachment.ksh>
+
+From jesse.johnson at mso.umt.edu  Tue Sep  1 18:37:06 2009
+From: jesse.johnson at mso.umt.edu (Jesse Johnson)
+Date: Tue, 1 Sep 2009 10:37:06 -0600
+Subject: [Glimmer-cism-devel] glimmer v2 directory layout
+In-Reply-To: <1251807636.23214.33.camel@muick.geos.ed.ac.uk>
+References: <1251807636.23214.33.camel@muick.geos.ed.ac.uk>
+Message-ID: <9288095c0909010937u3073ba05wbea09dfa257c32f@mail.gmail.com>
+
+Hi All,
+
+Thanks Magnus. This looks about right to me, and I support the release plan.
+
+I would add that I think a distinction should be made at the highest
+directory level between those files and drivers that are providing
+tests of the validity of the software and those that are simply an
+example of how the software works.
+
+This would be helpful as we move towards an automated testing suite.
+
+So, directories
+
+tests
+  exact-isothermal
+  EISMINT-I
+  EISMINT-II
+
+examples
+   glint-examples
+   eis
+   EISMINT-III
+
+Say, does anyone know how to make berlios display more than three
+lines when editing the Wiki? I started to make the changes myself, but
+sheeze lousie.
+
+Jesse
+
+On Tue, Sep 1, 2009 at 6:20 AM, Magnus Hagdorn<Magnus.Hagdorn at ed.ac.uk> wrote:
+> Hi all,
+> I have finished my first go at suggesting a new directory layout. You
+> can find it on the wiki:
+> http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Directory_Structure
+>
+> I haven't looked at everything in too much detail, so it might well not
+> work out/make total sense as suggested now. I also haven't changed any
+> names. However, it's a starting point to get the new project going.
+>
+> I would suggest to have a quick discussion whether you generally
+> (dis)like the new layout. If so, we could just start doing it and see
+> where it fails. The good thing about subversion is that we can always
+> move things around to suit our needs.
+>
+> So if you're happy I suggest to create a new top-level module on our
+> berliOS site, called
+> glimmer-cism-v2
+> with the usual subdirectories
+> trunk, branches, tags
+> and the new directory structure as outlined on the wiki. I'll then copy
+> the code bit by bit into the correct place whilst making sure all still
+> works. Once the migration is done we can think about the other things
+> (ho, doxygen, etc) we would like to do for glimmer-cism v2.
+>
+> initially the release will be version 1.9.xxx. once we are ready it'll
+> become 2.0.0 and we can have a big announcement/party....
+>
+> What do you think?
+>
+> CHeers
+> magi
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep  2 18:18:32 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 02 Sep 2009 17:18:32 +0100
+Subject: [Glimmer-cism-devel] restarts
+Message-ID: <1251908312.26843.39.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090902/b7e9e496/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Fri Sep  4 12:59:46 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 04 Sep 2009 11:59:46 +0100
+Subject: [Glimmer-cism-devel] restarts
+In-Reply-To: <1251908312.26843.39.camel@muick.geos.ed.ac.uk>
+References: <1251908312.26843.39.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AA0F322.8030009@swansea.ac.uk>
+
+
+Hi All,
+
+Yes, restarts are a problem in various ways, since although the restart 
+code is auto-generated, it still relies on being stitched together 'by 
+hand', as it were.
+
+To clarify, though, my suggestion wasn't that we write our own parser 
+using ANTLR, but to replace my somewhat ad-hoc parser (written in 
+Python) with the already-existing Open Fortran Parser, which uses ANTLR:
+
+http://fortran-parser.sourceforge.net/
+
+The difficulty is that OFP is configured to produce Java rather than 
+Python. I have been in touch with Craig Rasmussen at LANL, who is 
+involved with the development of OFP, but haven't had a chance to see 
+whether this would be beneficial to us.
+
+Checkpointing is a useful concept, but I wonder whether it's not 
+flexible enough for us. If a system has a checkpointing capability, then 
+it has to affect the whole of the running process. However, users may 
+want to do something more sophisticated (e.g. climate models are 
+frequently started from a restart dump, but with different parameters, 
+and they want to do the same with the coupled ice sheet component). The 
+hotstart mechanism in Glimmer works well for the core model, but isn't 
+perhaps all-encompassing enough for coupled applications. The restart 
+mechanism I devised is designed to fill the gap, but I would acknowledge 
+that it's not ideal.
+
+I would have to revisit it to be able to say exactly how to reconfigure 
+it for our new structure, but I think it should be possible.
+
+It all depends what functionality users actually need. As I said, it's 
+my impression that the capability which the existing code provides is at 
+least vaguely useful in a coupled context, but perhaps it needs refinement.
+
+All the best,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> you might have noticed that I started to populate the new glimmer-cism2
+> module. I have come across a problem which I suspected: restarts
+> 
+> The restart code effects most of the code and thus is tightly coupled to
+> it. This makes the modularisation a lot more tricky. Ian also raised the
+> question about what to do with the restart code. Suggesting to use the
+> parser generator antlr. However, parsing fortran seems to be a nightmare
+> - fortran is context-sensitive.
+> 
+> A quick google search came up with an interesting lwn.net article:
+> http://lwn.net/Articles/293575/
+> The comments are also very interesting. The cluster in Edinburgh
+> supports the Berkeley Lab Checkpoint/Restart (BLCR) system [1]. 
+> 
+> Personally I'd prefer a solution outside the code since that keeps it
+> simple and makes decoupling the code much easier.
+> 
+> Is the CCSM using any checkpointing libraries? Any thoughts/suggestions?
+> 
+> Cheers
+> magi
+> 
+> 
+> 
+> [1] https://ftg.lbl.gov/CheckpointRestart/CheckpointRestart.shtml
+> 
+> 
+
+
+From I.C.Rutt at swansea.ac.uk  Fri Sep  4 17:07:07 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 04 Sep 2009 16:07:07 +0100
+Subject: [Glimmer-cism-devel] glimmer v2 directory layout
+In-Reply-To: <9288095c0909010937u3073ba05wbea09dfa257c32f@mail.gmail.com>
+References: <1251807636.23214.33.camel@muick.geos.ed.ac.uk>
+	<9288095c0909010937u3073ba05wbea09dfa257c32f@mail.gmail.com>
+Message-ID: <4AA12D1B.1080206@swansea.ac.uk>
+
+
+> Say, does anyone know how to make berlios display more than three
+> lines when editing the Wiki? I started to make the changes myself, but
+> sheeze lousie.
+
+I just figured this out - go to 'My Preferences' and the 'Editing' tab, 
+and you can select the number of rows displayed. You can also set the 
+editing toolbar to appear from an option here.
+
+Cheers,
+
+Ian
+
+
+From j.m.gregory at reading.ac.uk  Sat Sep  5 12:13:11 2009
+From: j.m.gregory at reading.ac.uk (Jonathan Gregory)
+Date: Sat, 5 Sep 2009 11:13:11 +0100
+Subject: [Glimmer-cism-devel] restarts
+Message-ID: <20090905101311.GB419@met.reading.ac.uk>
+
+Dear all
+
+I agree with Ian: restarts are needed for coupled models. There is a need to
+be able to stop and restart Glimmer alone, as one component of a coupled model,
+at times that the coupled system itself determines. Ian's restart mechanism
+allows this to be done. The hotstart mechanism is more restrictive as it allows
+Glimmer to be stopped only at the end of a mass-balance year, which may not
+suit the way the coupled system operates. You can imagine if you have several
+components in a coupled model, which are all very restrictive about when they
+can be restarted, it is unlikely that they will work together. Flexibility is
+needed. Checkpointing, as I understand it, is really for freezing a run;
+restarting it may depend on files not being moved, changed, etc., whereas, as
+Ian says, the restart files from component models of a coupled system are often
+independently useful, as they may supply starting conditions in other runs.
+
+Cheers
+
+Jonathan
+
+
+From Magnus.Hagdorn at ed.ac.uk  Sat Sep  5 15:11:48 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Sat, 05 Sep 2009 14:11:48 +0100
+Subject: [Glimmer-cism-devel] restarts
+In-Reply-To: <20090905101311.GB419@met.reading.ac.uk>
+References: <20090905101311.GB419@met.reading.ac.uk>
+Message-ID: <1252156308.8381.8.camel@swine>
+
+On Sat, 2009-09-05 at 11:13 +0100, Jonathan Gregory wrote:
+> Dear all
+> 
+> I agree with Ian: restarts are needed for coupled models. There is a need to
+> be able to stop and restart Glimmer alone, as one component of a coupled model,
+> at times that the coupled system itself determines. Ian's restart mechanism
+> allows this to be done. The hotstart mechanism is more restrictive as it allows
+> Glimmer to be stopped only at the end of a mass-balance year, which may not
+> suit the way the coupled system operates. You can imagine if you have several
+> components in a coupled model, which are all very restrictive about when they
+> can be restarted, it is unlikely that they will work together. Flexibility is
+> needed. Checkpointing, as I understand it, is really for freezing a run;
+> restarting it may depend on files not being moved, changed, etc., whereas, as
+> Ian says, the restart files from component models of a coupled system are often
+> independently useful, as they may supply starting conditions in other runs.
+
+Hi all,
+ok, I understand. So checkpointing is not what you are after, although
+that might be a useful thing. The hotstart and restart is very similar
+in what they try to achieve. So I think we should try to merge both
+functionalities. It seems to me that the hotstart code is good in that
+it is just normal I/O. Once we move the I/O out of the ice sheet model
+we should be able to generalise it a bit more to support what the
+restart is doing. My impression of the restart code is that the entire
+state is saved, so it is a bit like checkpointing. Presumably once the
+restart files are loaded individual parameters can be overwritten. This
+is very much like how the hotstart works. Only the computed fields are
+stored in files, all other fields are either derived from the stored
+fields or re-initialised from the parameter file (which might have
+changed). So (apart from bugs) the hotstart code should do for the ice
+sheet model. Maybe some similar functionality could be implemented for
+glint. I also wonder if we should use native unformatted I/O for the
+hotstart files? 
+Cheers
+magi
+
+
+
+
+
+From j.m.gregory at reading.ac.uk  Sun Sep  6 22:09:40 2009
+From: j.m.gregory at reading.ac.uk (Jonathan Gregory)
+Date: Sun, 6 Sep 2009 21:09:40 +0100
+Subject: [Glimmer-cism-devel] restarts
+In-Reply-To: <mailman.3.1252231205.22025.glimmer-cism-devel@lists.berlios.de>
+References: <mailman.3.1252231205.22025.glimmer-cism-devel@lists.berlios.de>
+Message-ID: <20090906200939.GA15846@met.reading.ac.uk>
+
+Dear Magnus
+
+Yes, restarting is a bit like checkpointing, but at a higher level - more
+scientifically orientated, so the bits can be taken apart, rather than a
+system snapshot. I think that even for hotstarts, and certainly for restarts,
+there is a big advantage in terms of usability for the files to be netCDF,
+even though it is less efficient. It means that users can inspect and
+understand them, extract the data, and move them from one machine to another.
+
+Best wishes
+
+Jonathan
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Sep  7 13:09:38 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 07 Sep 2009 12:09:38 +0100
+Subject: [Glimmer-cism-devel] directory layout for glimmer-cism v2
+Message-ID: <1252321778.6922.19.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090907/af9023f8/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Mon Sep  7 16:18:59 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 7 Sep 2009 15:18:59 +0100
+Subject: [Glimmer-cism-devel] restarts
+In-Reply-To: <1252156308.8381.8.camel@swine>
+References: <20090905101311.GB419@met.reading.ac.uk>
+	<1252156308.8381.8.camel@swine>
+Message-ID: <3F2B2DB6-3F2B-4030-92E8-12F25AD2F144@swansea.ac.uk>
+
+
+Hi All,
+
+I agree, the two mechanisms are similar in terms of what they're  
+trying to achieve. Each has advantages and disadvantages. I think the  
+big advantage of the restart code is that it's robust against model  
+changes and will write/read the state of the whole model at any stage  
+- the hotstart mechanism depends on someone figuring out what fields  
+need to be saved, and can only be used at particular moments in the  
+run. For a coupled model, this is a problem, as Jonathan indicates.
+
+As far as the format of these files go, again, I think NetCDF is  
+useful because it can be easily examined.
+
+The problem with the restart code is that it's fairly invasive, and  
+quite closely tied to the code it shadows. No doubt it could be  
+streamlined, especially when we have access to some of the new F2003  
+features.
+
+My instinct is that we should retain both for the moment, as they  
+address the needs of two different user groups. However, some of the  
+code refactoring which is envisaged in the long term might help us  
+solve the problem more elegantly. I'll give it some thought.
+
+Cheers,
+
+Ian
+
+On 5 Sep 2009, at 14:11, Magnus Hagdorn wrote:
+
+> On Sat, 2009-09-05 at 11:13 +0100, Jonathan Gregory wrote:
+>> Dear all
+>>
+>> I agree with Ian: restarts are needed for coupled models. There is  
+>> a need to
+>> be able to stop and restart Glimmer alone, as one component of a  
+>> coupled model,
+>> at times that the coupled system itself determines. Ian's restart  
+>> mechanism
+>> allows this to be done. The hotstart mechanism is more restrictive  
+>> as it allows
+>> Glimmer to be stopped only at the end of a mass-balance year, which  
+>> may not
+>> suit the way the coupled system operates. You can imagine if you  
+>> have several
+>> components in a coupled model, which are all very restrictive about  
+>> when they
+>> can be restarted, it is unlikely that they will work together.  
+>> Flexibility is
+>> needed. Checkpointing, as I understand it, is really for freezing a  
+>> run;
+>> restarting it may depend on files not being moved, changed, etc.,  
+>> whereas, as
+>> Ian says, the restart files from component models of a coupled  
+>> system are often
+>> independently useful, as they may supply starting conditions in  
+>> other runs.
+>
+> Hi all,
+> ok, I understand. So checkpointing is not what you are after, although
+> that might be a useful thing. The hotstart and restart is very similar
+> in what they try to achieve. So I think we should try to merge both
+> functionalities. It seems to me that the hotstart code is good in that
+> it is just normal I/O. Once we move the I/O out of the ice sheet model
+> we should be able to generalise it a bit more to support what the
+> restart is doing. My impression of the restart code is that the entire
+> state is saved, so it is a bit like checkpointing. Presumably once the
+> restart files are loaded individual parameters can be overwritten.  
+> This
+> is very much like how the hotstart works. Only the computed fields are
+> stored in files, all other fields are either derived from the stored
+> fields or re-initialised from the parameter file (which might have
+> changed). So (apart from bugs) the hotstart code should do for the ice
+> sheet model. Maybe some similar functionality could be implemented for
+> glint. I also wonder if we should use native unformatted I/O for the
+> hotstart files?
+> Cheers
+> magi
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From I.C.Rutt at swansea.ac.uk  Tue Sep  8 14:46:53 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 08 Sep 2009 13:46:53 +0100
+Subject: [Glimmer-cism-devel] directory layout for glimmer-cism v2
+In-Reply-To: <1252321778.6922.19.camel@muick.geos.ed.ac.uk>
+References: <1252321778.6922.19.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AA6523D.6070308@swansea.ac.uk>
+
+
+Hi All,
+
+Magi - thanks for the new directory structure, it looks good.
+
+I had a few problems building it, though:
+
+1) Running bootstrap produces lots of warning about GNU make extensions 
+and such like. I've had some of these before, but there are a lot now. I 
+don't know if (a) they matter, or (b) they can be suppressed/fixed. 
+Maybe it's not important
+
+2) The NetCDF detection macro didn't work for me. Inspection of 
+config.log showed that the library search path wasn't being set 
+correctly by the macro. I don't know enough m4 to figure out why, but 
+reverting to the previous version fixed the problem.
+
+3) The reworked glimmer_version functions don't compile under gfortran: 
+the compiler won't allow a default assignment to a function return 
+value. Moving the assignment to a separate line within the function 
+block fixes the problem
+
+A couple of other things:
+
+1) We'll have to add libtool to the list of dependencies. I had to grab 
+a package before building
+
+2) How do you build the docs? I tried all sorts of things, but without 
+success.
+
+I haven't committed any of these changes - we can talk through them in 
+Chicago first. For reference, I'm using:
+
+automake 1.10.2
+autoconf 2.63
+gcc 4.3.3
+
+Cheers,
+
+Ian
+
+Magnus Hagdorn wrote:
+> Hi all,
+> I have finished copying files into the new directory structure for
+> glimmer-cism v2. It contains files from :
+> * original glimmer module
+> * glimmer-doc
+> * verif
+> * vanilla blas (used when system BLAS lib cannot be found)
+> As outlined on the wiki [1] I have rearranged files into the following
+> top level directories:
+> * doc - documentation
+> * libglimmer - sources for libglimmer and libglimmer-IO 
+> * libglimmer-solve - blas and SLAP
+> * libglide - the ice sheet model
+> * libglint - the climate coupler
+> * tests - EISMIT1/2 and exact iso-thermal solutions
+> * example-drivers - EIS, glint and EISMINT3
+> * scripts - python programs
+> 
+> I disabled the restart code for now. I think we need to figure out what
+> we are going to do with the hotstart/restart code [2].
+> 
+> The new module can be found in our subversion repository here:
+> https://DEVELOPER at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/
+> 
+> Things to do:
+> * I have created a small list of things that should get done at some
+> stage, mostly related to the test cases:
+> http://developer.berlios.de/pm/task.php?group_project_id=1964&group_id=10995&func=browse
+> * I guess it would be good for Tim Wylie to integrate the
+> thermomechanical exact solutions into a subdir of tests
+> 
+> I also think we should do a test release (1.9.2) if everyone is happy
+> with what we have. 
+> 
+> Please give the new structure a whirl, break it and fix it :-)
+> 
+> Cheers
+> magi
+> 
+> 
+> [1]
+> http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Directory_Structure
+> [2]
+> https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/000041.html
+> 
+> 
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep  8 21:52:17 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 08 Sep 2009 14:52:17 -0500
+Subject: [Glimmer-cism-devel] directory layout for glimmer-cism v2
+In-Reply-To: <4AA6523D.6070308@swansea.ac.uk>
+References: <1252321778.6922.19.camel@muick.geos.ed.ac.uk>
+	<4AA6523D.6070308@swansea.ac.uk>
+Message-ID: <1252439537.3558.10.camel@swine>
+
+On Tue, 2009-09-08 at 13:46 +0100, Ian Rutt wrote:
+> Hi All,
+> 
+> Magi - thanks for the new directory structure, it looks good.
+> 
+> I had a few problems building it, though:
+> 
+> 1) Running bootstrap produces lots of warning about GNU make extensions 
+> and such like. I've had some of these before, but there are a lot now. I 
+> don't know if (a) they matter, or (b) they can be suppressed/fixed. 
+> Maybe it's not important
+
+They appear because you have a new version of automake. We can fix them
+by removing/fixing the things it complains about, for example the wild
+cards. 
+
+> 2) The NetCDF detection macro didn't work for me. Inspection of 
+> config.log showed that the library search path wasn't being set 
+> correctly by the macro. I don't know enough m4 to figure out why, but 
+> reverting to the previous version fixed the problem.
+> 
+
+interesting. Where is your netCDF library installed? Can you send me the
+log? Did you try compiling with --with-netcdf=some-dir
+
+> 3) The reworked glimmer_version functions don't compile under gfortran: 
+> the compiler won't allow a default assignment to a function return 
+> value. Moving the assignment to a separate line within the function 
+> block fixes the problem
+> 
+
+I have noticed and fixed it but didn't commit the fix. I have done so
+now. 
+
+> A couple of other things:
+> 
+> 1) We'll have to add libtool to the list of dependencies. I had to grab 
+> a package before building
+> 
+
+yes, I figured that since we are using autotools we might as well use
+libtool. libtool helps with the abundance of libraries we now have. In
+particular it allows us to have convinience libraries which group object
+files together (a library) but doesn't get installed. These libraries
+can also be added to real libraries. I used them for the solver lib.
+
+
+> 2) How do you build the docs? I tried all sorts of things, but without 
+> success.
+> 
+
+assuming you have everything installed: --enable-doc-ps or
+--enable-doc-pdf. It should complain if something is missing. If it
+doesn't then we should make it...
+
+
+> I haven't committed any of these changes - we can talk through them in 
+> Chicago first. For reference, I'm using:
+> 
+
+yes, see you later.
+
+cheers
+magi
+
+> automake 1.10.2
+> autoconf 2.63
+> gcc 4.3.3
+> 
+> Cheers,
+> 
+> Ian
+> 
+> Magnus Hagdorn wrote:
+> > Hi all,
+> > I have finished copying files into the new directory structure for
+> > glimmer-cism v2. It contains files from :
+> > * original glimmer module
+> > * glimmer-doc
+> > * verif
+> > * vanilla blas (used when system BLAS lib cannot be found)
+> > As outlined on the wiki [1] I have rearranged files into the following
+> > top level directories:
+> > * doc - documentation
+> > * libglimmer - sources for libglimmer and libglimmer-IO 
+> > * libglimmer-solve - blas and SLAP
+> > * libglide - the ice sheet model
+> > * libglint - the climate coupler
+> > * tests - EISMIT1/2 and exact iso-thermal solutions
+> > * example-drivers - EIS, glint and EISMINT3
+> > * scripts - python programs
+> > 
+> > I disabled the restart code for now. I think we need to figure out what
+> > we are going to do with the hotstart/restart code [2].
+> > 
+> > The new module can be found in our subversion repository here:
+> > https://DEVELOPER at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/
+> > 
+> > Things to do:
+> > * I have created a small list of things that should get done at some
+> > stage, mostly related to the test cases:
+> > http://developer.berlios.de/pm/task.php?group_project_id=1964&group_id=10995&func=browse
+> > * I guess it would be good for Tim Wylie to integrate the
+> > thermomechanical exact solutions into a subdir of tests
+> > 
+> > I also think we should do a test release (1.9.2) if everyone is happy
+> > with what we have. 
+> > 
+> > Please give the new structure a whirl, break it and fix it :-)
+> > 
+> > Cheers
+> > magi
+> > 
+> > 
+> > [1]
+> > http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Directory_Structure
+> > [2]
+> > https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/000041.html
+> > 
+> > 
+> > 
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep 10 14:52:59 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 10 Sep 2009 07:52:59 -0500
+Subject: [Glimmer-cism-devel] doxygen documentation
+Message-ID: <1252587179.3541.6.camel@swine>
+
+Hi all,
+I have added doxygen[1] support to the glimmer-cism v2. doxygen allows
+us to produce very nice API documentation. It also provides a nice
+hyper-linked source code browser. As an example I have converted
+libglimmer/glimmer_ts.F90 to doxygen. Converting the (parts of) rest
+might be a good project for a new developer or someone who is terribly
+bored (I might well do some on my flight back). Check my example for the
+mark up and the doxygen documentation:
+http://www.stack.nl/~dimitri/doxygen/manual.html
+
+If you have doxygen installed you can simple generate the API
+documentation by running 
+make doxygen-doc 
+in the doc directory. This will produce a doxygen/html directory. Point
+your favourite browser at the index.html file in this directory.
+
+Cheers
+magi
+[1] http://www.doxygen.org/
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Sep 14 17:27:19 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 14 Sep 2009 16:27:19 +0100
+Subject: [Glimmer-cism-devel] directory layout for glimmer-cism v2
+In-Reply-To: <515DE361599AE3CCB5F0E4FE@geog-bsq78.ggy.bris.ac.uk>
+References: <1252321778.6922.19.camel@muick.geos.ed.ac.uk>
+	<515DE361599AE3CCB5F0E4FE@geog-bsq78.ggy.bris.ac.uk>
+Message-ID: <1252942039.7285.20.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090914/fdd40653/attachment.ksh>
+
+From A.J.Payne at bristol.ac.uk  Mon Sep 14 17:15:37 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Mon, 14 Sep 2009 16:15:37 +0100
+Subject: [Glimmer-cism-devel] directory layout for glimmer-cism v2
+In-Reply-To: <1252321778.6922.19.camel@muick.geos.ed.ac.uk>
+References: <1252321778.6922.19.camel@muick.geos.ed.ac.uk>
+Message-ID: <515DE361599AE3CCB5F0E4FE@geog-bsq78.ggy.bris.ac.uk>
+
+hi magi/all
+
+no comments on the new directory structure - all looks sensible.
+
+my main question is if you are happy for anyone to add to the list of tasks?
+
+<http://developer.berlios.de/pm/task.php?group_project_id=1964&group_id=10995&func=browse>
+
+i have some ideas that i would not mind adding.  do you think that we should set up a 
+protocol?  should be bounce any tasks off the developers email list before adding?
+
+
+thanks
+
+tony
+
+--On 2009-09-07 12:09 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+
+> Hi all,
+> I have finished copying files into the new directory structure for
+> glimmer-cism v2. It contains files from :
+> * original glimmer module
+> * glimmer-doc
+> * verif
+> * vanilla blas (used when system BLAS lib cannot be found)
+> As outlined on the wiki [1] I have rearranged files into the following
+> top level directories:
+> * doc - documentation
+> * libglimmer - sources for libglimmer and libglimmer-IO
+> * libglimmer-solve - blas and SLAP
+> * libglide - the ice sheet model
+> * libglint - the climate coupler
+> * tests - EISMIT1/2 and exact iso-thermal solutions
+> * example-drivers - EIS, glint and EISMINT3
+> * scripts - python programs
+>
+> I disabled the restart code for now. I think we need to figure out what
+> we are going to do with the hotstart/restart code [2].
+>
+> The new module can be found in our subversion repository here:
+> https://DEVELOPER at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/
+>
+> Things to do:
+> * I have created a small list of things that should get done at some
+> stage, mostly related to the test cases:
+> http://developer.berlios.de/pm/task.php?group_project_id=1964&group_id=10995&func=browse
+> * I guess it would be good for Tim Wylie to integrate the
+> thermomechanical exact solutions into a subdir of tests
+>
+> I also think we should do a test release (1.9.2) if everyone is happy
+> with what we have.
+>
+> Please give the new structure a whirl, break it and fix it :-)
+>
+> Cheers
+> magi
+>
+>
+> [1]
+> http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Direc
+> tory_Structure [2]
+> https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/000041.html
+>
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Sep 14 18:37:22 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 14 Sep 2009 17:37:22 +0100
+Subject: [Glimmer-cism-devel] html docs
+Message-ID: <1252946242.7285.29.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090914/aa5b7fde/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep 17 15:44:34 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 17 Sep 2009 14:44:34 +0100
+Subject: [Glimmer-cism-devel] location of input files
+Message-ID: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090917/95539a29/attachment.ksh>
+
+From A.J.Payne at bristol.ac.uk  Thu Sep 17 15:53:02 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Thu, 17 Sep 2009 14:53:02 +0100
+Subject: [Glimmer-cism-devel] location of input files
+In-Reply-To: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>
+References: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>
+Message-ID: <21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+
+hi
+
+not certain i follow this.  does it find the files if they are in the same directory as 
+the executable, and the executable is run from that directory?
+
+tony
+
+--On 2009-09-17 14:44 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+
+> Hi all,
+> I am looking into fixing some issues with running the tests/examples. I
+> have now come across the following problem:
+>
+> When configuring to build the model in a different directory from where
+> the sources are [1] the model won't find the input files specified in
+> the configuration file. There are a number of options how to fix this:
+> 1. ignore the problem
+> 2. at a command line switch to tell the model to also look into another
+> directory for input files.
+> 3. automatically do 2 by prepending the path component of the config
+> file name.
+>
+> For cases 2 and 3 we provide a procedure that automatically prepends the
+> path to input files if they do not start with a '/' (which signifies an
+> absolute name).
+>
+> What do you reckon, is this a worthwhile addition? This would also be a
+> nice wee job for a new developer or someone who has some time to
+> spend...
+>
+> Cheers
+> magi
+>
+>
+>
+>
+> [1] this is quite useful if you want to build the code from the same
+> sources but use different compilers/switches/etc
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep 17 15:57:53 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 17 Sep 2009 14:57:53 +0100
+Subject: [Glimmer-cism-devel] location of input files
+In-Reply-To: <21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+References: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>
+	<21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+Message-ID: <1253195873.6965.25.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090917/f898ebf5/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Thu Sep 17 15:56:37 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 17 Sep 2009 14:56:37 +0100
+Subject: [Glimmer-cism-devel] location of input files
+In-Reply-To: <21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+References: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>
+	<21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+Message-ID: <4AB24015.8020906@swansea.ac.uk>
+
+
+Tony - my understanding is this is all during the build process, and 
+it's a fairly advanced topic (when you build the model, but your working 
+directory is different, or something). If you build the model in a 
+'normal' kind of way, everything works fine.
+
+So, I wouldn't worry about it.
+
+Cheers,
+
+Ian
+
+AJ Payne, Geographical Sciences wrote:
+> hi
+> 
+> not certain i follow this.  does it find the files if they are in the same directory as 
+> the executable, and the executable is run from that directory?
+> 
+> tony
+> 
+> --On 2009-09-17 14:44 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> 
+>> Hi all,
+>> I am looking into fixing some issues with running the tests/examples. I
+>> have now come across the following problem:
+>>
+>> When configuring to build the model in a different directory from where
+>> the sources are [1] the model won't find the input files specified in
+>> the configuration file. There are a number of options how to fix this:
+>> 1. ignore the problem
+>> 2. at a command line switch to tell the model to also look into another
+>> directory for input files.
+>> 3. automatically do 2 by prepending the path component of the config
+>> file name.
+>>
+>> For cases 2 and 3 we provide a procedure that automatically prepends the
+>> path to input files if they do not start with a '/' (which signifies an
+>> absolute name).
+>>
+>> What do you reckon, is this a worthwhile addition? This would also be a
+>> nice wee job for a new developer or someone who has some time to
+>> spend...
+>>
+>> Cheers
+>> magi
+>>
+>>
+>>
+>>
+>> [1] this is quite useful if you want to build the code from the same
+>> sources but use different compilers/switches/etc
+>>
+>>
+>> --
+>> The University of Edinburgh is a charitable body, registered in
+>> Scotland, with registration number SC005336.
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> 
+> 
+> 
+> ------------------------<>---------------------------
+> Tony Payne
+> School of Geographical Sciences,
+> University of Bristol,
+> Bristol BS8 1SS, UK.
+> Telephone:      +117 331 4156
+> Fax:            +117 928 7878
+> Email:          A.J.Payne at bristol.ac.uk
+> ------------------------<>---------------------------
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From jesse.v.johnson at gmail.com  Thu Sep 17 15:59:20 2009
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Thu, 17 Sep 2009 07:59:20 -0600
+Subject: [Glimmer-cism-devel] location of input files
+In-Reply-To: <21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+References: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>
+	<21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+Message-ID: <9288095c0909170659y2da7a5d0udc7dbea77a59c266@mail.gmail.com>
+
+hi all,
+
+i guess i see the glide executable as drivers of the core libs. as such, i
+think we can allow less standard constructs, such as environment variables,
+and command line processing from fortran 2003, right?
+
+if so, then it seems like it some combo of command line args and env. vars.
+would  be the best way to treat this.
+
+jesse
+
+On Thu, Sep 17, 2009 at 7:53 AM, AJ Payne, Geographical Sciences <
+A.J.Payne at bristol.ac.uk> wrote:
+
+> hi
+>
+> not certain i follow this.  does it find the files if they are in the same
+> directory as
+> the executable, and the executable is run from that directory?
+>
+> tony
+>
+> --On 2009-09-17 14:44 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> wrote:
+>
+> > Hi all,
+> > I am looking into fixing some issues with running the tests/examples. I
+> > have now come across the following problem:
+> >
+> > When configuring to build the model in a different directory from where
+> > the sources are [1] the model won't find the input files specified in
+> > the configuration file. There are a number of options how to fix this:
+> > 1. ignore the problem
+> > 2. at a command line switch to tell the model to also look into another
+> > directory for input files.
+> > 3. automatically do 2 by prepending the path component of the config
+> > file name.
+> >
+> > For cases 2 and 3 we provide a procedure that automatically prepends the
+> > path to input files if they do not start with a '/' (which signifies an
+> > absolute name).
+> >
+> > What do you reckon, is this a worthwhile addition? This would also be a
+> > nice wee job for a new developer or someone who has some time to
+> > spend...
+> >
+> > Cheers
+> > magi
+> >
+> >
+> >
+> >
+> > [1] this is quite useful if you want to build the code from the same
+> > sources but use different compilers/switches/etc
+> >
+> >
+> > --
+> > The University of Edinburgh is a charitable body, registered in
+> > Scotland, with registration number SC005336.
+> >
+> > _______________________________________________
+> > Glimmer-cism-devel mailing list
+> > Glimmer-cism-devel at lists.berlios.de
+> > https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+>
+> ------------------------<>---------------------------
+> Tony Payne
+> School of Geographical Sciences,
+> University of Bristol,
+> Bristol BS8 1SS, UK.
+> Telephone:      +117 331 4156
+> Fax:            +117 928 7878
+> Email:          A.J.Payne at bristol.ac.uk
+> ------------------------<>---------------------------
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090917/6d4d7246/attachment.html>
+
+From I.C.Rutt at swansea.ac.uk  Thu Sep 17 15:59:42 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 17 Sep 2009 14:59:42 +0100
+Subject: [Glimmer-cism-devel] location of input files
+In-Reply-To: <1253195873.6965.25.camel@muick.geos.ed.ac.uk>
+References: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>	<21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+	<1253195873.6965.25.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AB240CE.8010101@swansea.ac.uk>
+
+
+OK, I misunderstood.
+
+Actually, I think this is a Fortran thingy (possibly something to do 
+with / as a field separator). I think you can get round it by enclosing 
+the whole path in double quotes
+
+Cheers,
+
+Ian
+
+Magnus Hagdorn wrote:
+> On Thu, 2009-09-17 at 14:53 +0100, AJ Payne, Geographical Sciences
+> wrote:
+>> hi
+>> 
+>> not certain i follow this.  does it find the files if they are in the same directory as 
+>> the executable, and the executable is run from that directory?
+> 
+> yes, if the model is run in the same directory as the config file
+> everything works fine. however, you might want to run the model in a
+> different directory, e.g. for comparisons, using a single config file.
+> For example
+> 
+> simple_glide ../../configurations/a.config
+> 
+> a.config refers to some input file, say topo.nc
+> 
+> at the moment the model looks in the present working directory for input
+> files rather than in ../../configurations
+> 
+> 
+> Cheers
+> magi
+> 
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep 17 16:07:58 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 17 Sep 2009 15:07:58 +0100
+Subject: [Glimmer-cism-devel] location of input files
+In-Reply-To: <9288095c0909170659y2da7a5d0udc7dbea77a59c266@mail.gmail.com>
+References: <1253195074.6965.20.camel@muick.geos.ed.ac.uk>
+	<21342FF3600C2BFAE61DCE3A@geog-bsq78.ggy.bris.ac.uk>
+	<9288095c0909170659y2da7a5d0udc7dbea77a59c266@mail.gmail.com>
+Message-ID: <1253196478.6965.34.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090917/17baecf8/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Sep 18 11:11:43 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 18 Sep 2009 10:11:43 +0100
+Subject: [Glimmer-cism-devel] refactoring document
+Message-ID: <1253265103.6965.67.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090918/f6f8614b/attachment.ksh>
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Sep 18 11:17:24 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 18 Sep 2009 10:17:24 +0100
+Subject: [Glimmer-cism-devel] refactoring document
+In-Reply-To: <1253265103.6965.67.camel@muick.geos.ed.ac.uk>
+References: <1253265103.6965.67.camel@muick.geos.ed.ac.uk>
+Message-ID: <1253265444.6965.69.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090918/d2291cee/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Fri Sep 18 17:38:56 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 18 Sep 2009 16:38:56 +0100
+Subject: [Glimmer-cism-devel] refactoring document
+In-Reply-To: <1253265444.6965.69.camel@muick.geos.ed.ac.uk>
+References: <1253265103.6965.67.camel@muick.geos.ed.ac.uk>
+	<1253265444.6965.69.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AB3A990.9030003@swansea.ac.uk>
+
+
+Hi All,
+
+I made a few additions to the refactoring doc, although I think it's 
+good as it stands.
+
+I've also had a go at refactoring the calculation of Glen's A on the 
+GCISM2-refactor-ICR branch, as an example of what a refactored component 
+might look like. It's a small thing, so it didn't take too much effort.
+
+It illustrates the main problems, though - some tightly-coupled code, 
+and stuff connected/stored in odd places. In this case, the code was in 
+glide_velo.F90, despite being only called from glide_temp.F90. I've 
+relocated it into glide_glenflow.F90, and given it it's own config type 
+for parameters.
+
+There's much more that could be done with even this example (doxygen, 
+for a start), and the place it's called from is still buried in the 
+temperature subroutine. This in itself needs dividing into three, since 
+we have three methods of calculating T...
+
+Anyway, please look at it and see how well it accords with your ideas. 
+It was just something I knocked up this afternoon.
+
+Have a good weekend,
+
+Ian
+
+Magnus Hagdorn wrote:
+> On Fri, 2009-09-18 at 10:11 +0100, Magnus Hagdorn wrote:
+>> Please edit it :-)
+>> 
+> 
+> It would help if I added the link as well:
+> http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_Refactor_Glimmer-CISM
+> 
+> magi
+> 
+> 
+
+
+From sprice at lanl.gov  Fri Sep 18 17:55:29 2009
+From: sprice at lanl.gov (Stephen Price)
+Date: Fri, 18 Sep 2009 09:55:29 -0600
+Subject: [Glimmer-cism-devel] refactoring document
+In-Reply-To: <4AB3A990.9030003@swansea.ac.uk>
+References: <1253265103.6965.67.camel@muick.geos.ed.ac.uk>	<1253265444.6965.69.camel@muick.geos.ed.ac.uk>
+	<4AB3A990.9030003@swansea.ac.uk>
+Message-ID: <4AB3AD71.7050200@lanl.gov>
+
+
+Thanks for getting started on this guys. I added a few minor things to 
+Magis wiki doc as well.
+
+In general, we've been building/altering the HO code with many of these 
+ideas in mind.
+
+> It illustrates the main problems, though - some tightly-coupled code, 
+> and stuff connected/stored in odd places. In this case, the code was in 
+> glide_velo.F90, despite being only called from glide_temp.F90. I've 
+> relocated it into glide_glenflow.F90, and given it it's own config type 
+> for parameters.
+
+This has always driven me a bit crazy - some subroutines in places where 
+they don't seem to belong. It will be great to get this restructured in 
+a more logical way.
+
+Steve
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 22 11:14:08 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 22 Sep 2009 10:14:08 +0100
+Subject: [Glimmer-cism-devel] [Glimmer-cism-autodiff] Glimmer refactoring
+In-Reply-To: <4AB24ACB.4090101@swansea.ac.uk>
+References: <4AB24ACB.4090101@swansea.ac.uk>
+Message-ID: <1253610848.6978.12.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090922/dd307bd8/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Tue Sep 22 11:57:30 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 22 Sep 2009 10:57:30 +0100
+Subject: [Glimmer-cism-devel] [Glimmer-cism-autodiff] Glimmer refactoring
+In-Reply-To: <1253610848.6978.12.camel@muick.geos.ed.ac.uk>
+References: <4AB24ACB.4090101@swansea.ac.uk>
+	<1253610848.6978.12.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AB89F8A.8080409@swansea.ac.uk>
+
+Hi Magi,
+
+Thanks for taking a look at what I've been doing, and for your 
+constructive comments. I don't regard either patch as 'finished', but as 
+work-in-progress and food for thought.
+
+> * could you put in a bug report regarding the netCDF autoconf problem
+
+OK, will do.
+
+> * when you change files could you also change the doxygen strings
+
+This means I'll need to learn how to write doxygen strings in the first 
+place... ;)
+
+> The bigger question is one of namespaces. So for example you called your
+> module glide_glenflow and prefix new procedures with glenflow_...
+> However, you do not prefix the old procedures. 
+
+This is a very worthwhile discussion to have. I don't really know what 
+the 'scheme' should look like, although I guess it should specify things 
+like the fact that the module should have the same name as the source 
+file. One problem with Fortran is that a module names are not special 
+(as far as I know) - i.e. the compiler will probably complain if a 
+module contains an entity with the same name.
+
+For subroutine names, I have four immediate thoughts:
+
+1) On reflection (c.f. glenflow) I don't think it's necessary to prefix 
+each name with the name of its 'owner'.
+
+2) It's good for subroutine names to start with a verb (e.g. 'calc', 
+'get', 'write', or whatever)
+
+3) We need a set of standard name-parts for this (for example, I 
+prefixed the temperature subroutine names with 'calc', but had started 
+with 'set' for the isothermal case, before changing it. Afterwards, it 
+occurred to me that 'step' might have been better, but I don't know.
+
+4) I like camelCase for names, even though Fortran is case-insensitive: 
+they're shorter and more readable than using lots of underscores.
+
+I'm also keen on the notion that a subroutine should generally do only 
+one, clearly-defined task, and that the code should be sufficiently 
+clear that it doesn't need many comments (I was browsing 'Clean Code'[1] 
+in a bookshop on Saturday, which gave me lots of subversive ideas... ;)) 
+After all, the most detailed specification of the task the code should 
+perform is the code itself.
+
+> in your second patch I like the new names. Also as a general comment I
+> think it is a good idea not to import modules whole and to only load the
+> required symbols.
+
+Absolutely agree. I'm a recent convert to this opinion...
+
+I plan to do some more work on this, but we can discuss it some more as 
+we go. Looking at the temperature code, there are multiple tasks going 
+on, many of which should really be located elsewhere (e.g. the 
+calculations of vertical velocities), and then there's duplicated code 
+in the picard iteration. It's going to need quite a bit of work to get 
+it straight.
+
+Cheers,
+
+Ian
+
+[1] 
+http://www.amazon.co.uk/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep 23 12:50:26 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 23 Sep 2009 11:50:26 +0100
+Subject: [Glimmer-cism-devel] distributed version control systems
+Message-ID: <1253703026.26333.29.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090923/3a21436e/attachment.ksh>
+
+From I.C.Rutt at swansea.ac.uk  Wed Sep 23 18:38:31 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 23 Sep 2009 17:38:31 +0100
+Subject: [Glimmer-cism-devel] distributed version control systems
+In-Reply-To: <1253703026.26333.29.camel@muick.geos.ed.ac.uk>
+References: <1253703026.26333.29.camel@muick.geos.ed.ac.uk>
+Message-ID: <4ABA4F07.4070000@swansea.ac.uk>
+
+
+Hi All,
+
+I'm leaning towards Mercurial. The official book [1] seems nicely 
+written, in a more approachable way than the Git tutorial [2]. 
+Obviously, the writers of the Mercurial book are biased, but their 
+comparison between the two stands out for me:
+
+http://hgbook.red-bean.com/read/how-did-we-get-here.html#id343368
+
+...though the comments suggest that some of the criticisms may be misplaced.
+
+The Git book I have [3] is good, but still less approachable than the 
+Mercurial book.
+
+Cheers,
+
+Ian
+
+[1] http://hgbook.red-bean.com/read/
+[2] http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html
+[3] 
+http://www.amazon.com/Version-Control-Git-collaborative-development/dp/0596520123
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> the Glimmer-CISM steering committee has discussed the possibility to
+> move from subversion, a centralised version control system, to a
+> distributed one (dVCS). dVCSs have some very desirable features so it
+> seems very likely that we will move to such a beast. berliOS supports
+> both git [1] and mercurial (hg) [2] so we are looking to move to one of
+> those. We haven't made up our mind as to which one we want to move to,
+> as far as I am concerned they are equivalent. So the main questions are
+> 
+> Do you have a preference of which dVCS to use - git/hg?
+> 
+> Do you think dVCS are a total nightmare to use and you'd rather use
+> subversion?
+> 
+> 
+>>From my perspective there are two very good reasons to using a dVCS:
+> - when merging branches history is lost using subversion/cvs. The
+> history is maintained when merging branches using git/hg
+> - dVCS means multiple repositories. This way we can easily support
+> private branches.
+> 
+> I think merely using git/hg is not too dissimilar to using svn/cvs. The
+> added complexity comes from figuring out which repo is being used.
+> 
+> Cheers
+> magi
+> 
+> 
+> [1] http://git-scm.com/
+> [2] http://mercurial.selenic.com/wiki/
+> 
+> 
+
+
+From jed at 59A2.org  Wed Sep 23 19:35:46 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 23 Sep 2009 19:35:46 +0200
+Subject: [Glimmer-cism-devel] restarts and DVCS
+Message-ID: <4ABA5C72.2040804@59A2.org>
+
+
+I just subscribed and read some of the recent discussion here.  A couple
+comments:
+
+* restarts
+BLCR will store much more data than is actually required to
+restart your program.  This situation is much worse when you have an
+assembled matrix hanging around.  While it will work in parallel, and
+can be used to migrate a running job to different nodes, it can't do
+things like change the number of nodes.  A possible option is to do what
+PISM does which is to have a signal handler.  Thus "pkill -USR1 pismr"
+would instruct PISM to write a checkpoint (the usual NetCDF file from
+which we can restart) at the end of the current time step.  Is this the
+sort of functionality that you were after, or am I missing the point?
+
+* DVCS:
+Git can handle branches in-tree, and you do operations like reordering
+recent history and editing patches before pushing using a small set of
+commands.  Mercurial sort of offers this through the mq and rebase
+extensions, but they are a bunch of new commands that don't interoperate
+as nicely and it's really inconvenient to mess with local patches once
+you've committed them locally (i.e. gone back to the normal interface
+from mq).  In the end, it's still largely a preference thing.
+
+
+I'll start the discussion of interoperability/plugins soon if nobody
+else does.  (We should wait a day or two so that people have a chance to
+subscribe.)
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090923/d1177188/attachment.pgp>
+
+From I.C.Rutt at swansea.ac.uk  Thu Sep 24 13:31:06 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 24 Sep 2009 12:31:06 +0100
+Subject: [Glimmer-cism-devel] restarts and DVCS
+In-Reply-To: <4ABA5C72.2040804@59A2.org>
+References: <4ABA5C72.2040804@59A2.org>
+Message-ID: <4ABB587A.9040502@swansea.ac.uk>
+
+
+Hi All,
+
+Many thanks, Jed, for your comments.
+
+> * restarts
+> BLCR will store much more data than is actually required to
+> restart your program.  This situation is much worse when you have an
+> assembled matrix hanging around.  While it will work in parallel, and
+> can be used to migrate a running job to different nodes, it can't do
+> things like change the number of nodes.  A possible option is to do what
+> PISM does which is to have a signal handler.  Thus "pkill -USR1 pismr"
+> would instruct PISM to write a checkpoint (the usual NetCDF file from
+> which we can restart) at the end of the current time step.  Is this the
+> sort of functionality that you were after, or am I missing the point?
+
+I think this is the kind of thing. The model essentially needs to be 
+restartable from an arbitrary point, in order to play well with a 
+climate model (the Hadley Centre models in particular, but probably true 
+of other cases). The thing is that these restart dumps might be due to 
+routine checkpointing or other mid-run event, but they might also be the 
+end-point of a spin-up run, and then be used as the starting point of 
+multiple other runs of the coupled model. So, the ability to write an 
+unambiguous state-dump of the model on demand is what is required. The 
+appropriate technology, especially in a parallel context, is less clear.
+
+> * DVCS:
+> Git can handle branches in-tree, and you do operations like reordering
+> recent history and editing patches before pushing using a small set of
+> commands.  
+
+That's a good point. OK, I'm leaning back towards git... ;)
+
+> I'll start the discussion of interoperability/plugins soon if nobody
+> else does.  (We should wait a day or two so that people have a chance to
+> subscribe.)
+
+On that point, I had a play with the run-time plugin possibilities in 
+F2003, and got dynamic loading to work without intermediate C code (but 
+using libdl). Not suitable for us at the moment, as we're using F95 
+standards, but perhaps something for the future. In the meantime, clear, 
+consistent interfaces will help a lot.
+
+Cheers,
+
+Ian
+
+
+From jed at 59A2.org  Thu Sep 24 14:23:35 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Thu, 24 Sep 2009 14:23:35 +0200
+Subject: [Glimmer-cism-devel] restarts and DVCS
+In-Reply-To: <4ABB587A.9040502@swansea.ac.uk>
+References: <4ABA5C72.2040804@59A2.org> <4ABB587A.9040502@swansea.ac.uk>
+Message-ID: <4ABB64C7.5070506@59A2.org>
+
+Ian Rutt wrote:
+> 
+> Hi All,
+> 
+> Many thanks, Jed, for your comments.
+> 
+>> * restarts
+>> BLCR will store much more data than is actually required to
+>> restart your program.  This situation is much worse when you have an
+>> assembled matrix hanging around.  While it will work in parallel, and
+>> can be used to migrate a running job to different nodes, it can't do
+>> things like change the number of nodes.  A possible option is to do what
+>> PISM does which is to have a signal handler.  Thus "pkill -USR1 pismr"
+>> would instruct PISM to write a checkpoint (the usual NetCDF file from
+>> which we can restart) at the end of the current time step.  Is this the
+>> sort of functionality that you were after, or am I missing the point?
+> 
+> I think this is the kind of thing. The model essentially needs to be
+> restartable from an arbitrary point, in order to play well with a
+> climate model (the Hadley Centre models in particular, but probably true
+> of other cases). The thing is that these restart dumps might be due to
+> routine checkpointing or other mid-run event, but they might also be the
+> end-point of a spin-up run, and then be used as the starting point of
+> multiple other runs of the coupled model. So, the ability to write an
+> unambiguous state-dump of the model on demand is what is required. The
+> appropriate technology, especially in a parallel context, is less clear.
+
+Forgive my naivety, but do you currently have planned (i.e. known when
+the model is started instead of changing your mind after it's running)
+restart capability, or are the current NetCDF output files only usable
+for diagnostics?
+
+In the parallel context, you have to make a choice of IO library.
+NetCDF-4 has a parallel interface, but you have to commit to it, the
+format is not backward compatible with 3 (since it uses the HDF5
+backend).  There is also pnetcdf
+
+  http://trac.mcs.anl.gov/projects/parallel-netcdf
+
+But these solutions are based on MPI-IO which requires a good parallel
+filesystem.  If you are running on a cheap cluster, you might just have
+NFS and perhaps a faster local disk.  Simultaneously hitting NFS from a
+bunch of nodes can be much slower than doing contiguous reads from a
+single node.  PISM does all IO from node 0, in chunks (since the model
+state can be much bigger than single-node memory) which are sent to/from
+each process.  On machines with good filesystems, it just takes a few
+seconds to read and distribute tens of GB of model state so this isn't a
+terrible limitation for the sort of work we do (the day when we need
+more than 10GB/s disk bandwidth is still a ways off).
+
+> On that point, I had a play with the run-time plugin possibilities in
+> F2003, and got dynamic loading to work without intermediate C code (but
+> using libdl). Not suitable for us at the moment, as we're using F95
+> standards, but perhaps something for the future. In the meantime, clear,
+> consistent interfaces will help a lot.
+
+Object creation is the interesting thing here.  The most common scheme
+is to have a factory object which can be manipulated and perhaps fed
+runtime options.  In the classical pattern, the factory's create method
+has a switch over the implementations it knows about.  This isn't so
+terrible, but it means that whoever provides a new implementation has to
+be able to modify this switch statement.  A solution that is trivial in
+C, and should also work with F2003's function pointers although I have
+no experience with that, is to keep a map (usually global) from name
+(string) to creation function.  Then the factory's create method just
+looks up the name in the list.  When a library with a new implementation
+is loaded, it registers itself in this map and all future creations will
+be able to use it (with appropriate runtime options).
+
+The classical factory pattern has some limitations.  I prefer a variant
+of delegator/pimpl for this sort of thing, but the map of name to
+creation function is the same.
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090924/0c9fe79e/attachment.pgp>
+
+From Magnus.Hagdorn at marsupium.org  Thu Sep 24 15:07:42 2009
+From: Magnus.Hagdorn at marsupium.org (Magnus Hagdorn)
+Date: Thu, 24 Sep 2009 14:07:42 +0100
+Subject: [Glimmer-cism-devel] testing - please ignore
+Message-ID: <1253797662.13150.4.camel@muick.geos.ed.ac.uk>
+
+please ignore this mail
+
+i am struggling with my mailer and am sending this message to narrow
+down the problem...
+
+magi
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep 24 17:03:46 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 24 Sep 2009 16:03:46 +0100
+Subject: [Glimmer-cism-devel] test2 - also uninteresting
+Message-ID: <1253804626.13150.9.camel@muick.geos.ed.ac.uk>
+
+see if proposed solution actually fixes the problem...
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jed at 59A2.org  Thu Sep 24 17:11:32 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Thu, 24 Sep 2009 17:11:32 +0200
+Subject: [Glimmer-cism-devel] test2 - also uninteresting
+In-Reply-To: <1253804626.13150.9.camel@muick.geos.ed.ac.uk>
+References: <1253804626.13150.9.camel@muick.geos.ed.ac.uk>
+Message-ID: <4ABB8C24.7040600@59A2.org>
+
+Magnus Hagdorn wrote:
+> see if proposed solution actually fixes the problem...
+
+Content-Type: text/plain; charset="us-ascii"
+
+Yay!
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090924/35d635b7/attachment.pgp>
+
+From sprice at lanl.gov  Thu Sep 24 19:12:22 2009
+From: sprice at lanl.gov (Stephen Price)
+Date: Thu, 24 Sep 2009 11:12:22 -0600
+Subject: [Glimmer-cism-devel] distributed version control systems
+In-Reply-To: <1253703026.26333.29.camel@muick.geos.ed.ac.uk>
+References: <1253703026.26333.29.camel@muick.geos.ed.ac.uk>
+Message-ID: <4ABBA876.4000705@lanl.gov>
+
+
+Magnus et al,
+
+I'm happy to defer to those who know a bit more about these things. I 
+guess if one is more popular, and therefor better supported in the long 
+run, and they are otherwise equiv., then we should choose the more 
+popular one.
+
+Thanks for looking into this.
+
+Steve
+
+
+Magnus Hagdorn wrote:
+> Hi all,
+> the Glimmer-CISM steering committee has discussed the possibility to
+> move from subversion, a centralised version control system, to a
+> distributed one (dVCS). dVCSs have some very desirable features so it
+> seems very likely that we will move to such a beast. berliOS supports
+> both git [1] and mercurial (hg) [2] so we are looking to move to one of
+> those. We haven't made up our mind as to which one we want to move to,
+> as far as I am concerned they are equivalent. So the main questions are
+> 
+> Do you have a preference of which dVCS to use - git/hg?
+> 
+> Do you think dVCS are a total nightmare to use and you'd rather use
+> subversion?
+> 
+> 
+>>From my perspective there are two very good reasons to using a dVCS:
+> - when merging branches history is lost using subversion/cvs. The
+> history is maintained when merging branches using git/hg
+> - dVCS means multiple repositories. This way we can easily support
+> private branches.
+> 
+> I think merely using git/hg is not too dissimilar to using svn/cvs. The
+> added complexity comes from figuring out which repo is being used.
+> 
+> Cheers
+> magi
+> 
+> 
+> [1] http://git-scm.com/
+> [2] http://mercurial.selenic.com/wiki/
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Sep 25 18:29:59 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 25 Sep 2009 17:29:59 +0100
+Subject: [Glimmer-cism-devel] gc webpage
+Message-ID: <1253896199.26790.9.camel@muick.geos.ed.ac.uk>
+
+Hi all (and Jesse in particular),
+Is there a way to have a sidebar on the joomla webpage containing links
+to:
+* the project page on berliOS
+* the API doc
+* the LaTeX docs
+* the download page on berliOS
+
+Currently these are really deep inside the webpage and not that easily
+accessed. The download tab doesn't contain anything. It should probably
+somehow link to the berliOS download page - or removed and replaced with
+a quick link menu on the right as suggested above.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Sep 28 10:57:40 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 28 Sep 2009 09:57:40 +0100
+Subject: [Glimmer-cism-devel] gc webpage
+In-Reply-To: <9288095c0909261534y69db7811j577a9b214ee496be@mail.gmail.com>
+References: <1253896199.26790.9.camel@muick.geos.ed.ac.uk>
+	<9288095c0909261534y69db7811j577a9b214ee496be@mail.gmail.com>
+Message-ID: <1254128260.2312.0.camel@muick.geos.ed.ac.uk>
+
+
+On Sat, 2009-09-26 at 16:34 -0600, Jesse Johnson wrote:
+> OK,
+> 
+> its there. Let me know if it's good.
+
+cool, that's what I had in mind.
+cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 29 17:45:21 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 29 Sep 2009 16:45:21 +0100
+Subject: [Glimmer-cism-devel] more comments on Ian's refactoring
+Message-ID: <1254239121.6964.3.camel@muick.geos.ed.ac.uk>
+
+Hi Ian (and all),
+I am just having a look at your recent patches. You've been quite busy!
+Anyway, here are a few comments (in no particular order):
+
+- should we move the vertical velos into a separate file? I guess the
+velos are always used together so maybe not. I also guess that the
+higher order code will provide a new way of computing the velo field.
+
+- come up with a consistent naming scheme, e.g. i quite like to call
+derived types something along the lines of
+  timederiv_type 
+
+- personally I prefer to use
+  if () then
+   something
+  end if
+  blocks rather than line continuation. it makes it easier to read,
+especially when indented properly.
+  
+I think we wanted to adopt some coding guidelines. So we should start on
+documenting these on the wiki initially and then move them to the docs.
+Jesse, I seem you had a web reference for some coding guidelines, could
+you post it again?
+
+Cheers
+magi
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Tue Sep 29 17:54:47 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 29 Sep 2009 16:54:47 +0100
+Subject: [Glimmer-cism-devel] more comments on Ian's refactoring
+In-Reply-To: <1254239121.6964.3.camel@muick.geos.ed.ac.uk>
+References: <1254239121.6964.3.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AC22DC7.60500@swansea.ac.uk>
+
+
+Hi Magi,
+
+Thanks for looking at the patches, and for your comments. I think I'm 
+beginning to make some progress on the refactoring now, at least as an 
+example.
+
+ > - should we move the vertical velos into a separate file? I guess the
+ > velos are always used together so maybe not. I also guess that the
+ > higher order code will provide a new way of computing the velo field.
+
+Perhaps. For the moment, I'm just content with the fact that they're not 
+longer calculated in the temperature module. :)
+
+ > - come up with a consistent naming scheme, e.g. i quite like to call
+ > derived types something along the lines of
+ >   timederiv_type
+
+Yes, we definitely need this. I'll admit that I've been very sloppy on 
+this front during the last couple of weeks, but it was too much to think 
+about. Hopefully, the new structure will make it easier to go back and 
+make things more consistent later. (Ok, that's a dangerous thing to say)
+
+ > - personally I prefer to use
+ >   if () then
+ >    something
+ >   end if
+ >   blocks rather than line continuation. it makes it easier to read,
+ > especially when indented properly.
+
+Good point - have corrected this.
+
+A set of coding guidelines would be very useful, if you have them, 
+Jesse. Let's put them on the wiki.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+
+From A.J.Payne at bristol.ac.uk  Wed Sep 30 00:11:27 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Tue, 29 Sep 2009 23:11:27 +0100
+Subject: [Glimmer-cism-devel] more comments on Ian's refactoring
+In-Reply-To: <1254239121.6964.3.camel@muick.geos.ed.ac.uk>
+References: <1254239121.6964.3.camel@muick.geos.ed.ac.uk>
+Message-ID: <0757B1E83D02EA4125A9F6C7@[192.168.1.2]>
+
+hi
+
+i think vertical vels should be a separate component.  the horizontal vels all stem from 
+some form of stress solver; also clearly better than having vertical vels in temperature.
+
+the only issue is that if we ever get a O(2) solver then the stress solution would also 
+deliver vertical velocity.
+
+i also like this if form but i do not think that we should be that prescriptive about 
+coding styles.
+
+i have to say that i think it would be easier to create a set of flexible dynamical core 
+routines if we avoided the use of derived types at this level.  can't they be use above 
+and then their components passed as arguments?
+
+
+all the best
+
+tony
+
+
+--On 2009-09-29 16:45 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+
+> Hi Ian (and all),
+> I am just having a look at your recent patches. You've been quite busy!
+> Anyway, here are a few comments (in no particular order):
+>
+> - should we move the vertical velos into a separate file? I guess the
+> velos are always used together so maybe not. I also guess that the
+> higher order code will provide a new way of computing the velo field.
+>
+> - come up with a consistent naming scheme, e.g. i quite like to call
+> derived types something along the lines of
+>   timederiv_type
+>
+> - personally I prefer to use
+>   if () then
+>    something
+>   end if
+>   blocks rather than line continuation. it makes it easier to read,
+> especially when indented properly.
+>
+> I think we wanted to adopt some coding guidelines. So we should start on
+> documenting these on the wiki initially and then move them to the docs.
+> Jesse, I seem you had a web reference for some coding guidelines, could
+> you post it again?
+>
+> Cheers
+> magi
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep 30 10:28:21 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 30 Sep 2009 09:28:21 +0100
+Subject: [Glimmer-cism-devel] [CF-metadata] Standard names for
+	Glaciology and ice-sheet	modeling
+In-Reply-To: <20090930081737.GC978@met.reading.ac.uk>
+References: <A7233E1E-16FB-43FE-93DC-A35196A9C00C@gmail.com>
+	<20090929090926.GA27218@met.reading.ac.uk>
+	<200909291019.18145.bryan.lawrence@stfc.ac.uk>
+	<20090929092613.GB27512@met.reading.ac.uk>
+	<40829B0E077C1145A6DE44D39B3830A9078F8F6294@nerckwmb1.ad.nerc.ac.uk>
+	<4C0CC607-1441-4A2D-871E-A61F59D1F5F5@marinemetadata.org>
+	<20090930081737.GC978@met.reading.ac.uk>
+Message-ID: <1254299301.25112.20.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090930/ebc8c8ae/attachment.ksh>
+
+From A.J.Payne at bristol.ac.uk  Wed Sep 30 10:59:00 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Wed, 30 Sep 2009 09:59:00 +0100
+Subject: [Glimmer-cism-devel] [CF-metadata] Standard names
+ for	Glaciology and ice-sheet	modeling
+In-Reply-To: <1254299301.25112.20.camel@muick.geos.ed.ac.uk>
+References: <A7233E1E-16FB-43FE-93DC-A35196A9C00C@gmail.com>
+	<20090929090926.GA27218@met.reading.ac.uk>	<200909291019.18145.bryan.lawrence@stfc.ac.uk>
+	<20090929092613.GB27512@met.reading.ac.uk>
+	<40829B0E077C1145A6DE44D39B3830A9078F8F6294@nerckwmb1.ad.nerc.ac.uk>
+	<4C0CC607-1441-4A2D-871E-A61F59D1F5F5@marinemetadata.org>
+	<20090930081737.GC978@met.reading.ac.uk>
+	<1254299301.25112.20.camel@muick.geos.ed.ac.uk>
+Message-ID: <0DA3677966368033DECF26E2@geog-bsq78.ggy.bris.ac.uk>
+
+dear all
+
+agreed ice shelves are clearly more closely connected to land ice than other elements of 
+the earth system (certainly not sea ice).
+
+i think the cover type mask in glimmer-cism needs to be extended in order to make the 
+application of higher order models easier.  as a minimum:
+
+open ocean
+ice-free land
+ice covered land
+- slow flowing ice
+- ice streams/outlet glaciers
+ice shelves
+
+if possible it would be helpful to use the mask to contain information on boundary types 
+- it would be helpful to have an easy identify for grounding line points, points at the 
+marine edge of an ice shelf, boundaries of ice streams etc etc.
+
+all the best
+
+tony
+
+--On 2009-09-30 09:28 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+
+>
+> On Wed, 2009-09-30 at 09:17 +0100, Jonathan Gregory wrote:
+>> Dear all
+>>
+>> Though I too agree with Bryan's point in general, and usually I would argue
+>> for using aliases and retaining backward compatibility, I think we are worrying
+>> too much about this case. I do not think any inconvenience will be caused by
+>> redefining these names. I think the reason it's being asked about now is
+>> because this is the first time anyone's really thought about wanting to make
+>> a distinction between grounded ice and ice-shelves. Also, if we stick with
+>> "land ice" meaning "grounded land ice", it's going to be a real nuisance to
+>> think of another familiar and obvious term which means "grounded land ice and
+>> ice shelves".
+>>
+>> So I stick with my suggestion that we use "land ice" to mean grounded and
+>> ice-shelf. Does anyone else have a view about this from the point of view of
+>> land-ice modelling?
+>
+> Hi all,
+> sorry I kept silent for so long. I agree with Jonathan. Let's broaden
+> the definition of land ice to include ice shelves. I think we should
+> also have a land_ice_mask which further specifies what kind of ice we
+> are talking about. this should probably be a bit mask so we can mix
+> concepts (is that possible?):
+> * grounded ice
+> * floating ice
+> * ice stream
+>
+> if a cell is both grounded and floating we know it contains the
+> grounding line.
+>
+> cheers
+> magi
+>
+> added to large CC list the glimmer-cism-devel mailing list
+>
+>
+>
+>
+>
+>
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From jed at 59A2.org  Wed Sep 30 11:30:57 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 30 Sep 2009 11:30:57 +0200
+Subject: [Glimmer-cism-devel] [CF-metadata] Standard names
+ for	Glaciology and ice-sheet	modeling
+In-Reply-To: <0DA3677966368033DECF26E2@geog-bsq78.ggy.bris.ac.uk>
+References: <A7233E1E-16FB-43FE-93DC-A35196A9C00C@gmail.com>	<20090929090926.GA27218@met.reading.ac.uk>	<200909291019.18145.bryan.lawrence@stfc.ac.uk>	<20090929092613.GB27512@met.reading.ac.uk>	<40829B0E077C1145A6DE44D39B3830A9078F8F6294@nerckwmb1.ad.nerc.ac.uk>	<4C0CC607-1441-4A2D-871E-A61F59D1F5F5@marinemetadata.org>	<20090930081737.GC978@met.reading.ac.uk>	<1254299301.25112.20.camel@muick.geos.ed.ac.uk>
+	<0DA3677966368033DECF26E2@geog-bsq78.ggy.bris.ac.uk>
+Message-ID: <4AC32551.5090103@59A2.org>
+
+AJ Payne, Geographical Sciences wrote:
+> dear all
+> 
+> agreed ice shelves are clearly more closely connected to land ice than
+> other elements of the earth system (certainly not sea ice).
+> 
+> i think the cover type mask in glimmer-cism needs to be extended in
+> order to make the application of higher order models easier.  as a
+> minimum:
+> 
+> open ocean
+> ice-free land
+> ice covered land
+> - slow flowing ice
+> - ice streams/outlet glaciers
+> ice shelves
+
+While it's often handy to have a mask within your code, and to look at
+model output to know what the model is doing with different regions, I
+think the mask may lock us into the current (esp. Glimmer) way of doing
+things.  Distinguishing between slow ice and ice streams is very
+unnatural since it will always be subjective and some models (e.g. PISM)
+do not normally distinguish in this way (solving unified physics
+everywhere).
+
+As for grounding line resolution, the combination of bathymetry and ice
+thickness provides subgrid resolution where as the mask cannot.  What
+does the mask provide that cannot be reconstructed with an NCO or
+visualization filter?
+
+I'm not objecting to internal use by Glimmer, just to putting this into
+CF which may oblige other models to recognize it and obey semantics that
+don't make sense in their context.
+
+
+As for the original topic on cf-metadata@ (which I just read from the
+archives), I agree that "land ice" should include shelves and I don't
+think this definition will cause a problem for users.
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090930/56f8e8ac/attachment.pgp>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep 30 11:42:52 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 30 Sep 2009 10:42:52 +0100
+Subject: [Glimmer-cism-devel] [CF-metadata] Standard
+	names	for	Glaciology and ice-sheet	modeling
+In-Reply-To: <4AC32551.5090103@59A2.org>
+References: <A7233E1E-16FB-43FE-93DC-A35196A9C00C@gmail.com>
+	<20090929090926.GA27218@met.reading.ac.uk>
+	<200909291019.18145.bryan.lawrence@stfc.ac.uk>
+	<20090929092613.GB27512@met.reading.ac.uk>
+	<40829B0E077C1145A6DE44D39B3830A9078F8F6294@nerckwmb1.ad.nerc.ac.uk>
+	<4C0CC607-1441-4A2D-871E-A61F59D1F5F5@marinemetadata.org>
+	<20090930081737.GC978@met.reading.ac.uk>
+	<1254299301.25112.20.camel@muick.geos.ed.ac.uk>
+	<0DA3677966368033DECF26E2@geog-bsq78.ggy.bris.ac.uk>
+	<4AC32551.5090103@59A2.org>
+Message-ID: <1254303772.25112.73.camel@muick.geos.ed.ac.uk>
+
+snipped list of recipients - it's getting rather long.
+
+On Wed, 2009-09-30 at 11:30 +0200, Jed Brown wrote:
+> AJ Payne, Geographical Sciences wrote:
+
+> While it's often handy to have a mask within your code, and to look at
+> model output to know what the model is doing with different regions, I
+> think the mask may lock us into the current (esp. Glimmer) way of doing
+> things.  Distinguishing between slow ice and ice streams is very
+> unnatural since it will always be subjective and some models (e.g. PISM)
+> do not normally distinguish in this way (solving unified physics
+> everywhere).
+> 
+> As for grounding line resolution, the combination of bathymetry and ice
+> thickness provides subgrid resolution where as the mask cannot.  What
+> does the mask provide that cannot be reconstructed with an NCO or
+> visualization filter?
+> 
+
+you are absolutely right, the mask quantities can be derived from other
+data. 
+
+However, I think it might be useful to include some way of
+distinguishing between floating and grounded ice: I can well imagine
+that observations could provide this observation in which case we must
+be able to record this.
+
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jed at 59A2.org  Wed Sep 30 11:53:20 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 30 Sep 2009 11:53:20 +0200
+Subject: [Glimmer-cism-devel] [CF-metadata] Standard names
+ for	Glaciology and ice-sheet	modeling
+In-Reply-To: <1254303772.25112.73.camel@muick.geos.ed.ac.uk>
+References: <A7233E1E-16FB-43FE-93DC-A35196A9C00C@gmail.com>	
+	<20090929090926.GA27218@met.reading.ac.uk>	
+	<200909291019.18145.bryan.lawrence@stfc.ac.uk>	
+	<20090929092613.GB27512@met.reading.ac.uk>	
+	<40829B0E077C1145A6DE44D39B3830A9078F8F6294@nerckwmb1.ad.nerc.ac.uk>	
+	<4C0CC607-1441-4A2D-871E-A61F59D1F5F5@marinemetadata.org>	
+	<20090930081737.GC978@met.reading.ac.uk>	
+	<1254299301.25112.20.camel@muick.geos.ed.ac.uk>	
+	<0DA3677966368033DECF26E2@geog-bsq78.ggy.bris.ac.uk>	
+	<4AC32551.5090103@59A2.org>
+	<1254303772.25112.73.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AC32A90.4040700@59A2.org>
+
+Magnus Hagdorn wrote:
+> However, I think it might be useful to include some way of
+> distinguishing between floating and grounded ice: I can well imagine
+> that observations could provide this observation in which case we must
+> be able to record this.
+
+Perhaps we should wait until we have these observations to define a
+standard.  But, if you want a good way to resolve the grounding line, I
+would suggest using a signed distance function.  You can of course get
+this easily by solving an Eikonal equation, and it provides subgrid
+resolution, reliable normals, and information which is useful in its own
+right.
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090930/6fec0e25/attachment.pgp>
+
+From A.J.Payne at bristol.ac.uk  Wed Sep 30 13:01:59 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Wed, 30 Sep 2009 12:01:59 +0100
+Subject: [Glimmer-cism-devel] [CF-metadata]
+ Standard	names	for	Glaciology and ice-sheet	modeling
+In-Reply-To: <1254303772.25112.73.camel@muick.geos.ed.ac.uk>
+References: <A7233E1E-16FB-43FE-93DC-A35196A9C00C@gmail.com>
+	<20090929090926.GA27218@met.reading.ac.uk>	<200909291019.18145.bryan.lawrence@stfc.ac.uk>
+	<20090929092613.GB27512@met.reading.ac.uk>
+	<40829B0E077C1145A6DE44D39B3830A9078F8F6294@nerckwmb1.ad.nerc.ac.uk>
+	<4C0CC607-1441-4A2D-871E-A61F59D1F5F5@marinemetadata.org>
+	<20090930081737.GC978@met.reading.ac.uk>	<1254299301.25112.20.camel@muick.geos.ed.ac.uk>
+	<0DA3677966368033DECF26E2@geog-bsq78.ggy.bris.ac.uk>	<4AC32551.5090103@59A2.org>
+	<1254303772.25112.73.camel@muick.geos.ed.ac.uk>
+Message-ID: <25DC90D9B38872988DA494ED@geog-bsq78.ggy.bris.ac.uk>
+
+1/ my comments about boundaries were related to how things are done in glimmer-cism.  i 
+think an ocean-land-land ice-ice shelf mask is fine for CF (perhaps with inclusion of ice 
+streams). points below also apply to glimemr-cism not CF.
+
+2/ if we are writing a general model then we should have the ability to easily 
+differentiate fast and slow flow.  ideally we will be using the 3d O(1) code to model 
+everything but there may be times when we need to split the flow, unnatural as that is.
+
+3/ GL the mask provides a very easy way of identifying which points to worry about in the 
+GL parameterization.  it may well be that the GL may not easily be derived from other 
+data (ie by flotation) if we are, for instance, using observation or have a prognostic 
+calculation for its location (a la hindmarsh).
+
+
+--On 2009-09-30 10:42 +0100 Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+
+> snipped list of recipients - it's getting rather long.
+>
+> On Wed, 2009-09-30 at 11:30 +0200, Jed Brown wrote:
+>> AJ Payne, Geographical Sciences wrote:
+>
+>> While it's often handy to have a mask within your code, and to look at
+>> model output to know what the model is doing with different regions, I
+>> think the mask may lock us into the current (esp. Glimmer) way of doing
+>> things.  Distinguishing between slow ice and ice streams is very
+>> unnatural since it will always be subjective and some models (e.g. PISM)
+>> do not normally distinguish in this way (solving unified physics
+>> everywhere).
+>>
+>> As for grounding line resolution, the combination of bathymetry and ice
+>> thickness provides subgrid resolution where as the mask cannot.  What
+>> does the mask provide that cannot be reconstructed with an NCO or
+>> visualization filter?
+>>
+>
+> you are absolutely right, the mask quantities can be derived from other
+> data.
+>
+> However, I think it might be useful to include some way of
+> distinguishing between floating and grounded ice: I can well imagine
+> that observations could provide this observation in which case we must
+> be able to record this.
+>
+> magi
+>
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep 30 13:15:51 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 30 Sep 2009 12:15:51 +0100
+Subject: [Glimmer-cism-devel] various branches
+Message-ID: <1254309351.25112.97.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+We have three active development branches at the moment and we are
+likely to have more soon. So I thought I should suggest a couple of
+rules of how to use them. We have
+
+* glimmer-cism/glimmer/branches/RELEASE_1_0_0_BRANCH/
+  This is the current stable release branch we shouldn't do any
+development here and focus our efforts on getting glimmer-cism v2 out.
+
+* glimmer-cism/glimmer/branches/lanl
+  The higher order code branch and various useful improvements. This
+branch is under active development however, it is due to be branched
+soon for investigating parallelisation
+
+* glimmer-cism2/trunk
+  This is the new module which will become gc2. Currently it contains
+the same code as the current stable branch. The only main difference is
+that files have been redistributed over a number of directories. I would
+suggest to keep this branch as close to stable as possible so that
+merging things from the lanl branch is easier.
+
+* glimmer-cism2/branches/GCISM2-refactor-ICR
+  Ian has started the refactoring process. Files can get renamed,
+chopped up, etc. I suspect we will need to merge from
+glimmer-cism2/trunk occasionally. This will be quite painful (I know
+git/hg might help here) so we should keep this at a minimum and when we
+do document the revision number in the commit and change log.
+
+Steve has asked me to create a lanl branch for parallelisation work. So
+I have created a new top-level module called
+glimmer-cism-lanl
+We should copy glimmer-cism/glimmer/branches/lanl to
+glimmer-cism-lanl/trunk. Once that is done you will need to rebase your
+repo [1] to point to the new location and
+glimmer-cism/glimmer/branches/lanl will become read-only. We can then
+create the branch for the parallelisation work.
+Steve et al. can you let me know when a convinient time is to do the
+copying? 
+
+Cheers
+magi
+
+[1] http://svnbook.red-bean.com/en/1.1/ch04s05.html
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep 30 15:59:23 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 30 Sep 2009 14:59:23 +0100
+Subject: [Glimmer-cism-devel] task list for gc-v2.2
+Message-ID: <1254319163.25112.99.camel@muick.geos.ed.ac.uk>
+
+Hi all,
+I have created a task list for glimmer-cism v2.2 so we don't forget
+anything. Find it on berliOS:
+http://developer.berlios.de/pm/task.php?group_project_id=1969&group_id=10995&func=browse
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed Sep 30 17:22:18 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 30 Sep 2009 16:22:18 +0100
+Subject: [Glimmer-cism-devel] more comments on Ian's refactoring
+In-Reply-To: <0757B1E83D02EA4125A9F6C7@[192.168.1.2]>
+References: <1254239121.6964.3.camel@muick.geos.ed.ac.uk>
+	<0757B1E83D02EA4125A9F6C7@[192.168.1.2]>
+Message-ID: <4AC377AA.9010306@swansea.ac.uk>
+
+
+Hi All,
+
+> i also like this if form but i do not think that we should be that prescriptive about 
+> coding styles.
+
+I think some coding guidelines are essential:
+
+1) We have to know what Fortran standard we're aiming for, and whether 
+any particular language features are to be avoided.
+
+2) Consistently-written code (e.g. in terms of a naming convention, 
+etc), is much easier to read, much easier to debug, etc.
+
+To be honest, I can't think of a good reason not to do this.
+
+> i have to say that i think it would be easier to create a set of flexible dynamical core 
+> routines if we avoided the use of derived types at this level.  can't they be use above 
+> and then their components passed as arguments?
+
+I think this is going to far. Derived types are very useful to package 
+up data, and they make it easier to avoid many classes of bugs. Any new 
+component we might want to plug into Glimmer is going to need its 
+interface tailoring to whatever standard API we have: including a few 
+derived types in that standard makes no difference to how easy that is 
+to do.
+
+I suspect your specific concerns are to do with automatic 
+differentiation and C/C++ interoperability. For the former, derived 
+types are not a problem for OpenAD to handle - this was confirmed in 
+Chicago the other week. For the latter, simple derived types should work 
+fine with C/C++, especially if all you need to do is pass them through. 
+Alternatively, just write a wrapper to pack/unpack the relevant derived 
+types. I don't think it would be a good idea to allow this consideration 
+to affect the fundamental engineering approach of the code, given that 
+it is fairly simple to get round.
+
+Cheers,
+
+Ian
+
+
+From A.J.Payne at bristol.ac.uk  Wed Sep 30 18:46:23 2009
+From: A.J.Payne at bristol.ac.uk (AJ Payne, Geographical Sciences)
+Date: Wed, 30 Sep 2009 17:46:23 +0100
+Subject: [Glimmer-cism-devel] more comments on Ian's refactoring
+In-Reply-To: <4AC377AA.9010306@swansea.ac.uk>
+References: <1254239121.6964.3.camel@muick.geos.ed.ac.uk>
+	<0757B1E83D02EA4125A9F6C7@[192.168.1.2]>
+	<4AC377AA.9010306@swansea.ac.uk>
+Message-ID: <D5FD54890CA9190A56934CE1@geog-bsq78.ggy.bris.ac.uk>
+
+hi
+
+i think things will become a lot clearer once we have an idea of how the refactoring 
+looks and how this matches with the requirements of the external packages that we would 
+like to use.
+
+i hope that i have made it clear that i do not think glimmer-cism by itself is going to 
+provide us with a research tool that will be able to address the key glaciological issues 
+we say we want to address.  compatibility with other packages is therefore important. 
+automatic differentiation, AMR (note my concerns are not necessarily related to cpp but 
+to the use of AMR software such as the cpp chombo and the f90 agrif) and parallelism are 
+important here.
+
+all the best
+
+tony
+
+--On 2009-09-30 16:22 +0100 Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+
+>
+> Hi All,
+>
+>> i also like this if form but i do not think that we should be that prescriptive about
+>> coding styles.
+>
+> I think some coding guidelines are essential:
+>
+> 1) We have to know what Fortran standard we're aiming for, and whether any particular
+> language features are to be avoided.
+>
+> 2) Consistently-written code (e.g. in terms of a naming convention, etc), is much
+> easier to read, much easier to debug, etc.
+>
+> To be honest, I can't think of a good reason not to do this.
+>
+>> i have to say that i think it would be easier to create a set of flexible dynamical
+>> core  routines if we avoided the use of derived types at this level.  can't they be
+>> use above  and then their components passed as arguments?
+>
+> I think this is going to far. Derived types are very useful to package up data, and
+> they make it easier to avoid many classes of bugs. Any new component we might want to
+> plug into Glimmer is going to need its interface tailoring to whatever standard API we
+> have: including a few derived types in that standard makes no difference to how easy
+> that is to do.
+>
+> I suspect your specific concerns are to do with automatic differentiation and C/C++
+> interoperability. For the former, derived types are not a problem for OpenAD to handle
+> - this was confirmed in Chicago the other week. For the latter, simple derived types
+> should work fine with C/C++, especially if all you need to do is pass them through.
+> Alternatively, just write a wrapper to pack/unpack the relevant derived types. I don't
+> think it would be a good idea to allow this consideration to affect the fundamental
+> engineering approach of the code, given that it is fairly simple to get round.
+>
+> Cheers,
+>
+> Ian
+
+
+
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From sprice at lanl.gov  Wed Sep 30 19:43:25 2009
+From: sprice at lanl.gov (Stephen Price)
+Date: Wed, 30 Sep 2009 11:43:25 -0600
+Subject: [Glimmer-cism-devel] various branches
+In-Reply-To: <1254309351.25112.97.camel@muick.geos.ed.ac.uk>
+References: <1254309351.25112.97.camel@muick.geos.ed.ac.uk>
+Message-ID: <4AC398BD.2020306@lanl.gov>
+
+
+Thanks Magnus.
+
+I've got some changes I'd like to commit at some point today/tonight.
+
+If it's ok with other folks, how about scheduling the copy/change for 
+tomorrow (U.K. time)?
+
+Steve
+
+
+> Steve has asked me to create a lanl branch for parallelisation work. So
+> I have created a new top-level module called
+> glimmer-cism-lanl
+> We should copy glimmer-cism/glimmer/branches/lanl to
+> glimmer-cism-lanl/trunk. Once that is done you will need to rebase your
+> repo [1] to point to the new location and
+> glimmer-cism/glimmer/branches/lanl will become read-only. We can then
+> create the branch for the parallelisation work.
+> Steve et al. can you let me know when a convinient time is to do the
+> copying? 
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep 30 21:24:49 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 30 Sep 2009 20:24:49 +0100
+Subject: [Glimmer-cism-devel] various branches
+In-Reply-To: <4AC398BD.2020306@lanl.gov>
+References: <1254309351.25112.97.camel@muick.geos.ed.ac.uk>
+	<4AC398BD.2020306@lanl.gov>
+Message-ID: <1254338689.4676.0.camel@hog.marsupium.org>
+
+On Wed, 2009-09-30 at 11:43 -0600, Stephen Price wrote:
+> I've got some changes I'd like to commit at some point today/tonight.
+> 
+> If it's ok with other folks, how about scheduling the copy/change for 
+> tomorrow (U.K. time)?
+
+that's fine. as i said you can just switch to the new repo url. once
+i've done the copying I will send the correct command...
+Cheers
+magi
+
+
+
+

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] build system for glimmer-cism
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3CD2A75F55-9CE4-4409-A7EC-76A941C8676E%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000024.html">
+   <LINK REL="Next"  HREF="000026.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] build system for glimmer-cism</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3CD2A75F55-9CE4-4409-A7EC-76A941C8676E%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] build system for glimmer-cism">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Wed Aug 26 15:22:54 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000024.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+        <LI>Next message: <A HREF="000026.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Magi,
+
+Thanks for taking a look at Scons. It sounds interesting, although  
+I've not had a chance to look at the website further.
+
+The main concern I have is how changing the build system will impact  
+the use of Glimmer-CISM within coupled models (i.e. CCSM, GENIE and  
+HadCM3/FAMOUS). This is often the most problematic part of integrating  
+with these models, and I would be very cautious about making a radical  
+change. For coupled models, how one interacts with the build is almost  
+as important as how one calls the code. So, I think changing the build  
+system is akin to changing the API - it should only be done if  
+absolutely necessary, and with wide consultation.
+
+So, I would instead suggest we think more broadly about how we make  
+interaction with coupled models more streamlined.  Bill and I have  
+been talking in the last day or two about the broader problems of  
+maintaining a model which is both a component of a particular coupled  
+model and a stand-alone project (i.e. as Glimmer-CISM is w.r.t.  
+multiple coupled models). I'll copy the relevant bits of that exchange  
+to the mailing list - hope that's OK, Bill.
+
+I agree that autotools is non-ideal, but I'm not sure that introducing  
+extra dependencies to the build is the way forward. I guess the  
+crucial question is this - are we sufficiently fed up with the  
+limitations of the existing system to make it worth the pain of  
+changing it?
+
+But - let's continue to talk about this.
+
+Cheers,
+
+Ian
+
+On 26 Aug 2009, at 10:57, Magnus Hagdorn wrote:
+
+&gt;<i> Hi all,
+</I>&gt;<i> at the ice sheet modelling summer school in Portland a student,  
+</I>&gt;<i> Stefano,
+</I>&gt;<i> suggested to use scons[1] instead of the GNU autotools. He also
+</I>&gt;<i> partially ported the current build system to scons.
+</I>&gt;<i>
+</I>&gt;<i> Scons seems to be fairly capable. It can compile C, C++, Fortran code
+</I>&gt;<i> and supports TeX and LaTeX. It supports dependency tracking including
+</I>&gt;<i> Fortran out of the box. It will build project files for MS Visual
+</I>&gt;<i> Studio. It is written in python, configuration files are actual python
+</I>&gt;<i> scripts.
+</I>&gt;<i>
+</I>&gt;<i> So far so good, however, I have some reservations:
+</I>&gt;<i> * it is a new system to learn and ok autotools are a pain. However  
+</I>&gt;<i> once
+</I>&gt;<i> the system is setup it is merely a matter of editing the Makefile.am
+</I>&gt;<i> which is suitably like a normal Makefile
+</I>&gt;<i> * it introduces a new dependency. People who want to compile
+</I>&gt;<i> glimmer-cism from source will need to have scons installed. The  
+</I>&gt;<i> current
+</I>&gt;<i> build system consists only of shell scripts. The autotools are only
+</I>&gt;<i> required if the build system itself is changed.
+</I>&gt;<i> * we autogenerate many files. This would need to be coded in python.
+</I>&gt;<i> This is not a major problem but needs to be done which is an  
+</I>&gt;<i> additional
+</I>&gt;<i> effort.
+</I>&gt;<i> * there are many autoconf macros which can be used to detect  
+</I>&gt;<i> libraries,
+</I>&gt;<i> features, etc. We would need to teach that scons. There is lots of
+</I>&gt;<i> documentation for the autotools.
+</I>&gt;<i> * I don't understand how a particular compilation is configured. Do  
+</I>&gt;<i> you
+</I>&gt;<i> have to program command line options (not a problem but needs to be
+</I>&gt;<i> done), set environment variables? Is the user configuration stored
+</I>&gt;<i> somewhere like in config.log?
+</I>&gt;<i>
+</I>&gt;<i> There is an interesting article on lwn.net [2] which discusses how the
+</I>&gt;<i> KDE project to use cmake [3] instead of scons to escape the autohell.
+</I>&gt;<i>
+</I>&gt;<i> My view is that
+</I>&gt;<i> * autotools work and do everything we want them to
+</I>&gt;<i> * I am happy to change the autoconf stuff to meet new requirements. So
+</I>&gt;<i> far other developers seem to have coped adjusting the Makefile.am  
+</I>&gt;<i> files.
+</I>&gt;<i> * being able to support MS Visual Studio might be desirable
+</I>&gt;<i> * we can discuss switching to scons if someone does a complete port of
+</I>&gt;<i> the build system to scons and can demonstrate that everything works as
+</I>&gt;<i> it should.
+</I>&gt;<i>
+</I>&gt;<i> The question is should we encourage someone to spend effort on this  
+</I>&gt;<i> port
+</I>&gt;<i> or not?
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> [1] <A HREF="http://www.scons.org/">http://www.scons.org/</A>
+</I>&gt;<i> [2] <A HREF="http://lwn.net/Articles/188693/">http://lwn.net/Articles/188693/</A>
+</I>&gt;<i> [3] <A HREF="http://www.cmake.org/">http://www.cmake.org/</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -- 
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000024.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+	<LI>Next message: <A HREF="000026.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current Glimmer-CISM release
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BGlimmer-cism-steering%5D%20Status%20of%20current%0A%20Glimmer-CISM%20release&In-Reply-To=%3C4D711298.6070008%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000429.html">
+   <LINK REL="Next"  HREF="000431.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] [Glimmer-cism-steering] Status of current Glimmer-CISM release</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BGlimmer-cism-steering%5D%20Status%20of%20current%0A%20Glimmer-CISM%20release&In-Reply-To=%3C4D711298.6070008%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] [Glimmer-cism-steering] Status of current Glimmer-CISM release">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Fri Mar  4 17:26:00 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000429.html">[Glimmer-cism-devel] [Glimmer-cism-steering] Status of current	Glimmer-CISM release
+</A></li>
+        <LI>Next message: <A HREF="000431.html">[Glimmer-cism-devel] [Glimmer-cism-steering] Status of current Glimmer-CISM release
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#430">[ date ]</a>
+              <a href="thread.html#430">[ thread ]</a>
+              <a href="subject.html#430">[ subject ]</a>
+              <a href="author.html#430">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Steve,
+
+Ok - thanks. I didn't mean to imply that we should make the release with 
+all bells and whistles asap - I know you're working hard on this and it 
+takes time. It's more that I'm aware that our current release has at 
+least one important bug, and it would be good to release a version where 
+the bug is fixed as soon as possible.
+
+The standard way of addressing this is to tag the release, and then make 
+a bug-fix branch, allowing you to fix those bugs (as 1.7.2, 1.7.4, etc) 
+without having to pull down unfinished developments from the trunk. This 
+is what we did with the 1.0.x series. My original question was directed 
+at seeing whether we could do this with the 1.7.0 release at this stage, 
+because I didn't know where we might start from.
+
+So I guess the question I have is this: is the tagged up 1.6.0 version 
+on the glimmer-cism2 trunk better than the currently released 1.7.0 
+version? By which I mean, does it have broadly the same functionality 
+but fewer bugs? If so, then I think we should release it now, and start 
+a bug-fix branch.
+
+Hope that makes sense,
+
+Ian
+
+On 04/03/11 16:10, Stephen Price wrote:
+&gt;<i>
+</I>&gt;<i> Ian,
+</I>&gt;<i>
+</I>&gt;<i> Josh and I have been working on it but there is still plenty to do. I
+</I>&gt;<i> was hoping to have it done before Bill and I left for the modeling
+</I>&gt;<i> school in China, but I don't think we are probably going to make that
+</I>&gt;<i> deadline now. Close though ...
+</I>&gt;<i>
+</I>&gt;<i> The majority of the work left is in cleaning up the higher-order test
+</I>&gt;<i> cases (which I'm working on now), getting them working w/ the automated
+</I>&gt;<i> test suite that Magi and Sarah set up, and adding all the Trilinos hooks
+</I>&gt;<i> to the build system. Josh was working on the latter but has been out
+</I>&gt;<i> sick for part of this week.
+</I>&gt;<i>
+</I>&gt;<i> If anyone w/ netCDF and python expertise wants to help, I've got some
+</I>&gt;<i> issues w/ a few of the test cases that I could use help with.
+</I>&gt;<i>
+</I>&gt;<i> cheers -
+</I>&gt;<i>
+</I>&gt;<i> Steve
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> I agree with Magi that we really should make a new release asap,
+</I>&gt;&gt;<i> presumably as soon as the test suite is ready. I presume then that
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/trunk/">http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/trunk/</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ...is what people are working on/merging into at the moment?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ian
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000429.html">[Glimmer-cism-devel] [Glimmer-cism-steering] Status of current	Glimmer-CISM release
+</A></li>
+	<LI>Next message: <A HREF="000431.html">[Glimmer-cism-devel] [Glimmer-cism-steering] Status of current Glimmer-CISM release
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#430">[ date ]</a>
+              <a href="thread.html#430">[ thread ]</a>
+              <a href="subject.html#430">[ subject ]</a>
+              <a href="author.html#430">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

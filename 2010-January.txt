@@ -1,0 +1,450 @@
+From Magnus.Hagdorn at ed.ac.uk  Wed Jan  6 17:43:13 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 06 Jan 2010 16:43:13 +0000
+Subject: [Glimmer-cism-devel] support for allocatable components
+Message-ID: <4B44BDA1.7040108@ed.ac.uk>
+
+Hi all,
+allocatable components are a newish addition to the fortran standard, 
+although most compilers support them. It makes sense to use allocatable 
+components rather than pointers. However, not all compilers support this 
+new feature - most notably gcc-4.1 which is supplied by RHEL5 systems 
+and derivatives. I have added a configure check whether this feature is 
+supported by the fortran compiler or not. Two macros are set:
+1. GC_DYNARRAY_ATTRIB expands to allocatable or pointer
+2. GC_DYNARRAY_CHECK expands to allocated or associated
+
+So far only libglimmer/glimmer_slap.F90 and libglide/glide_thckADI.F90 
+make use of these macros. We should port the other uses of pointers 
+inside derived types where necessary as we go along.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Thu Jan  7 09:00:05 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 07 Jan 2010 08:00:05 +0000
+Subject: [Glimmer-cism-devel] support for allocatable components
+In-Reply-To: <4B44BDA1.7040108@ed.ac.uk>
+References: <4B44BDA1.7040108@ed.ac.uk>
+Message-ID: <4B459485.6090805@swansea.ac.uk>
+
+
+Thanks, Magi - that's useful.
+
+However, I think we should keep an eye on this situation and remove the 
+gcc 4.1 support at some point - it does make things more complex (for 
+example, a test suite would ideally test both situations). There is only 
+so much we can do for people... ;)
+
+Cheers,
+
+Ian
+
+Magnus Hagdorn wrote:
+> Hi all,
+> allocatable components are a newish addition to the fortran standard, 
+> although most compilers support them. It makes sense to use allocatable 
+> components rather than pointers. However, not all compilers support this 
+> new feature - most notably gcc-4.1 which is supplied by RHEL5 systems 
+> and derivatives. I have added a configure check whether this feature is 
+> supported by the fortran compiler or not. Two macros are set:
+> 1. GC_DYNARRAY_ATTRIB expands to allocatable or pointer
+> 2. GC_DYNARRAY_CHECK expands to allocated or associated
+> 
+> So far only libglimmer/glimmer_slap.F90 and libglide/glide_thckADI.F90 
+> make use of these macros. We should port the other uses of pointers 
+> inside derived types where necessary as we go along.
+> 
+> Cheers
+> magi
+> 
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Jan  7 09:57:29 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 07 Jan 2010 08:57:29 +0000
+Subject: [Glimmer-cism-devel] support for allocatable components
+In-Reply-To: <4B459485.6090805@swansea.ac.uk>
+References: <4B44BDA1.7040108@ed.ac.uk> <4B459485.6090805@swansea.ac.uk>
+Message-ID: <4B45A1F9.2010907@ed.ac.uk>
+
+Ian Rutt wrote:
+> 
+> Thanks, Magi - that's useful.
+> 
+> However, I think we should keep an eye on this situation and remove the 
+> gcc 4.1 support at some point - it does make things more complex (for 
+> example, a test suite would ideally test both situations). There is only 
+> so much we can do for people... ;)
+> 
+absolutely. when we come to remove it, it will be just a recursive sed job.
+Cheers
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Jan 15 12:57:47 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 15 Jan 2010 11:57:47 +0000
+Subject: [Glimmer-cism-devel] plans for 2010
+Message-ID: <4B50583B.8010906@ed.ac.uk>
+
+Hi all,
+I have added an article on our web page
+http://glimmer-cism.berlios.de/
+outlining our plans for 2010.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From R.Gladstone at bristol.ac.uk  Mon Jan 25 18:27:01 2010
+From: R.Gladstone at bristol.ac.uk (Rupert Gladstone)
+Date: Mon, 25 Jan 2010 17:27:01 +0000
+Subject: [Glimmer-cism-devel] suggested glimmer-cism GCM interface changes
+Message-ID: <FF28FB8BC09241B03C8B4245@geog-bsq72.ggy.bris.ac.uk>
+
+
+Dear glimmer-cism developers,
+the GCM/glimmer-cism interface (i.e. the part of glint that talks to the 
+climate model) is expanding with recent/planned developments (such as 
+altitude tiling for surface mass balance and incorporating a plume model 
+that will want to talk to the ocean GCM) and I was wondering whether it 
+might be time to think about breaking away from the current approach of 
+carrying out the entire exchange between GCM and glimmer-cism in one large 
+subroutine call with many optional arguments (19 last time I checked) and 
+instead present the GCM with a number of smaller calls, only some of which 
+will actually be called depending on how the GCM wants to run.  This 
+follows on from conversations I've had with Bill and Ian last year.  To 
+this end I attach a 'straw man' written in a combination of fortran and 
+pseudo code for how the new interface might look.  If you want to play 
+around with the straw man feel free to check it in somewhere - I don't know 
+where to put it, I'm quite out of touch with all the different branches 
+there seem to be.
+
+I think the main advantages will be ease of development and reduced chance 
+of bugs on both the GCM and glimmer-cism side of the interface.  I think if 
+we keep on expanding the large call we have at the moment we increase the 
+risk of bugs creeping in on both sides as the GCM builds up its long list 
+of arguments and glimmer-cism tries to decide what to do with them all.
+
+I can't see any obvious disadvantages.
+
+Questions:
+Do you think this is a good idea in general?
+If so, do you mind implementation being incremental? (We can add new 
+functionality in this more modular way without having to undo the current 
+large subroutine call if we don't have resource to do it all at once)
+Do you have any specific comments on the 'straw man'?
+If we take this route, which branch should we use?  I am quite out of touch 
+with the different branches.
+
+Cheers,
+Rupert
+
+
+-------------------------------
+Rupert Gladstone
+School of Geographical Sciences
+University of Bristol
+University Road
+Bristol BS8 1SS
+Tel +44 (0) 117 33 14154
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: glint_gcm_interface_strawman.f90
+Type: application/octet-stream
+Size: 11082 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100125/2502d7fb/attachment.obj>
+
+From jed at 59A2.org  Mon Jan 25 22:49:33 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Mon, 25 Jan 2010 22:49:33 +0100
+Subject: [Glimmer-cism-devel] suggested glimmer-cism GCM interface
+ changes
+In-Reply-To: <FF28FB8BC09241B03C8B4245@geog-bsq72.ggy.bris.ac.uk>
+References: <FF28FB8BC09241B03C8B4245@geog-bsq72.ggy.bris.ac.uk>
+Message-ID: <87hbq9rh1u.fsf@59A2.org>
+
+On Mon, 25 Jan 2010 17:27:01 +0000, Rupert Gladstone <R.Gladstone at bristol.ac.uk> wrote:
+> Do you think this is a good idea in general?
+
+Only one general comment as I'm not familiar with this bit of code.
+
+If you know at once about all data that needs to move through the
+interface, then certain optimizations can be made.  That is, while
+computing output A, output B might be available.  If the interface is
+such that you don't know whether B will be requested, then you have to
+choose whether to cache B on the chance that it might be requested, or
+recompute it when it is requested.  The usual way to do such a thing
+without cluttering the interface with massive argument lists is to
+create a request object.  Depending on the desired extensibility, these
+can be well-encapsulated with dynamic registration, or just a static
+collection of pointers, some of which may be NULL.
+
+Jed
+
+
+From lipscomb at lanl.gov  Tue Jan 26 22:13:33 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Tue, 26 Jan 2010 14:13:33 -0700
+Subject: [Glimmer-cism-devel] suggested glimmer-cism GCM interface
+	changes
+In-Reply-To: <FF28FB8BC09241B03C8B4245@geog-bsq72.ggy.bris.ac.uk>
+References: <FF28FB8BC09241B03C8B4245@geog-bsq72.ggy.bris.ac.uk>
+Message-ID: <CA96C379-B587-43A1-BEC1-3E7B02A6F99A@lanl.gov>
+
+
+Hi Rupert,
+
+Thanks for opening this discussion and putting together a strawman  
+document.  In general, I think this is a good idea.  Some of your  
+subroutines (for instance, glint_gcm_put_smb) correspond to routines  
+I've written for CCSM.  It would be good to make these and other  
+subroutines part of standard Glint, so that they don't need to be  
+rewritten for each GCM implementation.
+
+Also, I would like to reduce the number of optional arguments in Glint  
+subroutines, especially in the case that we are passing the surface  
+mass balance and many of those fields are not needed.  When working  
+with CCSM, I've tried to modify Glint as little as possible while  
+adding the capability to receive the SMB from the GCM.  This leads to  
+fairly ugly code with many unnecessary arguments and subroutine  
+calls.  Now that we have two GCMs (Hadley Centre and CCSM) sending the  
+SMB to Glint, it would be a good time to clean up the code and develop  
+some standard interfaces.
+
+I would suggest we start from the most recent version of Glimmer on  
+the repository, version 1.0.18.  (Ian and Magnus, please let us know  
+if there are plans to update this version.)
+
+At some point we'll want to merge these Glint changes with the higher- 
+order dynamics and other code improvements that Jesse, Steve, and  
+others have made in preparation for a Glimmer-CISM 2.0 release.  I  
+don't think a merger will be difficult, because these other code  
+improvements are mostly independent of Glint.
+
+I will be writing to this list soon to suggest some changes in how we  
+do restarts.  It would probably make sense to do restart changes in  
+coordination with Glint changes, on the same branch.
+
+Maybe we should form an ad hoc committee consisting of those who are  
+keenly interested in Glimmer-GCM interfaces.  Ian, I would invite you  
+to  join Rupert and me on this committee.  Is anyone else interested?
+
+Regards,
+
+Bill
+
+
+On Jan 25, 2010, at 10:27 AM, Rupert Gladstone wrote:
+
+>
+> Dear glimmer-cism developers,
+> the GCM/glimmer-cism interface (i.e. the part of glint that talks to  
+> the climate model) is expanding with recent/planned developments  
+> (such as altitude tiling for surface mass balance and incorporating  
+> a plume model that will want to talk to the ocean GCM) and I was  
+> wondering whether it might be time to think about breaking away from  
+> the current approach of carrying out the entire exchange between GCM  
+> and glimmer-cism in one large subroutine call with many optional  
+> arguments (19 last time I checked) and instead present the GCM with  
+> a number of smaller calls, only some of which will actually be  
+> called depending on how the GCM wants to run.  This follows on from  
+> conversations I've had with Bill and Ian last year.  To this end I  
+> attach a 'straw man' written in a combination of fortran and pseudo  
+> code for how the new interface might look.  If you want to play  
+> around with the straw man feel free to check it in somewhere - I  
+> don't know where to put it, I'm quite out of touch with all the  
+> different branches there seem to be.
+>
+> I think the main advantages will be ease of development and reduced  
+> chance of bugs on both the GCM and glimmer-cism side of the  
+> interface.  I think if we keep on expanding the large call we have  
+> at the moment we increase the risk of bugs creeping in on both sides  
+> as the GCM builds up its long list of arguments and glimmer-cism  
+> tries to decide what to do with them all.
+>
+> I can't see any obvious disadvantages.
+>
+> Questions:
+> Do you think this is a good idea in general?
+> If so, do you mind implementation being incremental? (We can add new  
+> functionality in this more modular way without having to undo the  
+> current large subroutine call if we don't have resource to do it all  
+> at once)
+> Do you have any specific comments on the 'straw man'?
+> If we take this route, which branch should we use?  I am quite out  
+> of touch with the different branches.
+>
+> Cheers,
+> Rupert
+>
+>
+> -------------------------------
+> Rupert Gladstone
+> School of Geographical Sciences
+> University of Bristol
+> University Road
+> Bristol BS8 1SS
+> Tel +44 (0) 117 33 14154
+> < 
+> glint_gcm_interface_strawman 
+> .f90>_______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Fri Jan 29 17:41:36 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 29 Jan 2010 16:41:36 +0000
+Subject: [Glimmer-cism-devel] exact restart
+In-Reply-To: <4B62BA33.1030901@ed.ac.uk>
+References: <44475.128.165.0.81.1264714322.squirrel@webmail.lanl.gov>
+	<4B62BA33.1030901@ed.ac.uk>
+Message-ID: <4B630FC0.6050003@swansea.ac.uk>
+
+
+Hi All,
+
+I've moved this to the developer list, since it has wider relevance - 
+hope that's OK.
+
+That's a tricky kind of thing to diagnose and fix. It sounds like a 
+wrinkle in the translation from machine representation to file and back 
+again, probably to do with the innards of the NetCDF library. I can't 
+remember what NetCDF file types the restart library uses (or where that 
+code resides), but possibly if one were to promote them to the next 
+precision up, as it were, that would fix your problem, by giving you 
+greater precision in the file than needed.
+
+I'm afraid I don't have time at the moment to track it down - I hope the 
+clue is helpful, though.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> William H. Lipscomb wrote:
+>> Hi Ian and Magnus,
+>>
+>> I'm trying to get exact restart working for glint-example in Glimmer
+>> version 1.0, in preparation for getting exact restart in CCSM.  I am very
+>> close--I think I am writing out all the necessary fields at the required
+>> precision--but I'm not quite there.  Here is one issue:  When I read in
+>> wgrd in certain grid cells, the value read in is not quite identical to
+>> the value written out.  For instance, in layer 1 of cell (30,50), I get
+>> this:
+>>
+>> -0.09466907827340063   ! value just before writing to netCDF file
+>>
+>> -0.09466907827340064   ! value just after reading from netCDF file
+>>
+>> The difference is only in the last digit, and it doesn't lead to a
+>> noticeable difference in the simulation.  However, it does destroy
+>> bit-for-bit agreement, which is the CCSM requirement.
+>>
+>> Can you think of any reason why this should happen?  I've talked to CCSM
+>> folks who use netCDF for restart and aren't having any problems.  I'm
+>> running on a linux cluster that is pretty well vetted.  I'm reading and
+>> writing with the same executable, which is built using the Lahey lf95
+>> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562, which
+>> should be compatible with the compiler.  This problem is starting to 
+>> drive
+>> me crazy, so I'd be grateful for any ideas you have.
+>>
+>> I'm copying this to Rupert in case he's run across anything similar.
+>>
+>>
+> [maybe for developer list?]
+> 
+> Hi Bill,
+> you could decrease the precision to less than machine precision. this 
+> way you would be able to ensure you always get the same value.
+> magi
+> 
+> 
+> 
+> 
+
+
+From jed at 59A2.org  Fri Jan 29 18:08:31 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Fri, 29 Jan 2010 18:08:31 +0100
+Subject: [Glimmer-cism-devel] exact restart
+In-Reply-To: <4B630FC0.6050003@swansea.ac.uk>
+References: <44475.128.165.0.81.1264714322.squirrel@webmail.lanl.gov>
+	<4B62BA33.1030901@ed.ac.uk> <4B630FC0.6050003@swansea.ac.uk>
+Message-ID: <87pr4syh2o.fsf@59A2.org>
+
+
+> >> I'm trying to get exact restart working for glint-example in Glimmer
+> >> version 1.0, in preparation for getting exact restart in CCSM.  I am very
+> >> close--I think I am writing out all the necessary fields at the required
+> >> precision--but I'm not quite there.  Here is one issue:  When I read in
+> >> wgrd in certain grid cells, the value read in is not quite identical to
+> >> the value written out.  For instance, in layer 1 of cell (30,50), I get
+> >> this:
+> >>
+> >> -0.09466907827340063   ! value just before writing to netCDF file
+
+Are you writing this string out where the value was computed, or after
+it has been stored in the array (i.e. are you certain that the register
+that computed *this* value has been flushed after it was computed)?
+
+> >> Can you think of any reason why this should happen?  I've talked to CCSM
+> >> folks who use netCDF for restart and aren't having any problems.  I'm
+> >> running on a linux cluster that is pretty well vetted.  I'm reading and
+> >> writing with the same executable, which is built using the Lahey lf95
+> >> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562, which
+> >> should be compatible with the compiler.  This problem is starting to 
+> >> drive me crazy, so I'd be grateful for any ideas you have.
+
+Are these running in 32 or 64-bit mode?  Have you set -ffloat-store (or
+whatever Lahey option has that meaning)?
+
+Jed
+
+

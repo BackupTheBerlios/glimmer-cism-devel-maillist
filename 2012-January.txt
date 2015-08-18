@@ -1,0 +1,92 @@
+From sprice at lanl.gov  Sat Jan 14 00:10:12 2012
+From: sprice at lanl.gov (Stephen F. Price)
+Date: Fri, 13 Jan 2012 16:10:12 -0700
+Subject: [Glimmer-cism-devel] changes in scaling of variables on netcdf
+	output
+Message-ID: <858CE935-FFC5-473A-BC32-341BD631EB17@lanl.gov>
+
+
+Hi all,
+
+A year or so ago (longer?) there was discussion about changing the way non-dim variables in the code were scaled back up to dimensional values just before, or during output to netCDF. The changes were implemented some time ago on one of the Berlios repository branches and have persisted every since. 
+
+Currently, we are seeing a problem on some branches of the code - which were merged with / from older Berlios branches - whereby output looks to be scaled up to dimensional, twice. That is, all output variables in netcdf appear too large (or too small) by a factor exactly equal to the scale factor. When doing an ncdump, one can see that the variables are already dimensional in the netcdf file (when they should not be). Thus, when they are multiplied again by the scale factor, e.g. for viewing w/ something like ncview, what you actually see is the value: 
+
+variable * scale_factor * scale_factor
+
+What should be happening is that the non-dim values are written to the netcdf file so that scaling back up to dimensional is explicitly applied (e.g., in matlab one would not only import that values but the scale factor, in order to work w/ dimensional output).
+
+It looks like the original changes (or at least some of them) were made by Magi, on Berlios, rev. 1491, in Feb. of last year. My hunch is that some older piece of code is still hanging around, applying the scales to the variables before the netcdf write routines are called. 
+
+Please let me know if anyone has ideas for where to start hunting this bug down.
+
+thanks -
+
+Steve
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Mon Jan 16 13:50:38 2012
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 16 Jan 2012 12:50:38 +0000
+Subject: [Glimmer-cism-devel] changes in scaling of variables on netcdf
+ output
+In-Reply-To: <858CE935-FFC5-473A-BC32-341BD631EB17@lanl.gov>
+References: <858CE935-FFC5-473A-BC32-341BD631EB17@lanl.gov>
+Message-ID: <4F141D1E.8060008@swansea.ac.uk>
+
+
+Hi Steve,
+
+I don't have much insight beyond this: the netcdf IO code is 
+automatically generated from a template. I would suggest this is the 
+most likely place to look - either in the python code that does the 
+task, or the template itself.
+
+The script is generate_ncvars.py
+
+Actually, I'm not sure if there is a template. Looking at the script and 
+the makefiles would answer the questions.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+Department of Geography
+College of Science
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. +44 (0)1792 602685
+i.c.rutt at swansea.ac.uk
+
+On 13/01/12 23:10, Stephen F. Price wrote:
+>
+> Hi all,
+>
+> A year or so ago (longer?) there was discussion about changing the way non-dim variables in the code were scaled back up to dimensional values just before, or during output to netCDF. The changes were implemented some time ago on one of the Berlios repository branches and have persisted every since.
+>
+> Currently, we are seeing a problem on some branches of the code - which were merged with / from older Berlios branches - whereby output looks to be scaled up to dimensional, twice. That is, all output variables in netcdf appear too large (or too small) by a factor exactly equal to the scale factor. When doing an ncdump, one can see that the variables are already dimensional in the netcdf file (when they should not be). Thus, when they are multiplied again by the scale factor, e.g. for viewing w/ something like ncview, what you actually see is the value:
+>
+> variable * scale_factor * scale_factor
+>
+> What should be happening is that the non-dim values are written to the netcdf file so that scaling back up to dimensional is explicitly applied (e.g., in matlab one would not only import that values but the scale factor, in order to work w/ dimensional output).
+>
+> It looks like the original changes (or at least some of them) were made by Magi, on Berlios, rev. 1491, in Feb. of last year. My hunch is that some older piece of code is still hanging around, applying the scales to the variables before the netcdf write routines are called.
+>
+> Please let me know if anyone has ideas for where to start hunting this bug down.
+>
+> thanks -
+>
+> Steve
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+

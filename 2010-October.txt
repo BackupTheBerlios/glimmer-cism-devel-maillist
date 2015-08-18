@@ -1,0 +1,1219 @@
+From a.j.payne at bristol.ac.uk  Fri Oct  1 10:13:27 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Fri, 01 Oct 2010 09:13:27 +0100
+Subject: [Glimmer-cism-devel] integrating the higher order physics model
+ into Glimmer-CISM
+In-Reply-To: <4CA475F8.8040007@ed.ac.uk>
+References: <4CA34555.8080106@ed.ac.uk> <4CA381B9.706@bristol.ac.uk>
+	<4CA475F8.8040007@ed.ac.uk>
+Message-ID: <4CA59827.3090703@bristol.ac.uk>
+
+hi magnus
+
+ok i had not appreciated that you meant requires in the compilation 
+sense.  i can see that this could be the case, although it would be nice 
+to rationalise this relationship.  agreed that best to proceed 
+pragmatically in the light of future major refactoring, so long as we 
+dont do anything that would require a lot of work to undo when the 
+dycore API and refactoring are done.
+
+tony
+
+On 30/09/2010 12:35, Magnus Hagdorn wrote:
+> Tony Payne wrote:
+>> i think that the HO code will fairly soon become the default because 
+>> the range of probs that can be done with SIA is fairly limited 
+>> (assuming that a fast enough HO version can be made).  in which case 
+>> making it an extension seems a bit obtuse.  if we have SIA/ice sheet 
+>> eqn as the default we are essentially presenting a model that is 20 
+>> years (well 15) old, which may not be good PR.  i am not certain that 
+>> we can tackle this separately from the dycore issue in that whatever 
+>> solution we choose here should also work for the external dycores 
+>> (and vice versa).
+>>
+>>
+>
+> yes, I am sure the HO code will become the default. at the moment it 
+> is more a pragmatic question of where to put it before the refactoring 
+> of the code, given that we plan to rearrange most things in the not 
+> too distant future. my understanding of the HO code as it is at the 
+> moment, is that it requires the existing SIA code to be compiled as 
+> well. If that was the case then the HO code would be an add-on.
+>
+> I would expect the code to move somewhere else once we are tackling 
+> the refactoring and it would become a real alternative to the SIA code.
+>
+> magnus
+>
+>
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From sarah.shannon at bristol.ac.uk  Fri Oct  1 18:42:03 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Fri, 01 Oct 2010 17:42:03 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+Message-ID: <4CA60F5B.5050505@bristol.ac.uk>
+
+Hi Magnus and developers,
+
+The test script is now checked into 
+http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk. 
+
+It is called automatic_test.sh located in /tests/utils/
+
+To get help on how to invoke the test,  type 'make test' in the head 
+directory.
+
+The tests which currently work are:
+
+1. EISMINT-1 moving margin experiments 1,2 and 3.
+2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson solvers
+3. ISMIP-HOM tests A and C using the Payne/Price solver.
+
+For the ISMIP-HOM tests, I used the python script and configuration 
+files for experiments A and C which were already in the tests2 
+directory. Would it be useful to add the other ISMIP-HOM tests for both 
+the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+
+The test directory contains configuration files for petermann, ross and 
+shelf tests. The script does not run these tests at the moment.  Perhaps 
+you could checkout the code and see if you can run a test?
+
+Let me know if you spot any places where improvements can be made.
+
+All the best,
+
+Sarah
+
+
+
+
+
+
+
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101001/7fd01c94/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Oct  4 16:28:52 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 04 Oct 2010 15:28:52 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CA60F5B.5050505@bristol.ac.uk>
+References: <4CA60F5B.5050505@bristol.ac.uk>
+Message-ID: <4CA9E4A4.109@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi Magnus and developers,
+> 
+> The test script is now checked into 
+> http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.
+> It is called automatic_test.sh located in /tests/utils/
+> 
+> To get help on how to invoke the test,  type 'make test' in the head 
+> directory.
+> 
+> The tests which currently work are:
+> 
+> 1. EISMINT-1 moving margin experiments 1,2 and 3.
+> 2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson solvers
+> 3. ISMIP-HOM tests A and C using the Payne/Price solver.
+> 
+> For the ISMIP-HOM tests, I used the python script and configuration 
+> files for experiments A and C which were already in the tests2 
+> directory. Would it be useful to add the other ISMIP-HOM tests for both 
+> the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+> 
+> The test directory contains configuration files for petermann, ross and 
+> shelf tests. The script does not run these tests at the moment.  Perhaps 
+> you could checkout the code and see if you can run a test?
+> 
+> Let me know if you spot any places where improvements can be made.
+> 
+> 
+
+Hi Sarah,
+there are a number of issues with your test suite implementation:
+1. the gold versions shouldn't be under version control. these data 
+files considerably contribute to the size of the project in subversion. 
+We have only limited space. Also some people might not like to have to 
+download the netCDF files all the time. We can think about where they 
+should live later, but I am sure we can find some server with enough 
+space/bandwidth to serve a tar-ball containing the gold standard.
+
+2. you are making the automatic_test.sh more complicated than you need 
+to. Have a look at the current trunk:
+https://magi at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk
+
+the tests directory has a number of subdirectories with various test 
+setups. Let's have a look at the EISMINT-1 tests in the directory
+tests/EISMINT/EISMINT-1
+All tests are controlled by make. So the Makefile.am specifies a a data 
+macro containing all the names of the output files generated by each 
+test setup. The Makefile includes the toplevel file extra_rules.am which 
+defines a make rule to generate a netcdf output file given a 
+configuration file. The make rule uses a python wrapper to either launch 
+the model directly or via qsub. The python wrapper can also handle 
+dependencies.
+
+So, all you need to do is to write another rule which does the 
+comparison, for example
+
+compare-%:	%.nc
+		$(top_builddir)/utils/compare $< \
+                 $(PATH_TO_GOLD_STANDARD)/path/to/exp/$<
+
+where the macro PATH_TO_GOLD_STANDARD is set by configure to the 
+top-level directory where all the gold standard files are installed. You 
+still need to figure out the path/to/exp which is just the difference 
+between $(top_builddir) and $(builddir) (there might already be a macro 
+for that, or some suitable shell trickery will give you it).
+
+running make compare-e1-fm.1 would then run the test if necessary and 
+then compare it against the gold standard. it might be an idea to output 
+whether it failed or not. a wrapper will be necessary to make use of the 
+SGE stuff, but we can sort that out once the basics work.
+
+I hope this makes sense to you and please don't hesitate for further 
+details.
+
+magi
+
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Tue Oct  5 10:01:26 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 05 Oct 2010 09:01:26 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CA9E4A4.109@ed.ac.uk>
+References: <4CA60F5B.5050505@bristol.ac.uk> <4CA9E4A4.109@ed.ac.uk>
+Message-ID: <4CAADB56.2000908@bristol.ac.uk>
+
+Hi Magnus,
+Thanks of that,  I understand what you mean.  Ill add the rule to 
+compare and the extra macro in 
+svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk and get 
+back to you,
+Cheers,
+Sarah
+
+
+
+
+Magnus Hagdorn wrote:
+> Sarah Shannon wrote:
+>> Hi Magnus and developers,
+>>
+>> The test script is now checked into 
+>> http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.
+>> It is called automatic_test.sh located in /tests/utils/
+>>
+>> To get help on how to invoke the test,  type 'make test' in the head 
+>> directory.
+>>
+>> The tests which currently work are:
+>>
+>> 1. EISMINT-1 moving margin experiments 1,2 and 3.
+>> 2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson 
+>> solvers
+>> 3. ISMIP-HOM tests A and C using the Payne/Price solver.
+>>
+>> For the ISMIP-HOM tests, I used the python script and configuration 
+>> files for experiments A and C which were already in the tests2 
+>> directory. Would it be useful to add the other ISMIP-HOM tests for 
+>> both the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+>>
+>> The test directory contains configuration files for petermann, ross 
+>> and shelf tests. The script does not run these tests at the moment.  
+>> Perhaps you could checkout the code and see if you can run a test?
+>>
+>> Let me know if you spot any places where improvements can be made.
+>>
+>>
+>
+> Hi Sarah,
+> there are a number of issues with your test suite implementation:
+> 1. the gold versions shouldn't be under version control. these data 
+> files considerably contribute to the size of the project in 
+> subversion. We have only limited space. Also some people might not 
+> like to have to download the netCDF files all the time. We can think 
+> about where they should live later, but I am sure we can find some 
+> server with enough space/bandwidth to serve a tar-ball containing the 
+> gold standard.
+>
+> 2. you are making the automatic_test.sh more complicated than you need 
+> to. Have a look at the current trunk:
+> https://magi at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk 
+>
+>
+> the tests directory has a number of subdirectories with various test 
+> setups. Let's have a look at the EISMINT-1 tests in the directory
+> tests/EISMINT/EISMINT-1
+> All tests are controlled by make. So the Makefile.am specifies a a 
+> data macro containing all the names of the output files generated by 
+> each test setup. The Makefile includes the toplevel file 
+> extra_rules.am which defines a make rule to generate a netcdf output 
+> file given a configuration file. The make rule uses a python wrapper 
+> to either launch the model directly or via qsub. The python wrapper 
+> can also handle dependencies.
+>
+> So, all you need to do is to write another rule which does the 
+> comparison, for example
+>
+> compare-%:    %.nc
+>         $(top_builddir)/utils/compare $< \
+>                 $(PATH_TO_GOLD_STANDARD)/path/to/exp/$<
+>
+> where the macro PATH_TO_GOLD_STANDARD is set by configure to the 
+> top-level directory where all the gold standard files are installed. 
+> You still need to figure out the path/to/exp which is just the 
+> difference between $(top_builddir) and $(builddir) (there might 
+> already be a macro for that, or some suitable shell trickery will give 
+> you it).
+>
+> running make compare-e1-fm.1 would then run the test if necessary and 
+> then compare it against the gold standard. it might be an idea to 
+> output whether it failed or not. a wrapper will be necessary to make 
+> use of the SGE stuff, but we can sort that out once the basics work.
+>
+> I hope this makes sense to you and please don't hesitate for further 
+> details.
+>
+> magi
+>
+>
+>
+>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101005/edceae52/attachment.vcf>
+
+From Gethin.Williams at bristol.ac.uk  Tue Oct  5 12:40:36 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Tue, 05 Oct 2010 11:40:36 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+Message-ID: <60B51847BDBC5CBF38B9A2CC@geog-a81.ggy.bris.ac.uk>
+
+Hi folks,
+
+On the topic of reference files and version control, I think that there is 
+significant benefit of having the reference files in the same repository as 
+the code, so long as the files are small enough:
+
+1. It simplifies configure--one less path to give.
+2. The reference files will change as the model develops, and keeping them 
+in version control means that there is no confusion about /which/ reference 
+files one is comparing against.  After all, one would like the tests to be 
+as infallible as possible.
+
+To that end, I wonder if there is mileage in refining the reference files 
+so that they can be small, yet powerful?
+
+Cheers,
+Gethin.
+
+--On 05 October 2010 12:00 +0200 
+glimmer-cism-devel-request at lists.berlios.de wrote:
+
+> Send Glimmer-cism-devel mailing list submissions to
+> 	glimmer-cism-devel at lists.berlios.de
+>
+> To subscribe or unsubscribe via the World Wide Web, visit
+> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> or, via email, send a message with subject or body 'help' to
+> 	glimmer-cism-devel-request at lists.berlios.de
+>
+> You can reach the person managing the list at
+> 	glimmer-cism-devel-owner at lists.berlios.de
+>
+> When replying, please edit your Subject line so it is more specific
+> than "Re: Contents of Glimmer-cism-devel digest..."
+>
+>
+> Today's Topics:
+>
+>    1. Re: glimmer test suite (Magnus Hagdorn)
+>    2. Re: glimmer test suite (Sarah Shannon)
+>
+>
+> ----------------------------------------------------------------------
+>
+> Message: 1
+> Date: Mon, 04 Oct 2010 15:28:52 +0100
+> From: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> To: Sarah Shannon <sarah.shannon at bristol.ac.uk>
+> Cc: "Glimmer/CISM \(developers\)"
+> 	<glimmer-cism-devel at lists.berlios.de>
+> Subject: Re: [Glimmer-cism-devel] glimmer test suite
+> Message-ID: <4CA9E4A4.109 at ed.ac.uk>
+> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>
+> Sarah Shannon wrote:
+>> Hi Magnus and developers,
+>>
+>> The test script is now checked into
+>> http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.
+>> It is called automatic_test.sh located in /tests/utils/
+>>
+>> To get help on how to invoke the test,  type 'make test' in the head
+>> directory.
+>>
+>> The tests which currently work are:
+>>
+>> 1. EISMINT-1 moving margin experiments 1,2 and 3.
+>> 2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson
+>> solvers 3. ISMIP-HOM tests A and C using the Payne/Price solver.
+>>
+>> For the ISMIP-HOM tests, I used the python script and configuration
+>> files for experiments A and C which were already in the tests2
+>> directory. Would it be useful to add the other ISMIP-HOM tests for both
+>> the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+>>
+>> The test directory contains configuration files for petermann, ross and
+>> shelf tests. The script does not run these tests at the moment.  Perhaps
+>> you could checkout the code and see if you can run a test?
+>>
+>> Let me know if you spot any places where improvements can be made.
+>>
+>>
+>
+> Hi Sarah,
+> there are a number of issues with your test suite implementation:
+> 1. the gold versions shouldn't be under version control. these data
+> files considerably contribute to the size of the project in subversion.
+> We have only limited space. Also some people might not like to have to
+> download the netCDF files all the time. We can think about where they
+> should live later, but I am sure we can find some server with enough
+> space/bandwidth to serve a tar-ball containing the gold standard.
+>
+> 2. you are making the automatic_test.sh more complicated than you need
+> to. Have a look at the current trunk:
+> https://magi at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk
+>
+> the tests directory has a number of subdirectories with various test
+> setups. Let's have a look at the EISMINT-1 tests in the directory
+> tests/EISMINT/EISMINT-1
+> All tests are controlled by make. So the Makefile.am specifies a a data
+> macro containing all the names of the output files generated by each
+> test setup. The Makefile includes the toplevel file extra_rules.am which
+> defines a make rule to generate a netcdf output file given a
+> configuration file. The make rule uses a python wrapper to either launch
+> the model directly or via qsub. The python wrapper can also handle
+> dependencies.
+>
+> So, all you need to do is to write another rule which does the
+> comparison, for example
+>
+> compare-%:	%.nc
+> 		$(top_builddir)/utils/compare $< \
+>                  $(PATH_TO_GOLD_STANDARD)/path/to/exp/$<
+>
+> where the macro PATH_TO_GOLD_STANDARD is set by configure to the
+> top-level directory where all the gold standard files are installed. You
+> still need to figure out the path/to/exp which is just the difference
+> between $(top_builddir) and $(builddir) (there might already be a macro
+> for that, or some suitable shell trickery will give you it).
+>
+> running make compare-e1-fm.1 would then run the test if necessary and
+> then compare it against the gold standard. it might be an idea to output
+> whether it failed or not. a wrapper will be necessary to make use of the
+> SGE stuff, but we can sort that out once the basics work.
+>
+> I hope this makes sense to you and please don't hesitate for further
+> details.
+>
+> magi
+>
+>
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+>
+>
+> ------------------------------
+>
+> Message: 2
+> Date: Tue, 05 Oct 2010 09:01:26 +0100
+> From: Sarah Shannon <sarah.shannon at bristol.ac.uk>
+> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>, 	"Glimmer/CISM
+> 	(developers)" <glimmer-cism-devel at lists.berlios.de>
+> Subject: Re: [Glimmer-cism-devel] glimmer test suite
+> Message-ID: <4CAADB56.2000908 at bristol.ac.uk>
+> Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+>
+> Hi Magnus,
+> Thanks of that,  I understand what you mean.  Ill add the rule to
+> compare and the extra macro in
+> svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk and get
+> back to you,
+> Cheers,
+> Sarah
+>
+>
+>
+>
+> Magnus Hagdorn wrote:
+>> Sarah Shannon wrote:
+>>> Hi Magnus and developers,
+>>>
+>>> The test script is now checked into
+>>> http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.
+>>> It is called automatic_test.sh located in /tests/utils/
+>>>
+>>> To get help on how to invoke the test,  type 'make test' in the head
+>>> directory.
+>>>
+>>> The tests which currently work are:
+>>>
+>>> 1. EISMINT-1 moving margin experiments 1,2 and 3.
+>>> 2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson
+>>> solvers
+>>> 3. ISMIP-HOM tests A and C using the Payne/Price solver.
+>>>
+>>> For the ISMIP-HOM tests, I used the python script and configuration
+>>> files for experiments A and C which were already in the tests2
+>>> directory. Would it be useful to add the other ISMIP-HOM tests for
+>>> both the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+>>>
+>>> The test directory contains configuration files for petermann, ross
+>>> and shelf tests. The script does not run these tests at the moment.
+>>> Perhaps you could checkout the code and see if you can run a test?
+>>>
+>>> Let me know if you spot any places where improvements can be made.
+>>>
+>>>
+>>
+>> Hi Sarah,
+>> there are a number of issues with your test suite implementation:
+>> 1. the gold versions shouldn't be under version control. these data
+>> files considerably contribute to the size of the project in
+>> subversion. We have only limited space. Also some people might not
+>> like to have to download the netCDF files all the time. We can think
+>> about where they should live later, but I am sure we can find some
+>> server with enough space/bandwidth to serve a tar-ball containing the
+>> gold standard.
+>>
+>> 2. you are making the automatic_test.sh more complicated than you need
+>> to. Have a look at the current trunk:
+>> https://magi at svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/tru
+>> nk
+>>
+>>
+>> the tests directory has a number of subdirectories with various test
+>> setups. Let's have a look at the EISMINT-1 tests in the directory
+>> tests/EISMINT/EISMINT-1
+>> All tests are controlled by make. So the Makefile.am specifies a a
+>> data macro containing all the names of the output files generated by
+>> each test setup. The Makefile includes the toplevel file
+>> extra_rules.am which defines a make rule to generate a netcdf output
+>> file given a configuration file. The make rule uses a python wrapper
+>> to either launch the model directly or via qsub. The python wrapper
+>> can also handle dependencies.
+>>
+>> So, all you need to do is to write another rule which does the
+>> comparison, for example
+>>
+>> compare-%:    %.nc
+>>         $(top_builddir)/utils/compare $< \
+>>                 $(PATH_TO_GOLD_STANDARD)/path/to/exp/$<
+>>
+>> where the macro PATH_TO_GOLD_STANDARD is set by configure to the
+>> top-level directory where all the gold standard files are installed.
+>> You still need to figure out the path/to/exp which is just the
+>> difference between $(top_builddir) and $(builddir) (there might
+>> already be a macro for that, or some suitable shell trickery will give
+>> you it).
+>>
+>> running make compare-e1-fm.1 would then run the test if necessary and
+>> then compare it against the gold standard. it might be an idea to
+>> output whether it failed or not. a wrapper will be necessary to make
+>> use of the SGE stuff, but we can sort that out once the basics work.
+>>
+>> I hope this makes sense to you and please don't hesitate for further
+>> details.
+>>
+>> magi
+>>
+>>
+>>
+>>
+>
+> -------------- next part --------------
+> A non-text attachment was scrubbed...
+> Name: sarah_shannon.vcf
+> Type: text/x-vcard
+> Size: 278 bytes
+> Desc: not available
+> URL:
+> <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201010
+> 05/edceae52/attachment-0001.vcf>
+>
+> ------------------------------
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+> End of Glimmer-cism-devel Digest, Vol 16, Issue 3
+> *************************************************
+
+
+
+Cheers,
+Gethin.
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Oct  5 13:31:22 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 05 Oct 2010 12:31:22 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <60B51847BDBC5CBF38B9A2CC@geog-a81.ggy.bris.ac.uk>
+References: <60B51847BDBC5CBF38B9A2CC@geog-a81.ggy.bris.ac.uk>
+Message-ID: <4CAB0C8A.5020006@ed.ac.uk>
+
+DAG Williams, Geographical Sciences wrote:
+> Hi folks,
+> 
+> On the topic of reference files and version control, I think that there 
+> is significant benefit of having the reference files in the same 
+> repository as the code, so long as the files are small enough:
+> 
+> 1. It simplifies configure--one less path to give.
+> 2. The reference files will change as the model develops, and keeping 
+> them in version control means that there is no confusion about /which/ 
+> reference files one is comparing against.  After all, one would like the 
+> tests to be as infallible as possible.
+> 
+> To that end, I wonder if there is mileage in refining the reference 
+> files so that they can be small, yet powerful?
+> 
+
+Hi Gethin,
+the reference files are autogenerated relatively large binary files. 
+Subversion is not particularly well suited to keep track of them, more 
+importantly, binary diffs are meaningless. Large (even when small) will 
+lead to bloat in the subversion repo and we have to be careful to 
+restrict ourselves to small reference files.
+
+If we wanted to we could add a script that automatically downloads a 
+tar-ball and unpacks and installs it somewhere.
+
+However, I am convinced that we will end up with a number of personal 
+reference files, because of differences in compiler, architecture, 
+solver, etc used. So, being able to just run tests in a known good 
+source tree and pointing configure of the experimental source tree at 
+the good source tree for comparison would be very useful.
+
+Another question is who will run the comparisons? I don't think a normal 
+user will need to run the comparisons. They might run the tests to see 
+how it works. The comparisons are more useful to developers who change 
+the code and want to make sure that they haven't broken anything new. 
+The other use is for us when we prepare a new release to check that 
+things still work as expected.
+
+So, I'd strongly prefer to keep data files elsewhere.
+
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Oct  5 15:59:16 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 05 Oct 2010 14:59:16 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CAB2C13.9080508@bristol.ac.uk>
+References: <4CA60F5B.5050505@bristol.ac.uk> <4CA9E4A4.109@ed.ac.uk>
+	<4CAADB56.2000908@bristol.ac.uk> <4CAADCBE.7030903@ed.ac.uk>
+	<4CAB2C13.9080508@bristol.ac.uk>
+Message-ID: <4CAB2F34.20400@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi Magnus,
+> 
+> OK, Adding the macro seems straight forward enough.
+> 
+> I was wondering if the tests (invoked by make data) actually output 
+> netCDF files somewhere? Is the idea to run each test in the test 
+> directory sequentially using the python launcher and then do the 
+> comparison after? Sorry if this is an obvious question. The reason I am 
+> asking, is because it seems to take a while to run the tests in one go.
+>
+
+yes, they should output data in the test directory. you can run a single 
+test by for example running
+make e1-fm.1.nc
+in the tests/EISMINT/EISMINT-1 directory. If you have rule
+compare-%:	%.nc
+                 do some stuff
+then running
+make compare-e1-fm.1
+would make sure that the netCDF file created and then do some 
+comparison. One of the main points of having the launcher is that it can 
+submit jobs to a cluster using SGE. The testing can then be done in 
+parallel. The comparisons should also work in parallel, but I think we 
+can sort that out once the sequential ones work.
+
+
+> I am looking at how to add the 'compare rule'.  On the lanl branch I 
+> added the rule to Makefile.am. I am bit confused about why I should add 
+> it to the extra_rules.am instead.
+> 
+
+because extra_rules.am get included by other Makefile.am files. So you 
+only need to write it once.
+
+hope this helps
+magi
+
+PS: cc'd gc-devel list to make discussion public...
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From a.j.payne at bristol.ac.uk  Tue Oct  5 17:54:06 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Tue, 05 Oct 2010 16:54:06 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CAB0C8A.5020006@ed.ac.uk>
+References: <60B51847BDBC5CBF38B9A2CC@geog-a81.ggy.bris.ac.uk>
+	<4CAB0C8A.5020006@ed.ac.uk>
+Message-ID: <4CAB4A1E.7010505@bristol.ac.uk>
+
+hi
+
+perhaps the option of having an automatically downloaded tarfile that 
+contains the reference files is sensible.  it would make sense to have 
+this located in an easily accessible location so that we do not create 
+additional ftp issues.  does berlios offer such a space outside of the 
+cvs? certainly for the eismint level 1 and 2 expts, the actual amount of 
+data needed for the check is fairly small and could be limited to a few 
+2d fields only.  i guess that we need to decide with the reference is 
+there to flag when something has gone wrong (a small amount of data) or 
+to point where it has gone wrong (potentially a far larger amount of 
+data given the interdependence of many of the variables).
+
+doesn't having personal reference files defeat the purpose somewhat?  
+shouldn't we be aiming for performance that is platform independent? i 
+can see that this may not be always be possible a byte level but i think 
+the comparsion software can allow for a defined tolerance.
+
+all the best
+
+tony
+
+On 05/10/2010 12:31, Magnus Hagdorn wrote:
+> DAG Williams, Geographical Sciences wrote:
+>> Hi folks,
+>>
+>> On the topic of reference files and version control, I think that 
+>> there is significant benefit of having the reference files in the 
+>> same repository as the code, so long as the files are small enough:
+>>
+>> 1. It simplifies configure--one less path to give.
+>> 2. The reference files will change as the model develops, and keeping 
+>> them in version control means that there is no confusion about 
+>> /which/ reference files one is comparing against.  After all, one 
+>> would like the tests to be as infallible as possible.
+>>
+>> To that end, I wonder if there is mileage in refining the reference 
+>> files so that they can be small, yet powerful?
+>>
+>
+> Hi Gethin,
+> the reference files are autogenerated relatively large binary files. 
+> Subversion is not particularly well suited to keep track of them, more 
+> importantly, binary diffs are meaningless. Large (even when small) 
+> will lead to bloat in the subversion repo and we have to be careful to 
+> restrict ourselves to small reference files.
+>
+> If we wanted to we could add a script that automatically downloads a 
+> tar-ball and unpacks and installs it somewhere.
+>
+> However, I am convinced that we will end up with a number of personal 
+> reference files, because of differences in compiler, architecture, 
+> solver, etc used. So, being able to just run tests in a known good 
+> source tree and pointing configure of the experimental source tree at 
+> the good source tree for comparison would be very useful.
+>
+> Another question is who will run the comparisons? I don't think a 
+> normal user will need to run the comparisons. They might run the tests 
+> to see how it works. The comparisons are more useful to developers who 
+> change the code and want to make sure that they haven't broken 
+> anything new. The other use is for us when we prepare a new release to 
+> check that things still work as expected.
+>
+> So, I'd strongly prefer to keep data files elsewhere.
+>
+> magi
+>
+>
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From I.C.Rutt at swansea.ac.uk  Wed Oct  6 18:30:02 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Wed, 06 Oct 2010 17:30:02 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+Message-ID: <4CACA40A.3090106@swansea.ac.uk>
+
+
+Hi All,
+
+I was just looking at the output from the EISMINT 1 moving margin case 
+for 1.7.0 and 1.0.18. There's a difference in the basal melt rate (bmlt) 
+between the two versions.
+
+In 1.0.18, all model variables reach a steady state. However, in 1.7.0, 
+I see continuing variability in the basal melt rate in the central part 
+of the domain. The attached plots show what happens for a single point 
+(bmlt v. time slice), and also a representative spatial distribution for 
+the negative part (final timestep).
+
+The spatial/temporal pattern looks 'numerical' to me, but it might be 
+due to a realistic physical process which is present in one version, but 
+not the other. I think this is not so likely, as there is no 
+thermomechanical feedback in the model.
+
+Two questions:
+
+1) Could someone please try and reproduce this (it's very quick to do - 
+just use the released tarballs from BERLIoS).
+
+2) Does anyone with intimate knowledge of 1.7.0 know of a reason why 
+this would happen?
+
+Any illumination gratefully received...
+
+Best,
+
+Ian
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: GCISM-1p7-bmlt.png
+Type: image/png
+Size: 31560 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101006/ea49fe68/attachment.png>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: GCISM-1p7-bmlt-spatial.png
+Type: image/png
+Size: 98114 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101006/ea49fe68/attachment-0001.png>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Oct  7 10:04:56 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 07 Oct 2010 09:04:56 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+In-Reply-To: <4CACA40A.3090106@swansea.ac.uk>
+References: <4CACA40A.3090106@swansea.ac.uk>
+Message-ID: <4CAD7F28.6000502@ed.ac.uk>
+
+Hi all,
+just a technical note...
+posts to the mailing lists are restricted in size. I'd suggest to have 
+discussions like this on the wiki and alert people to its presence by 
+sending a pointer to the list...
+magi
+
+
+Ian Rutt wrote:
+> 
+> Hi All,
+> 
+> I was just looking at the output from the EISMINT 1 moving margin case 
+> for 1.7.0 and 1.0.18. There's a difference in the basal melt rate (bmlt) 
+> between the two versions.
+> 
+> In 1.0.18, all model variables reach a steady state. However, in 1.7.0, 
+> I see continuing variability in the basal melt rate in the central part 
+> of the domain. The attached plots show what happens for a single point 
+> (bmlt v. time slice), and also a representative spatial distribution for 
+> the negative part (final timestep).
+> 
+> The spatial/temporal pattern looks 'numerical' to me, but it might be 
+> due to a realistic physical process which is present in one version, but 
+> not the other. I think this is not so likely, as there is no 
+> thermomechanical feedback in the model.
+> 
+> Two questions:
+> 
+> 1) Could someone please try and reproduce this (it's very quick to do - 
+> just use the released tarballs from BERLIoS).
+> 
+> 2) Does anyone with intimate knowledge of 1.7.0 know of a reason why 
+> this would happen?
+> 
+> Any illumination gratefully received...
+> 
+> Best,
+> 
+> Ian
+> 
+> 
+> ------------------------------------------------------------------------
+> 
+> 
+> ------------------------------------------------------------------------
+> 
+> 
+> ------------------------------------------------------------------------
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From a.j.payne at bristol.ac.uk  Thu Oct  7 10:12:31 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Thu, 07 Oct 2010 09:12:31 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+In-Reply-To: <4CACA40A.3090106@swansea.ac.uk>
+References: <4CACA40A.3090106@swansea.ac.uk>
+Message-ID: <4CAD80EF.30800@bristol.ac.uk>
+
+hi
+
+the map of basal melt looks very wrong, especially if flow and temp are 
+uncoupled.  i assume that the thickness and vel fields are symmetrical? 
+i think that there may be some horizontal meltwater routing in 1.7 (as 
+an option which may have accidentally got turned on).  does the 
+temperature structure show the same patterning?
+
+all the best
+
+tony
+
+On 06/10/2010 17:30, Ian Rutt wrote:
+>
+> Hi All,
+>
+> I was just looking at the output from the EISMINT 1 moving margin case 
+> for 1.7.0 and 1.0.18. There's a difference in the basal melt rate 
+> (bmlt) between the two versions.
+>
+> In 1.0.18, all model variables reach a steady state. However, in 
+> 1.7.0, I see continuing variability in the basal melt rate in the 
+> central part of the domain. The attached plots show what happens for a 
+> single point (bmlt v. time slice), and also a representative spatial 
+> distribution for the negative part (final timestep).
+>
+> The spatial/temporal pattern looks 'numerical' to me, but it might be 
+> due to a realistic physical process which is present in one version, 
+> but not the other. I think this is not so likely, as there is no 
+> thermomechanical feedback in the model.
+>
+> Two questions:
+>
+> 1) Could someone please try and reproduce this (it's very quick to do 
+> - just use the released tarballs from BERLIoS).
+>
+> 2) Does anyone with intimate knowledge of 1.7.0 know of a reason why 
+> this would happen?
+>
+> Any illumination gratefully received...
+>
+> Best,
+>
+> Ian
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>    
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101007/6d32cf9a/attachment.html>
+
+From I.C.Rutt at swansea.ac.uk  Thu Oct  7 14:09:34 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 07 Oct 2010 13:09:34 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+In-Reply-To: <4CAD80EF.30800@bristol.ac.uk>
+References: <4CACA40A.3090106@swansea.ac.uk> <4CAD80EF.30800@bristol.ac.uk>
+Message-ID: <4CADB87E.6050202@swansea.ac.uk>
+
+
+Thanks, Tony.
+
+The basal temperature oscillates somewhat, but more importantly, it 
+doesn't get nearly as cold in 1.7.0 as it does in 1.0.18. I've put a 
+plot for a single point on the Wiki:
+
+http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_EM1MM_bug
+
+It looks like the temperature at the bed is being held at the pressure 
+melting point, rather than being allowed to cool down freely. So, I 
+think you're probably right that there's some hydrological process 
+present in 1.7.0 which isn't there in 1.0.18.
+
+Cheers,
+
+Ian
+
+On 07/10/10 09:12, Tony Payne wrote:
+> hi
+>
+> the map of basal melt looks very wrong, especially if flow and temp are
+> uncoupled. i assume that the thickness and vel fields are symmetrical? i
+> think that there may be some horizontal meltwater routing in 1.7 (as an
+> option which may have accidentally got turned on). does the temperature
+> structure show the same patterning?
+>
+> all the best
+>
+> tony
+>
+> On 06/10/2010 17:30, Ian Rutt wrote:
+>>
+>> Hi All,
+>>
+>> I was just looking at the output from the EISMINT 1 moving margin case
+>> for 1.7.0 and 1.0.18. There's a difference in the basal melt rate
+>> (bmlt) between the two versions.
+>>
+>> In 1.0.18, all model variables reach a steady state. However, in
+>> 1.7.0, I see continuing variability in the basal melt rate in the
+>> central part of the domain. The attached plots show what happens for a
+>> single point (bmlt v. time slice), and also a representative spatial
+>> distribution for the negative part (final timestep).
+>>
+>> The spatial/temporal pattern looks 'numerical' to me, but it might be
+>> due to a realistic physical process which is present in one version,
+>> but not the other. I think this is not so likely, as there is no
+>> thermomechanical feedback in the model.
+>>
+>> Two questions:
+>>
+>> 1) Could someone please try and reproduce this (it's very quick to do
+>> - just use the released tarballs from BERLIoS).
+>>
+>> 2) Does anyone with intimate knowledge of 1.7.0 know of a reason why
+>> this would happen?
+>>
+>> Any illumination gratefully received...
+>>
+>> Best,
+>>
+>> Ian
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>
+> --
+> ------------------------<>---------------------------
+> Tony Payne
+> School of Geographical Sciences,
+> University of Bristol,
+> Bristol BS8 1SS, UK.
+> Telephone:            +117 331 4156
+> Fax:                        +117 928 7878
+> Email:                    A.J.Payne at bristol.ac.uk
+> ------------------------<>---------------------------
+>
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From Gethin.Williams at bristol.ac.uk  Fri Oct  8 12:57:03 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Fri, 08 Oct 2010 11:57:03 +0100
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <mailman.49.1286359207.30530.glimmer-cism-devel@lists.berlios.de>
+References: <mailman.49.1286359207.30530.glimmer-cism-devel@lists.berlios.de>
+Message-ID: <64A6A9460F427E4D9D4319FF@geog-a81.ggy.bris.ac.uk>
+
+Hi Magi & all,
+
+I take your point about binary diffs and repository bloat.  It's definitely 
+a cause for concern.  However, I would still argue that keeping the 
+reference files in the repository is preferable.
+
+In the GENIE project, I've kept reference files in the repository (for 
+several years now) and the size of the repos hasn't got out of control. 
+One reason for this has been a drive to keep the reference files absolutely 
+as small as possible.  For example, we could output values only at the end 
+of a run (and also perhaps midway) etc.
+
+The differencing tool allows for tolerances (both absolute & relative) and 
+so we can accommodate small differences (say due to compilers).  I believe 
+that, in the absence of choas, we should strive for bitwise agreement in 
+various ways, however.  (e.g. even the UM is bitwise comparable for 
+different domain decompositions.)
+
+In the GENIE project, I created 2 test suites.  One short one for users. 
+This is akin to a calibration run--"before doing my expts, is the model 
+working correctly?".  The a long test suite--to run automatically 
+overnight--which exercises the model more fully.  The results are then 
+emailed if a test fails.
+
+Cheers,
+Gethin.
+
+--On 06 October 2010 12:00 +0200 
+glimmer-cism-devel-request at lists.berlios.de wrote:
+
+>
+> Hi Gethin,
+> the reference files are autogenerated relatively large binary files.
+> Subversion is not particularly well suited to keep track of them, more
+> importantly, binary diffs are meaningless. Large (even when small) will
+> lead to bloat in the subversion repo and we have to be careful to
+> restrict ourselves to small reference files.
+>
+> If we wanted to we could add a script that automatically downloads a
+> tar-ball and unpacks and installs it somewhere.
+>
+> However, I am convinced that we will end up with a number of personal
+> reference files, because of differences in compiler, architecture,
+> solver, etc used. So, being able to just run tests in a known good
+> source tree and pointing configure of the experimental source tree at
+> the good source tree for comparison would be very useful.
+>
+> Another question is who will run the comparisons? I don't think a normal
+> user will need to run the comparisons. They might run the tests to see
+> how it works. The comparisons are more useful to developers who change
+> the code and want to make sure that they haven't broken anything new.
+> The other use is for us when we prepare a new release to check that
+> things still work as expected.
+>
+> So, I'd strongly prefer to keep data files elsewhere.
+>
+> magi
+
+
+
+Cheers,
+Gethin.
+
+
+From sarah.shannon at bristol.ac.uk  Fri Oct  8 13:19:04 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Fri, 08 Oct 2010 12:19:04 +0100
+Subject: [Glimmer-cism-devel] glimmer testing
+Message-ID: <4CAEFE28.6080609@bristol.ac.uk>
+
+Hi,
+
+I think it would be useful to have the files under version control as 
+well. If the test suite becomes too large, we could move the files to 
+another location. In the mean time, the testing infrastructure would be 
+in place.   
+
+I have created small versions for the EISMINT-1 tests which are 6MB 
+(total size for the six experiments) but these could be reduced further. 
+Does anyone know what the storage quota is on berlios?
+
+Cheers,
+Sarah
+
+
+ 
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101008/fed6bf9e/attachment.vcf>
+

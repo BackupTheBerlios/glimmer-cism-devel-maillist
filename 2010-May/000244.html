@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer-cism2%20and%20gcm%20branch&In-Reply-To=%3Cx2s9288095c1005040710tc4fead0eq5f394650ba9a56a9%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000243.html">
+   <LINK REL="Next"  HREF="000245.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer-cism2 and gcm branch</H1>
+    <B>Jesse Johnson</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer-cism2%20and%20gcm%20branch&In-Reply-To=%3Cx2s9288095c1005040710tc4fead0eq5f394650ba9a56a9%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] glimmer-cism2 and gcm branch">jesse.v.johnson at gmail.com
+       </A><BR>
+    <I>Tue May  4 16:10:24 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000243.html">[Glimmer-cism-devel] glimmer-cism2 and gcm branch
+</A></li>
+        <LI>Next message: <A HREF="000245.html">[Glimmer-cism-devel] glimmer-cism2 and gcm branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#244">[ date ]</a>
+              <a href="thread.html#244">[ thread ]</a>
+              <a href="subject.html#244">[ subject ]</a>
+              <a href="author.html#244">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi All,
+
+my understanding is still based on this diagram:
+
+<A HREF="http://glimmer-cism.berlios.de/">http://glimmer-cism.berlios.de/</A>
+
+I think that we'll want to roll a few of the specialized seaRISE
+drivers and EISMINT I and II tests into the CESM/GCM branch. Then that
+comes forward, into GC2, then LANL into GC2.
+
+We are moving on that. The following is a complete diff of LANL and GC2.
+
+<A HREF="http://ulysses.cs.umt.edu/~jccampbell/original/">http://ulysses.cs.umt.edu/~jccampbell/original/</A>
+
+which we should all think a little bit about, but I think we are ready
+to start moving the files marked 'missing' over. The question is do we
+need to wait for Bill's CESM changes to start? Isn't there an issue
+with getting some of Erin's time. As for Josh, he's ready to start.
+
+Jesse
+
+
+On Tue, May 4, 2010 at 2:13 AM, Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt; wrote:
+&gt;<i> Hi Bill,
+</I>&gt;<i>
+</I>&gt;<i> William Lipscomb wrote:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> At any point, I can check these changes into the glimmer-cism2 trunk. &#160;I'd
+</I>&gt;&gt;<i> like to do this before those of you working on glimmer-cism-lanl start
+</I>&gt;&gt;<i> merging code into glimmer-cism2. &#160;Please let me know if and when you're
+</I>&gt;&gt;<i> ready, and I'll commit my changes to the trunk. &#160;Most of the additional
+</I>&gt;&gt;<i> changes I make will be in Glint and will be independent of the higher-order
+</I>&gt;&gt;<i> code.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> we could merge your branch into trunk now. development on trunk is very slow
+</I>&gt;<i> (if anything at all) at the moment. This way you might get some more
+</I>&gt;<i> exposure since it is the official glimmer-cism development tree. We can then
+</I>&gt;<i> create the stable branch of trunk in a few weeks when you are ready. The
+</I>&gt;<i> higher order stuff can then be merged after we have created the release
+</I>&gt;<i> branch.
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">johnson at cs.umt.edu</A>
+<A HREF="http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540">http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000243.html">[Glimmer-cism-devel] glimmer-cism2 and gcm branch
+</A></li>
+	<LI>Next message: <A HREF="000245.html">[Glimmer-cism-devel] glimmer-cism2 and gcm branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#244">[ date ]</a>
+              <a href="thread.html#244">[ thread ]</a>
+              <a href="subject.html#244">[ subject ]</a>
+              <a href="author.html#244">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

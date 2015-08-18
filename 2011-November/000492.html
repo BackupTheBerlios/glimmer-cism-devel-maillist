@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] higher-order code
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-November/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20higher-order%20code&In-Reply-To=%3C4EB91C56.8020409%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000493.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] higher-order code</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20higher-order%20code&In-Reply-To=%3C4EB91C56.8020409%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] higher-order code">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Tue Nov  8 13:11:02 CET 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000493.html">[Glimmer-cism-devel] higher-order code
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#492">[ date ]</a>
+              <a href="thread.html#492">[ thread ]</a>
+              <a href="subject.html#492">[ subject ]</a>
+              <a href="author.html#492">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+I am trying to run the higher order code as checked out from berliOS
+<A HREF="https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl">https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl</A>
+Revision: 2460
+
+To start with I ran the the higher order test in
+tests/higher-order/
+they seem to be doing what I expect.
+
+I then tried to modify the setup for the EISMINT-2 tests a and b to use 
+the higher order code instead of the SIA. I added the following lines to 
+the config file (test A):
+[ho_options]
+diagnostic_scheme = 1   # Payne/Price 1st-order dynamics
+prognostic_scheme = 1
+which_ho_babc = 4       # no-slip at bed
+which_ho_efvs = 0       # nonlinear eff. visc. w/ n=3
+which_ho_sparse = 1     # 1=SLAP GMRES, 4=Trilinos for linear solver
+which_ho_nonlinear = 0  # 0=Picard, 1=JFNK
+
+However, I don't seem to accumulate any ice. What did I miss?
+
+Cheers
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000493.html">[Glimmer-cism-devel] higher-order code
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#492">[ date ]</a>
+              <a href="thread.html#492">[ thread ]</a>
+              <a href="subject.html#492">[ subject ]</a>
+              <a href="author.html#492">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

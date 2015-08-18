@@ -1,0 +1,846 @@
+From sprice at lanl.gov  Fri Mar  4 17:10:20 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Fri, 04 Mar 2011 09:10:20 -0700
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+	Glimmer-CISM release
+In-Reply-To: <4D710D96.9030002@swansea.ac.uk>
+References: <4D70E6AA.8040801@swansea.ac.uk> <4D710BFE.9030702@lanl.gov>
+	<4D710D96.9030002@swansea.ac.uk>
+Message-ID: <4D710EEC.2010908@lanl.gov>
+
+
+Ian,
+
+Josh and I have been working on it but there is still plenty to do. I 
+was hoping to have it done before Bill and I left for the modeling 
+school in China, but I don't think we are probably going to make that 
+deadline now. Close though ...
+
+The majority of the work left is in cleaning up the higher-order test 
+cases (which I'm working on now), getting them working w/ the automated 
+test suite that Magi and Sarah set up, and adding all the Trilinos hooks 
+to the build system. Josh was working on the latter but has been out 
+sick for part of this week.
+
+If anyone w/ netCDF and python expertise wants to help, I've got some 
+issues w/ a few of the test cases that I could use help with.
+
+cheers -
+
+Steve
+
+
+> I agree with Magi that we really should make a new release asap,
+> presumably as soon as the test suite is ready. I presume then that
+>
+> http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/trunk/
+>
+> ...is what people are working on/merging into at the moment?
+>
+> Thanks,
+>
+> Ian
+
+
+From I.C.Rutt at swansea.ac.uk  Fri Mar  4 17:26:00 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 04 Mar 2011 16:26:00 +0000
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+ Glimmer-CISM release
+In-Reply-To: <4D710EEC.2010908@lanl.gov>
+References: <4D70E6AA.8040801@swansea.ac.uk>
+	<4D710BFE.9030702@lanl.gov>	<4D710D96.9030002@swansea.ac.uk>
+	<4D710EEC.2010908@lanl.gov>
+Message-ID: <4D711298.6070008@swansea.ac.uk>
+
+
+Hi Steve,
+
+Ok - thanks. I didn't mean to imply that we should make the release with 
+all bells and whistles asap - I know you're working hard on this and it 
+takes time. It's more that I'm aware that our current release has at 
+least one important bug, and it would be good to release a version where 
+the bug is fixed as soon as possible.
+
+The standard way of addressing this is to tag the release, and then make 
+a bug-fix branch, allowing you to fix those bugs (as 1.7.2, 1.7.4, etc) 
+without having to pull down unfinished developments from the trunk. This 
+is what we did with the 1.0.x series. My original question was directed 
+at seeing whether we could do this with the 1.7.0 release at this stage, 
+because I didn't know where we might start from.
+
+So I guess the question I have is this: is the tagged up 1.6.0 version 
+on the glimmer-cism2 trunk better than the currently released 1.7.0 
+version? By which I mean, does it have broadly the same functionality 
+but fewer bugs? If so, then I think we should release it now, and start 
+a bug-fix branch.
+
+Hope that makes sense,
+
+Ian
+
+On 04/03/11 16:10, Stephen Price wrote:
+>
+> Ian,
+>
+> Josh and I have been working on it but there is still plenty to do. I
+> was hoping to have it done before Bill and I left for the modeling
+> school in China, but I don't think we are probably going to make that
+> deadline now. Close though ...
+>
+> The majority of the work left is in cleaning up the higher-order test
+> cases (which I'm working on now), getting them working w/ the automated
+> test suite that Magi and Sarah set up, and adding all the Trilinos hooks
+> to the build system. Josh was working on the latter but has been out
+> sick for part of this week.
+>
+> If anyone w/ netCDF and python expertise wants to help, I've got some
+> issues w/ a few of the test cases that I could use help with.
+>
+> cheers -
+>
+> Steve
+>
+>
+>> I agree with Magi that we really should make a new release asap,
+>> presumably as soon as the test suite is ready. I presume then that
+>>
+>> http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/trunk/
+>>
+>> ...is what people are working on/merging into at the moment?
+>>
+>> Thanks,
+>>
+>> Ian
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Mar  4 17:38:02 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 04 Mar 2011 16:38:02 +0000
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+ Glimmer-CISM release
+In-Reply-To: <4D711298.6070008@swansea.ac.uk>
+References: <4D70E6AA.8040801@swansea.ac.uk>	<4D710BFE.9030702@lanl.gov>	<4D710D96.9030002@swansea.ac.uk>	<4D710EEC.2010908@lanl.gov>
+	<4D711298.6070008@swansea.ac.uk>
+Message-ID: <4D71156A.3040507@ed.ac.uk>
+
+Ian Rutt wrote:
+> The standard way of addressing this is to tag the release, and then make 
+> a bug-fix branch, allowing you to fix those bugs (as 1.7.2, 1.7.4, etc) 
+> without having to pull down unfinished developments from the trunk. This 
+> is what we did with the 1.0.x series. My original question was directed 
+> at seeing whether we could do this with the 1.7.0 release at this stage, 
+> because I didn't know where we might start from.
+> 
+
+I think bug on 1.7 is ok since it was a preview release.
+
+> So I guess the question I have is this: is the tagged up 1.6.0 version 
+> on the glimmer-cism2 trunk better than the currently released 1.7.0 
+> version? By which I mean, does it have broadly the same functionality 
+> but fewer bugs? If so, then I think we should release it now, and start 
+> a bug-fix branch.
+> 
+>
+
+I believe the 1.6 series shouldn't have the bug. I have just merged the 
+test suite stuff in 1.6 and am compiling it. So I think we should make a 
+1.6.2 release and upload the tar balls. This won't include the HO stuff, 
+however, it allows us to point those who are not interested in the HO 
+physics to a reasonably well working model.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Fri Mar  4 17:40:50 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Fri, 04 Mar 2011 09:40:50 -0700
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+ Glimmer-CISM release
+In-Reply-To: <4D711298.6070008@swansea.ac.uk>
+References: <4D70E6AA.8040801@swansea.ac.uk>	<4D710BFE.9030702@lanl.gov>	<4D710D96.9030002@swansea.ac.uk>	<4D710EEC.2010908@lanl.gov>
+	<4D711298.6070008@swansea.ac.uk>
+Message-ID: <4D711612.7070708@lanl.gov>
+
+
+> So I guess the question I have is this: is the tagged up 1.6.0 version
+> on the glimmer-cism2 trunk better than the currently released 1.7.0
+> version? By which I mean, does it have broadly the same functionality
+> but fewer bugs? If so, then I think we should release it now, and start
+> a bug-fix branch.
+
+I think Magi just answered this. 1.6 does not have the higher order 
+physics, but since the bug was in the SIA cases only (correct?), perhaps 
+it makes sense to fix it there and leave the current 1.7 (beta) release 
+as is?
+
+We should also confirm that the SIA bug is fixed in the new 
+merge/release we are working on.
+
+s.
+
+
+From lipscomb at lanl.gov  Sat Mar  5 00:35:55 2011
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 4 Mar 2011 16:35:55 -0700
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+	Glimmer-CISM release
+In-Reply-To: <4D71156A.3040507@ed.ac.uk>
+References: <4D70E6AA.8040801@swansea.ac.uk>	<4D710BFE.9030702@lanl.gov>	<4D710D96.9030002@swansea.ac.uk>	<4D710EEC.2010908@lanl.gov>
+	<4D711298.6070008@swansea.ac.uk> <4D71156A.3040507@ed.ac.uk>
+Message-ID: <4923FFBD-1762-47D4-8041-929ECDDD6039@lanl.gov>
+
+
+Hi all,
+
+Thanks to Magnus for working on the version 1.6 testing.  If it  
+passes, we can make the tarball.  If it fails, I'll want to know about  
+it and fix it, because this would likely mean there's a bug in the  
+version of Glimmer-CISM in CESM.
+
+Cheers,
+Bill
+
+
+On Mar 4, 2011, at 9:38 AM, Magnus Hagdorn wrote:
+
+> Ian Rutt wrote:
+>> The standard way of addressing this is to tag the release, and then  
+>> make a bug-fix branch, allowing you to fix those bugs (as 1.7.2,  
+>> 1.7.4, etc) without having to pull down unfinished developments  
+>> from the trunk. This is what we did with the 1.0.x series. My  
+>> original question was directed at seeing whether we could do this  
+>> with the 1.7.0 release at this stage, because I didn't know where  
+>> we might start from.
+>
+> I think bug on 1.7 is ok since it was a preview release.
+>
+>> So I guess the question I have is this: is the tagged up 1.6.0  
+>> version on the glimmer-cism2 trunk better than the currently  
+>> released 1.7.0 version? By which I mean, does it have broadly the  
+>> same functionality but fewer bugs? If so, then I think we should  
+>> release it now, and start a bug-fix branch.
+>>
+>
+> I believe the 1.6 series shouldn't have the bug. I have just merged  
+> the test suite stuff in 1.6 and am compiling it. So I think we  
+> should make a 1.6.2 release and upload the tar balls. This won't  
+> include the HO stuff, however, it allows us to point those who are  
+> not interested in the HO physics to a reasonably well working model.
+>
+> Cheers
+> magi
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Mon Mar  7 08:52:17 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 07 Mar 2011 07:52:17 +0000
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+ Glimmer-CISM release
+In-Reply-To: <4D711612.7070708@lanl.gov>
+References: <4D70E6AA.8040801@swansea.ac.uk>	<4D710BFE.9030702@lanl.gov>	<4D710D96.9030002@swansea.ac.uk>	<4D710EEC.2010908@lanl.gov>	<4D711298.6070008@swansea.ac.uk>
+	<4D711612.7070708@lanl.gov>
+Message-ID: <4D748EB1.4090302@swansea.ac.uk>
+
+
+Ok - thanks both for the explanation. It makes more sense now, and I'm 
+sorry for forgetting that 1.7 is a beta release. Two things in response:
+
+1) Yes, I agree we should release 1.6.0, as soon as the tests are 
+implemented and OK.
+
+2) I think that, even for beta releases, it's good to have a mechanism 
+for fixing bugs in a released version, especially those which affect 
+functionality also present in earlier versions. I know of a few users 
+who have downloaded 1.7.0 without realising quite how 'beta' it is.
+
+I'm happy to sort this out myself - probably at some point in the next 
+week or two - what do you think?
+
+Cheers,
+
+Ian
+
+On 04/03/11 16:40, Stephen Price wrote:
+>
+>> So I guess the question I have is this: is the tagged up 1.6.0 version
+>> on the glimmer-cism2 trunk better than the currently released 1.7.0
+>> version? By which I mean, does it have broadly the same functionality
+>> but fewer bugs? If so, then I think we should release it now, and start
+>> a bug-fix branch.
+>
+> I think Magi just answered this. 1.6 does not have the higher order
+> physics, but since the bug was in the SIA cases only (correct?), perhaps
+> it makes sense to fix it there and leave the current 1.7 (beta) release
+> as is?
+>
+> We should also confirm that the SIA bug is fixed in the new
+> merge/release we are working on.
+>
+> s.
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From sarah.shannon at bristol.ac.uk  Mon Mar  7 13:14:48 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Mon, 07 Mar 2011 12:14:48 +0000
+Subject: [Glimmer-cism-devel] problem with SIA ice tests on the merge branch
+Message-ID: <4D74CC38.3070805@bristol.ac.uk>
+
+Hi, 
+
+We should also confirm that the SIA bug is fixed in the new merge/release we are working on.
+
+There is still a bug in the merge branch when running with SIA, even after re-setting the higher order velocities to the SIA velocity's (i.e velocity%hom%uvel = velocity%uvel and velocity%hom%vvel = velocity%vvel) 
+
+For the e1-fm.1 eismint-1 test, the thickness at the ice divide is different to the benchmark values. 
+
+Here are the thicknesses at the ice divide 
+
+merge branch : 3334 m     (from glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl/ checked out this morning)
+version 1.7.1: 3425 m 
+version 1.0.4: 3425 m
+Benchmark    : 3419.9 ? 1.7
+
+This suggests there is still a bug or some other changes are needed to run the model under SIA. Does anyone have any ideas/suggestions? 
+
+Cheers, 
+
+Sarah 
+
+  
+
+
+
+ 
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110307/516e437b/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Mar  7 17:16:40 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 07 Mar 2011 16:16:40 +0000
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+ Glimmer-CISM release
+In-Reply-To: <4D748EB1.4090302@swansea.ac.uk>
+References: <4D70E6AA.8040801@swansea.ac.uk>	<4D710BFE.9030702@lanl.gov>	<4D710D96.9030002@swansea.ac.uk>	<4D710EEC.2010908@lanl.gov>	<4D711298.6070008@swansea.ac.uk>	<4D711612.7070708@lanl.gov>
+	<4D748EB1.4090302@swansea.ac.uk>
+Message-ID: <4D7504E8.6010709@ed.ac.uk>
+
+Ian Rutt wrote:
+> 
+> Ok - thanks both for the explanation. It makes more sense now, and I'm 
+> sorry for forgetting that 1.7 is a beta release. Two things in response:
+> 
+> 1) Yes, I agree we should release 1.6.0, as soon as the tests are 
+> implemented and OK.
+>  
+> I'm happy to sort this out myself - probably at some point in the next 
+> week or two - what do you think?
+> 
+> 
+
+Hi all,
+I have just merged the test suite stuff into STABLE_1_6. I get exactly 
+the same results with STABLE_1_6 and gc2/trunk. Sarah, did you spend 
+some time checking that the EISMINT runs from gc2/trunk are ok? If so, 
+STABLE_1_6 should be ok as well.
+
+Do we want to add EISMINT-3 as well to our automatic test suite?
+
+The other thing we haven't resolved is what to do about the glint test. 
+Currently we don't have the data in subversion because it is relatively 
+chunky. However, we could stick the data on our berlios ftp site and 
+instruct the user to download it.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Mon Mar  7 17:17:31 2011
+From: sprice at lanl.gov (Stephen Price)
+Date: Mon, 07 Mar 2011 09:17:31 -0700
+Subject: [Glimmer-cism-devel] [Glimmer-cism-steering] Status of current
+ Glimmer-CISM release
+In-Reply-To: <4D748EB1.4090302@swansea.ac.uk>
+References: <4D70E6AA.8040801@swansea.ac.uk>	<4D710BFE.9030702@lanl.gov>	<4D710D96.9030002@swansea.ac.uk>	<4D710EEC.2010908@lanl.gov>	<4D711298.6070008@swansea.ac.uk>	<4D711612.7070708@lanl.gov>
+	<4D748EB1.4090302@swansea.ac.uk>
+Message-ID: <4D75051B.9030401@lanl.gov>
+
+
+I think that the best thing to do is run the tests showing the bug using 
+a fresh checkout/build of the beta release to see if it is also in 
+there. If so, and once it is fixed, we'd have to make/post a new tarball 
+and send a message to Cryolist (and whatever other lists we are using to 
+get this information out there).
+
+Steve
+
+
+On 3/7/11 12:52 AM, Ian Rutt wrote:
+>
+> Ok - thanks both for the explanation. It makes more sense now, and I'm
+> sorry for forgetting that 1.7 is a beta release. Two things in response:
+>
+> 1) Yes, I agree we should release 1.6.0, as soon as the tests are
+> implemented and OK.
+>
+> 2) I think that, even for beta releases, it's good to have a mechanism
+> for fixing bugs in a released version, especially those which affect
+> functionality also present in earlier versions. I know of a few users
+> who have downloaded 1.7.0 without realising quite how 'beta' it is.
+>
+> I'm happy to sort this out myself - probably at some point in the next
+> week or two - what do you think?
+>
+> Cheers,
+>
+> Ian
+>
+
+
+From sarah.shannon at bristol.ac.uk  Tue Mar  8 13:25:51 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 08 Mar 2011 12:25:51 +0000
+Subject: [Glimmer-cism-devel] EISMINT tests on the gc2/trunk
+Message-ID: <4D76204F.1030908@bristol.ac.uk>
+
+Hi Magnus, 
+
+Sarah, did you spend some time checking that the EISMINT runs from gc2/trunk are ok?
+
+The EISMINT-1 tests compare reasonably well to the benchmark on the gc2/trunk, however I haven't checked the EISMINT-2 tests.  
+
+I uploaded a table to the wiki, showing the thickness and basal temperature at the ice divide for the gc2/trunk, the merge branch, version 1.0.4 and the benchmark values. 
+
+http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Inter-comparison_table
+
+Cheers, 
+Sarah 
+
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110308/7d82ed3b/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Mar  9 15:12:35 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 09 Mar 2011 14:12:35 +0000
+Subject: [Glimmer-cism-devel] EISMINT tests on the gc2/trunk
+In-Reply-To: <4D76204F.1030908@bristol.ac.uk>
+References: <4D76204F.1030908@bristol.ac.uk>
+Message-ID: <4D778AD3.3000505@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi Magnus,
+> Sarah, did you spend some time checking that the EISMINT runs from 
+> gc2/trunk are ok?
+> 
+> The EISMINT-1 tests compare reasonably well to the benchmark on the 
+> gc2/trunk, however I haven't checked the EISMINT-2 tests. 
+> I uploaded a table to the wiki, showing the thickness and basal 
+> temperature at the ice divide for the gc2/trunk, the merge branch, 
+> version 1.0.4 and the benchmark values.
+> http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Inter-comparison_table 
+> 
+>
+ok, the EISMINT-2 tests need to be compared as well. I'll look into that 
+for gc2/trunk.
+cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Mar 16 17:47:11 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 16 Mar 2011 16:47:11 +0000
+Subject: [Glimmer-cism-devel] EISMINT tests on the gc2/trunk
+In-Reply-To: <4D778AD3.3000505@ed.ac.uk>
+References: <4D76204F.1030908@bristol.ac.uk> <4D778AD3.3000505@ed.ac.uk>
+Message-ID: <4D80E98F.8040309@ed.ac.uk>
+
+Magnus Hagdorn wrote:
+> Sarah Shannon wrote:
+>> Hi Magnus,
+>> Sarah, did you spend some time checking that the EISMINT runs from 
+>> gc2/trunk are ok?
+>>
+>> The EISMINT-1 tests compare reasonably well to the benchmark on the 
+>> gc2/trunk, however I haven't checked the EISMINT-2 tests. I uploaded a 
+>> table to the wiki, showing the thickness and basal temperature at the 
+>> ice divide for the gc2/trunk, the merge branch, version 1.0.4 and the 
+>> benchmark values.
+>> http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Inter-comparison_table 
+>>
+>>
+> ok, the EISMINT-2 tests need to be compared as well. I'll look into that 
+> for gc2/trunk.
+> cheers
+> magi
+> 
+
+Hi all,
+I have run the EISMINT 2 tests for both v 1.0.18 and current gc2-trunk. 
+I have compared the results against the values quoted in the EISMINT-2 
+paper. You can see the comparisons here:
+http://xweb.geos.ed.ac.uk/~mhagdorn/compare/
+run 1 is v 1.0.18
+run 2 is current gc2 trunk
+they mostly look the same and indeed looking at the vertical temperature 
+profile for divide and off divide locations, they are the same with the 
+exception of experiment H. Experiment H switches sliding on. I seem to 
+remember that there was a bug in the dim and distant past which Ian fixed.
+
+Apart from experiment H, we don't seem to have changed anything and the 
+results fall within the results reported in the paper.
+
+Does anyone have an idea of what might be going on with exp H?
+
+I think once we have resolved the issue with exp H, we should be able to 
+say that gc2-trunk has passed the EISMINT 1 and 2 tests and we should be 
+able to make an official 1.6.2 release.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Tue Mar 22 18:37:08 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 22 Mar 2011 17:37:08 +0000
+Subject: [Glimmer-cism-devel] trilinos
+Message-ID: <4D88DE44.2070508@bristol.ac.uk>
+
+Hi,
+I was wondering if anyone knows whether trilinos now works on the 
+parallel/soon to be released branch?
+
+When running a simulation for Antarctica, I get a bunch of errors saying 
+the model doesn't converge (see below)
+
+
+Belos::StatusTestOutput: Passed
+    (Num calls,Mod test,State test): (101, 1, Passed Failed Undefined)
+     Passed.......OR Combination ->
+       Failed.......Number of Iterations = 100 == 100
+       Unconverged..(2-Norm Res Vec) / (2-Norm Prec Res0)
+                    residual [ 0 ] = 0.99553 > 0.001
+ 
+The Belos solver of type "Belos::BlockGmresSolMgr<...,double>{Ortho 
+Type='DGKS', Block Size=1, Num Blocks=100, Max Restarts=20}" returned a 
+solve status of "SOLVE_STATUS_UNCONVERGED with total CPU time of 42.5647 sec
+
+Perhaps someone has seen these types of errors before.
+Cheers,
+Sarah
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110322/575673c6/attachment.vcf>
+
+From agsalin at sandia.gov  Wed Mar 23 15:45:39 2011
+From: agsalin at sandia.gov (Salinger, Andrew)
+Date: Wed, 23 Mar 2011 14:45:39 +0000
+Subject: [Glimmer-cism-devel] trilinos
+In-Reply-To: <4D88DE44.2070508@bristol.ac.uk>
+References: <4D88DE44.2070508@bristol.ac.uk>
+Message-ID: <7E636BEC396FAF4CB78AC4AD92D75805B997@EXMB02.srn.sandia.gov>
+
+
+Sarah,
+
+I'm guessing from the attached output that the
+Trilinos code is hooked up fine, but that the
+linear solver is just not converging for this
+problem with these settings. 
+
+As the problems move to more processors, and get
+more ill-conditioned from the model description, the
+linear systems get more difficult to solve. There
+are parameters in the input file strat1.xml that
+can increase the robustness (and expense) of the
+preconditioner. Unfortunately, it is hard to have
+one setting that works across the board, and that
+is not too slow for smaller-serial runs. 
+
+So, as an attempt to fix the problem, edit the
+strat1.xml file and increase the Overlap and 
+level-of-fill flags incrementally, separately 
+and/or together (from 0 to 1 to 2). (These
+are standard options with ILU preconditioners
+-- I can give explanations if you like.) For
+a Greenland model that we were running a year 
+ago, we had to switch overlap from 0 to 1 as
+the processor count went up and that solve the
+problem.
+
+I can try and give more specific guidance, but
+I'd need to know more about the problem size,
+number of processors, and would turn on more
+verbose output from the Belos solver.
+
+Andy Salinger
+Sandia Labs
+Trilinos POC
+
+
+
+-----Original Message-----
+From: glimmer-cism-devel-bounces at lists.berlios.de [mailto:glimmer-cism-devel-bounces at lists.berlios.de] On Behalf Of Sarah Shannon
+Sent: Tuesday, March 22, 2011 11:37 AM
+To: Glimmer/CISM (developers)
+Subject: [Glimmer-cism-devel] trilinos
+
+Hi,
+I was wondering if anyone knows whether trilinos now works on the parallel/soon to be released branch?
+
+When running a simulation for Antarctica, I get a bunch of errors saying the model doesn't converge (see below)
+
+
+Belos::StatusTestOutput: Passed
+    (Num calls,Mod test,State test): (101, 1, Passed Failed Undefined)
+     Passed.......OR Combination ->
+       Failed.......Number of Iterations = 100 == 100
+       Unconverged..(2-Norm Res Vec) / (2-Norm Prec Res0)
+                    residual [ 0 ] = 0.99553 > 0.001
+ 
+The Belos solver of type "Belos::BlockGmresSolMgr<...,double>{Ortho 
+Type='DGKS', Block Size=1, Num Blocks=100, Max Restarts=20}" returned a 
+solve status of "SOLVE_STATUS_UNCONVERGED with total CPU time of 42.5647 sec
+
+Perhaps someone has seen these types of errors before.
+Cheers,
+Sarah
+
+
+
+
+
+From jccampbell.umt at gmail.com  Thu Mar 24 02:31:43 2011
+From: jccampbell.umt at gmail.com (Joshua Campbell)
+Date: Wed, 23 Mar 2011 19:31:43 -0600
+Subject: [Glimmer-cism-devel] trilinos
+In-Reply-To: <7E636BEC396FAF4CB78AC4AD92D75805B997@EXMB02.srn.sandia.gov>
+References: <4D88DE44.2070508@bristol.ac.uk>
+	<7E636BEC396FAF4CB78AC4AD92D75805B997@EXMB02.srn.sandia.gov>
+Message-ID: <AANLkTi=iQu1pQW9TmsbMwBHcEqB4UtrONVsefGsQt0cZ@mail.gmail.com>
+
+Trilinos works in the "parallel" branch but not the "merged" branch
+(glimmer-cism2/branches/glimmer-cism-lanl) which will become the released
+branch yet.
+
+On Wed, Mar 23, 2011 at 8:45 AM, Salinger, Andrew <agsalin at sandia.gov>wrote:
+
+>
+> Sarah,
+>
+> I'm guessing from the attached output that the
+> Trilinos code is hooked up fine, but that the
+> linear solver is just not converging for this
+> problem with these settings.
+>
+> As the problems move to more processors, and get
+> more ill-conditioned from the model description, the
+> linear systems get more difficult to solve. There
+> are parameters in the input file strat1.xml that
+> can increase the robustness (and expense) of the
+> preconditioner. Unfortunately, it is hard to have
+> one setting that works across the board, and that
+> is not too slow for smaller-serial runs.
+>
+> So, as an attempt to fix the problem, edit the
+> strat1.xml file and increase the Overlap and
+> level-of-fill flags incrementally, separately
+> and/or together (from 0 to 1 to 2). (These
+> are standard options with ILU preconditioners
+> -- I can give explanations if you like.) For
+> a Greenland model that we were running a year
+> ago, we had to switch overlap from 0 to 1 as
+> the processor count went up and that solve the
+> problem.
+>
+> I can try and give more specific guidance, but
+> I'd need to know more about the problem size,
+> number of processors, and would turn on more
+> verbose output from the Belos solver.
+>
+> Andy Salinger
+> Sandia Labs
+> Trilinos POC
+>
+>
+>
+> -----Original Message-----
+> From: glimmer-cism-devel-bounces at lists.berlios.de [mailto:
+> glimmer-cism-devel-bounces at lists.berlios.de] On Behalf Of Sarah Shannon
+> Sent: Tuesday, March 22, 2011 11:37 AM
+> To: Glimmer/CISM (developers)
+> Subject: [Glimmer-cism-devel] trilinos
+>
+> Hi,
+> I was wondering if anyone knows whether trilinos now works on the
+> parallel/soon to be released branch?
+>
+> When running a simulation for Antarctica, I get a bunch of errors saying
+> the model doesn't converge (see below)
+>
+>
+> Belos::StatusTestOutput: Passed
+>    (Num calls,Mod test,State test): (101, 1, Passed Failed Undefined)
+>     Passed.......OR Combination ->
+>       Failed.......Number of Iterations = 100 == 100
+>       Unconverged..(2-Norm Res Vec) / (2-Norm Prec Res0)
+>                    residual [ 0 ] = 0.99553 > 0.001
+>
+> The Belos solver of type "Belos::BlockGmresSolMgr<...,double>{Ortho
+> Type='DGKS', Block Size=1, Num Blocks=100, Max Restarts=20}" returned a
+> solve status of "SOLVE_STATUS_UNCONVERGED with total CPU time of 42.5647
+> sec
+>
+> Perhaps someone has seen these types of errors before.
+> Cheers,
+> Sarah
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+jccampbell.umt at gmail.com        Graduate Research Assistant
+                                Department of Computer Science
+                                University of Montana
+                                Joshua Charles Campbell
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110323/ac16206a/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Mar 28 13:24:53 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 28 Mar 2011 12:24:53 +0100
+Subject: [Glimmer-cism-devel] EISMINT tests on the gc2/trunk
+In-Reply-To: <4D80E98F.8040309@ed.ac.uk>
+References: <4D76204F.1030908@bristol.ac.uk> <4D778AD3.3000505@ed.ac.uk>
+	<4D80E98F.8040309@ed.ac.uk>
+Message-ID: <4D907005.9060108@ed.ac.uk>
+
+Magnus Hagdorn wrote:
+> they mostly look the same and indeed looking at the vertical temperature 
+> profile for divide and off divide locations, they are the same with the 
+> exception of experiment H. Experiment H switches sliding on. I seem to 
+> remember that there was a bug in the dim and distant past which Ian fixed.
+> 
+> Apart from experiment H, we don't seem to have changed anything and the 
+> results fall within the results reported in the paper.
+> 
+> Does anyone have an idea of what might be going on with exp H?
+> 
+Hi all,
+I have added some more detailed comparison plots for the EISMINT-2 Exp H 
+runs which you can see here:
+http://xweb.geos.ed.ac.uk/~mhagdorn/compare/e2.h/
+It looks like something changed with the basal sliding treatment.
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] development on parallel branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20development%20on%20parallel%20branch&In-Reply-To=%3C4C4D8B40.2000009%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000294.html">
+   <LINK REL="Next"  HREF="000296.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] development on parallel branch</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20development%20on%20parallel%20branch&In-Reply-To=%3C4C4D8B40.2000009%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] development on parallel branch">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Mon Jul 26 15:18:56 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000294.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+        <LI>Next message: <A HREF="000296.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#299">[ date ]</a>
+              <a href="thread.html#299">[ thread ]</a>
+              <a href="subject.html#299">[ subject ]</a>
+              <a href="author.html#299">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>William Lipscomb wrote:
+&gt;<i> 
+</I>&gt;<i> Hi all,
+</I>&gt;<i> 
+</I>&gt;<i> This week I started working on the parallel branch and noticed a couple 
+</I>&gt;<i> of issues.
+</I>&gt;<i> 
+</I>&gt;<i> First, the SIA nonlinear thickness solver was broken because the RHS of 
+</I>&gt;<i> the matrix was erroneously being recomputed for each Picard iteration 
+</I>&gt;<i> (instead of being computed only on the first pass).  I don't know how 
+</I>&gt;<i> long the solver has been broken, but this mistake would have been found 
+</I>&gt;<i> earlier if the code were being tested regularly (for example, by running 
+</I>&gt;<i> standard ESIMINT-2 tests).  Since there are many more developers now 
+</I>&gt;<i> than there were a year or two ago, I wonder if it's time to introduce 
+</I>&gt;<i> automated testing so that we catch major bugs sooner.
+</I>&gt;<i> 
+</I>
+an automated test suite would be very nice. i suspect it will be fairly 
+difficult to implement. since we would need to take into account various 
+bits of middleware that handle scheduling on clusters. On the other 
+hand, there might well be an existing test harness we could use.
+
+The other question is, how do we define a successful test? Do results 
+have to be exactly the same (I don't think so). If not we need to define 
+what is acceptable.
+
+I anyone going to pick this up?
+
+&gt;<i> Second, the ChangeLog hadn't been updated since May 2009.  Am I right 
+</I>&gt;<i> that we're supposed to update the log when we check in new code?  Or is 
+</I>&gt;<i> this somehow handled automatically?
+</I>&gt;<i> 
+</I>The ChangeLog has not been updated. The ChangeLog is very useful. 
+Although similar information can be obtained by looking through the 
+submission log and figuring out which files have been changed, it is 
+much simpler to just have a look at the ChangeLog. In particular, trying 
+to figure out which files have been changed is a bit of a pain. I also 
+quite like filling in the ChangeLog because it forces me to look through 
+a changeset and think about the changes. Also, the person who submits 
+the changes might not be the same person who wrote the patch.
+
+To some extend I don't mind so much what happens on the branches that's 
+up to the branch maintainer but I would insist on ChangeLog entries in 
+trunk and the stable branches (and all the branches I maintain).
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000294.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+	<LI>Next message: <A HREF="000296.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#299">[ date ]</a>
+              <a href="thread.html#299">[ thread ]</a>
+              <a href="subject.html#299">[ subject ]</a>
+              <a href="author.html#299">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

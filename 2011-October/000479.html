@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Problem with gfortran and iargc
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Problem%20with%20gfortran%20and%20iargc&In-Reply-To=%3CCAOFAu8jKoCsgqj4VtpNGmqnQKYPDgBciSb6vghMk-XpkAjLA1A%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000480.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Problem with gfortran and iargc</H1>
+    <B>Florence Colleoni</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Problem%20with%20gfortran%20and%20iargc&In-Reply-To=%3CCAOFAu8jKoCsgqj4VtpNGmqnQKYPDgBciSb6vghMk-XpkAjLA1A%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] Problem with gfortran and iargc">flocolleoni at gmail.com
+       </A><BR>
+    <I>Tue Oct  4 21:49:45 CEST 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000480.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#479">[ date ]</a>
+              <a href="thread.html#479">[ thread ]</a>
+              <a href="subject.html#479">[ subject ]</a>
+              <a href="author.html#479">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+
+I just downloaded the glimmer-cism2 trunk from the CISM repository at NCAR
+following William suggestion
+since I need some of the functions of this version.
+
+1- When I try to compile it on a linux computer, with gfortran, I have the
+same
+error about iargc than Bob has.
+
+2- however, if I compile it on my macbook pro, and if I had the option
+ffree-line-length-none,
+the compilation is ok.
+
+But now I am facing another problem which I didn't have with the
+glimmer-cism2 trunk on Berlios.
+When I try executing the binaries (simple_glide etc...), I got this error
+with Netcdf:
+
+dyld: Symbol not found: _ncopts
+    Referenced from: /usr/local/lib/libnetcdff.5.dylib
+    Expected in: dynamic lookup
+
+Trace/BPT trap
+
+
+What does that mean?
+
+Cheers
+
+Flo
+
+2011/9/27 Bob Fischer &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">rpf2116 at columbia.edu</A>&gt;
+
+&gt;<i>
+</I>&gt;<i> &gt; Hi Bob,
+</I>&gt;<i> &gt; that's odd. It works for me on gc-trunk (berlios). I tried both gcc v
+</I>&gt;<i> &gt; 4.5.2 and 4.1.2. Which version of gcc are you using? Which OS? Well, if
+</I>&gt;<i> &gt; we need to remove that then we should use a preprocessor macro, along
+</I>&gt;<i> &gt; the lines of
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; #ifndef HAVE_2003ARGS
+</I>&gt;<i> &gt; integer, external :: iargc
+</I>&gt;<i> &gt; #endif
+</I>&gt;<i>
+</I>&gt;<i> OK, here are the changes I think would be the right way to do it.
+</I>&gt;<i> Should I check this in?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> bash-4.2$ svn diff
+</I>&gt;<i> Index: glint_commandline.F90
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- glint_commandline.F90       (revision 1147)
+</I>&gt;<i> +++ glint_commandline.F90       (working copy)
+</I>&gt;<i> @@ -30,7 +30,7 @@
+</I>&gt;<i>  #include &quot;config.inc&quot;
+</I>&gt;<i>
+</I>&gt;<i>  #ifdef HAVE_2003ARGS
+</I>&gt;<i> -#define NARGS   command_argument_count
+</I>&gt;<i> +#define NARGS   command_argument_count()
+</I>&gt;<i>  #define GETARG  get_command_argument
+</I>&gt;<i>  #else
+</I>&gt;<i>  #define NARGS   iargc
+</I>&gt;<i> @@ -58,7 +58,9 @@
+</I>&gt;<i>
+</I>&gt;<i>     integer numargs,nfiles
+</I>&gt;<i>     integer :: i
+</I>&gt;<i> +#ifndef HAVE_2003ARGS
+</I>&gt;<i>     integer, external :: iargc
+</I>&gt;<i> +#endif
+</I>&gt;<i>     character(len=100) :: argument
+</I>&gt;<i>     integer, dimension(100) :: argumentIdx
+</I>&gt;<i>
+</I>&gt;<i> @@ -66,7 +68,7 @@
+</I>&gt;<i>     commandline_resultsname = 'results'
+</I>&gt;<i>
+</I>&gt;<i>     ! get number of arguments and file names
+</I>&gt;<i> -    numargs = NARGS()
+</I>&gt;<i> +    numargs = NARGS
+</I>&gt;<i>     ! reconstruct command line to store commandline_history
+</I>&gt;<i>     call GETARG(0,commandline_history)
+</I>&gt;<i>     do i=1,numargs
+</I>&gt;<i>
+</I>&gt;<i> -- Bob
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+*&quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent la R&#233;volution
+avec la Libert&#233;: c'est le tr&#232;s petit nombre; les autres veulent la
+R&#233;volution avec le Pouvoir: c'est l'immense majorit&#233;.&quot;
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC &lt;<A HREF="http://www.cmcc.it">http://www.cmcc.it</A>&gt;
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+     URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111004/335521e7/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111004/335521e7/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000480.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#479">[ date ]</a>
+              <a href="thread.html#479">[ thread ]</a>
+              <a href="subject.html#479">[ subject ]</a>
+              <a href="author.html#479">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

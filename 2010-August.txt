@@ -1,0 +1,1689 @@
+From agsalin at sandia.gov  Tue Aug  3 17:19:03 2010
+From: agsalin at sandia.gov (Salinger, Andrew)
+Date: Tue, 3 Aug 2010 09:19:03 -0600
+Subject: [Glimmer-cism-devel] glide_io.F90 issue
+Message-ID: <34E36795FF3D2242AF552684EC0C72D313ADB002EC@ES01SNLNT.srn.sandia.gov>
+
+
+Both Jean-Francois and I have run into a problem
+compiling glide_io.F90. Line 58 is 184 characters
+long, and my compiler (gnu 4.1) seems to cut it
+off at 80 characters.
+
+  character(len=*),private,parameter :: hotvars = ' bwat  topg kinbcmask  acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+
+I get an "unterminated string" compile Error.
+It is easy to fix, by adding continuation characters:
+  character(len=*),private,parameter :: hotvars = ' bwat  topg kinbcmask &
+     acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa &
+      beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+
+However, glide_io.F90 is auto-generated. So, if anyone is
+familiar with this auto-generation process, and can force
+this line to be broken into shorter pieces, that would help
+future developers from running into this same problem.
+
+Now that I know the fix, it is not an issue for me.
+
+Thanks,
+Andy Salinger (Trilinos point-of-contact)
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100803/9dac00a0/attachment.html>
+
+From a.j.payne at bristol.ac.uk  Tue Aug  3 19:47:33 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Tue, 03 Aug 2010 18:47:33 +0100
+Subject: [Glimmer-cism-devel] glide_io.F90 issue
+In-Reply-To: <34E36795FF3D2242AF552684EC0C72D313ADB002EC@ES01SNLNT.srn.sandia.gov>
+References: <34E36795FF3D2242AF552684EC0C72D313ADB002EC@ES01SNLNT.srn.sandia.gov>
+Message-ID: <4C585635.3090807@bristol.ac.uk>
+
+hi
+
+i had the same issue with gfortran.  i dont think it matters to ifort.  
+something seems to have changed in the default behaviour of gfortran in 
+that free format is longer the default for the .F90 extensions.  reading 
+the documentation, it seems to be something to do with the preprocessor 
+assuming 72 columns.
+
+tony
+
+On 03/08/2010 16:19, Salinger, Andrew wrote:
+> Both Jean-Francois and I have run into a problem
+> compiling glide_io.F90. Line 58 is 184 characters
+> long, and my compiler (gnu 4.1) seems to cut it
+> off at 80 characters.
+>   character(len=*),private,parameter :: hotvars = ' bwat  topg 
+> kinbcmask  acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa 
+> beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+> I get an "unterminated string" compile Error.
+> It is easy to fix, by adding continuation characters:
+>   character(len=*),private,parameter :: hotvars = ' bwat  topg kinbcmask &
+>      acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa &
+>       beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+> However, glide_io.F90 is auto-generated. So, if anyone is
+> familiar with this auto-generation process, and can force
+> this line to be broken into shorter pieces, that would help
+> future developers from running into this same problem.
+> Now that I know the fix, it is not an issue for me.
+> Thanks,
+> Andy Salinger (Trilinos point-of-contact)
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>    
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100803/0e13c54b/attachment.html>
+
+From agsalin at sandia.gov  Tue Aug  3 22:13:21 2010
+From: agsalin at sandia.gov (Salinger, Andrew)
+Date: Tue, 3 Aug 2010 14:13:21 -0600
+Subject: [Glimmer-cism-devel] glide_io.F90 issue
+In-Reply-To: <4C585635.3090807@bristol.ac.uk>
+References: <34E36795FF3D2242AF552684EC0C72D313ADB002EC@ES01SNLNT.srn.sandia.gov>
+	<4C585635.3090807@bristol.ac.uk>
+Message-ID: <34E36795FF3D2242AF552684EC0C72D313ADB0041E@ES01SNLNT.srn.sandia.gov>
+
+Thanks Tony,
+
+I got the auto-generated glide_io.F90 to compile
+with  gfortran  by setting this compiler flag:
+   FCFLAGS=-ffree-line-length-none
+
+Andy
+
+________________________________
+From: Tony Payne [mailto:a.j.payne at bristol.ac.uk]
+Sent: Tuesday, August 03, 2010 11:48 AM
+To: Salinger, Andrew
+Cc: glimmer-cism-devel at lists.berlios.de
+Subject: Re: [Glimmer-cism-devel] glide_io.F90 issue
+
+hi
+
+i had the same issue with gfortran.  i dont think it matters to ifort.  something seems to have changed in the default behaviour of gfortran in that free format is longer the default for the .F90 extensions.  reading the documentation, it seems to be something to do with the preprocessor assuming 72 columns.
+
+tony
+
+On 03/08/2010 16:19, Salinger, Andrew wrote:
+
+Both Jean-Francois and I have run into a problem
+compiling glide_io.F90. Line 58 is 184 characters
+long, and my compiler (gnu 4.1) seems to cut it
+off at 80 characters.
+
+  character(len=*),private,parameter :: hotvars = ' bwat  topg kinbcmask  acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+
+I get an "unterminated string" compile Error.
+It is easy to fix, by adding continuation characters:
+  character(len=*),private,parameter :: hotvars = ' bwat  topg kinbcmask &
+     acab  temp  uvelhom  artm  usurf  vvelhom  velnormhom  flwa &
+      beta  bheatflx  bmlt  tauf  etill  u_till  thk '
+
+However, glide_io.F90 is auto-generated. So, if anyone is
+familiar with this auto-generation process, and can force
+this line to be broken into shorter pieces, that would help
+future developers from running into this same problem.
+
+Now that I know the fix, it is not an issue for me.
+
+Thanks,
+Andy Salinger (Trilinos point-of-contact)
+
+
+
+_______________________________________________
+Glimmer-cism-devel mailing list
+Glimmer-cism-devel at lists.berlios.de<mailto:Glimmer-cism-devel at lists.berlios.de>
+https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+--
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk<mailto:A.J.Payne at bristol.ac.uk>
+------------------------<>---------------------------
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100803/ffc09430/attachment.html>
+
+From I.C.Rutt at swansea.ac.uk  Thu Aug  5 12:12:34 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Thu, 05 Aug 2010 11:12:34 +0100
+Subject: [Glimmer-cism-devel] glide_io.F90 issue
+In-Reply-To: <34E36795FF3D2242AF552684EC0C72D313ADB0041E@ES01SNLNT.srn.sandia.gov>
+References: <34E36795FF3D2242AF552684EC0C72D313ADB002EC@ES01SNLNT.srn.sandia.gov>	<4C585635.3090807@bristol.ac.uk>
+	<34E36795FF3D2242AF552684EC0C72D313ADB0041E@ES01SNLNT.srn.sandia.gov>
+Message-ID: <4C5A8E92.2020606@swansea.ac.uk>
+
+
+For information: this problem is fixed in the glimmer-cism2 trunk 
+(configure sets the line-length flag).
+
+Best,
+
+Ian
+
+On 03/08/10 21:13, Salinger, Andrew wrote:
+> Thanks Tony,
+> I got the auto-generated glide_io.F90 to compile
+> with gfortran by setting this compiler flag:
+> FCFLAGS=-ffree-line-length-none
+> Andy
+>
+>     ------------------------------------------------------------------------
+>     *From:* Tony Payne [mailto:a.j.payne at bristol.ac.uk]
+>     *Sent:* Tuesday, August 03, 2010 11:48 AM
+>     *To:* Salinger, Andrew
+>     *Cc:* glimmer-cism-devel at lists.berlios.de
+>     *Subject:* Re: [Glimmer-cism-devel] glide_io.F90 issue
+>
+>     hi
+>
+>     i had the same issue with gfortran. i dont think it matters to
+>     ifort. something seems to have changed in the default behaviour of
+>     gfortran in that free format is longer the default for the .F90
+>     extensions. reading the documentation, it seems to be something to
+>     do with the preprocessor assuming 72 columns.
+>
+>     tony
+>
+>     On 03/08/2010 16:19, Salinger, Andrew wrote:
+>>     Both Jean-Francois and I have run into a problem
+>>     compiling glide_io.F90. Line 58 is 184 characters
+>>     long, and my compiler (gnu 4.1) seems to cut it
+>>     off at 80 characters.
+>>     character(len=*),private,parameter :: hotvars = ' bwat topg
+>>     kinbcmask acab temp uvelhom artm usurf vvelhom velnormhom flwa
+>>     beta bheatflx bmlt tauf etill u_till thk '
+>>     I get an "unterminated string" compile Error.
+>>     It is easy to fix, by adding continuation characters:
+>>     character(len=*),private,parameter :: hotvars = ' bwat topg
+>>     kinbcmask &
+>>     acab temp uvelhom artm usurf vvelhom velnormhom flwa &
+>>     beta bheatflx bmlt tauf etill u_till thk '
+>>     However, glide_io.F90 is auto-generated. So, if anyone is
+>>     familiar with this auto-generation process, and can force
+>>     this line to be broken into shorter pieces, that would help
+>>     future developers from running into this same problem.
+>>     Now that I know the fix, it is not an issue for me.
+>>     Thanks,
+>>     Andy Salinger (Trilinos point-of-contact)
+>>
+>>
+>>     _______________________________________________
+>>     Glimmer-cism-devel mailing list
+>>     Glimmer-cism-devel at lists.berlios.de
+>>     https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>
+>     --
+>     ------------------------<>---------------------------
+>     Tony Payne
+>     School of Geographical Sciences,
+>     University of Bristol,
+>     Bristol BS8 1SS, UK.
+>     Telephone:            +117 331 4156
+>     Fax:                        +117 928 7878
+>     Email:                    A.J.Payne at bristol.ac.uk
+>     ------------------------<>---------------------------
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From Gethin.Williams at bristol.ac.uk  Thu Aug  5 17:33:00 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Thu, 05 Aug 2010 16:33:00 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+Message-ID: <9AB064760EDFAD756FD526DA@geog-a81.ggy.bris.ac.uk>
+
+Hi Magnus & all,
+
+Yes, I had come to a similar conclusion about unit testing frameworks.  Of 
+course, unit testing is far more useful than integration testing, so we 
+should keep that on our radar, while focusing on getting something working 
+right now.  "The best can be the enemy of the good," and all that.
+
+I've been working with Sarah Shannon, and she has created a script with 
+loops through the EISMINT2 tests (in order to cope with dependencies), runs 
+them and compares the outputs to reference files using the comparison 
+program from GENIE.  It's looking promising, but also needs tidying up some 
+more, and of course connecting to the right hooks in the overall framework.
+
+I note that the test configuration files are held in a different directory 
+in the repository to the model source code.  This is problematic for a 
+script looking to make use of both of these things, as given the location 
+of one checkout, the script can't predict the location of the other (unless 
+the whole repos is checked out).
+
+In terms of invoking a test script, would it be sensible for autoconf to 
+create a 'test' rule in the top-level makefile?  Also, we would need to add 
+the (C++) code for the comparison program to the source tree and have 
+autoconf create a makefile for that too.
+
+Cheers,
+Gethin.
+
+
+From Magnus.Hagdorn at ed.ac.uk  Sat Aug  7 09:02:35 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Sat, 07 Aug 2010 08:02:35 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+In-Reply-To: <9AB064760EDFAD756FD526DA@geog-a81.ggy.bris.ac.uk>
+References: <9AB064760EDFAD756FD526DA@geog-a81.ggy.bris.ac.uk>
+Message-ID: <1281164555.4039.6.camel@swine>
+
+On Thu, 2010-08-05 at 16:33 +0100, DAG Williams, Geographical Sciences
+wrote:
+
+> Yes, I had come to a similar conclusion about unit testing frameworks.  Of 
+> course, unit testing is far more useful than integration testing, so we 
+> should keep that on our radar, while focusing on getting something working 
+> right now.  "The best can be the enemy of the good," and all that.
+> 
+absolutely, it's a shame unit tests are such a pain...
+
+> I've been working with Sarah Shannon, and she has created a script with 
+> loops through the EISMINT2 tests (in order to cope with dependencies), runs 
+> them and compares the outputs to reference files using the comparison 
+> program from GENIE.  It's looking promising, but also needs tidying up some 
+> more, and of course connecting to the right hooks in the overall framework.
+> 
+> I note that the test configuration files are held in a different directory 
+> in the repository to the model source code.  This is problematic for a 
+> script looking to make use of both of these things, as given the location 
+> of one checkout, the script can't predict the location of the other (unless 
+> the whole repos is checked out).
+> 
+
+you should work from trunk since there everything is in a single
+directory tree. we should also try to focus our efforts on trunk as the
+way forward.
+
+> In terms of invoking a test script, would it be sensible for autoconf to 
+> create a 'test' rule in the top-level makefile?  Also, we would need to add 
+> the (C++) code for the comparison program to the source tree and have 
+> autoconf create a makefile for that too.
+> 
+I'd just use make. Currently, when you run "make data" all the tests
+will be run. I also figured out how to deal with dependencies when using
+SGE. We could then also have a compare target which compares the results
+against a gold standard. We should assume the file are kept in the same
+directory structure. At configure time we could set a macro (that could
+also be set on the command line) where the root of the gold standard is.
+We could then do,
+make compare SOLUTION_DIR=/here/are/the/good/data_sets
+
+Cheers
+magi 
+
+
+
+From jed at 59A2.org  Wed Aug 11 07:38:14 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Tue, 10 Aug 2010 21:38:14 -0800
+Subject: [Glimmer-cism-devel] AGU Session: Advances in Computational
+	Modelling in Geoscience
+Message-ID: <8739ul4sl5.fsf@59A2.org>
+
+I would like to encourage abstract submissions to the following
+interdisciplinary session:
+
+DI11: Advances in Computational Modelling in Geoscience
+
+The development of accurate, robust and scalable computational
+techniques is often reduced to finding (i) suitable temporal/spatial
+discretisations for a given set of PDE and (ii) a strategy for solving
+large systems of algebraic equations. Both are essential for
+next-generation geophysical models in fields such as mantle/lithospheric
+dynamics, landscape evolution, non-shallow ice flow, subsurface flow,
+atmosphere and ocean circulation, PDE constrained optimization. Although
+these applications are diverse, the techniques used to develop effective
+solvers and discretisations share common components. This session aims
+to share experiences developing robust techniques for a wide range of
+problems arising in large-scale geophysical models.
+
+Conveners:
+  Jed Brown, ETH Z?rich
+  Dave May, ETH Z?rich
+  Louis Moresi, Monash
+
+Sponsor: Study of Earth's Deep Interior 
+
+CoSponsor: Atmospheric Sciences, Cryosphere, Ocean Sciences
+
+Deadline: September 2, 2010
+
+
+From lipscomb at lanl.gov  Fri Aug 13 14:49:48 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 13 Aug 2010 06:49:48 -0600
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+Message-ID: <A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+
+
+Hi all,
+
+I'm forwarding a proposal written by Toby Isaac, a graduate student at  
+UT-Austin who is at LANL this summer working on one of the DOE ISICLES  
+projects.  Toby's proposal describes a framework for incorporating  
+external dynamic cores in Glimmer-CISM with modest changes to existing  
+drivers and minimal long-term maintenance.  If you're interested in  
+adding new dycores, please take a look and give us your feedback.
+
+Thanks,
+
+Bill
+
+
+>
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100813/b13ac106/attachment.html>
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: glideintproposal.txt
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100813/b13ac106/attachment.txt>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100813/b13ac106/attachment-0001.html>
+
+From jed at 59A2.org  Fri Aug 13 22:09:34 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Fri, 13 Aug 2010 12:09:34 -0800
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+Message-ID: <871va25l6p.fsf@59A2.org>
+
+I posted on this list a long time ago about doing this dynamically
+(rather than recompiling with each new "dycore", dispatch is done in
+your programming language instead of the build system), which enables
+having multiple models with different cores in use at the same time.
+
+These strategies have essentially the same challenges:
+
+1. Memory and other resources.  This has to be truly self-contained, it
+   often involves reference counting of shared objects and eliminating
+   places where work/auxiliary vectors get passed through different
+   layers.
+
+2. API stability.  This is more significant.  When you have multiple
+   implementations, the API cannot be changed at will, all the
+   implementations have to be updated.  If the API changes frequently,
+   then the implementations have to follow upstream closely.  So it's
+   fairly important to be confident that the API is relatively stable,
+   and also design it so that future changes stay localized instead of
+   requiring a cascade of modifications.
+
+Jed
+
+
+From I.C.Rutt at swansea.ac.uk  Tue Aug 17 12:19:42 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 17 Aug 2010 11:19:42 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <871va25l6p.fsf@59A2.org>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org>
+Message-ID: <4C6A623E.2090300@swansea.ac.uk>
+
+
+Hi All,
+
+I would agree with Jed that a dynamic system (which is quite feasible 
+technically) would be preferable to a static one. One other point I 
+would add is that much of the work we've been doing on the refactoring 
+branch has been geared towards making this kind of architecture easier 
+to implement - doing this work in isolation from that, and on the lanl 
+branch, substantially increases the risk that it will never make it onto 
+the publicly-released version of the code.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Jed Brown wrote:
+> I posted on this list a long time ago about doing this dynamically
+> (rather than recompiling with each new "dycore", dispatch is done in
+> your programming language instead of the build system), which enables
+> having multiple models with different cores in use at the same time.
+> 
+> These strategies have essentially the same challenges:
+> 
+> 1. Memory and other resources.  This has to be truly self-contained, it
+>    often involves reference counting of shared objects and eliminating
+>    places where work/auxiliary vectors get passed through different
+>    layers.
+> 
+> 2. API stability.  This is more significant.  When you have multiple
+>    implementations, the API cannot be changed at will, all the
+>    implementations have to be updated.  If the API changes frequently,
+>    then the implementations have to follow upstream closely.  So it's
+>    fairly important to be confident that the API is relatively stable,
+>    and also design it so that future changes stay localized instead of
+>    requiring a cascade of modifications.
+> 
+> Jed
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From tisaac at ices.utexas.edu  Tue Aug 17 17:53:18 2010
+From: tisaac at ices.utexas.edu (Tobin Isaac)
+Date: Tue, 17 Aug 2010 10:53:18 -0500
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C6A623E.2090300@swansea.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+Message-ID: <20100817155318.GA22201@ices.utexas.edu>
+
+Hi Ian,
+
+Thanks for the input.
+
+> I would agree with Jed that a dynamic system (which is quite feasible  
+> technically) would be preferable to a static one.
+
+I think there may be some confusion, either about what I meant in the
+proposal, or on my end about what you and Jed mean by "dynamic".
+
+In what I proposed, there is no need to recompile the code when the
+dynamical core is switched: in fact, within a single execution each
+model instance can run a different dynamical core.  Recompiling only
+has to occur when the list of available dynamical cores changes, so
+that the libraries for the new cores can be linked.
+
+The only way I can think of to be more dynamic would be to dynamically
+link in an external library in the place of libglide, but
+1) changing which library is loaded without relinking is done by
+changing the LD_LIBRARY_PATH env variable, which is usually
+discouraged,
+2) this would force users to compile with shared libraries, and
+3) this would limit to one dynamical core per runtime.
+
+> One other point I  would add is that much of the work we've been
+> doing on the refactoring  branch has been geared towards making this
+> kind of architecture easier  to implement - doing this work in
+> isolation from that, and on the lanl  branch, substantially
+> increases the risk that it will never make it onto  the
+> publicly-released version of the code.
+
+I'm agnostic about which branch to use.  -lanl was suggested by Bill:
+maybe this is a steering committee decision?
+
+Cheers,
+Toby
+
+
+
+From sarah.shannon at bristol.ac.uk  Thu Aug 19 14:04:22 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Thu, 19 Aug 2010 13:04:22 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+Message-ID: <4C6D1DC6.80506@bristol.ac.uk>
+
+Hi developers,
+
+I have been working with Gethin Williams to prepare a script to run 
+automatic tests for glimmer. A while ago a list of useful tests was 
+circulated on the developers list (by Bill Lipscomb) .
+
+To make a start with this, I have written a script to run the EISMINT-2 
+tests on the glimmer-cism trunk.
+
+Here is a brief outline of how the script would work.
+
+A rule in the makefile would invoke the script so that typing ?make test 
+<experiment_type> <experiment_number>? would run a test. I am not 
+familiar with autoconf, so, I would need some assistance to create this 
+rule in the Makefile.
+
+The script then does the following
+
+a. Check out the configuration files for the tests
+b. Check out the golden standard files for the tests
+c. Compile a tool to compare two neCDF files.
+d. Run glimmer for each configuration file in the test.
+e. Compare the output of the runs to the gold standard and report back 
+if the tests passed or not.
+
+The nightly build script checks out the code, builds it and runs the 
+test script.
+
+I was wondering where would be the best place to store the golden 
+standard files and configuration files on the repository?
+
+Currently, the output of the EISMINT-2 tests is quiet large (1.18GB or 
+436 MB zipped). This is reduced to 41MB if we output every 40000 years 
+instead of 1000.
+
+If you have any suggestions on that or the design, then let me know,
+
+All the best,
+
+Sarah
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100819/705fe72a/attachment.vcf>
+
+From jed at 59A2.org  Tue Aug 24 22:00:05 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Tue, 24 Aug 2010 12:00:05 -0800
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <20100817155318.GA22201@ices.utexas.edu>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+Message-ID: <87aaobixx6.fsf@59A2.org>
+
+On Tue, 17 Aug 2010 10:53:18 -0500, Tobin Isaac <tisaac at ices.utexas.edu> wrote:
+> In what I proposed, there is no need to recompile the code when the
+> dynamical core is switched: in fact, within a single execution each
+> model instance can run a different dynamical core.  Recompiling only
+> has to occur when the list of available dynamical cores changes, so
+> that the libraries for the new cores can be linked.
+> 
+> The only way I can think of to be more dynamic would be to dynamically
+> link in an external library in the place of libglide, but
+> 1) changing which library is loaded without relinking is done by
+> changing the LD_LIBRARY_PATH env variable, which is usually
+> discouraged,
+> 2) this would force users to compile with shared libraries, and
+> 3) this would limit to one dynamical core per runtime.
+
+Your outline wasn't clear to me about specifically how you intended to
+implement this, but I think your plan is sufficiently generic.
+Recompiling is mandatory if a dynamic loader is not available, so that
+option always has to remain.  A more dynamic alternative, in the
+presence of a dynamic loader, is to dlopen the shared library and run a
+procedure that registers any implementations in the shared library, at
+which point that would be available as a runtime option to any instances
+that wanted to use it.  This plugin could be loaded by dropping it in a
+plugins directory, or specifying the path as a runtime option.  This is
+what we do for everything in PETSc.
+
+Jed
+
+
+From I.C.Rutt at swansea.ac.uk  Fri Aug 27 16:00:35 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 27 Aug 2010 15:00:35 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <20100817155318.GA22201@ices.utexas.edu>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+Message-ID: <4C77C503.6020509@swansea.ac.uk>
+
+
+Hi Toby,
+
+> The only way I can think of to be more dynamic would be to dynamically
+> link in an external library
+
+Yes, this is what I had in mind. What you can do (as Jed indicated in 
+his recent message), is load an arbitrary number of shared libraries 
+while the code is running. This overcomes all three problems you outline.
+
+I had a go at making a toy example work a little while ago. Looking 
+through it again, I realise the main difficulty is that it requires two 
+features from Fortran 2003: ISO C bindings and procedure pointers, as 
+the dynamic loading library (libdl) is part of the standard C library, 
+and returns a pointer to the desired procedure. The other issue is one 
+of name-mangling: ths fortran code needs to know what the procedure in 
+the library file is called.
+
+Ok, it's fiddly, and probably fragile at this stage, which F2003 
+features still in development within most compilers (my example needs 
+gfortran 4.5 or higher), and perhaps we are not ready for it yet. In 
+which case, your suggestion would certainly be an improvement on the 
+present arrangements, and could be extended to be dynamic if we desired it.
+
+> I'm agnostic about which branch to use.  -lanl was suggested by Bill:
+> maybe this is a steering committee decision?
+
+I would definitely be in favour of doing the work on a public branch in 
+the glimmer-cism2 part of the svn tree, but others may disagree.
+
+Anyway, thanks very much for your contribution to Glimmer-CISM, and welcome.
+
+Best wishes,
+
+Ian
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From jed at 59A2.org  Fri Aug 27 16:14:29 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Fri, 27 Aug 2010 16:14:29 +0200
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C77C503.6020509@swansea.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk>
+Message-ID: <87iq2wgn22.fsf@59A2.org>
+
+On Fri, 27 Aug 2010 15:00:35 +0100, Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+> Yes, this is what I had in mind. What you can do (as Jed indicated in 
+> his recent message), is load an arbitrary number of shared libraries 
+> while the code is running. This overcomes all three problems you outline.
+> 
+> I had a go at making a toy example work a little while ago. Looking 
+> through it again, I realise the main difficulty is that it requires two 
+> features from Fortran 2003: ISO C bindings and procedure pointers, as 
+> the dynamic loading library (libdl) is part of the standard C library, 
+> and returns a pointer to the desired procedure. The other issue is one 
+> of name-mangling: ths fortran code needs to know what the procedure in 
+> the library file is called.
+
+You can do the dynamic loading on the C side, you don't need F2003
+function pointers.  Just have configure detect the name mangling scheme
+and you don't need F2003 ISO C bindings either.  People have been doing
+this robustly and portably for decades.
+
+Jed
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Aug 27 16:58:48 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 27 Aug 2010 15:58:48 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <87iq2wgn22.fsf@59A2.org>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>	<871va25l6p.fsf@59A2.org>
+	<4C6A623E.2090300@swansea.ac.uk>	<20100817155318.GA22201@ices.utexas.edu>	<4C77C503.6020509@swansea.ac.uk>
+	<87iq2wgn22.fsf@59A2.org>
+Message-ID: <4C77D2A8.7000900@ed.ac.uk>
+
+Jed Brown wrote:
+> On Fri, 27 Aug 2010 15:00:35 +0100, Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+>> Yes, this is what I had in mind. What you can do (as Jed indicated in 
+>> his recent message), is load an arbitrary number of shared libraries 
+>> while the code is running. This overcomes all three problems you outline.
+>>
+>> I had a go at making a toy example work a little while ago. Looking 
+>> through it again, I realise the main difficulty is that it requires two 
+>> features from Fortran 2003: ISO C bindings and procedure pointers, as 
+>> the dynamic loading library (libdl) is part of the standard C library, 
+>> and returns a pointer to the desired procedure. The other issue is one 
+>> of name-mangling: ths fortran code needs to know what the procedure in 
+>> the library file is called.
+> 
+> You can do the dynamic loading on the C side, you don't need F2003
+> function pointers.  Just have configure detect the name mangling scheme
+> and you don't need F2003 ISO C bindings either.  People have been doing
+> this robustly and portably for decades.
+
+
+Hi all,
+to weigh in at this stage and without having read the proposal yet.
+I totally agree with Jed :-)
+and to expand a little, I have a since used a setup similar to what Jed 
+proposed ages ago [1] - I hope you don't mind. It works extremely well, 
+in that you only have to wrap a single API and then it doesn't matter if 
+you are using F03 or something like cfortran.h.
+
+So I think we should really think about the external API first and then 
+worry about the actual implementation. I also think that programming 
+against a C API would make sense because C functions are easy to wrap in 
+any language.
+
+Right, I shall now read Toby's proposal...
+
+magi
+
+
+[1] 
+https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/000114.html
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Aug 27 17:49:58 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 27 Aug 2010 16:49:58 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C77D2A8.7000900@ed.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>	<871va25l6p.fsf@59A2.org>	<4C6A623E.2090300@swansea.ac.uk>	<20100817155318.GA22201@ices.utexas.edu>	<4C77C503.6020509@swansea.ac.uk>	<87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk>
+Message-ID: <4C77DEA6.5000105@ed.ac.uk>
+
+Magnus Hagdorn wrote:
+
+> Right, I shall now read Toby's proposal...
+> 
+ok, I have done so now.
+
+I think at this stage the proposal is dealing with implementation 
+details while it doesn't deal with the larger issues. So, I would like 
+to raise them (well, they are my large scale view...)
+
+The first thing we have to address is the question what is glimmer-cism 
+and more specifically what do alternative implementation of the 
+dynamical core have to have in common to be part of glimmer-cism?
+
+To me the answer is that they have to live on the same grid because that 
+makes sharing of infrastructure such as I/O, coupling with the outside 
+world, etc. easy. The alternative is to relax this requirement, in which 
+case we would need to provide interpolation routines which transform 
+data from one mesh to another. This is obviously possible but a lot more 
+ambitious and we could consider that later once we have tackled the 
+simpler problem first.
+
+So, the state of the ice body is defined by a set of fields defined on a 
+known mesh. Together with boundary conditions the next state can be 
+computed. These fields are manipulated by the various dynamical cores.
+
+I think we should first come up with an API for the dynamical cores and 
+the support functionality. Once we have the API we can decide on how to 
+implement it.
+
+As indicated in my previous email, I really like Jed's suggestion from a 
+while ago.
+
+Regards
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From a.j.payne at bristol.ac.uk  Fri Aug 27 17:59:51 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Fri, 27 Aug 2010 16:59:51 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C77DEA6.5000105@ed.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>	<871va25l6p.fsf@59A2.org>	<4C6A623E.2090300@swansea.ac.uk>	<20100817155318.GA22201@ices.utexas.edu>	<4C77C503.6020509@swansea.ac.uk>	<87iq2wgn22.fsf@59A2.org>	<4C77D2A8.7000900@ed.ac.uk>
+	<4C77DEA6.5000105@ed.ac.uk>
+Message-ID: <4C77E0F7.2060100@bristol.ac.uk>
+
+hi
+
+this is an issue that affects how the chombo core is integrated into 
+glimmer-cism.  chombo (and i suspect several other alternative cores) 
+creates into own system of grids so that mesh refinement is possible.  i 
+think that the way around this is to specify the grid for the interface 
+only.  the alternative core can use what ever grid it wants but it is 
+the responsibility of that core to do the necessary interpolation to get 
+variables to/from the rest of glimmer.
+
+all the best
+
+tony
+
+On 27/08/2010 16:49, Magnus Hagdorn wrote:
+> Magnus Hagdorn wrote:
+>
+>> Right, I shall now read Toby's proposal...
+>>
+> ok, I have done so now.
+>
+> I think at this stage the proposal is dealing with implementation 
+> details while it doesn't deal with the larger issues. So, I would like 
+> to raise them (well, they are my large scale view...)
+>
+> The first thing we have to address is the question what is 
+> glimmer-cism and more specifically what do alternative implementation 
+> of the dynamical core have to have in common to be part of glimmer-cism?
+>
+> To me the answer is that they have to live on the same grid because 
+> that makes sharing of infrastructure such as I/O, coupling with the 
+> outside world, etc. easy. The alternative is to relax this 
+> requirement, in which case we would need to provide interpolation 
+> routines which transform data from one mesh to another. This is 
+> obviously possible but a lot more ambitious and we could consider that 
+> later once we have tackled the simpler problem first.
+>
+> So, the state of the ice body is defined by a set of fields defined on 
+> a known mesh. Together with boundary conditions the next state can be 
+> computed. These fields are manipulated by the various dynamical cores.
+>
+> I think we should first come up with an API for the dynamical cores 
+> and the support functionality. Once we have the API we can decide on 
+> how to implement it.
+>
+> As indicated in my previous email, I really like Jed's suggestion from 
+> a while ago.
+>
+> Regards
+> magi
+>
+>
+>
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From jed at 59A2.org  Fri Aug 27 18:21:50 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Fri, 27 Aug 2010 18:21:50 +0200
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C77DEA6.5000105@ed.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+Message-ID: <87zkw8f2ld.fsf@59A2.org>
+
+On Fri, 27 Aug 2010 16:49:58 +0100, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> To me the answer is that they have to live on the same grid
+
+This is very limiting to non-GLIMMER implementations.  The CCSM/CISM
+interfaces are currently highly GLIMMER-specific, which is the main
+reason why PISM is used in other climate models, but not CCSM, and that
+various "toy" hydrostatic and Stokes solvers cannot be used as part of a
+full-scale climate model.  Similarly, it is a blocker for those using
+unstructured finite elements or AMR.  I realize that it is important to
+limit scope somewhere, but I encourage you to consider an interface that
+makes minimal assumptions about discretization.
+
+Jed
+
+
+From lipscomb at lanl.gov  Fri Aug 27 18:45:53 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 27 Aug 2010 10:45:53 -0600
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C77E0F7.2060100@bristol.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>	<871va25l6p.fsf@59A2.org>	<4C6A623E.2090300@swansea.ac.uk>	<20100817155318.GA22201@ices.utexas.edu>	<4C77C503.6020509@swansea.ac.uk>	<87iq2wgn22.fsf@59A2.org>	<4C77D2A8.7000900@ed.ac.uk>
+	<4C77DEA6.5000105@ed.ac.uk> <4C77E0F7.2060100@bristol.ac.uk>
+Message-ID: <1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+
+
+Hi all,
+
+This was my understanding too.  The alternative dycores would send and  
+receive information (e.g., surface mass balance computed by Glimmer or  
+a climate model) on a standard grid, but would be free to interpolate  
+to and from their own grids.  This will allow us to run Glimmer-CISM  
+in CESM with alternative dycores (such as chombo) in the relatively  
+near term.
+
+Cheers,
+
+Bill
+
+
+On Aug 27, 2010, at 9:59 AM, Tony Payne wrote:
+
+> hi
+>
+> this is an issue that affects how the chombo core is integrated into  
+> glimmer-cism.  chombo (and i suspect several other alternative  
+> cores) creates into own system of grids so that mesh refinement is  
+> possible.  i think that the way around this is to specify the grid  
+> for the interface only.  the alternative core can use what ever grid  
+> it wants but it is the responsibility of that core to do the  
+> necessary interpolation to get variables to/from the rest of glimmer.
+>
+> all the best
+>
+> tony
+>
+> On 27/08/2010 16:49, Magnus Hagdorn wrote:
+>> Magnus Hagdorn wrote:
+>>
+>>> Right, I shall now read Toby's proposal...
+>>>
+>> ok, I have done so now.
+>>
+>> I think at this stage the proposal is dealing with implementation  
+>> details while it doesn't deal with the larger issues. So, I would  
+>> like to raise them (well, they are my large scale view...)
+>>
+>> The first thing we have to address is the question what is glimmer- 
+>> cism and more specifically what do alternative implementation of  
+>> the dynamical core have to have in common to be part of glimmer-cism?
+>>
+>> To me the answer is that they have to live on the same grid because  
+>> that makes sharing of infrastructure such as I/O, coupling with the  
+>> outside world, etc. easy. The alternative is to relax this  
+>> requirement, in which case we would need to provide interpolation  
+>> routines which transform data from one mesh to another. This is  
+>> obviously possible but a lot more ambitious and we could consider  
+>> that later once we have tackled the simpler problem first.
+>>
+>> So, the state of the ice body is defined by a set of fields defined  
+>> on a known mesh. Together with boundary conditions the next state  
+>> can be computed. These fields are manipulated by the various  
+>> dynamical cores.
+>>
+>> I think we should first come up with an API for the dynamical cores  
+>> and the support functionality. Once we have the API we can decide  
+>> on how to implement it.
+>>
+>> As indicated in my previous email, I really like Jed's suggestion  
+>> from a while ago.
+>>
+>> Regards
+>> magi
+>>
+>>
+>>
+>
+> -- 
+> ------------------------<>---------------------------
+> Tony Payne
+> School of Geographical Sciences,
+> University of Bristol,
+> Bristol BS8 1SS, UK.
+> Telephone:      +117 331 4156
+> Fax:            +117 928 7878
+> Email:          A.J.Payne at bristol.ac.uk
+> ------------------------<>---------------------------
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From dfmartin at lbl.gov  Fri Aug 27 20:29:50 2010
+From: dfmartin at lbl.gov (Dan Martin)
+Date: Fri, 27 Aug 2010 11:29:50 -0700
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>	<871va25l6p.fsf@59A2.org>	<4C6A623E.2090300@swansea.ac.uk>	<20100817155318.GA22201@ices.utexas.edu>	<4C77C503.6020509@swansea.ac.uk>	<87iq2wgn22.fsf@59A2.org>	<4C77D2A8.7000900@ed.ac.uk>	<4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+Message-ID: <4C78041E.10802@lbl.gov>
+
+First off, let me introduce myself -- I'm part of the Berkeley ISICLES 
+project (BISICLES), and we're working on a Chombo-based AMR ice-sheet 
+dynamic core.  Nice to meet you all.. :-)
+
+I concur with Tony and Bill -- the idea was that Glimmer-CISM passes in 
+whatever it has through the interface to the external dycore, whose 
+responsibility it is to do whatever it needs to do in order to advance 
+the solution, including anything it needs to do in order to transfer 
+from the glimmer mesh to its own representation. IF the external dynamic 
+core uses a different mesh, then it has the responsibility to maintain 
+that. I think this is actually more flexible, since the Glimmer-CISM 
+side of things doesn't have to know anything about the details of the 
+external dycore, and expecting the Glimmer side of things to maintain 
+infrastructure for what could easily be a half-dozen dynamic cores would 
+pretty quickly become an enormous burden.  In this conception, the 
+external dycore owns the actual interface functionality as well.
+
+Jed is correct (from a couple of e-mails ago) in that the external 
+dycores would need to follow any changes in the glimmer-cism 
+implementation, but that's not an enormous burden, assuming that such 
+changes are communicated and documented in a reasonable way, which from 
+what I've seen, appears to be the case with glimmer-CISM development.
+
+Two of the goals of this have been to minimize any changes to the 
+existing glimmer-CISM code, and to put as much of the burden of 
+implementing a new dycore onto the external dycore itself. In our case 
+(we're doing a block-strucured AMR code using the Chombo framework), 
+this is preferable anyway, because we will simply maintain our own 
+hierarchy of refined and coarsened meshes on our side of the interface, 
+along with the ice sheet state on those refined meshes. What we take 
+from glimmer-CISM is the coupler to CESM, the problem specification 
+infrastructure, and a lot of other stuff which you guys have spent a lot 
+of time on (things like isostasy, basal water, etc -- our goal is to use 
+as much of what's already there as we can, while still adding an AMR 
+capability for the dynamic core). I think I/O will be shared -- we have 
+an hdf5-based AMR I/O capability, which is orthogonal to (but not 
+incompatible with) the existing Glimmer-CISM netCDF I/O.
+
+It wasn't spelled out explicitly in the document, but the initial 
+thinking was that the external dycores would hook up with the existing 
+glimmer-CISM code in 3 places. I don't have notes from the meeting to 
+work with, so these are only approximations of the function names. As a 
+first pass, these three functions would be something like
+
+initialize(model)
+
+update_solution(model, time)
+
+finalize(model)
+
+
+initialize and finalize more or less speak for themselves -- they do 
+whatever the external dycore needs to do to set up and clean up.
+
+update_solution would encompass what's now the sequence of tstep_p1, 
+tstep_p2, and tstep_p3 in the existing code; in the default case, the 
+update_solution call would just call p1, p2, and p3.
+
+
+This turned out a lot longer than I had intended, but I wanted to 
+explain in a bit more detail my interpretation of how the existing 
+proposal looked.
+
+
+Regards,
+Dan
+
+
+
+
+On 08/27/2010 09:45 AM, William Lipscomb wrote:
+>
+> Hi all,
+>
+> This was my understanding too. The alternative dycores would send and
+> receive information (e.g., surface mass balance computed by Glimmer or a
+> climate model) on a standard grid, but would be free to interpolate to
+> and from their own grids. This will allow us to run Glimmer-CISM in CESM
+> with alternative dycores (such as chombo) in the relatively near term.
+>
+> Cheers,
+>
+> Bill
+>
+>
+> On Aug 27, 2010, at 9:59 AM, Tony Payne wrote:
+>
+>> hi
+>>
+>> this is an issue that affects how the chombo core is integrated into
+>> glimmer-cism. chombo (and i suspect several other alternative cores)
+>> creates into own system of grids so that mesh refinement is possible.
+>> i think that the way around this is to specify the grid for the
+>> interface only. the alternative core can use what ever grid it wants
+>> but it is the responsibility of that core to do the necessary
+>> interpolation to get variables to/from the rest of glimmer.
+>>
+>> all the best
+>>
+>> tony
+>>
+>> On 27/08/2010 16:49, Magnus Hagdorn wrote:
+>>> Magnus Hagdorn wrote:
+>>>
+>>>> Right, I shall now read Toby's proposal...
+>>>>
+>>> ok, I have done so now.
+>>>
+>>> I think at this stage the proposal is dealing with implementation
+>>> details while it doesn't deal with the larger issues. So, I would
+>>> like to raise them (well, they are my large scale view...)
+>>>
+>>> The first thing we have to address is the question what is
+>>> glimmer-cism and more specifically what do alternative implementation
+>>> of the dynamical core have to have in common to be part of glimmer-cism?
+>>>
+>>> To me the answer is that they have to live on the same grid because
+>>> that makes sharing of infrastructure such as I/O, coupling with the
+>>> outside world, etc. easy. The alternative is to relax this
+>>> requirement, in which case we would need to provide interpolation
+>>> routines which transform data from one mesh to another. This is
+>>> obviously possible but a lot more ambitious and we could consider
+>>> that later once we have tackled the simpler problem first.
+>>>
+>>> So, the state of the ice body is defined by a set of fields defined
+>>> on a known mesh. Together with boundary conditions the next state can
+>>> be computed. These fields are manipulated by the various dynamical
+>>> cores.
+>>>
+>>> I think we should first come up with an API for the dynamical cores
+>>> and the support functionality. Once we have the API we can decide on
+>>> how to implement it.
+>>>
+>>> As indicated in my previous email, I really like Jed's suggestion
+>>> from a while ago.
+>>>
+>>> Regards
+>>> magi
+>>>
+>>>
+>>>
+>>
+>> --
+>> ------------------------<>---------------------------
+>> Tony Payne
+>> School of Geographical Sciences,
+>> University of Bristol,
+>> Bristol BS8 1SS, UK.
+>> Telephone: +117 331 4156
+>> Fax: +117 928 7878
+>> Email: A.J.Payne at bristol.ac.uk
+>> ------------------------<>---------------------------
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> *******************************************************************************
+>
+> William H. Lipscomb E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory Phone: (505) 667-0395
+> Group T-3, Mail Stop B216 Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *******************************************************************************
+>
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+*************************************************************************
+Dan Martin                              email: DFMartin at lbl.gov
+Mail Stop 50A-1148                       phone: (510) 495-2852
+Lawrence Berkeley National Laboratory      fax: (510) 486-6900
+1 Cyclotron Rd.
+Berkeley, CA 94720
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Sat Aug 28 09:59:18 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Sat, 28 Aug 2010 08:59:18 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>	<871va25l6p.fsf@59A2.org>
+	<4C6A623E.2090300@swansea.ac.uk>	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk>	<87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+Message-ID: <1282982358.3306.2.camel@bacon.marsupium.org>
+
+On Fri, 2010-08-27 at 10:45 -0600, William Lipscomb wrote:
+> This was my understanding too.  The alternative dycores would send
+> and  
+> receive information (e.g., surface mass balance computed by Glimmer
+> or  
+> a climate model) on a standard grid, but would be free to
+> interpolate  
+> to and from their own grids.  This will allow us to run Glimmer-CISM  
+> in CESM with alternative dycores (such as chombo) in the relatively  
+> near term.
+> 
+
+
+OK, so what is glimmer-CISM then?
+
+The coupler? How are the set of dynamical cores going to communicate
+with each other? There must be some commonality. Are you proposing to
+have general framework which provides services to transform from one
+mesh to another?
+
+magi
+
+
+
+
+From jed at 59A2.org  Sat Aug 28 13:33:51 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Sat, 28 Aug 2010 13:33:51 +0200
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <1282982358.3306.2.camel@bacon.marsupium.org>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+	<1282982358.3306.2.camel@bacon.marsupium.org>
+Message-ID: <87bp8nezts.fsf@59A2.org>
+
+On Sat, 28 Aug 2010 08:59:18 +0100, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> OK, so what is glimmer-CISM then?
+
+What I envisioned in the original proposal, was that "CISM" could refer
+to the plugin architecture which dynamical cores, of which "Glimmer" (in
+the CCSM context) is a particular blessed implementation (along with
+some of it's many branches).  I of course don't care what it's called,
+maybe everyone involved feels the need to stamp their institution
+initials onto every component, but separating the plugin architecture
+from the implementation is an important step if we're actually going to
+have multiple dycores available to CCSM.
+
+> Are you proposing to have general framework which provides services to
+> transform from one mesh to another?
+
+The CCSM coupler people say they have this, but I think it makes some 2D
+or 2.5D assumptions which may or may not be appropriate.
+
+Jed
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Aug 30 10:39:49 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 30 Aug 2010 09:39:49 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <87bp8nezts.fsf@59A2.org>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+	<1282982358.3306.2.camel@bacon.marsupium.org>
+	<87bp8nezts.fsf@59A2.org>
+Message-ID: <4C7B6E55.6000801@ed.ac.uk>
+
+Jed Brown wrote:
+> On Sat, 28 Aug 2010 08:59:18 +0100, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+>> OK, so what is glimmer-CISM then?
+> 
+> What I envisioned in the original proposal, was that "CISM" could refer
+> to the plugin architecture which dynamical cores, of which "Glimmer" (in
+> the CCSM context) is a particular blessed implementation (along with
+> some of it's many branches).  I of course don't care what it's called,
+> maybe everyone involved feels the need to stamp their institution
+> initials onto every component, but separating the plugin architecture
+> from the implementation is an important step if we're actually going to
+> have multiple dycores available to CCSM.
+> 
+
+This is an entirely different beast. I should say that I really like the 
+idea and that I am not opposed to it. However, if this is what we want 
+to achieve then we should really spend some time on defining and 
+designing the infrastructure and API first. Once we have it we can port 
+glimmer to it. I don't think there is much point trying to come up with 
+an API that fits the current structure of glimmer. So for example, the 
+we should just get rid of the three parts to the time step. I just 
+introduced them so I could slot in other functionality in the right place.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jed at 59A2.org  Mon Aug 30 12:18:49 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Mon, 30 Aug 2010 12:18:49 +0200
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C7B6E55.6000801@ed.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+	<1282982358.3306.2.camel@bacon.marsupium.org>
+	<87bp8nezts.fsf@59A2.org> <4C7B6E55.6000801@ed.ac.uk>
+Message-ID: <8739twtncm.fsf@59A2.org>
+
+On Mon, 30 Aug 2010 09:39:49 +0100, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> This is an entirely different beast.
+
+Agreed, just wanted to put it out there because a change like this won't
+happen overnight and won't happen if there isn't some consensus that
+it's the right direction to be headed.
+
+> However, if this is what we want to achieve then we should really
+> spend some time on defining and designing the infrastructure and API
+> first. Once we have it we can port glimmer to it. I don't think there
+> is much point trying to come up with an API that fits the current
+> structure of glimmer.
+
+I would also suggest trying to avoid having too many CCSM coupler
+idiosyncrasies show up in the API.
+
+Other ISICLES projects, the PISM team, and possibly others should be
+prepared to weight in on the API.  I don't know if everyone is on this
+list, or if you want to have the discussion on this list.
+
+Jed
+
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Aug 30 15:38:08 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 30 Aug 2010 14:38:08 +0100
+Subject: [Glimmer-cism-devel] automated nightly build & test
+In-Reply-To: <4C6D1DC6.80506@bristol.ac.uk>
+References: <4C6D1DC6.80506@bristol.ac.uk>
+Message-ID: <4C7BB440.2010705@ed.ac.uk>
+
+Hi Sarah,
+sorry for taking so long to reply to your email. anyway reply inline...
+
+Sarah Shannon wrote:
+> A rule in the makefile would invoke the script so that typing ?make test 
+> <experiment_type> <experiment_number>? would run a test. I am not 
+> familiar with autoconf, so, I would need some assistance to create this 
+> rule in the Makefile.
+> 
+
+autoconf is not that different from normal Makefiles, in fact the 
+autoconf just produces a normal Makefile.
+
+> The script then does the following
+> 
+> a. Check out the configuration files for the tests
+no need to check them out. the configuration files should come with the 
+source code. They are stored alongside in subversion.
+
+> b. Check out the golden standard files for the tests
+as you noticed further below, the gold standard is rather large. so, 
+there are two options and i suppose we support both. well, they both 
+boil down to the same option:
+- as far as the testing goes, the gold standard is just stored somewhere 
+with the same directory structure as the tests. the user only needs to 
+specify the root directory of the gold standard when configuring the 
+test suite, i.e. when configure is run
+- the gold standard can either be
+    * generated by running the tests (without comparing them) or
+    * downloaded from some web/ftp site (anyone volunteering space?)
+
+> c. Compile a tool to compare two neCDF files.
+this can be part of the usual build stage
+
+> d. Run glimmer for each configuration file in the test.
+yup, we can already to so - make data
+> e. Compare the output of the runs to the gold standard and report back 
+we'd need to add this target. i'd suggest make compare
+
+> if the tests passed or not.
+> 
+> The nightly build script checks out the code, builds it and runs the 
+> test script.
+> 
+that's a cron job
+
+Hope this helps,
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Mon Aug 30 21:34:55 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Mon, 30 Aug 2010 13:34:55 -0600
+Subject: [Glimmer-cism-devel] Fwd:  automated nightly build & test
+In-Reply-To: <4C77E651.7060208@bristol.ac.uk>
+References: <4C77E651.7060208@bristol.ac.uk>
+Message-ID: <4C7C07DF.8030800@lanl.gov>
+
+
+Hi Sarah,
+
+Thanks for the work on this. It should save us a lot of headaches in the 
+future (headaches we've had a lot during the last few weeks).
+
+It would be good to add (1) the ISMIP-HOM tests at some point, or at 
+least one or two of them (say 40 km domain size for both the sliding and 
+non-sliding cases), (2) the simple confined shelf test case (to check 
+that we haven't broken the code w.r.t. floating ice bcs and/or free slip 
+at the bed), (3) the 'hump' test case w/ dH/dt evolution (to check that 
+we haven't broken our advection code, as we did recently - note that 
+currently this test case is diagnostic, not prognostic, but that can be 
+changed now that the advection code is working again), and ultimately, 
+the Ross Ice Shelf test case (which is probably the most difficult one).
+
+On your end, I think this means just duplicating some existing scripts 
+w/ slightly different paths, filenames, etc. More importantly, we need 
+to generate the gold standards for these test cases and I should 
+probably contribute to that work.
+
+As part of the work on the parallel model, we are in the process of 
+reviewing all of the existing tests (for the HO code anyway) and 
+checking to make sure they work and that the output makes sense. When 
+I've got some updated gold standards, I'll be happy to contribute them 
+(with the caveat that they are still evolving a bit in some cases).
+
+Please keep me posted on when you would be ready to receive such files, 
+where they will be stored, etc.
+
+cheers -
+
+Steve
+
+
+
+> Hi developers,
+> 
+> I have been working with Gethin Williams to prepare a script to run 
+> automatic tests for glimmer. A while ago a list of useful tests was 
+> circulated on the developers list (by Bill Lipscomb) .
+> 
+> To make a start with this, I have written a script to run the EISMINT-2 
+> tests on the glimmer-cism trunk.
+> 
+> Here is a brief outline of how the script would work.
+> 
+> A rule in the makefile would invoke the script so that typing ?make test 
+> <experiment_type> <experiment_number>? would run a test. I am not 
+> familiar with autoconf, so, I would need some assistance to create this 
+> rule in the Makefile.
+> 
+> The script then does the following
+> 
+> a. Check out the configuration files for the tests
+> b. Check out the golden standard files for the tests
+> c. Compile a tool to compare two neCDF files.
+> d. Run glimmer for each configuration file in the test.
+> e. Compare the output of the runs to the gold standard and report back 
+> if the tests passed or not.
+> 
+> The nightly build script checks out the code, builds it and runs the 
+> test script.
+> 
+> I was wondering where would be the best place to store the golden 
+> standard files and configuration files on the repository?
+> 
+> Currently, the output of the EISMINT-2 tests is quiet large (1.18GB or 
+> 436 MB zipped). This is reduced to 41MB if we output every 40000 years 
+> instead of 1000.
+> 
+> If you have any suggestions on that or the design, then let me know,
+> 
+> All the best,
+> 
+> Sarah
+
+
+From lipscomb at lanl.gov  Mon Aug 30 22:14:30 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Mon, 30 Aug 2010 14:14:30 -0600
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <8739twtncm.fsf@59A2.org>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+	<1282982358.3306.2.camel@bacon.marsupium.org>
+	<87bp8nezts.fsf@59A2.org> <4C7B6E55.6000801@ed.ac.uk>
+	<8739twtncm.fsf@59A2.org>
+Message-ID: <5922C744-09A5-4D50-A240-011931E45BD2@lanl.gov>
+
+
+Hi all,
+
+I agree that it's worth taking some time to define and design the API  
+infrastructure.  I wonder if it would make sense to form a development  
+subgroup to think about this in detail.  This group might include  
+representatives from the various ISICLES projects developing new  
+dycores (e.g., Jed from SISIPHUS, Dan from ISICLES, Toby from U.Texas/ 
+Ymir) as well as the Glimmer-CISM steering committee (Magnus?) and the  
+CESM community (Jesse or me?).  Others (e.g., from PISM) would of  
+course be welcome.
+
+I'll start by asking:
+(1) Does anyone have strong feelings about whether this is or isn't a  
+good idea?
+(2) Assuming it's a good idea, who would like to be part of the group?
+
+Regards,
+
+Bill
+
+
+
+
+On Aug 30, 2010, at 4:18 AM, Jed Brown wrote:
+
+> On Mon, 30 Aug 2010 09:39:49 +0100, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk 
+> > wrote:
+>> This is an entirely different beast.
+>
+> Agreed, just wanted to put it out there because a change like this  
+> won't
+> happen overnight and won't happen if there isn't some consensus that
+> it's the right direction to be headed.
+>
+>> However, if this is what we want to achieve then we should really
+>> spend some time on defining and designing the infrastructure and API
+>> first. Once we have it we can port glimmer to it. I don't think there
+>> is much point trying to come up with an API that fits the current
+>> structure of glimmer.
+>
+> I would also suggest trying to avoid having too many CCSM coupler
+> idiosyncrasies show up in the API.
+>
+> Other ISICLES projects, the PISM team, and possibly others should be
+> prepared to weight in on the API.  I don't know if everyone is on this
+> list, or if you want to have the discussion on this list.
+>
+> Jed
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+

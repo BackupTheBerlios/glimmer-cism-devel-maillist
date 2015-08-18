@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%0A%09into%09glimmer-cism-lanl/trunk&In-Reply-To=%3C4BBF53D7.6020304%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000225.html">
+   <LINK REL="Next"  HREF="000227.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk</H1>
+    <B>Stephen Price</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20merging%20plume_integration%0A%09into%09glimmer-cism-lanl/trunk&In-Reply-To=%3C4BBF53D7.6020304%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] merging plume_integration	into	glimmer-cism-lanl/trunk">sprice at lanl.gov
+       </A><BR>
+    <I>Fri Apr  9 18:20:39 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000225.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+        <LI>Next message: <A HREF="000227.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#226">[ date ]</a>
+              <a href="thread.html#226">[ thread ]</a>
+              <a href="subject.html#226">[ subject ]</a>
+              <a href="author.html#226">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Carl,
+
+Thanks for the update. From the amount of commit traffic, it looks like 
+you've made some great progress recently.
+
+This will take a bit of thinking about. We are currently right in the 
+middle of (1) freezing the higher-order code on the LANL branch for a 
+&quot;beta&quot; release of the code (hopefully done by next week) and (2) getting 
+ready to do some other merging of various branches and trunks.
+
+If you are not in a hurry to do the merge for any reason, perhaps it 
+could wait for a week or two? Once we get the beta release out, and 
+start finalizing plans for other merges that follow, we can take this 
+into account and figure out how to handle it.
+
+That is just my opinion, so other folks should feel free to weigh in as 
+well.
+
+cheers -
+
+Steve
+
+
+Carl Gladish wrote:
+&gt;<i> Hi developers,
+</I>&gt;<i> 
+</I>&gt;<i> I am on the verge of merging my ongoing work involving plume coupling. 
+</I>&gt;<i>  I don't want to scare anyone (or break the code!), so does anyone want 
+</I>&gt;<i> to monitor what I am doing?  
+</I>&gt;<i> 
+</I>&gt;<i> I have merged my plume-related code into my working copy of the 
+</I>&gt;<i> glimmer-cism-lanl trunk and I am able to build (using Sun f90 compiler, 
+</I>&gt;<i> and gfortran) and run my own cases.  Before I commit could one of the 
+</I>&gt;<i> senior people approve the changes? 
+</I>&gt;<i> 
+</I>&gt;<i> By the way, the source in branches/plume_integration doesn't look 
+</I>&gt;<i> exactly like my working copy of the trunk since I did some of the 
+</I>&gt;<i> merging by hand.
+</I>&gt;<i> 
+</I>&gt;<i> The files affected by the merge, along with a description of the changes 
+</I>&gt;<i> to existing glide code follows.
+</I>&gt;<i> 
+</I>&gt;<i> src/fortran/Makefile.am 
+</I>&gt;<i> * added libplume.a to lib_LIBRARIES
+</I>&gt;<i> * added shelf_driver to bin_PROGRAMS
+</I>&gt;<i> * added a line for libplume_a_SOURCE
+</I>&gt;<i> * added a line for shelf_driver_SOURCES
+</I>&gt;<i> * added a line for shelf_driver_LDADD
+</I>&gt;<i> * added $(libplume_a_SOURCES) $(shelf_driver_SOURCES) to ALL_SRC
+</I>&gt;<i> 
+</I>&gt;<i> src/fortran/glide_temp.F90
+</I>&gt;<i> *  made bmlt intent(inout) in calcbmlt
+</I>&gt;<i> *  added logic to check if we are counting on the plume to write bmlt 
+</I>&gt;<i> for floating ice
+</I>&gt;<i> 
+</I>&gt;<i> src/fortran/glide_setup.F90
+</I>&gt;<i> * added 'use_plume' to the '[options]' section which takes values 0 or 
+</I>&gt;<i> 1, 1 meaning that we are using the plume model to calculate basal melt rates
+</I>&gt;<i> 
+</I>&gt;<i> src/fortran/glide_types.F90
+</I>&gt;<i> * added use_plume as an integer member of the glide_options type
+</I>&gt;<i> 
+</I>&gt;<i> src/fortran/shelf_driver.F90  [ a new driver]
+</I>&gt;<i> 
+</I>&gt;<i> src/fortran/plume*.F90   [all plume related code]
+</I>&gt;<i> 
+</I>&gt;<i> tests/petermann/*   [various tools to set up Petermann Glacier style 
+</I>&gt;<i> model runs]
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Carl Gladish
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000225.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+	<LI>Next message: <A HREF="000227.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#226">[ date ]</a>
+              <a href="thread.html#226">[ thread ]</a>
+              <a href="subject.html#226">[ subject ]</a>
+              <a href="author.html#226">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

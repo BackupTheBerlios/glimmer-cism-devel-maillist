@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Fwd: dycore proposal
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C20100817155318.GA22201%40ices.utexas.edu%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000316.html">
+   <LINK REL="Next"  HREF="000319.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Fwd: dycore proposal</H1>
+    <B>Tobin Isaac</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C20100817155318.GA22201%40ices.utexas.edu%3E"
+       TITLE="[Glimmer-cism-devel] Fwd: dycore proposal">tisaac at ices.utexas.edu
+       </A><BR>
+    <I>Tue Aug 17 17:53:18 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000316.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+        <LI>Next message: <A HREF="000319.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#317">[ date ]</a>
+              <a href="thread.html#317">[ thread ]</a>
+              <a href="subject.html#317">[ subject ]</a>
+              <a href="author.html#317">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Ian,
+
+Thanks for the input.
+
+&gt;<i> I would agree with Jed that a dynamic system (which is quite feasible  
+</I>&gt;<i> technically) would be preferable to a static one.
+</I>
+I think there may be some confusion, either about what I meant in the
+proposal, or on my end about what you and Jed mean by &quot;dynamic&quot;.
+
+In what I proposed, there is no need to recompile the code when the
+dynamical core is switched: in fact, within a single execution each
+model instance can run a different dynamical core.  Recompiling only
+has to occur when the list of available dynamical cores changes, so
+that the libraries for the new cores can be linked.
+
+The only way I can think of to be more dynamic would be to dynamically
+link in an external library in the place of libglide, but
+1) changing which library is loaded without relinking is done by
+changing the LD_LIBRARY_PATH env variable, which is usually
+discouraged,
+2) this would force users to compile with shared libraries, and
+3) this would limit to one dynamical core per runtime.
+
+&gt;<i> One other point I  would add is that much of the work we've been
+</I>&gt;<i> doing on the refactoring  branch has been geared towards making this
+</I>&gt;<i> kind of architecture easier  to implement - doing this work in
+</I>&gt;<i> isolation from that, and on the lanl  branch, substantially
+</I>&gt;<i> increases the risk that it will never make it onto  the
+</I>&gt;<i> publicly-released version of the code.
+</I>
+I'm agnostic about which branch to use.  -lanl was suggested by Bill:
+maybe this is a steering committee decision?
+
+Cheers,
+Toby
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000316.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+	<LI>Next message: <A HREF="000319.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#317">[ date ]</a>
+              <a href="thread.html#317">[ thread ]</a>
+              <a href="subject.html#317">[ subject ]</a>
+              <a href="author.html#317">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

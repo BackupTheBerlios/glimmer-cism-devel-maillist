@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] exact restart
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart&In-Reply-To=%3C87pr4syh2o.fsf%4059A2.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000172.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] exact restart</H1>
+    <B>Jed Brown</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart&In-Reply-To=%3C87pr4syh2o.fsf%4059A2.org%3E"
+       TITLE="[Glimmer-cism-devel] exact restart">jed at 59A2.org
+       </A><BR>
+    <I>Fri Jan 29 18:08:31 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000172.html">[Glimmer-cism-devel] exact restart
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#173">[ date ]</a>
+              <a href="thread.html#173">[ thread ]</a>
+              <a href="subject.html#173">[ subject ]</a>
+              <a href="author.html#173">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+&gt;<i> &gt;&gt; I'm trying to get exact restart working for glint-example in Glimmer
+</I>&gt;<i> &gt;&gt; version 1.0, in preparation for getting exact restart in CCSM.  I am very
+</I>&gt;<i> &gt;&gt; close--I think I am writing out all the necessary fields at the required
+</I>&gt;<i> &gt;&gt; precision--but I'm not quite there.  Here is one issue:  When I read in
+</I>&gt;<i> &gt;&gt; wgrd in certain grid cells, the value read in is not quite identical to
+</I>&gt;<i> &gt;&gt; the value written out.  For instance, in layer 1 of cell (30,50), I get
+</I>&gt;<i> &gt;&gt; this:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; -0.09466907827340063   ! value just before writing to netCDF file
+</I>
+Are you writing this string out where the value was computed, or after
+it has been stored in the array (i.e. are you certain that the register
+that computed *this* value has been flushed after it was computed)?
+
+&gt;<i> &gt;&gt; Can you think of any reason why this should happen?  I've talked to CCSM
+</I>&gt;<i> &gt;&gt; folks who use netCDF for restart and aren't having any problems.  I'm
+</I>&gt;<i> &gt;&gt; running on a linux cluster that is pretty well vetted.  I'm reading and
+</I>&gt;<i> &gt;&gt; writing with the same executable, which is built using the Lahey lf95
+</I>&gt;<i> &gt;&gt; compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562, which
+</I>&gt;<i> &gt;&gt; should be compatible with the compiler.  This problem is starting to 
+</I>&gt;<i> &gt;&gt; drive me crazy, so I'd be grateful for any ideas you have.
+</I>
+Are these running in 32 or 64-bit mode?  Have you set -ffloat-store (or
+whatever Lahey option has that meaning)?
+
+Jed
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000172.html">[Glimmer-cism-devel] exact restart
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#173">[ date ]</a>
+              <a href="thread.html#173">[ thread ]</a>
+              <a href="subject.html#173">[ subject ]</a>
+              <a href="author.html#173">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

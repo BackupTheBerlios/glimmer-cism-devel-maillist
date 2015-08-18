@@ -1,0 +1,778 @@
+From I.C.Rutt at swansea.ac.uk  Mon Nov  1 11:17:29 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 01 Nov 2010 10:17:29 +0000
+Subject: [Glimmer-cism-devel] cpp options
+In-Reply-To: <827AE40C-958A-4CC7-8831-407DC7A9CA81@lanl.gov>
+References: <827AE40C-958A-4CC7-8831-407DC7A9CA81@lanl.gov>
+Message-ID: <4CCE93B9.2000706@swansea.ac.uk>
+
+
+Hi Bill,
+
+(copied to developer list for information/comment)
+
+I can't say for sure, off the top of my head, but I think you need to 
+add -DNO_HORIZONTAL_ADVECTION to the environment variable FFLAGS or 
+FCFLAGS when configuring the build.
+
+Hope that helps,
+
+Ian
+
+On 29/10/10 17:28, William Lipscomb wrote:
+>
+> Hi Magnus and/or Ian,
+>
+> Could you please tell me the easiest way to build Glimmer-CISM such that
+> NO_HORIZONTAL_ADVECTION is true? Is this done on the command line when
+> the code is configured?
+>
+> Thanks,
+> Bill
+>
+> *******************************************************************************
+>
+> William H. Lipscomb E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory Phone: (505) 667-0395
+> Group T-3, Mail Stop B216 Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *******************************************************************************
+>
+>
+>
+>
+>
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From sarah.shannon at bristol.ac.uk  Tue Nov 16 16:46:31 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 16 Nov 2010 15:46:31 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+Message-ID: <4CE2A757.2060106@bristol.ac.uk>
+
+Hi Magnus & developers,
+
+The test suite is setup on the glimmer-cism2 trunk for the EISMINT-1 & 2 
+cases.  The reference files are stored on 
+ftp://ftp.berlios.de/pub/glimmer-cism/. We have approximately 200MB 
+space here. The test code downloads the files via anonymous FTP.
+
+The location of the reference files is hard coded so there is no need to 
+specify this at build time.  
+
+Here is an example for an EISMINT-1 test:
+ 
+To run a test cd to the test directory and type "make e1-fm.1.nc"
+To compare to the reference file type "make compare-e1-fm.1"
+
+Magnus, I was wondering if I could change the EISMINT-1 & 2 
+configuration files, to output a smaller subset of variables and time 
+slices?
+
+Also, what are the next steps to merge the tests to the parallel 
+branch?. We would like to have the HO tests working in this branch.
+
+All the best,
+
+Sarah
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101116/1a17bc76/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Nov 22 15:13:44 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 22 Nov 2010 14:13:44 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CE2A757.2060106@bristol.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk>
+Message-ID: <4CEA7A98.7080005@ed.ac.uk>
+
+Hi Sarah,
+sorry for taking so long to reply to your email. Please find my reply 
+inline.
+
+Sarah Shannon wrote:
+> The test suite is setup on the glimmer-cism2 trunk for the EISMINT-1 & 2 
+> cases.  The reference files are stored on 
+> ftp://ftp.berlios.de/pub/glimmer-cism/. We have approximately 200MB 
+> space here. The test code downloads the files via anonymous FTP.
+> 
+> The location of the reference files is hard coded so there is no need to 
+> specify this at build time. 
+> Here is an example for an EISMINT-1 test:
+> 
+
+I really do think that hard coding the path is not a sensible idea. I 
+also don't like that the files are downloaded into the source directory. 
+Let me explain:
+* I wouldn't expect automatic downloads from a make file and would be 
+concerned about security. If you stick this into a script which the user 
+has to run explicitly they can audit it for themselves (if they wish).
+* Typically, I have many source trees and even more build trees. 
+However, ideally I will have only a single gold standard. So 
+automatically downloading the files into the source directories is a bad 
+idea: I don't want to download it multiple times using extra disk space.
+* Furthermore, the source directories might well be on expensive disk 
+space (e.g. disk space with a nightly backup schedule on a highly 
+available server) while the build directories are on cheap local disk 
+where I don't care if I loose them. I might want the gold standard 
+somewhere in-between, e.g. a networked scratch space. In our school we 
+have exactly this setup so presumably that's not too unusual.
+* At the moment only works for files that are stored on BerliOS, what 
+about runs that are not there, i.e. some new development that isn't 
+ready to be included in the gold standard but I would still like to use 
+the test machinery to check that the code still works like the last time 
+I checked.
+* netCDF files compress quite nicely, so sticking them into a gzip'ed 
+tar-ball reduces band width.
+
+So, I shall be persistent in asking for a separate user-defined gold 
+standard directory. It will address all the issues above. This location 
+could default to the source directory and we could build a source 
+distribution tar ball which includes the gold standard so that those who 
+don't care can get the entire lot.
+
+This way, when we build the distribution source tar-ball we should run 
+all the tests and compare them against the previous set. They should all 
+pass and we can include the new set of file in the tar ball.
+
+So I think the second half of your compare rule is spot on. For the 
+first half you just need to check if the file exists and if not print 
+out an error message. The error message could be something useful like,
+download the goldstandard tarb-ball from here and point configure at it.
+
+Add a configure switch to specify where the gold standard lives. The 
+directory structure of the gold standard should be exactly the same as 
+in the source directory, i.e.
+gold_standard/tests/EISMINT/EISMINT-2/
+etc...
+
+
+
+> To run a test cd to the test directory and type "make e1-fm.1.nc"
+> To compare to the reference file type "make compare-e1-fm.1"
+> 
+
+exactly.
+
+> Magnus, I was wondering if I could change the EISMINT-1 & 2 
+> configuration files, to output a smaller subset of variables and time 
+> slices?
+> 
+
+sure, just go for it or send reduced output to another file.
+
+> Also, what are the next steps to merge the tests to the parallel 
+> branch?. We would like to have the HO tests working in this branch.
+> 
+>
+once all is working as it should, it will be a straight forward merge.
+
+again, thanks a lot for looking into this. you are nearly there.
+cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Tue Nov 23 16:14:30 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 23 Nov 2010 15:14:30 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CEA7A98.7080005@ed.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk> <4CEA7A98.7080005@ed.ac.uk>
+Message-ID: <4CEBDA56.5040006@bristol.ac.uk>
+
+Hi Magnus,
+
+Thanks for letting me know the reasons why you prefer a user specified 
+golden standard directory. I hadn't anticipated a situation where 
+multiple source and builds are used simultaneously. I hardcoded the 
+location of the standard files to minimise user input, but I see why you 
+would want to do it differently in some cases.
+
+Ill make the changes you suggest:
+
+1. Set the golden standard directory so it user defined when configure 
+is run
+2. zip the files on the berlios ftp server.
+
+Ill drop you an email when the changes are checked in.
+
+Cheers,
+Sarah
+
+
+Magnus Hagdorn wrote:
+> Hi Sarah,
+> sorry for taking so long to reply to your email. Please find my reply 
+> inline.
+>
+> Sarah Shannon wrote:
+>> The test suite is setup on the glimmer-cism2 trunk for the EISMINT-1 
+>> & 2 cases.  The reference files are stored on 
+>> ftp://ftp.berlios.de/pub/glimmer-cism/. We have approximately 200MB 
+>> space here. The test code downloads the files via anonymous FTP.
+>>
+>> The location of the reference files is hard coded so there is no need 
+>> to specify this at build time. Here is an example for an EISMINT-1 test:
+>>
+>
+> I really do think that hard coding the path is not a sensible idea. I 
+> also don't like that the files are downloaded into the source 
+> directory. Let me explain:
+> * I wouldn't expect automatic downloads from a make file and would be 
+> concerned about security. If you stick this into a script which the 
+> user has to run explicitly they can audit it for themselves (if they 
+> wish).
+> * Typically, I have many source trees and even more build trees. 
+> However, ideally I will have only a single gold standard. So 
+> automatically downloading the files into the source directories is a 
+> bad idea: I don't want to download it multiple times using extra disk 
+> space.
+> * Furthermore, the source directories might well be on expensive disk 
+> space (e.g. disk space with a nightly backup schedule on a highly 
+> available server) while the build directories are on cheap local disk 
+> where I don't care if I loose them. I might want the gold standard 
+> somewhere in-between, e.g. a networked scratch space. In our school we 
+> have exactly this setup so presumably that's not too unusual.
+> * At the moment only works for files that are stored on BerliOS, what 
+> about runs that are not there, i.e. some new development that isn't 
+> ready to be included in the gold standard but I would still like to 
+> use the test machinery to check that the code still works like the 
+> last time I checked.
+> * netCDF files compress quite nicely, so sticking them into a gzip'ed 
+> tar-ball reduces band width.
+>
+> So, I shall be persistent in asking for a separate user-defined gold 
+> standard directory. It will address all the issues above. This 
+> location could default to the source directory and we could build a 
+> source distribution tar ball which includes the gold standard so that 
+> those who don't care can get the entire lot.
+>
+> This way, when we build the distribution source tar-ball we should run 
+> all the tests and compare them against the previous set. They should 
+> all pass and we can include the new set of file in the tar ball.
+>
+> So I think the second half of your compare rule is spot on. For the 
+> first half you just need to check if the file exists and if not print 
+> out an error message. The error message could be something useful like,
+> download the goldstandard tarb-ball from here and point configure at it.
+>
+> Add a configure switch to specify where the gold standard lives. The 
+> directory structure of the gold standard should be exactly the same as 
+> in the source directory, i.e.
+> gold_standard/tests/EISMINT/EISMINT-2/
+> etc...
+>
+>
+>
+>> To run a test cd to the test directory and type "make e1-fm.1.nc"
+>> To compare to the reference file type "make compare-e1-fm.1"
+>>
+>
+> exactly.
+>
+>> Magnus, I was wondering if I could change the EISMINT-1 & 2 
+>> configuration files, to output a smaller subset of variables and time 
+>> slices?
+>>
+>
+> sure, just go for it or send reduced output to another file.
+>
+>> Also, what are the next steps to merge the tests to the parallel 
+>> branch?. We would like to have the HO tests working in this branch.
+>>
+>>
+> once all is working as it should, it will be a straight forward merge.
+>
+> again, thanks a lot for looking into this. you are nearly there.
+> cheers
+> magi
+>
+>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101123/ce13608d/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Nov 23 16:27:08 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 23 Nov 2010 15:27:08 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CEBDA56.5040006@bristol.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk> <4CEA7A98.7080005@ed.ac.uk>
+	<4CEBDA56.5040006@bristol.ac.uk>
+Message-ID: <4CEBDD4C.9000803@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Thanks for letting me know the reasons why you prefer a user specified 
+> golden standard directory. I hadn't anticipated a situation where 
+> multiple source and builds are used simultaneously. I hardcoded the 
+> location of the standard files to minimise user input, but I see why you 
+> would want to do it differently in some cases.
+> 
+> 
+
+Hi Sarah,
+you are doing an excellent job, thanks being so patient with my 
+particular wishes. I am glad I could convince you :-)
+
+For extra bonus points you could try and figure out how we could 
+automatically create gold_standard tar-ball. Automake allows you to 
+create a distribution tar-ball by running make dist. I am sure we could 
+use this functionality to create another tar-ball - say 
+glimmer-cism-gold-standard by running make gold-dist or something along 
+the lines. You'll have to dig in the automake manuals. If you get stuck 
+drop me an email.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Tue Nov 23 18:30:03 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Tue, 23 Nov 2010 10:30:03 -0700
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CEBDA56.5040006@bristol.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk> <4CEA7A98.7080005@ed.ac.uk>
+	<4CEBDA56.5040006@bristol.ac.uk>
+Message-ID: <4CEBFA1B.5010903@lanl.gov>
+
+
+Sarah,
+
+Following up on our discussion about:
+
+1) getting the test suite set up and working on the parallel branch 
+(and/or the Glimmer-CISM2 branch that will be part of an upcoming release)
+
+2) adding gold-standard files for the ISMIP-HOM and ice shelf (confined 
+and circular) test cases
+
+Does it make sense for us to wait until the details are ironed out for 
+the existing test suite (applied to EISMINT only at the moment), and 
+then we can extend it to account for these other things?
+
+cheers -
+
+Steve
+
+
+On 11/23/10 8:14 AM, Sarah Shannon wrote:
+> Hi Magnus,
+>
+> Thanks for letting me know the reasons why you prefer a user specified
+> golden standard directory. I hadn't anticipated a situation where
+> multiple source and builds are used simultaneously. I hardcoded the
+> location of the standard files to minimise user input, but I see why you
+> would want to do it differently in some cases.
+>
+> Ill make the changes you suggest:
+>
+> 1. Set the golden standard directory so it user defined when configure
+> is run
+> 2. zip the files on the berlios ftp server.
+>
+> Ill drop you an email when the changes are checked in.
+>
+> Cheers,
+> Sarah
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Nov 24 09:52:27 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 24 Nov 2010 08:52:27 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CEBFA1B.5010903@lanl.gov>
+References: <4CE2A757.2060106@bristol.ac.uk>
+	<4CEA7A98.7080005@ed.ac.uk>	<4CEBDA56.5040006@bristol.ac.uk>
+	<4CEBFA1B.5010903@lanl.gov>
+Message-ID: <4CECD24B.4040809@ed.ac.uk>
+
+Stephen Price wrote:
+> 
+> Sarah,
+> 
+> Following up on our discussion about:
+> 
+> 1) getting the test suite set up and working on the parallel branch 
+> (and/or the Glimmer-CISM2 branch that will be part of an upcoming release)
+> 
+> 2) adding gold-standard files for the ISMIP-HOM and ice shelf (confined 
+> and circular) test cases
+> 
+> Does it make sense for us to wait until the details are ironed out for 
+> the existing test suite (applied to EISMINT only at the moment), and 
+> then we can extend it to account for these other things?
+> 
+> 
+
+yes, let's get the mechanics right first. once it works we can merge it 
+into the parallel branch and add more tests.
+cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Wed Nov 24 12:45:43 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Wed, 24 Nov 2010 11:45:43 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CEBDD4C.9000803@ed.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk> <4CEA7A98.7080005@ed.ac.uk>
+	<4CEBDA56.5040006@bristol.ac.uk> <4CEBDD4C.9000803@ed.ac.uk>
+Message-ID: <4CECFAE7.4070301@bristol.ac.uk>
+
+Hi Magnus,
+
+The changes are checked in. Perhaps we can start merging to the parallel 
+branch now, as we are keen to have the HO tests working there.
+
+Regarding the tar ball.  Do you mean use autoconf to generate a tar ball 
+to put on the berlios ftp server? I am not quite why that would be 
+preferable to just putting a regular tar file there. Let me know what 
+you think.
+
+Cheers,
+
+Sarah
+
+
+
+Magnus Hagdorn wrote:
+> Sarah Shannon wrote:
+>> Thanks for letting me know the reasons why you prefer a user 
+>> specified golden standard directory. I hadn't anticipated a situation 
+>> where multiple source and builds are used simultaneously. I hardcoded 
+>> the location of the standard files to minimise user input, but I see 
+>> why you would want to do it differently in some cases.
+>>
+>>
+>
+> Hi Sarah,
+> you are doing an excellent job, thanks being so patient with my 
+> particular wishes. I am glad I could convince you :-)
+>
+> For extra bonus points you could try and figure out how we could 
+> automatically create gold_standard tar-ball. Automake allows you to 
+> create a distribution tar-ball by running make dist. I am sure we 
+> could use this functionality to create another tar-ball - say 
+> glimmer-cism-gold-standard by running make gold-dist or something 
+> along the lines. You'll have to dig in the automake manuals. If you 
+> get stuck drop me an email.
+>
+> Cheers
+> magi
+>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101124/138773c9/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Nov 24 15:28:51 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 24 Nov 2010 14:28:51 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CECFAE7.4070301@bristol.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk> <4CEA7A98.7080005@ed.ac.uk>
+	<4CEBDA56.5040006@bristol.ac.uk> <4CEBDD4C.9000803@ed.ac.uk>
+	<4CECFAE7.4070301@bristol.ac.uk>
+Message-ID: <4CED2123.4080204@ed.ac.uk>
+
+Hi Sarah,
+as a general request, could you add to the ChangeLog file whenever you 
+commit something. Each modified/added/deleted file should have an entry.
+You should limit the number of character per line to 79 so it fits into 
+a standard terminal.
+
+Sarah Shannon wrote:
+> The changes are checked in. Perhaps we can start merging to the parallel 
+> branch now, as we are keen to have the HO tests working there.
+> 
+
+not quite there yet. I have slightly modified your change so that the 
+gold standard mirrors the same directory layout as the build directory. 
+This means that you can run all the tests in one build directory and 
+which is pointed at as the gold standard by another build directory.
+
+I would also like you to add another rule to the extra_rules file called
+check-data. This will run the compare rule on all the data files 
+produced by the data rule. you can use make macros to munch the list of 
+data files held in $(DATA). Have a look at the make docs, here
+http://www.gnu.org/software/make/manual/html_node/Functions.html#Functions
+you'll need to strip the suffix .nc and add compare-.
+
+you will also need to add check-data rules throughout the Makefiles.am 
+in analogy to the data rules so you can run make check-data in the 
+top-level directory and everything will happen automatically.
+
+> Regarding the tar ball.  Do you mean use autoconf to generate a tar ball 
+> to put on the berlios ftp server? I am not quite why that would be 
+> preferable to just putting a regular tar file there. Let me know what 
+> you think.
+> 
+
+hm, I had a quick check and there is no obvious way of rolling another 
+tarball. So maybe adding another rule (say dist-golden-standard) in the 
+top-level Makefile.am which tars and gzip's all the .nc files it can 
+find might do the trick. just use find to get all nc files.
+
+alternatively, we could add yet another option to configure which when 
+enabled distributes the data files along with the sources. in which case 
+i would set the default gold-standard directory to be the top_srcdir. 
+you can conditionally add the data files by using an automake 
+conditional and appending to the EXTRA_DIST variable. Have a look at the 
+top level Makefile.am where I use exactly this pattern.
+
+you are going to be an autotools expert by the end of this :-)
+
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Wed Nov 24 16:20:04 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Wed, 24 Nov 2010 08:20:04 -0700
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CECD24B.4040809@ed.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk>	<4CEA7A98.7080005@ed.ac.uk>	<4CEBDA56.5040006@bristol.ac.uk>	<4CEBFA1B.5010903@lanl.gov>
+	<4CECD24B.4040809@ed.ac.uk>
+Message-ID: <4CED2D24.10107@lanl.gov>
+
+
+Thanks Magi.
+
+Since our next merge will be between the current parallel branch and the 
+glimmer-cism-lanl branch under glimmer-cism2, it might make more sense 
+to just try merging the test suite into the glimmer-cism2 branch. That 
+way we avoid any issues w/ having to do w/ the new directory structure 
+(the next merge will use the new dir structure in gc2).
+
+Steve
+
+> yes, let's get the mechanics right first. once it works we can merge it
+> into the parallel branch and add more tests.
+> cheers
+> magi
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Nov 25 16:31:53 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 25 Nov 2010 15:31:53 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CED2D24.10107@lanl.gov>
+References: <4CE2A757.2060106@bristol.ac.uk>	<4CEA7A98.7080005@ed.ac.uk>	<4CEBDA56.5040006@bristol.ac.uk>	<4CEBFA1B.5010903@lanl.gov>
+	<4CECD24B.4040809@ed.ac.uk> <4CED2D24.10107@lanl.gov>
+Message-ID: <4CEE8169.7030403@ed.ac.uk>
+
+Stephen Price wrote:
+> 
+> Thanks Magi.
+> 
+> Since our next merge will be between the current parallel branch and the 
+> glimmer-cism-lanl branch under glimmer-cism2, it might make more sense 
+> to just try merging the test suite into the glimmer-cism2 branch. That 
+> way we avoid any issues w/ having to do w/ the new directory structure 
+> (the next merge will use the new dir structure in gc2).
+> 
+> 
+
+Hi Steve,
+there is not much point merging the mechanism until we are all happy it 
+is doing what we want it to. populating it with tests will be 
+straight-forward and shouldn't depend on directory layout.
+magnus
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Thu Nov 25 19:28:42 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Thu, 25 Nov 2010 18:28:42 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CED2123.4080204@ed.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk> <4CEA7A98.7080005@ed.ac.uk>
+	<4CEBDA56.5040006@bristol.ac.uk> <4CEBDD4C.9000803@ed.ac.uk>
+	<4CECFAE7.4070301@bristol.ac.uk> <4CED2123.4080204@ed.ac.uk>
+Message-ID: <4CEEAADA.5080102@bristol.ac.uk>
+
+Hi Magnus,
+
+I have added the 'check-data' to extra_rules.am and changed the 
+Makefiles.am. There is a message in the change log file.
+
+Thanks for adding the exit code and making the changes to mirror the 
+gold standard directory. Ill mirror this directory structure on the 
+berlios ftp server. There are currently no gold standard files for 
+EISMINT/benchmarks, erosion  isos  lin-non_lin.
+
+I was wondering if you have some available or shall we run the code and 
+use the output as a gold standard?
+
+Ill take a look at generating the tar file next and let you know if I 
+run into problems.
+
+Cheers,
+
+Sarah
+
+
+
+
+Magnus Hagdorn wrote:
+> Hi Sarah,
+> as a general request, could you add to the ChangeLog file whenever you 
+> commit something. Each modified/added/deleted file should have an entry.
+> You should limit the number of character per line to 79 so it fits 
+> into a standard terminal.
+>
+No problem. Ill do that from now on.
+> Sarah Shannon wrote:
+>> The changes are checked in. Perhaps we can start merging to the 
+>> parallel branch now, as we are keen to have the HO tests working there.
+>>
+>
+> not quite there yet. I have slightly modified your change so that the 
+> gold standard mirrors the same directory layout as the build 
+> directory. This means that you can run all the tests in one build 
+> directory and which is pointed at as the gold standard by another 
+> build directory. I would also like you to add another rule to the 
+> extra_rules file called check-data. This will run the compare rule on 
+> all the data files produced by the data rule. you can use make macros 
+> to munch the list of data files held in $(DATA). Have a look at the 
+> make docs, here 
+> http://www.gnu.org/software/make/manual/html_node/Functions.html#Functions 
+>
+> you'll need to strip the suffix .nc and add compare-. you will also 
+> need to add check-data rules throughout the Makefiles.am in analogy to 
+> the data rules so you can run make check-data in the top-level 
+> directory and everything will happen automatically.
+>
+
+
+
+>> Regarding the tar ball.  Do you mean use autoconf to generate a tar 
+>> ball to put on the berlios ftp server? I am not quite why that would 
+>> be preferable to just putting a regular tar file there. Let me know 
+>> what you think.
+>>
+>
+> hm, I had a quick check and there is no obvious way of rolling another 
+> tarball. So maybe adding another rule (say dist-golden-standard) in 
+> the top-level Makefile.am which tars and gzip's all the .nc files it 
+> can find might do the trick. just use find to get all nc files.
+>
+> alternatively, we could add yet another option to configure which when 
+> enabled distributes the data files along with the sources. in which 
+> case i would set the default gold-standard directory to be the 
+> top_srcdir. you can conditionally add the data files by using an 
+> automake conditional and appending to the EXTRA_DIST variable. Have a 
+> look at the top level Makefile.am where I use exactly this pattern.
+>
+> you are going to be an autotools expert by the end of this :-)
+>
+> magi
+>
+>
+>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101125/e8e601d3/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Nov 25 21:48:11 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 25 Nov 2010 20:48:11 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CEEAADA.5080102@bristol.ac.uk>
+References: <4CE2A757.2060106@bristol.ac.uk> <4CEA7A98.7080005@ed.ac.uk>
+	<4CEBDA56.5040006@bristol.ac.uk> <4CEBDD4C.9000803@ed.ac.uk>
+	<4CECFAE7.4070301@bristol.ac.uk> <4CED2123.4080204@ed.ac.uk>
+	<4CEEAADA.5080102@bristol.ac.uk>
+Message-ID: <1290718091.2387.2.camel@bacon.marsupium.org>
+
+On Thu, 2010-11-25 at 18:28 +0000, Sarah Shannon wrote:
+> Hi Magnus,
+> 
+> I have added the 'check-data' to extra_rules.am and changed the 
+> Makefiles.am. There is a message in the change log file.
+> 
+> Thanks for adding the exit code and making the changes to mirror the 
+> gold standard directory. Ill mirror this directory structure on the 
+> berlios ftp server. There are currently no gold standard files for 
+> EISMINT/benchmarks, erosion  isos  lin-non_lin.
+> 
+> I was wondering if you have some available or shall we run the code
+> and 
+> use the output as a gold standard?
+> 
+> Ill take a look at generating the tar file next and let you know if I 
+> run into problems.
+
+Hi Sarah,
+it occurred to me that maybe we should not run all the available tests
+and only a subset for comparisons, although it doesn't really matter,
+it'll just take longer. I think that's a questions everyone should chip
+in.
+
+For those we want to keep and we don't have any existing files already
+we just generate them.
+
+Cheers
+magi
+
+
+
+
+
+

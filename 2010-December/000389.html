@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-December/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4D00EEAE.7090702%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000388.html">
+   <LINK REL="Next"  HREF="000390.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4D00EEAE.7090702%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Thu Dec  9 15:58:54 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000388.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000390.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#389">[ date ]</a>
+              <a href="thread.html#389">[ thread ]</a>
+              <a href="subject.html#389">[ subject ]</a>
+              <a href="author.html#389">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Sarah,
+
+Sarah Shannon wrote:
+&gt;<i> I have made all the changes that you suggested apart from the last one. 
+</I>&gt;<i>
+</I>excellent
+
+ &gt; 4. Changed the naming of the tar file from
+ &gt; gold-standard_$(PACKAGE)-$(VERSION) .tgz to 
+$(PACKAGE)-gold-$(VERSION).tgz
+
+This should be .tar.gz
+
+&gt;<i> 6. Regarding the tar ball.  The directory structure of the tar ball has 
+</I>&gt;<i> the same layout as the test directory. i.e tests/ EISMINT/EISMINT-1 etc. 
+</I>&gt;<i> If you un-zip the tar file you will be able to see this. Why is it 
+</I>&gt;<i> necessary to re-create this directory structure, copy the files into the 
+</I>&gt;<i> new directory and then compress it, when the same tar ball can be 
+</I>&gt;<i> produced in one command? Maybe I've misunderstood something 
+</I>&gt;<i> obvious............
+</I>&gt;<i> 
+</I>
+you are missing the top-level directory you would get
+glimmer-cism-gold-1.2.3/test/....
+rather than just
+tests/
+this allows you to unpack more than one version of the standard.
+
+so you need to create a directory
+$(PACKAGE)-gold-$(VERSION)
+copy all the test directory structure into that and copy the files you 
+want to distribute.
+tar up the entire directory
+remove the directory and its children.
+
+I hope this clarifies my request.
+
+Cheers
+magi
+
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000388.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000390.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#389">[ date ]</a>
+              <a href="thread.html#389">[ thread ]</a>
+              <a href="subject.html#389">[ subject ]</a>
+              <a href="author.html#389">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

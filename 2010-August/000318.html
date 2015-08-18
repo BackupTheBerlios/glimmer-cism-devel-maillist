@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] automated nightly build &amp; test
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C4C6D1DC6.80506%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000325.html">
+   <LINK REL="Next"  HREF="000332.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] automated nightly build &amp; test</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C4C6D1DC6.80506%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] automated nightly build &amp; test">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Thu Aug 19 14:04:22 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000325.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+        <LI>Next message: <A HREF="000332.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#318">[ date ]</a>
+              <a href="thread.html#318">[ thread ]</a>
+              <a href="subject.html#318">[ subject ]</a>
+              <a href="author.html#318">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi developers,
+
+I have been working with Gethin Williams to prepare a script to run 
+automatic tests for glimmer. A while ago a list of useful tests was 
+circulated on the developers list (by Bill Lipscomb) .
+
+To make a start with this, I have written a script to run the EISMINT-2 
+tests on the glimmer-cism trunk.
+
+Here is a brief outline of how the script would work.
+
+A rule in the makefile would invoke the script so that typing &#8220;make test 
+&lt;experiment_type&gt; &lt;experiment_number&gt;&#8221; would run a test. I am not 
+familiar with autoconf, so, I would need some assistance to create this 
+rule in the Makefile.
+
+The script then does the following
+
+a. Check out the configuration files for the tests
+b. Check out the golden standard files for the tests
+c. Compile a tool to compare two neCDF files.
+d. Run glimmer for each configuration file in the test.
+e. Compare the output of the runs to the gold standard and report back 
+if the tests passed or not.
+
+The nightly build script checks out the code, builds it and runs the 
+test script.
+
+I was wondering where would be the best place to store the golden 
+standard files and configuration files on the repository?
+
+Currently, the output of the EISMINT-2 tests is quiet large (1.18GB or 
+436 MB zipped). This is reduced to 41MB if we output every 40000 years 
+instead of 1000.
+
+If you have any suggestions on that or the design, then let me know,
+
+All the best,
+
+Sarah
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100819/705fe72a/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100819/705fe72a/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000325.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+	<LI>Next message: <A HREF="000332.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#318">[ date ]</a>
+              <a href="thread.html#318">[ thread ]</a>
+              <a href="subject.html#318">[ subject ]</a>
+              <a href="author.html#318">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

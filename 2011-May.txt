@@ -1,0 +1,220 @@
+From I.C.Rutt at swansea.ac.uk  Tue May  3 23:12:49 2011
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 3 May 2011 22:12:49 +0100
+Subject: [Glimmer-cism-devel] restarts and batch jobs
+In-Reply-To: <BANLkTi=SzU63GNEBrc8f_oDjn3DDL-ftXQ@mail.gmail.com>
+References: <BANLkTi=SzU63GNEBrc8f_oDjn3DDL-ftXQ@mail.gmail.com>
+Message-ID: <A67CCB1D-DE8A-4CCD-9A60-72BC68846D80@swansea.ac.uk>
+
+
+Hi Flo,
+
+I would think that's a sensible strategy. It will depend on how you're  
+running Glimmer-CISM, though, and especially if the model is coupled  
+to a climate model of some kind which has its own restart strategy.  
+I've not used the restarts in Glimmer-CISM for a long time, but my  
+recollection is that as well as building the model with restarts  
+enabled, you have to manually call a 'write restart' subroutine  
+whenever you want a restart to be written. I would also recommend  
+doing a test of the restart mechanism to ensure it does give bit-for- 
+bit accuracy (i.e. no difference between output when a given  
+integration has been restarted at some point in the middle compared to  
+when it hasn't).
+
+Hope that makes sense.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+Department of Geography
+College of Science
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+On 27 Apr 2011, at 17:52, Florence Colleoni wrote:
+
+> Dear all,
+>
+> I would like to submit CISM with a batch job on a standard  
+> supercomputing plateform.
+> Should I enable restarts since of course the simulation time exceed  
+> all the max walltimes of the
+> queues on which I am running?
+>
+> Flo
+>
+> -- 
+> "Il existe deux sortes de r?volutionnaires; les uns d?sirent la  
+> R?volution avec la Libert?: c'est le tr?s petit nombre; les autres  
+> veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+> Chateaubriand
+> ......................................................................
+> Florence Colleoni
+> CMCC
+> Viale Aldo Moro, 44
+> 40127 Bologna - Italy
+>
+>      Phone: +39 051 3782622
+>      Email: flocolleoni at gmail.com
+>      URL: http://flocolleoni.org
+> ......................................................................
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110503/b1389b97/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed May  4 10:49:28 2011
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 04 May 2011 09:49:28 +0100
+Subject: [Glimmer-cism-devel] restarts and batch jobs
+In-Reply-To: <BANLkTi=SzU63GNEBrc8f_oDjn3DDL-ftXQ@mail.gmail.com>
+References: <BANLkTi=SzU63GNEBrc8f_oDjn3DDL-ftXQ@mail.gmail.com>
+Message-ID: <4DC11318.0@ed.ac.uk>
+
+Florence Colleoni wrote:
+> Dear all,
+> 
+> I would like to submit CISM with a batch job on a standard 
+> supercomputing plateform.
+> Should I enable restarts since of course the simulation time exceed all 
+> the max walltimes of the
+> queues on which I am running?
+> 
+>
+Hi Flo,
+instead of using restarts you can write hotstart files. These files 
+contain all the variables required for hotstarting the model. I think 
+Bill did some experiments with it and managed to get exactly the same 
+results with an interrupted run as for a continuous run. Again, you 
+should test this.
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Fri May 13 12:21:24 2011
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Fri, 13 May 2011 11:21:24 +0100
+Subject: [Glimmer-cism-devel] build error : which trilinos and mpich
+	versions to use?
+Message-ID: <4DCD0624.9010804@bristol.ac.uk>
+
+Hi,
+
+I am trying to build glimmer-cism using trilinos but have encountered a 
+build error  (See below)
+
+make[4]: Entering directory 
+`/home/paleo/ggsrs/glimmer-cism-lanl/example-drivers/eis/src'
+../../../libglimmer-trilinos/Makefile.Trilinos.export:7: 
+/opt/local/CentOS-64/trilinos/trilinos-10.0.4-Source/MPI/include/Makefile.export.Trilinos: 
+No such file or directory
+make[4]: *** No rule to make target 
+`/opt/local/CentOS-64/trilinos/trilinos-10.0.4-Source/MPI/include/Makefile.export.Trilinos'.  
+Stop.
+
+The version of trilinos that I am using (version 10.0.4) does not have 
+the file Makefile.export.Trilinos. I am using mpich version 1.2.6.  I 
+was wondering what is the recommended versions of trilinos and mpich to 
+use?
+
+Also, the code I am using is from 
+http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl/ 
+. Is this the correct branch to work with?
+
+Any help would be appreciated.
+
+Thanks,
+
+Sarah
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110513/6452cd2f/attachment.vcf>
+
+From agsalin at sandia.gov  Fri May 13 17:53:27 2011
+From: agsalin at sandia.gov (Salinger, Andrew)
+Date: Fri, 13 May 2011 15:53:27 +0000
+Subject: [Glimmer-cism-devel] build error : which trilinos and mpich
+ versions to use?
+In-Reply-To: <4DCD0624.9010804@bristol.ac.uk>
+References: <4DCD0624.9010804@bristol.ac.uk>
+Message-ID: <7E636BEC396FAF4CB78AC4AD92D75805023D09@EXMB02.srn.sandia.gov>
+
+
+Hi Sarah,
+
+I looked back at Trilinos versions on Jaguar, and 
+Makefile.export.Trilinos did not exist until 10.4.
+For 10.0.4, you can use Makefile.export.NOX instead.
+
+I just committed some extra lines in
+  libglimmer-trilinos/Makefile.Trilinos.export.in
+which shows the two lines you need for 10.0.4 to replace
+the two lines for newer Trilinos. (You'll need to comment
+out two lines, uncomment two others, and redo the configure.)
+I tested this on Jaguar which had a 10.0.4 installed.
+
+Sorry, I was so happy to just get the build system to
+work on multiple machines, I didn't consider multiple
+versions as well.
+
+Andy
+ 
+
+-----Original Message-----
+From: glimmer-cism-devel-bounces at lists.berlios.de [mailto:glimmer-cism-devel-bounces at lists.berlios.de] On Behalf Of Sarah Shannon
+Sent: Friday, May 13, 2011 4:21 AM
+To: Glimmer/CISM (developers)
+Subject: [Glimmer-cism-devel] build error : which trilinos and mpich versions to use?
+
+Hi,
+
+I am trying to build glimmer-cism using trilinos but have encountered a build error  (See below)
+
+make[4]: Entering directory
+`/home/paleo/ggsrs/glimmer-cism-lanl/example-drivers/eis/src'
+../../../libglimmer-trilinos/Makefile.Trilinos.export:7: 
+/opt/local/CentOS-64/trilinos/trilinos-10.0.4-Source/MPI/include/Makefile.export.Trilinos: 
+No such file or directory
+make[4]: *** No rule to make target
+`/opt/local/CentOS-64/trilinos/trilinos-10.0.4-Source/MPI/include/Makefile.export.Trilinos'.  
+Stop.
+
+The version of trilinos that I am using (version 10.0.4) does not have the file Makefile.export.Trilinos. I am using mpich version 1.2.6.  I was wondering what is the recommended versions of trilinos and mpich to use?
+
+Also, the code I am using is from
+http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl/
+. Is this the correct branch to work with?
+
+Any help would be appreciated.
+
+Thanks,
+
+Sarah
+
+
+
+
+
+

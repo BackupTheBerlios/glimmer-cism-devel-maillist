@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-December/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4D00E200.4050408%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000387.html">
+   <LINK REL="Next"  HREF="000389.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4D00E200.4050408%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Thu Dec  9 15:04:48 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000387.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000389.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#388">[ date ]</a>
+              <a href="thread.html#388">[ thread ]</a>
+              <a href="subject.html#388">[ subject ]</a>
+              <a href="author.html#388">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus, 
+
+Thanks for taking a look and getting back to me.
+
+I have made all the changes that you suggested apart from the last one. 
+Here are the changes : 
+
+1. In configure.in: changed --with-gold_std to --with-gold-std
+
+2. In check-data rule I replaced
+
+    @$(foreach data,$(data), make compare-$(basename $(data));)  with
+
+    @make $(patsubst %.nc,  compare-%, $(data))
+
+3. In the compare rule I replaced echo &quot;test passed&quot; with echo &quot;test $&lt; 
+passed&quot; . Instances of $^ replaced with $&lt;
+
+4. Changed the naming of the tar file from
+ gold-standard_$(PACKAGE)-$(VERSION) .tgz to $(PACKAGE)-gold-$(VERSION).tgz
+
+5. Removed dist-gold-standard rule from extra_rules.am.  It only occurs 
+in the top-level Makefile.am now.
+
+6. Regarding the tar ball.  The directory structure of the tar ball has 
+the same layout as the test directory. i.e tests/ EISMINT/EISMINT-1 etc. 
+If you un-zip the tar file you will be able to see this. Why is it 
+necessary to re-create this directory structure, copy the files into the 
+new directory and then compress it, when the same tar ball can be 
+produced in one command? Maybe I've misunderstood something 
+obvious............
+
+Cheers,
+Sarah
+
+
+
+
+
+
+
+
+
+  
+
+
+Magnus Hagdorn wrote:
+&gt;<i> Sarah Shannon wrote:
+</I>&gt;&gt;<i> Hi Magnus,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I added the rule dist-gold-standard to create a tar file containing 
+</I>&gt;&gt;<i> the output of all the tests. The tar file has the version number of 
+</I>&gt;&gt;<i> the code in the filename.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I used 'find' to get a list of the netCDF files and created the tar 
+</I>&gt;&gt;<i> file from the list. Perhaps we are ready to think about the next 
+</I>&gt;&gt;<i> steps for merging the test suite to the parallel branch?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Hi Sarah,
+</I>&gt;<i> sorry it took me so long again to have a look at what you have done...
+</I>&gt;<i> in no particular order.
+</I>&gt;<i>
+</I>&gt;<i> configure.in:
+</I>&gt;<i> the option should be called
+</I>&gt;<i> --with-gold-std rather than --with-gold_std
+</I>&gt;<i>
+</I>&gt;<i> extra_rules.am:
+</I>&gt;<i> compare-% rule - you should report which test passed or failed, e.g. 
+</I>&gt;<i> echo test $&lt; passed
+</I>
+&gt;<i> also you should use the macro $&lt; instead of $^
+</I>&gt;<i> check-data rule:
+</I>&gt;<i> you don't need a loop here. just use a substitution
+</I>&gt;<i> check-data: $(patsubst %.nc, compare-%,$(data))
+</I>&gt;<i>
+</I>&gt;<i> i'd suggest to call the gold-standard tar-ball
+</I>&gt;<i> glimmer-cism-gold-version.tar.gz, i.e. $(PACKAGE)-gold-$(VERSION)
+</I>&gt;<i> have a look at the generated Makefile to figure out how automake 
+</I>&gt;<i> creates a tar-ball. Essentially, I think you need to have a rule that 
+</I>&gt;<i> creates and populates the directory you want to distribute, and then a 
+</I>&gt;<i> second rule which tars and gzips this directory and cleans up after 
+</I>&gt;<i> itself.
+</I>&gt;<i> I think using the find command is fine, you can create the directory 
+</I>&gt;<i> structure by first extracting all the directories from the list of 
+</I>&gt;<i> files to distribute, sorting them and running the list through uniq 
+</I>&gt;<i> and then mkdir -p; you can then copy the files into the new directory 
+</I>&gt;<i> structure, or if you want create hard links.
+</I>&gt;<i> This is probably not as portable as the original automake stuff but a 
+</I>&gt;<i> lot less work, if we run into problems we can fix them later.
+</I>&gt;<i>
+</I>&gt;<i> You also have the dist-gold-standard rule in both the top-level 
+</I>&gt;<i> Makefile.am and the extra_rules.am, just keep it in the Makefile.am.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Nearly there.
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101209/cd5ead61/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101209/cd5ead61/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000387.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000389.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#388">[ date ]</a>
+              <a href="thread.html#388">[ thread ]</a>
+              <a href="subject.html#388">[ subject ]</a>
+              <a href="author.html#388">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

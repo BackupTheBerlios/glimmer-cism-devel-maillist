@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] integrating the higher order physics model into Glimmer-CISM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20integrating%20the%20higher%20order%20physics%20model%0A%20into%20Glimmer-CISM&In-Reply-To=%3C4CA381B9.706%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000356.html">
+   <LINK REL="Next"  HREF="000358.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] integrating the higher order physics model into Glimmer-CISM</H1>
+    <B>Tony Payne</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20integrating%20the%20higher%20order%20physics%20model%0A%20into%20Glimmer-CISM&In-Reply-To=%3C4CA381B9.706%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] integrating the higher order physics model into Glimmer-CISM">a.j.payne at bristol.ac.uk
+       </A><BR>
+    <I>Wed Sep 29 20:13:13 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000356.html">[Glimmer-cism-devel] integrating the higher order physics model	into Glimmer-CISM
+</A></li>
+        <LI>Next message: <A HREF="000358.html">[Glimmer-cism-devel] integrating the higher order physics model into Glimmer-CISM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#357">[ date ]</a>
+              <a href="thread.html#357">[ thread ]</a>
+              <a href="subject.html#357">[ subject ]</a>
+              <a href="author.html#357">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi
+
+i do not think it is true to say that the HO code requires the SIA 
+code.  best to think of the 3 key functions that the dynamic core has
+
+temperature (currently incl vertical vel)
+thickness
+horiz velocity
+
+in the SIA thickness and vel are sometimes solved together in the ice 
+sheet eqn.  the HO code MUST (or at least is very likely to) solve them 
+separately.  it may well be that the HO code will use the temperature 
+solver (there will be minor differences in the dissipation term).  a 
+further complication, some is flavours of HO will provide vertical and 
+others not, so perhaps best to bundle vertical vel in with the horiz vel 
+code.  i was thinking that which vel solver is called for a particular 
+region will depend on some field of  flags (slow flow, stream, shelf 
+etc) so that SIA (where horiz vel is found separately from thickness 
+evol), L1L2 and PP could all be potentially called.  perhaps the real 
+difference is between an option that solves the ice sheet eqn and one 
+that solves thickness and vel separately (be it with SIA, L1L2 or PP).
+
+the other functions of glimmer (isostasy, climate, SMB etc) will clearly 
+need to available to both SIA and HO codes.  there are issues about 
+ancillary functions needed to find basal traction coeffs etc which may 
+depend on which flow model is being used.
+
+i think that the HO code will fairly soon become the default because the 
+range of probs that can be done with SIA is fairly limited (assuming 
+that a fast enough HO version can be made).  in which case making it an 
+extension seems a bit obtuse.  if we have SIA/ice sheet eqn as the 
+default we are essentially presenting a model that is 20 years (well 15) 
+old, which may not be good PR.  i am not certain that we can tackle this 
+separately from the dycore issue in that whatever solution we choose 
+here should also work for the external dycores (and vice versa).
+
+
+all the best
+
+tony
+
+On 29/09/2010 14:55, Magnus Hagdorn wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> during the last Glimmer-CISM steering committee meeting, Bill 
+</I>&gt;<i> suggested to make the higher order physics model optional and distinct 
+</I>&gt;<i> once it has been merged into glimmer-cism trunk.
+</I>&gt;<i>
+</I>&gt;<i> We are not ready for the new API/separation into multiple dynamical 
+</I>&gt;<i> cores yet so we need to come up with an interim solution. This email 
+</I>&gt;<i> outlines a number of options.
+</I>&gt;<i>
+</I>&gt;<i> Adding another switch to configure to either enable or disable higher 
+</I>&gt;<i> order physics is straight forward. We can then use conditionals in the 
+</I>&gt;<i> automake files to decide what is to be compiled.
+</I>&gt;<i>
+</I>&gt;<i> I think there are 3 options:
+</I>&gt;<i> 1. add the code to the libglide directory and define a group of
+</I>&gt;<i>    source files making up the HO model which gets added or not to
+</I>&gt;<i>    the libglide_SOURCES
+</I>&gt;<i> 2. create two subdirectories under libglide one for the shallow ice
+</I>&gt;<i>    code and one for the higher order code. Bundle compiled object files
+</I>&gt;<i>    into helper libraries which will be combined to form libglide.
+</I>&gt;<i> 3. keep libglide as it is and move the higher order code to a
+</I>&gt;<i>    subdirectory in the extensions directory. Handle the HO code
+</I>&gt;<i>    like any of the other existing extensions.
+</I>&gt;<i>
+</I>&gt;<i> Personally, I don't like option 2 because it suggests that the SIA and 
+</I>&gt;<i> HO code are equivalent when in fact the HO code requires the SIA code. 
+</I>&gt;<i> I'd be happy with Option 1 although it might lead to some confusion as 
+</I>&gt;<i> to where code belongs; well, it's somewhat more messy. I think Option 
+</I>&gt;<i> 3 would be ideal because the HO model is an optional add-on which 
+</I>&gt;<i> depends on basic glimmer-cism. You might argue that the HO model ends 
+</I>&gt;<i> up in a less prominent place than it deserves, but I don't think so.
+</I>&gt;<i>
+</I>&gt;<i> What do you think?
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>
+-- 
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000356.html">[Glimmer-cism-devel] integrating the higher order physics model	into Glimmer-CISM
+</A></li>
+	<LI>Next message: <A HREF="000358.html">[Glimmer-cism-devel] integrating the higher order physics model into Glimmer-CISM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#357">[ date ]</a>
+              <a href="thread.html#357">[ thread ]</a>
+              <a href="subject.html#357">[ subject ]</a>
+              <a href="author.html#357">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

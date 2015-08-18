@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] vertical coord system	and	glide_tempFullSoln
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20vertical%20coord%20system%0A%09and%09glide_tempFullSoln&In-Reply-To=%3C1256817420.3667.6.camel%40muick.geos.ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000151.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] vertical coord system	and	glide_tempFullSoln</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20vertical%20coord%20system%0A%09and%09glide_tempFullSoln&In-Reply-To=%3C1256817420.3667.6.camel%40muick.geos.ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] vertical coord system	and	glide_tempFullSoln">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Thu Oct 29 12:57:00 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000151.html">[Glimmer-cism-devel] vertical coord system and	glide_tempFullSoln
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+On Thu, 2009-10-29 at 10:29 +0000, Ian Rutt wrote:
+&gt;<i> I think I would be much happier if we just copy the vertical
+</I>&gt;<i> coordinate 
+</I>&gt;<i> system structure into the temperature derived type. If we use
+</I>&gt;<i> pointers, 
+</I>&gt;<i> then we break data encapsulation - the grid can be changed without
+</I>&gt;<i> the 
+</I>&gt;<i> temperature code's knowledge, or (worse still) be deallocated and the 
+</I>&gt;<i> pointer left dangling, in an extreme case. In essence, it gives the
+</I>&gt;<i> user 
+</I>&gt;<i> an additional burden of responsibility and makes the code less
+</I>&gt;<i> robust, 
+</I>&gt;<i> without any benefits.
+</I>&gt;<i> 
+</I>&gt;<i> OTOH, if we copy the data in, then the temperature code can be sure
+</I>&gt;<i> that 
+</I>&gt;<i> having been initialised correctly, it will remain initialised. Yes, 
+</I>&gt;<i> copying involves duplication, but the amount of data involved is 
+</I>&gt;<i> trivial. I would have a different view if a large structure was
+</I>&gt;<i> involved.
+</I>
+I agree, however if the coordinate system is changed without the DC
+knowing then something is badly broken. The nice thing about fortran is
+that copying derived types is straight forward - although in this case
+we need to first initialise the data structure because we use
+dynamically allocated arrays.
+
+I don't like replicating data because there is a chance of it going out
+of sync. But then if the data changed we would need to re-initialise the
+code. So yes, let's just copy it in.
+
+What do others think?
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000151.html">[Glimmer-cism-devel] vertical coord system and	glide_tempFullSoln
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] directory layout for glimmer-cism v2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20directory%20layout%20for%20glimmer-cism%20v2&In-Reply-To=%3C4AA6523D.6070308%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000047.html">
+   <LINK REL="Next"  HREF="000050.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] directory layout for glimmer-cism v2</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20directory%20layout%20for%20glimmer-cism%20v2&In-Reply-To=%3C4AA6523D.6070308%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] directory layout for glimmer-cism v2">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Tue Sep  8 14:46:53 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000047.html">[Glimmer-cism-devel] directory layout for glimmer-cism v2
+</A></li>
+        <LI>Next message: <A HREF="000050.html">[Glimmer-cism-devel] directory layout for glimmer-cism v2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#49">[ date ]</a>
+              <a href="thread.html#49">[ thread ]</a>
+              <a href="subject.html#49">[ subject ]</a>
+              <a href="author.html#49">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi All,
+
+Magi - thanks for the new directory structure, it looks good.
+
+I had a few problems building it, though:
+
+1) Running bootstrap produces lots of warning about GNU make extensions 
+and such like. I've had some of these before, but there are a lot now. I 
+don't know if (a) they matter, or (b) they can be suppressed/fixed. 
+Maybe it's not important
+
+2) The NetCDF detection macro didn't work for me. Inspection of 
+config.log showed that the library search path wasn't being set 
+correctly by the macro. I don't know enough m4 to figure out why, but 
+reverting to the previous version fixed the problem.
+
+3) The reworked glimmer_version functions don't compile under gfortran: 
+the compiler won't allow a default assignment to a function return 
+value. Moving the assignment to a separate line within the function 
+block fixes the problem
+
+A couple of other things:
+
+1) We'll have to add libtool to the list of dependencies. I had to grab 
+a package before building
+
+2) How do you build the docs? I tried all sorts of things, but without 
+success.
+
+I haven't committed any of these changes - we can talk through them in 
+Chicago first. For reference, I'm using:
+
+automake 1.10.2
+autoconf 2.63
+gcc 4.3.3
+
+Cheers,
+
+Ian
+
+Magnus Hagdorn wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> I have finished copying files into the new directory structure for
+</I>&gt;<i> glimmer-cism v2. It contains files from :
+</I>&gt;<i> * original glimmer module
+</I>&gt;<i> * glimmer-doc
+</I>&gt;<i> * verif
+</I>&gt;<i> * vanilla blas (used when system BLAS lib cannot be found)
+</I>&gt;<i> As outlined on the wiki [1] I have rearranged files into the following
+</I>&gt;<i> top level directories:
+</I>&gt;<i> * doc - documentation
+</I>&gt;<i> * libglimmer - sources for libglimmer and libglimmer-IO 
+</I>&gt;<i> * libglimmer-solve - blas and SLAP
+</I>&gt;<i> * libglide - the ice sheet model
+</I>&gt;<i> * libglint - the climate coupler
+</I>&gt;<i> * tests - EISMIT1/2 and exact iso-thermal solutions
+</I>&gt;<i> * example-drivers - EIS, glint and EISMINT3
+</I>&gt;<i> * scripts - python programs
+</I>&gt;<i> 
+</I>&gt;<i> I disabled the restart code for now. I think we need to figure out what
+</I>&gt;<i> we are going to do with the hotstart/restart code [2].
+</I>&gt;<i> 
+</I>&gt;<i> The new module can be found in our subversion repository here:
+</I>&gt;<i> <A HREF="https://DEVELOPER@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/">https://DEVELOPER@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/</A>
+</I>&gt;<i> 
+</I>&gt;<i> Things to do:
+</I>&gt;<i> * I have created a small list of things that should get done at some
+</I>&gt;<i> stage, mostly related to the test cases:
+</I>&gt;<i> <A HREF="http://developer.berlios.de/pm/task.php?group_project_id=1964&amp;group_id=10995&amp;func=browse">http://developer.berlios.de/pm/task.php?group_project_id=1964&amp;group_id=10995&amp;func=browse</A>
+</I>&gt;<i> * I guess it would be good for Tim Wylie to integrate the
+</I>&gt;<i> thermomechanical exact solutions into a subdir of tests
+</I>&gt;<i> 
+</I>&gt;<i> I also think we should do a test release (1.9.2) if everyone is happy
+</I>&gt;<i> with what we have. 
+</I>&gt;<i> 
+</I>&gt;<i> Please give the new structure a whirl, break it and fix it :-)
+</I>&gt;<i> 
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> [1]
+</I>&gt;<i> <A HREF="http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Directory_Structure">http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Directory_Structure</A>
+</I>&gt;<i> [2]
+</I>&gt;<i> <A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/000041.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/000041.html</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000047.html">[Glimmer-cism-devel] directory layout for glimmer-cism v2
+</A></li>
+	<LI>Next message: <A HREF="000050.html">[Glimmer-cism-devel] directory layout for glimmer-cism v2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#49">[ date ]</a>
+              <a href="thread.html#49">[ thread ]</a>
+              <a href="subject.html#49">[ subject ]</a>
+              <a href="author.html#49">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

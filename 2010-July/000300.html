@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] trilinos-humps
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos-humps&In-Reply-To=%3C4C4EB269.4080807%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000298.html">
+   <LINK REL="Next"  HREF="000302.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] trilinos-humps</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos-humps&In-Reply-To=%3C4C4EB269.4080807%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] trilinos-humps">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Tue Jul 27 12:18:17 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000298.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+        <LI>Next message: <A HREF="000302.html">[Glimmer-cism-devel] trilinos-humps
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#300">[ date ]</a>
+              <a href="thread.html#300">[ thread ]</a>
+              <a href="subject.html#300">[ subject ]</a>
+              <a href="author.html#300">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+The trilinos example runs for me now using the intel fortran compiler. I 
+used Makefile.ifort and commented out the lines referring to the solver 
+&quot;GCRODR&quot;  in the strat1.xml.
+
+I am now trying to run the humps example and with trilinos. The 
+simulations runs for a while but crashes with the error messages below.
+
+Has anyone come across this type of error before?
+
+Cheers,
+
+Sarah
+
+
+Total linear solve time so far 35.5485790000000
+31 0.739038E-04 0.739038E-04 0.100000E-03
+
+time = 200001.0
+size of the matrix 0
+XXX doPartition has mySize = 0
+my size of the partitioned matrix 0
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image PC Routine Line Source
+simple_glide 00000000004BCAA6 glam_strs2_mp_gla 336 glam_strs2.F90
+simple_glide 0000000000449EFC glide_velo_higher 188 glide_velo_higher.F90
+simple_glide 00000000004B4715 glam_mp_inc_remap 56 glam.F90
+simple_glide 0000000000412693 glide_mp_glide_ts 432 glide.F90
+simple_glide 000000000040A7CD MAIN__ 142 simple_glide.F90
+simple_glide 000000000040A602 Unknown Unknown Unknown
+libc.so.6 000000391CC1D994 Unknown Unknown Unknown
+simple_glide 000000000040A529 Unknown Unknown Unknown
+
+
+
+
+
+
+
+
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A> wrote:
+&gt;<i> Send Glimmer-cism-devel mailing list submissions to
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> To subscribe or unsubscribe via the World Wide Web, visit
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i> or, via email, send a message with subject or body 'help' to
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> You can reach the person managing the list at
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-owner at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> When replying, please edit your Subject line so it is more specific
+</I>&gt;<i> than &quot;Re: Contents of Glimmer-cism-devel digest...&quot;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Today's Topics:
+</I>&gt;<i>
+</I>&gt;<i>    1. Re: trilinos example error messages (Evans, Kate J.)
+</I>&gt;<i>    2. Re: trilinos example error messages (Magnus Hagdorn)
+</I>&gt;<i>    3. Re: development on parallel branch (Magnus Hagdorn)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ----------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 1
+</I>&gt;<i> Date: Mon, 26 Jul 2010 08:46:03 -0400
+</I>&gt;<i> From: &quot;Evans, Kate J.&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">evanskj at ornl.gov</A>&gt;
+</I>&gt;<i> To: Sarah Shannon &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sarah.shannon at bristol.ac.uk</A>&gt;,
+</I>&gt;<i> 	&quot;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&quot;
+</I>&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: Re: [Glimmer-cism-devel] trilinos example error messages
+</I>&gt;<i> Message-ID: &lt;C872FBCB.2F78%<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">evanskj at ornl.gov</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=us-ascii
+</I>&gt;<i>
+</I>&gt;<i> Hi Sarah, 
+</I>&gt;<i> The email response from Tony probably crossed in the ether, but his email
+</I>&gt;<i> explains that they found the right libraries. If you svn update, their
+</I>&gt;<i> Makefile.ifort is there and probably will work for you.
+</I>&gt;<i>
+</I>&gt;<i> Let me know ...
+</I>&gt;<i> Kate
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On 7/26/10 3:57 AM, &quot;Sarah Shannon&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sarah.shannon at bristol.ac.uk</A>&gt; wrote:
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Hi,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I have checked out the parallel version of  glimmer-cism and I am trying
+</I>&gt;&gt;<i> to run the example located in
+</I>&gt;&gt;<i> /example/TrilinosSolversUnitTest
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Would anyone know why I get the error messages below?. I am using the
+</I>&gt;&gt;<i> intel fortran compiler.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks,
+</I>&gt;&gt;<i> Sarah
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> (.text+0x20): undefined reference to `main'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.o: In function `MAIN__':
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to
+</I>&gt;&gt;<i> `__intel_new_proc_init'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to
+</I>&gt;&gt;<i> `for_set_reentrancy'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to
+</I>&gt;&gt;<i> `for_write_seq_lis'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to
+</I>&gt;&gt;<i> `for_write_seq_lis'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to
+</I>&gt;&gt;<i> `for_write_seq_lis'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3e6): undefined reference to
+</I>&gt;&gt;<i> `sparse_trilinos_mp_trilinos_solver_preprocess_'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3fc): undefined reference to
+</I>&gt;&gt;<i> `sparse_trilinos_mp_trilinos_solve_'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x408): undefined reference to
+</I>&gt;&gt;<i> `sparse_trilinos_mp_trilinos_solver_postprocess_'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to
+</I>&gt;&gt;<i> `for_write_seq_lis'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to
+</I>&gt;&gt;<i> `for_write_seq_lis'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x4bc): undefined reference to
+</I>&gt;&gt;<i> `for_write_seq_lis'
+</I>&gt;&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to
+</I>&gt;&gt;<i> `for_stop_core'
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 2
+</I>&gt;<i> Date: Mon, 26 Jul 2010 14:08:36 +0100
+</I>&gt;<i> From: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;<i> To: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> Subject: Re: [Glimmer-cism-devel] trilinos example error messages
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">4C4D88D4.40004 at ed.ac.uk</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+</I>&gt;<i>
+</I>&gt;<i> Evans, Kate J. wrote:
+</I>&gt;<i>   
+</I>&gt;&gt;<i> Hi Sarah, 
+</I>&gt;&gt;<i> The email response from Tony probably crossed in the ether, but his email
+</I>&gt;&gt;<i> explains that they found the right libraries. If you svn update, their
+</I>&gt;&gt;<i> Makefile.ifort is there and probably will work for you.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     
+</I>&gt;<i>
+</I>&gt;<i> so no automake is used? this is the sort of thing automake avoids.
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>   
+</I>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100727/fc24b55d/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100727/fc24b55d/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000298.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+	<LI>Next message: <A HREF="000302.html">[Glimmer-cism-devel] trilinos-humps
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#300">[ date ]</a>
+              <a href="thread.html#300">[ thread ]</a>
+              <a href="subject.html#300">[ subject ]</a>
+              <a href="author.html#300">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

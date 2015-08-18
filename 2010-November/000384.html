@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-November/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CEEAADA.5080102%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000381.html">
+   <LINK REL="Next"  HREF="000385.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CEEAADA.5080102%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Thu Nov 25 19:28:42 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000381.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000385.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#384">[ date ]</a>
+              <a href="thread.html#384">[ thread ]</a>
+              <a href="subject.html#384">[ subject ]</a>
+              <a href="author.html#384">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus,
+
+I have added the 'check-data' to extra_rules.am and changed the 
+Makefiles.am. There is a message in the change log file.
+
+Thanks for adding the exit code and making the changes to mirror the 
+gold standard directory. Ill mirror this directory structure on the 
+berlios ftp server. There are currently no gold standard files for 
+EISMINT/benchmarks, erosion  isos  lin-non_lin.
+
+I was wondering if you have some available or shall we run the code and 
+use the output as a gold standard?
+
+Ill take a look at generating the tar file next and let you know if I 
+run into problems.
+
+Cheers,
+
+Sarah
+
+
+
+
+Magnus Hagdorn wrote:
+&gt;<i> Hi Sarah,
+</I>&gt;<i> as a general request, could you add to the ChangeLog file whenever you 
+</I>&gt;<i> commit something. Each modified/added/deleted file should have an entry.
+</I>&gt;<i> You should limit the number of character per line to 79 so it fits 
+</I>&gt;<i> into a standard terminal.
+</I>&gt;<i>
+</I>No problem. Ill do that from now on.
+&gt;<i> Sarah Shannon wrote:
+</I>&gt;&gt;<i> The changes are checked in. Perhaps we can start merging to the 
+</I>&gt;&gt;<i> parallel branch now, as we are keen to have the HO tests working there.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> not quite there yet. I have slightly modified your change so that the 
+</I>&gt;<i> gold standard mirrors the same directory layout as the build 
+</I>&gt;<i> directory. This means that you can run all the tests in one build 
+</I>&gt;<i> directory and which is pointed at as the gold standard by another 
+</I>&gt;<i> build directory. I would also like you to add another rule to the 
+</I>&gt;<i> extra_rules file called check-data. This will run the compare rule on 
+</I>&gt;<i> all the data files produced by the data rule. you can use make macros 
+</I>&gt;<i> to munch the list of data files held in $(DATA). Have a look at the 
+</I>&gt;<i> make docs, here 
+</I>&gt;<i> <A HREF="http://www.gnu.org/software/make/manual/html_node/Functions.html#Functions">http://www.gnu.org/software/make/manual/html_node/Functions.html#Functions</A> 
+</I>&gt;<i>
+</I>&gt;<i> you'll need to strip the suffix .nc and add compare-. you will also 
+</I>&gt;<i> need to add check-data rules throughout the Makefiles.am in analogy to 
+</I>&gt;<i> the data rules so you can run make check-data in the top-level 
+</I>&gt;<i> directory and everything will happen automatically.
+</I>&gt;<i>
+</I>
+
+
+&gt;&gt;<i> Regarding the tar ball.  Do you mean use autoconf to generate a tar 
+</I>&gt;&gt;<i> ball to put on the berlios ftp server? I am not quite why that would 
+</I>&gt;&gt;<i> be preferable to just putting a regular tar file there. Let me know 
+</I>&gt;&gt;<i> what you think.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> hm, I had a quick check and there is no obvious way of rolling another 
+</I>&gt;<i> tarball. So maybe adding another rule (say dist-golden-standard) in 
+</I>&gt;<i> the top-level Makefile.am which tars and gzip's all the .nc files it 
+</I>&gt;<i> can find might do the trick. just use find to get all nc files.
+</I>&gt;<i>
+</I>&gt;<i> alternatively, we could add yet another option to configure which when 
+</I>&gt;<i> enabled distributes the data files along with the sources. in which 
+</I>&gt;<i> case i would set the default gold-standard directory to be the 
+</I>&gt;<i> top_srcdir. you can conditionally add the data files by using an 
+</I>&gt;<i> automake conditional and appending to the EXTRA_DIST variable. Have a 
+</I>&gt;<i> look at the top level Makefile.am where I use exactly this pattern.
+</I>&gt;<i>
+</I>&gt;<i> you are going to be an autotools expert by the end of this :-)
+</I>&gt;<i>
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101125/e8e601d3/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101125/e8e601d3/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000381.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000385.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#384">[ date ]</a>
+              <a href="thread.html#384">[ thread ]</a>
+              <a href="subject.html#384">[ subject ]</a>
+              <a href="author.html#384">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

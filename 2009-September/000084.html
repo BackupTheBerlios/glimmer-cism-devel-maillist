@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BCF-metadata%5D%20Standard%20names%0A%20for%09Glaciology%20and%20ice-sheet%09modeling&In-Reply-To=%3C4AC32551.5090103%4059A2.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000083.html">
+   <LINK REL="Next"  HREF="000085.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling</H1>
+    <B>Jed Brown</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BCF-metadata%5D%20Standard%20names%0A%20for%09Glaciology%20and%20ice-sheet%09modeling&In-Reply-To=%3C4AC32551.5090103%4059A2.org%3E"
+       TITLE="[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling">jed at 59A2.org
+       </A><BR>
+    <I>Wed Sep 30 11:30:57 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000083.html">[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling
+</A></li>
+        <LI>Next message: <A HREF="000085.html">[Glimmer-cism-devel] [CF-metadata] Standard	names	for	Glaciology and ice-sheet	modeling
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>AJ Payne, Geographical Sciences wrote:
+&gt;<i> dear all
+</I>&gt;<i> 
+</I>&gt;<i> agreed ice shelves are clearly more closely connected to land ice than
+</I>&gt;<i> other elements of the earth system (certainly not sea ice).
+</I>&gt;<i> 
+</I>&gt;<i> i think the cover type mask in glimmer-cism needs to be extended in
+</I>&gt;<i> order to make the application of higher order models easier.  as a
+</I>&gt;<i> minimum:
+</I>&gt;<i> 
+</I>&gt;<i> open ocean
+</I>&gt;<i> ice-free land
+</I>&gt;<i> ice covered land
+</I>&gt;<i> - slow flowing ice
+</I>&gt;<i> - ice streams/outlet glaciers
+</I>&gt;<i> ice shelves
+</I>
+While it's often handy to have a mask within your code, and to look at
+model output to know what the model is doing with different regions, I
+think the mask may lock us into the current (esp. Glimmer) way of doing
+things.  Distinguishing between slow ice and ice streams is very
+unnatural since it will always be subjective and some models (e.g. PISM)
+do not normally distinguish in this way (solving unified physics
+everywhere).
+
+As for grounding line resolution, the combination of bathymetry and ice
+thickness provides subgrid resolution where as the mask cannot.  What
+does the mask provide that cannot be reconstructed with an NCO or
+visualization filter?
+
+I'm not objecting to internal use by Glimmer, just to putting this into
+CF which may oblige other models to recognize it and obey semantics that
+don't make sense in their context.
+
+
+As for the original topic on cf-metadata@ (which I just read from the
+archives), I agree that &quot;land ice&quot; should include shelves and I don't
+think this definition will cause a problem for users.
+
+Jed
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 261 bytes
+Desc: OpenPGP digital signature
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090930/56f8e8ac/attachment.pgp">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090930/56f8e8ac/attachment.pgp</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000083.html">[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling
+</A></li>
+	<LI>Next message: <A HREF="000085.html">[Glimmer-cism-devel] [CF-metadata] Standard	names	for	Glaciology and ice-sheet	modeling
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

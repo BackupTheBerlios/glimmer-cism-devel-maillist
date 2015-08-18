@@ -1,0 +1,531 @@
+From flocolleoni at gmail.com  Tue Apr  5 11:32:46 2011
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Tue, 5 Apr 2011 11:32:46 +0200
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid: segmentation
+	fault
+In-Reply-To: <4D78F4B2.3040804@swansea.ac.uk>
+References: <AANLkTimD_PZKLvJ6414JeFrr6Zu+gWE95RQtPMygPCgs@mail.gmail.com>
+	<AANLkTi=jcmFVbAm7fAdKyedSAFJw5srGcvE1FGVaJ5Dc@mail.gmail.com>
+	<4D627CB1.1020703@swansea.ac.uk>
+	<AANLkTi=xYekcJaL0WGYRoH9Y1HVhxdL=hsu5LnWjBCdb@mail.gmail.com>
+	<4D78F4B2.3040804@swansea.ac.uk>
+Message-ID: <BANLkTimdDBcHzz8zbmMp=GCuD=+0TFD_4g@mail.gmail.com>
+
+Dear all,
+
+The segmentation fault was due to the lack of memory of my computer...I was
+running on my laptop...
+So I decided to intall glimmer on a little cluster we had and it was able to
+run for Antarctica which approximately has
+the same number of point of my NH grid.
+
+Now I have a second error about the numerical conversion of my initial NH
+data...But I think I can solve it quickly.
+
+Thank you anyway for the disucssion.
+
+Flo
+
+2011/3/10 Ian Rutt <I.C.Rutt at swansea.ac.uk>
+
+>
+> Hi Flo,
+>
+> Sorry to have been out of touch these last few weeks. Teaching has been
+> very hectic, and now I'm in Svalbard, teaching at UNIS with Nick Hulton.
+> We're here until next week, then back to Swansea for the mad dash to the end
+> of term...
+>
+> The website isn't clear about this, but 1.7.0 is a beta (test) version, and
+> it has some bugs. Do you get the same problem if you use the 1.0.18 version
+> (also on the website)?
+>
+> Will reply to your other email and suggest some visit dates soon.
+>
+> Cheers,
+>
+> Ian
+>
+>
+> On 21/02/11 15:00, Florence Colleoni wrote:
+>
+>> Hi Ian,
+>>
+>> I am using the last version of glimmer available for download on the
+>> Berlios website. So it is Glimmer-1.7.
+>>
+>> I attach the config file and I copy the header of netcdf file here:
+>>
+>> Cheers
+>>
+>> Flo
+>>
+>>
+>> ***************************************************************************
+>> netcdf NH_40km_input {
+>> dimensions:
+>>     time = 1 ;
+>>     level = 11 ;
+>>     x0 = 316 ;
+>>     x1 = 317 ;
+>>     y0 = 316 ;
+>>     y1 = 317 ;
+>> variables:
+>>     float time(time) ;
+>>         time:long_name = "Model time" ;
+>>         time:standard_name = "time" ;
+>>         time:units = "year since 1-1-1 0:0:0" ;
+>>         time:calendar = "none" ;
+>>     char mapping ;
+>>         mapping:grid_mapping_name = "polar_stereographic" ;
+>>         mapping:false_easting = 0.f ;
+>>         mapping:false_northing = 0.f ;
+>>         mapping:traight_vertical_longitude_from_pole = 0.f ;
+>>         mapping:latitude_of_projection_origin = 90.f ;
+>>         mapping:standard_parallel = 81.f ;
+>>     float level(level) ;
+>>         level:formula_terms = "sigma: level topo: topg thick: thk" ;
+>>         level:long_name = "sigma layers" ;
+>>         level:standard_name = "land_ice_sigma_coordinate" ;
+>>         level:units = "1" ;
+>>     float x0(x0) ;
+>>         x0:long_name = "Cartisian x-coordinate, velocity grid" ;
+>>         x0:standard_name = "projection_x_coordinate" ;
+>>         x0:units = "meter" ;
+>>     float x1(x1) ;
+>>         x1:long_name = "Cartisian x-coordinate" ;
+>>         x1:standard_name = "projection_x_coordinate" ;
+>>         x1:units = "meter" ;
+>>     float y0(y0) ;
+>>         y0:long_name = "Cartisian y-coordinate, velocity grid" ;
+>>         y0:standard_name = "projection_y_coordinate" ;
+>>         y0:units = "meter" ;
+>>     float y1(y1) ;
+>>         y1:long_name = "Cartisian y-coordinate" ;
+>>         y1:standard_name = "projection_y_coordinate" ;
+>>         y1:units = "meter" ;
+>>     float mask(time, y1, x1) ;
+>>         mask:long_name = "upscaling and downscaling mask" ;
+>>         mask:units = "1" ;
+>>         mask:grid_mapping = "mapping" ;
+>>     float relx(time, y1, x1) ;
+>>         relx:coordinates = "lon lat" ;
+>>         relx:long_name = "relaxed bedrock topography" ;
+>>         relx:units = "meter" ;
+>>         relx:grid_mapping = "mapping" ;
+>>     float thk(time, y1, x1) ;
+>>         thk:coordinates = "lon lat" ;
+>>         thk:long_name = "ice thickness" ;
+>>         thk:standard_name = "land_ice_thickness" ;
+>>         thk:units = "meter" ;
+>>         thk:grid_mapping = "mapping" ;
+>>     float topg(time, y1, x1) ;
+>>         topg:coordinates = "lon lat" ;
+>>         topg:long_name = "bedrock topography" ;
+>>         topg:standard_name = "bedrock_altitude" ;
+>>         topg:units = "meter" ;
+>>         topg:grid_mapping = "mapping" ;
+>>
+>> // global attributes:
+>>         :Conventions = "CF-1.0" ;
+>>         :title = "Northern Hemisphere (30N-90N) ISM grid - 40km" ;
+>>         :institution = "Centro Euro-Mediterraneo per i Cambiamenti
+>> Climatici (Bologna, Italy)" ;
+>>         :source = "ETOPO1" ;
+>>         :history = "Interpolated using GLIMMER and OBLIMAP routines" ;
+>>         :references = " " ;
+>>         :comment = " " ;
+>> }
+>>
+>> ***************************************************************************
+>>
+>> 2011/2/21 Ian Rutt <I.C.Rutt at swansea.ac.uk <mailto:I.C.Rutt at swansea.ac.uk
+>> >>
+>>
+>>
+>>
+>>    Hi Flo,
+>>
+>>    Could you post to the list two things which might help narrow down
+>>    the problem:
+>>
+>>    1) Your .config file for the model
+>>    2) The header of your NetCDF input file (i.e. when you run ncdump -h
+>>    on it)
+>>
+>>    Also - which version of Glimmer-CISM are you using?
+>>
+>>    Cheers,
+>>
+>>    Ian
+>>
+>>    Dr Ian Rutt
+>>    Department of Geography
+>>    College of Science
+>>    Swansea University
+>>    Singleton Park
+>>    Swansea
+>>    SA2 8PP
+>>    Tel. +44 (0)1792 602685
+>>    i.c.rutt at swansea.ac.uk <mailto:i.c.rutt at swansea.ac.uk>
+>>
+>>
+>>
+>>    On 20/02/11 20:05, Florence Colleoni wrote:
+>>
+>>        Sorry, I should be a little bit more specific:
+>>
+>>        when the model ouputs are written, the variable already provided
+>>        by the
+>>        input file
+>>        are red and written very well. The only thing that comes to my
+>>        mind is that
+>>        there maybe a problem when the model downscales the climate fields
+>>        (which I already tested
+>>        in the Greenland grid and work pefectly): maybe the way I
+>>        performed the
+>>        projection
+>>        and the mapping informations I provide in the input file do not
+>>        allow
+>>        the mapping
+>>        codes to interpolate on the x,y grid.
+>>
+>>        But even if the downscaling where slightly different from the
+>>        projection
+>>        grid prived in the input file,
+>>        would the fields not be interpolated and written in the ouput file?
+>>
+>>        Florence
+>>
+>>        2011/2/20 Florence Colleoni <flocolleoni at gmail.com
+>>        <mailto:flocolleoni at gmail.com>
+>>        <mailto:flocolleoni at gmail.com <mailto:flocolleoni at gmail.com>>>
+>>
+>>
+>>            Hi, all
+>>
+>>            I finished to construct the Northern Hemisphere grid (40km
+>>        spacing-
+>>            317*317 horizontal res. and 11 vertical signa layers).
+>>            The file is identical to that of the glint-example
+>>        gland20.input.nc <http://gland20.input.nc>
+>>        <http://gland20.input.nc>.
+>>
+>>
+>>            However, when I try to use the Northern Hemisphere grid with
+>>        GLINT
+>>            it stops at the beginning with a Segmentation fault error.
+>>
+>>            I mean, it reads the input file parameters well but when it
+>>        starts
+>>            calculating the ice variables from
+>>            the model, it stops before writing the first step results in
+>> the
+>>            output file.
+>>
+>>            Do somebody have an idea? Are the number of points too large
+>>        for the
+>>            model?
+>>
+>>            Florence
+>>
+>>            --
+>>            /"Il existe deux sortes de r?volutionnaires; les uns d?sirent
+>> la
+>>            R?volution avec la Libert?: c'est le tr?s petit nombre; les
+>>        autres
+>>            veulent la R?volution avec le Pouvoir: c'est l'immense
+>>        majorit?."
+>>            Chateaubriand/
+>>
+>>
+>>  ......................................................................
+>>            Florence Colleoni
+>>            CMCC <http://www.cmcc.it>
+>>
+>>            Viale Aldo Moro, 44
+>>            40127 Bologna - Italy
+>>
+>>                  Phone: +39 051 3782622
+>>                  Email: flocolleoni at gmail.com
+>>        <mailto:flocolleoni at gmail.com> <mailto:flocolleoni at gmail.com
+>>
+>>        <mailto:flocolleoni at gmail.com>>
+>>
+>>                  URL: http://flocolleoni.org
+>>
+>>
+>>  ......................................................................
+>>
+>>
+>>
+>>
+>>        --
+>>        /"Il existe deux sortes de r?volutionnaires; les uns d?sirent la
+>>        R?volution avec la Libert?: c'est le tr?s petit nombre; les autres
+>>        veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+>>        Chateaubriand/
+>>
+>>  ......................................................................
+>>        Florence Colleoni
+>>        CMCC <http://www.cmcc.it>
+>>
+>>        Viale Aldo Moro, 44
+>>        40127 Bologna - Italy
+>>
+>>              Phone: +39 051 3782622
+>>              Email: flocolleoni at gmail.com
+>>        <mailto:flocolleoni at gmail.com> <mailto:flocolleoni at gmail.com
+>>
+>>        <mailto:flocolleoni at gmail.com>>
+>>              URL: http://flocolleoni.org
+>>
+>>  ......................................................................
+>>
+>>
+>>
+>>        _______________________________________________
+>>        Glimmer-cism-devel mailing list
+>>        Glimmer-cism-devel at lists.berlios.de
+>>        <mailto:Glimmer-cism-devel at lists.berlios.de>
+>>
+>>        https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>    _______________________________________________
+>>    Glimmer-cism-devel mailing list
+>>    Glimmer-cism-devel at lists.berlios.de
+>>    <mailto:Glimmer-cism-devel at lists.berlios.de>
+>>
+>>    https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>
+>>
+>>
+>> --
+>> /"Il existe deux sortes de r?volutionnaires; les uns d?sirent la
+>> R?volution avec la Libert?: c'est le tr?s petit nombre; les autres
+>> veulent la R?volution avec le Pouvoir: c'est l'immense majorit?."
+>> Chateaubriand/
+>> ......................................................................
+>> Florence Colleoni
+>> CMCC <http://www.cmcc.it>
+>> Viale Aldo Moro, 44
+>> 40127 Bologna - Italy
+>>
+>>      Phone: +39 051 3782622
+>>      Email: flocolleoni at gmail.com <mailto:flocolleoni at gmail.com>
+>>      URL: http://flocolleoni.org
+>> ......................................................................
+>>
+>
+> --
+> Dr Ian Rutt
+> School of the Environment and Society
+>
+> Swansea University
+> Singleton Park
+> Swansea
+> SA2 8PP
+> Tel. (01792) 602685
+>
+> i.c.rutt at swansea.ac.uk
+>
+
+
+
+-- 
+*"Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution
+avec la Libert?: c'est le tr?s petit nombre; les autres veulent la
+R?volution avec le Pouvoir: c'est l'immense majorit?."
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC <http://www.cmcc.it>
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110405/f0951cd6/attachment.html>
+
+From mb627 at cam.ac.uk  Tue Apr 19 11:39:15 2011
+From: mb627 at cam.ac.uk (Marion Bougamont)
+Date: Tue, 19 Apr 2011 10:39:15 +0100
+Subject: [Glimmer-cism-devel] Changes to Makefile.am
+Message-ID: <0D12B408-2459-43E8-94C1-3613BC511A98@cam.ac.uk>
+
+Hi, 
+
+While trying to build a clean, recent version of glimmer from glimmer-cism-lanl/branches/parallel, I ran into a compiling error:
+.....
+ld: library not found for -lxlf
+collect2: ld returned 1 exit status
+
+I found that this error started from version 2245, and can be fixed by removing "-lxlf -lm -lc" of line 101 in ../src/fortran/Makefile.am (well, at least the code compiles if I remove those bits...).
+
+I was just wondering if anybody else has had this type of issues, and if/how the committed version of Makefile.am could be modified to accommodate everyone's machine/system (I am not familiar enough with how to edit makefiles etc...)? 
+
+Many thanks,
+Marion
+
+
+
+
+
+From mb627 at cam.ac.uk  Wed Apr 20 17:15:19 2011
+From: mb627 at cam.ac.uk (Marion Bougamont)
+Date: Wed, 20 Apr 2011 16:15:19 +0100
+Subject: [Glimmer-cism-devel] Changes to Makefile.am
+In-Reply-To: <C9D46FAD.8791%evanskj@ornl.gov>
+References: <C9D46FAD.8791%evanskj@ornl.gov>
+Message-ID: <5F2ACF86-A909-4220-90F5-A470B748AA47@cam.ac.uk>
+
+Hi Kate,
+
+Sounds good. Thanks a lot for your reply and help! 
+
+Cheers,
+Marion
+
+
+On 20 Apr 2011, at 16:10, Evans, Kate J. wrote:
+
+> Hi Marion- I will look into it. I have no access to the code right now due
+> to ORNL networking difficulties, but I will fix the problem as soon as I can
+> get access. The problem is likely due to updates we made to port the code to
+> xlf, but I must have forgotten to remove an IBM specific issue.
+> 
+> Thanks
+> Kate
+> 
+> 
+> On 4/19/11 5:39 AM, "Marion Bougamont" <mb627 at cam.ac.uk> wrote:
+> 
+>> Hi, 
+>> 
+>> While trying to build a clean, recent version of glimmer from
+>> glimmer-cism-lanl/branches/parallel, I ran into a compiling error:
+>> .....
+>> ld: library not found for -lxlf
+>> collect2: ld returned 1 exit status
+>> 
+>> I found that this error started from version 2245, and can be fixed by
+>> removing "-lxlf -lm -lc" of line 101 in ../src/fortran/Makefile.am (well, at
+>> least the code compiles if I remove those bits...).
+>> 
+>> I was just wondering if anybody else has had this type of issues, and if/how
+>> the committed version of Makefile.am could be modified to accommodate
+>> everyone's machine/system (I am not familiar enough with how to edit makefiles
+>> etc...)? 
+>> 
+>> Many thanks,
+>> Marion
+>> 
+>> 
+>> 
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> hxxps://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> 
+
+
+
+From evanskj at ornl.gov  Wed Apr 20 17:10:37 2011
+From: evanskj at ornl.gov (Evans, Kate J.)
+Date: Wed, 20 Apr 2011 11:10:37 -0400
+Subject: [Glimmer-cism-devel] Changes to Makefile.am
+In-Reply-To: <0D12B408-2459-43E8-94C1-3613BC511A98@cam.ac.uk>
+Message-ID: <C9D46FAD.8791%evanskj@ornl.gov>
+
+Hi Marion- I will look into it. I have no access to the code right now due
+to ORNL networking difficulties, but I will fix the problem as soon as I can
+get access. The problem is likely due to updates we made to port the code to
+xlf, but I must have forgotten to remove an IBM specific issue.
+
+Thanks
+Kate
+
+
+On 4/19/11 5:39 AM, "Marion Bougamont" <mb627 at cam.ac.uk> wrote:
+
+> Hi, 
+> 
+> While trying to build a clean, recent version of glimmer from
+> glimmer-cism-lanl/branches/parallel, I ran into a compiling error:
+> .....
+> ld: library not found for -lxlf
+> collect2: ld returned 1 exit status
+> 
+> I found that this error started from version 2245, and can be fixed by
+> removing "-lxlf -lm -lc" of line 101 in ../src/fortran/Makefile.am (well, at
+> least the code compiles if I remove those bits...).
+> 
+> I was just wondering if anybody else has had this type of issues, and if/how
+> the committed version of Makefile.am could be modified to accommodate
+> everyone's machine/system (I am not familiar enough with how to edit makefiles
+> etc...)? 
+> 
+> Many thanks,
+> Marion
+> 
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> hxxps://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From timwylie at hotmail.com  Fri Apr 22 13:24:44 2011
+From: timwylie at hotmail.com (tim wylie)
+Date: Fri, 22 Apr 2011 06:24:44 -0500
+Subject: [Glimmer-cism-devel] (no subject)
+Message-ID: <BAY156-w64CF0C96943B6C884B2B3BD1950@phx.gbl>
+
+http://xacimus.racyspace.com/TommieSullivan4/
+ 		 	   		  
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110422/abcec089/attachment.html>
+
+From flocolleoni at gmail.com  Wed Apr 27 18:52:59 2011
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Wed, 27 Apr 2011 18:52:59 +0200
+Subject: [Glimmer-cism-devel] restarts and batch jobs
+Message-ID: <BANLkTi=SzU63GNEBrc8f_oDjn3DDL-ftXQ@mail.gmail.com>
+
+Dear all,
+
+I would like to submit CISM with a batch job on a standard supercomputing
+plateform.
+Should I enable restarts since of course the simulation time exceed all the
+max walltimes of the
+queues on which I am running?
+
+Flo
+
+-- 
+*"Il existe deux sortes de r?volutionnaires; les uns d?sirent la R?volution
+avec la Libert?: c'est le tr?s petit nombre; les autres veulent la
+R?volution avec le Pouvoir: c'est l'immense majorit?."
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC <http://www.cmcc.it>
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: flocolleoni at gmail.com
+     URL: http://flocolleoni.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110427/264cbba3/attachment.html>
+

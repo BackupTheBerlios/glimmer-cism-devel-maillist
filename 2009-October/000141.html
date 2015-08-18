@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] compile time precision
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20compile%20time%20precision&In-Reply-To=%3C7F740F76-ACC4-45C3-A064-8D85753A03BB%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000140.html">
+   <LINK REL="Next"  HREF="000147.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] compile time precision</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20compile%20time%20precision&In-Reply-To=%3C7F740F76-ACC4-45C3-A064-8D85753A03BB%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] compile time precision">lipscomb at lanl.gov
+       </A><BR>
+    <I>Wed Oct 28 16:48:22 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000140.html">[Glimmer-cism-devel] compile time precision
+</A></li>
+        <LI>Next message: <A HREF="000147.html">[Glimmer-cism-devel] compile time precision
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Jed and Pat,
+
+Thanks for the clarifications.  I like the idea of keeping everything  
+in the same precision (with the option to cast from double to single  
+for storage, as Jed suggests).
+
+- Bill
+
+
+On Oct 28, 2009, at 9:11 AM, Jed Brown wrote:
+
+&gt;<i> William Lipscomb wrote:
+</I>&gt;&gt;<i> Hi Pat,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I don't think your test case is skewed.  Most of the cost will
+</I>&gt;&gt;<i> probably be in the solver for the foreseeable future.  So it would
+</I>&gt;&gt;<i> seem that the only place we would see significant savings from moving
+</I>&gt;&gt;<i> to single precision (the solver) is also the place where we are most
+</I>&gt;&gt;<i> likely to need double precision.
+</I>&gt;<i>
+</I>&gt;<i> Double precision is not normally needed in the preconditioner.  The
+</I>&gt;<i> PETSc-FUN3D papers show nice results, but nobody seems to use it.
+</I>&gt;<i>
+</I>&gt;&gt;<i> My preference (though maybe I could be convinced otherwise) is to  
+</I>&gt;&gt;<i> have
+</I>&gt;&gt;<i> precision as a compile-time option.
+</I>&gt;<i>
+</I>&gt;<i> So it is quite easy to leave it as a compile-time option as long as
+</I>&gt;<i> everything uses the same precision.  When a mix is used, you typically
+</I>&gt;<i> need some extra copies and a bit of clutter.  My suggestion is to  
+</I>&gt;<i> leave
+</I>&gt;<i> it a compile-time option, but keep everything in the same  
+</I>&gt;<i> precision.  If
+</I>&gt;<i> you want to run in double, but precondition with single, you still
+</I>&gt;<i> compute the entries in double and cast to single for storage (because
+</I>&gt;<i> the only point of single is to reduce memory bandwidth requirements
+</I>&gt;<i> during preconditioner application).
+</I>&gt;<i>
+</I>&gt;<i> Jed
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000140.html">[Glimmer-cism-devel] compile time precision
+</A></li>
+	<LI>Next message: <A HREF="000147.html">[Glimmer-cism-devel] compile time precision
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

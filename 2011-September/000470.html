@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Undocumented Glimmer API?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Undocumented%20Glimmer%20API%3F&In-Reply-To=%3C4E80395F.5080802%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000475.html">
+   <LINK REL="Next"  HREF="000478.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Undocumented Glimmer API?</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Undocumented%20Glimmer%20API%3F&In-Reply-To=%3C4E80395F.5080802%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Undocumented Glimmer API?">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Mon Sep 26 10:35:43 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000475.html">[Glimmer-cism-devel] Problem with gfortran and line lengths in glimmer-cism2
+</A></li>
+        <LI>Next message: <A HREF="000478.html">[Glimmer-cism-devel] iargc build error
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#470">[ date ]</a>
+              <a href="thread.html#470">[ thread ]</a>
+              <a href="subject.html#470">[ subject ]</a>
+              <a href="author.html#470">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Bob,
+moved to gc-devel. Using acab/artm is quite sensible, this is the most 
+basic climate interface and gives you full control over how you drive 
+the ice sheet.
+
+some answers inline...
+
+Bob wrote:
+&gt;<i> Hello Magnus,
+</I>&gt;<i> 
+</I>&gt;<i> Here at GISS, I've been thinking we will probably want to use 
+</I>&gt;<i> Glimmer-CISM (glide) directly in our coupling, without going through 
+</I>&gt;<i> glint.  However... it looks like the API for that use is only partially 
+</I>&gt;<i> documented.  I've figured out what the API probably is by looking at the 
+</I>&gt;<i> GLINT code.  Could you please tell me if this is correct?
+</I>&gt;<i> 
+</I>&gt;<i> In order to do an ice timestep, it looks like one need to do:
+</I>&gt;<i> 
+</I>&gt;<i> 1.  Set up mass balance (making sure acab doesn't remove more ice than 
+</I>&gt;<i> there actually is):
+</I>&gt;<i> 
+</I>&gt;<i>     ! For this subroutine, input acab is in m/yr; this value is multiplied 
+</I>&gt;<i>     !  by tim0/(scyr*thk0) and copied to data%climate%acab.
+</I>&gt;<i>     call glide_set_acab(data, inarray)
+</I>&gt;<i>         type(glide_global_type) :: data
+</I>&gt;<i>         real, dimension(:,:), intent(in) :: inarray
+</I>&gt;<i>     [Use rhoi, tile area functions and ice timestep to convert between
+</I>&gt;<i>     m/yr and kg/m^2]
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 2. Set up top surface boundary condition:
+</I>&gt;<i> 
+</I>&gt;<i>     ! Input artm is in deg C; this value is copied to data%climate%artm
+</I>&gt;<i>     (no unit conversion).
+</I>&gt;<i>     call glide_set_artm(data,inarray)
+</I>&gt;<i>         type(glide_global_type) :: data
+</I>&gt;<i>         real, dimension(:,:), intent(in) :: inarray
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 3. Call the main timestep functions.  It looks like doing one timestep 
+</I>&gt;<i> requires a series of calls to glide_tstep_pX().
+</I>&gt;<i> 
+</I>&gt;<i>           call glide_tstep_p1(instance%model,instance%glide_time)
+</I>&gt;<i>           call glide_tstep_p2(instance%model)
+</I>&gt;<i>           !EIB! difference in call between gc2 and lanl
+</I>&gt;<i>           call glide_tstep_p3(instance%model)
+</I>&gt;<i>           !EIB! call glide_tstep_p3(instance%model,no_write=.true.)
+</I>&gt;<i> 
+</I>&gt;<i> 4. Deal with calving (adjust the calving rate for our fast physics in 
+</I>&gt;<i> the GCM)
+</I>&gt;<i> 
+</I>&gt;<i>           ! Add the calved ice to the ablation field
+</I>&gt;<i> !lipscomb - TO DO - Calving needs to be added to the ice runoff.
+</I>&gt;<i> !                   Also add basal melting (bmlt) to the liquid runoff.
+</I>&gt;<i>           call glide_get_calving(instance%model, calve_temp)
+</I>&gt;<i>           calve_temp = calve_temp * real(rhoi/rhow)
+</I>&gt;<i> 
+</I>&gt;<i> ==&gt; This tells us the calving flux, spatially distributed, which we will 
+</I>&gt;<i> use to drive sea ice formation over the course of the next ice timestep.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Questions/Notes:
+</I>&gt;<i> 
+</I>&gt;<i> 1. Are there any other GLIDE API calls I should be aware of?
+</I>&gt;<i> 
+</I>
+I don't think so. I suppose you are not interested in isostatic adjustment.
+
+&gt;<i> 2. It seems like it would be easier if acab could be phrased in terms of 
+</I>&gt;<i> the amount of accumulation (in m, or kg/m^2 or something) since the last 
+</I>&gt;<i> timestep.  Thoughts on this?
+</I>&gt;<i> 
+</I>
+I think this is something that can be discussed for future API change. I 
+suppose using a mass balance velocity is a natural choice. Also using a 
+mass balance velocity allows for asynchronous/adaptive time steps.
+
+&gt;<i> 3. Why are there glide_get_XYZ() and glide_set_XYZ() subroutines?  Why 
+</I>&gt;<i> don't we just set the values directly in type(glide_climate)?
+</I>&gt;<i> 
+</I>
+Glimmer-CISM is scaled. These accessors handle this scaling. The code 
+for the routines is automatically generated from the information in the 
+vars.def files. If you know about the scaling you can set the values 
+directly.
+
+&gt;<i> 4. What are the units of:
+</I>&gt;<i>      glide_get_calving()?
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+I believe it's another mass balance term, so m/yr (but I haven't checked).
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000475.html">[Glimmer-cism-devel] Problem with gfortran and line lengths in glimmer-cism2
+</A></li>
+	<LI>Next message: <A HREF="000478.html">[Glimmer-cism-devel] iargc build error
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#470">[ date ]</a>
+              <a href="thread.html#470">[ thread ]</a>
+              <a href="subject.html#470">[ subject ]</a>
+              <a href="author.html#470">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

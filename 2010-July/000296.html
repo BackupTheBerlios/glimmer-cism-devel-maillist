@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] trilinos example error messages
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos%20example%20error%20messages&In-Reply-To=%3C4C4D3FCF.4030402%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000299.html">
+   <LINK REL="Next"  HREF="000297.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] trilinos example error messages</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos%20example%20error%20messages&In-Reply-To=%3C4C4D3FCF.4030402%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] trilinos example error messages">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Mon Jul 26 09:57:03 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000299.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+        <LI>Next message: <A HREF="000297.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#296">[ date ]</a>
+              <a href="thread.html#296">[ thread ]</a>
+              <a href="subject.html#296">[ subject ]</a>
+              <a href="author.html#296">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+I have checked out the parallel version of  glimmer-cism and I am trying 
+to run the example located in
+/example/TrilinosSolversUnitTest
+
+Would anyone know why I get the error messages below?. I am using the 
+intel fortran compiler.
+
+Thanks,
+Sarah
+
+
+(.text+0x20): undefined reference to `main'
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to 
+`__intel_new_proc_init'
+TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to 
+`for_set_reentrancy'
+TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3e6): undefined reference to 
+`sparse_trilinos_mp_trilinos_solver_preprocess_'
+TrilinosSolversUnitTest.F90:(.text+0x3fc): undefined reference to 
+`sparse_trilinos_mp_trilinos_solve_'
+TrilinosSolversUnitTest.F90:(.text+0x408): undefined reference to 
+`sparse_trilinos_mp_trilinos_solver_postprocess_'
+TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x4bc): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to 
+`for_stop_core'
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100726/2efdbaf9/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100726/2efdbaf9/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000299.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+	<LI>Next message: <A HREF="000297.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#296">[ date ]</a>
+              <a href="thread.html#296">[ thread ]</a>
+              <a href="subject.html#296">[ subject ]</a>
+              <a href="author.html#296">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

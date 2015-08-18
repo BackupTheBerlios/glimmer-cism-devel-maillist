@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] various branches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20various%20branches&In-Reply-To=%3C1254309351.25112.97.camel%40muick.geos.ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000087.html">
+   <LINK REL="Next"  HREF="000092.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] various branches</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20various%20branches&In-Reply-To=%3C1254309351.25112.97.camel%40muick.geos.ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] various branches">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Wed Sep 30 13:15:51 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000087.html">[Glimmer-cism-devel] [CF-metadata] Standard	names	for	Glaciology and ice-sheet	modeling
+</A></li>
+        <LI>Next message: <A HREF="000092.html">[Glimmer-cism-devel] various branches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#88">[ date ]</a>
+              <a href="thread.html#88">[ thread ]</a>
+              <a href="subject.html#88">[ subject ]</a>
+              <a href="author.html#88">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+We have three active development branches at the moment and we are
+likely to have more soon. So I thought I should suggest a couple of
+rules of how to use them. We have
+
+* glimmer-cism/glimmer/branches/RELEASE_1_0_0_BRANCH/
+  This is the current stable release branch we shouldn't do any
+development here and focus our efforts on getting glimmer-cism v2 out.
+
+* glimmer-cism/glimmer/branches/lanl
+  The higher order code branch and various useful improvements. This
+branch is under active development however, it is due to be branched
+soon for investigating parallelisation
+
+* glimmer-cism2/trunk
+  This is the new module which will become gc2. Currently it contains
+the same code as the current stable branch. The only main difference is
+that files have been redistributed over a number of directories. I would
+suggest to keep this branch as close to stable as possible so that
+merging things from the lanl branch is easier.
+
+* glimmer-cism2/branches/GCISM2-refactor-ICR
+  Ian has started the refactoring process. Files can get renamed,
+chopped up, etc. I suspect we will need to merge from
+glimmer-cism2/trunk occasionally. This will be quite painful (I know
+git/hg might help here) so we should keep this at a minimum and when we
+do document the revision number in the commit and change log.
+
+Steve has asked me to create a lanl branch for parallelisation work. So
+I have created a new top-level module called
+glimmer-cism-lanl
+We should copy glimmer-cism/glimmer/branches/lanl to
+glimmer-cism-lanl/trunk. Once that is done you will need to rebase your
+repo [1] to point to the new location and
+glimmer-cism/glimmer/branches/lanl will become read-only. We can then
+create the branch for the parallelisation work.
+Steve et al. can you let me know when a convinient time is to do the
+copying? 
+
+Cheers
+magi
+
+[1] <A HREF="http://svnbook.red-bean.com/en/1.1/ch04s05.html">http://svnbook.red-bean.com/en/1.1/ch04s05.html</A>
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000087.html">[Glimmer-cism-devel] [CF-metadata] Standard	names	for	Glaciology and ice-sheet	modeling
+</A></li>
+	<LI>Next message: <A HREF="000092.html">[Glimmer-cism-devel] various branches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#88">[ date ]</a>
+              <a href="thread.html#88">[ thread ]</a>
+              <a href="subject.html#88">[ subject ]</a>
+              <a href="author.html#88">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Problem with gfortran and iargc
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Problem%20with%20gfortran%20and%20iargc&In-Reply-To=%3C1317758872.19322.11.camel%40dirk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000479.html">
+   <LINK REL="Next"  HREF="000481.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Problem with gfortran and iargc</H1>
+    <B>Bob Fischer</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Problem%20with%20gfortran%20and%20iargc&In-Reply-To=%3C1317758872.19322.11.camel%40dirk%3E"
+       TITLE="[Glimmer-cism-devel] Problem with gfortran and iargc">rpf2116 at columbia.edu
+       </A><BR>
+    <I>Tue Oct  4 22:07:40 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000479.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+        <LI>Next message: <A HREF="000481.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#480">[ date ]</a>
+              <a href="thread.html#480">[ thread ]</a>
+              <a href="subject.html#480">[ subject ]</a>
+              <a href="author.html#480">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, 2011-10-04 at 13:49 -0600, Florence Colleoni wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> 
+</I>&gt;<i> I just downloaded the glimmer-cism2 trunk from the CISM repository at
+</I>&gt;<i> NCAR following William suggestion
+</I>&gt;<i> since I need some of the functions of this version.
+</I>&gt;<i> 
+</I>&gt;<i> 1- When I try to compile it on a linux computer, with gfortran, I have
+</I>&gt;<i> the same
+</I>&gt;<i> error about iargc than Bob has.
+</I>&gt;<i> 
+</I>&gt;<i> 2- however, if I compile it on my macbook pro, and if I had the option
+</I>&gt;<i> ffree-line-length-none,
+</I>&gt;<i> the compilation is ok.
+</I>
+Does the -ffree-line-length-none trick not work on Linux?  Which version
+of gfortran are you using on Linux, and on MacBook?
+
+If I remember right... I couldn't get -ffree-line-length-none working on
+my Linux (Fedora 15, gfortran 4.6.0).  I &quot;fixed&quot; the problem via sed,
+which should at least get you along:
+
+sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line-length-none/'
+`find . -name Makefile`
+
+&gt;<i> But now I am facing another problem which I didn't have with the
+</I>&gt;<i> glimmer-cism2 trunk on Berlios.
+</I>&gt;<i> When I try executing the binaries (simple_glide etc...), I got this
+</I>&gt;<i> error with Netcdf:
+</I>&gt;<i> 
+</I>&gt;<i> dyld: Symbol not found: _ncopts
+</I>&gt;<i>     Referenced from: /usr/local/lib/libnetcdff.5.dylib
+</I>&gt;<i>     Expected in: dynamic lookup
+</I>&gt;<i> 
+</I>&gt;<i> Trace/BPT trap
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> What does that mean?
+</I>
+Looks like you're running on a Mac.  The symbol _ncopts is apparently
+defined in libnetcdf, and used in libnetcdff.  If it compiled correctly
+but then didn't run, it looks to me like you're using a shared library
+version of NetCDF.  My best guess is that libnetcdf is somehow not being
+found or loaded at runtime.
+
+To see for sure what dynamic libraries are loaded, try:
+     ldd &lt;my-binary-name&gt;
+
+-- Bob
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000479.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+	<LI>Next message: <A HREF="000481.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#480">[ date ]</a>
+              <a href="thread.html#480">[ thread ]</a>
+              <a href="subject.html#480">[ subject ]</a>
+              <a href="author.html#480">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

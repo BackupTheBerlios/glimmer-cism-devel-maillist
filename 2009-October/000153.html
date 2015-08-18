@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] memory management macros
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20memory%20management%20macros&In-Reply-To=%3C4AE981CB.6000001%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000149.html">
+   <LINK REL="Next"  HREF="000142.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] memory management macros</H1>
+    <B>tony payne</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20memory%20management%20macros&In-Reply-To=%3C4AE981CB.6000001%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] memory management macros">a.j.payne at bristol.ac.uk
+       </A><BR>
+    <I>Thu Oct 29 12:51:39 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000149.html">[Glimmer-cism-devel] memory management macros
+</A></li>
+        <LI>Next message: <A HREF="000142.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#153">[ date ]</a>
+              <a href="thread.html#153">[ thread ]</a>
+              <a href="subject.html#153">[ subject ]</a>
+              <a href="author.html#153">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi
+
+i am with ian on this.  i would like to keep as clear and as simple as 
+possible to read.
+
+tony
+
+Ian Rutt wrote:
+&gt;<i> Hi Magi,
+</I>&gt;<i> 
+</I>&gt;<i> Thanks for these. I must admit that I'm a bit ambivalent about them, 
+</I>&gt;<i> though, for several reasons:
+</I>&gt;<i> 
+</I>&gt;<i> 1) The preprocessor isn't part of the fortran standard. Although it's 
+</I>&gt;<i> safe to assume that simple stuff (macro constants, conditional 
+</I>&gt;<i> compilation and includes) is always going to be available (or work 
+</I>&gt;<i> consistently), I'm more nervous about the more complex stuff. It depends 
+</I>&gt;<i> on how standards-compliant we need to be.
+</I>&gt;<i> 
+</I>&gt;<i> 2) Although I see the point of making our allocation and deallocation 
+</I>&gt;<i> error-checked wherever it occurs, the programmer needs to do as much 
+</I>&gt;<i> extra effort to use the macros as he/she would have to do to just add 
+</I>&gt;<i> the error checking manually, with the disadvantage that the detail is 
+</I>&gt;<i> hidden in the macro.
+</I>&gt;<i> 
+</I>&gt;<i> 3) It makes the code more opaque. It's not obvious reading the code why 
+</I>&gt;<i> the variable merr needs to be declared, or the error handling functions 
+</I>&gt;<i> included. Someone unfamiliar with the code needs to go hunting round the 
+</I>&gt;<i>   to find out the answers to those questions
+</I>&gt;<i> 
+</I>&gt;<i> In short, I'm not convinced the advantages outweigh the extra complexity 
+</I>&gt;<i> and opacity.
+</I>&gt;<i> 
+</I>&gt;<i> But, others may disagree. Again, this is an issue worth discussing.
+</I>&gt;<i> 
+</I>&gt;<i> Cheers,
+</I>&gt;<i> 
+</I>&gt;<i> Ian
+</I>&gt;<i> 
+</I>&gt;<i> Dr Ian Rutt
+</I>&gt;<i> School of the Environment and Society
+</I>&gt;<i> Swansea University
+</I>&gt;<i> Singleton Park
+</I>&gt;<i> Swansea
+</I>&gt;<i> SA2 8PP
+</I>&gt;<i> Tel. (01792) 602685
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Magnus Hagdorn wrote:
+</I>&gt;&gt;<i> Hi all,
+</I>&gt;&gt;<i> I have just committed a set of new preprocessor macros to the
+</I>&gt;&gt;<i> refactoring branch. These macros should get used whereever memory is
+</I>&gt;&gt;<i> allocated/deallocated. They macros include procedures which check the
+</I>&gt;&gt;<i> error state of allocate/deallocate intrinsic.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I have used them for vertCoord_type. An example:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> !&gt; example of how the glimmer memory management routines are used
+</I>&gt;&gt;<i> !! \author Magnus Hagdorn
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ! to start with the preprocessor file containing the memory management
+</I>&gt;&gt;<i> ! macros needs to be loaded
+</I>&gt;&gt;<i> #include &quot;glimmer_memory.inc&quot;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> program handlememory
+</I>&gt;&gt;<i>   ! load the module containing the logging routines
+</I>&gt;&gt;<i>   use glimmer_log, only : glimmer_allocErr, glimmer_deallocErr
+</I>&gt;&gt;<i>   implicit none
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   ! an example allocatable array
+</I>&gt;&gt;<i>   real, dimension(:), allocatable :: a
+</I>&gt;&gt;<i>   ! an example pointer
+</I>&gt;&gt;<i>   real, dimension(:,:), pointer :: p
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   ! need to define the flag which records the status
+</I>&gt;&gt;<i>   integer merr
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   ! allocate a 1D array of size 10
+</I>&gt;&gt;<i>   GLIMMER_ALLOC1D(a,10)
+</I>&gt;&gt;<i>   ! allocate a 2D array of shape (/10,2/)
+</I>&gt;&gt;<i>   GLIMMER_ALLOC2D(p,10,2)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>   ! and deallocate them again
+</I>&gt;&gt;<i>   GLIMMER_DEALLOC(a)
+</I>&gt;&gt;<i>   GLIMMER_DEALLOC(p)
+</I>&gt;&gt;<i> end program handlememory
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Similar macros for 3D and 4D arrays are available. Higher dimensional
+</I>&gt;&gt;<i> ones are easy to add.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cheers
+</I>&gt;&gt;<i> magi
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+-- 
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000149.html">[Glimmer-cism-devel] memory management macros
+</A></li>
+	<LI>Next message: <A HREF="000142.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#153">[ date ]</a>
+              <a href="thread.html#153">[ thread ]</a>
+              <a href="subject.html#153">[ subject ]</a>
+              <a href="author.html#153">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

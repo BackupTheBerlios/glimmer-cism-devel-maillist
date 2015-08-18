@@ -1,0 +1,787 @@
+From sprice at lanl.gov  Tue Nov  3 05:28:09 2009
+From: sprice at lanl.gov (Stephen Price)
+Date: Mon, 02 Nov 2009 21:28:09 -0700
+Subject: [Glimmer-cism-devel] Thickness solver refactoring
+In-Reply-To: <4AE97ED6.4070709@bristol.ac.uk>
+References: <4AE86962.1050300@swansea.ac.uk> <4AE97ED6.4070709@bristol.ac.uk>
+Message-ID: <4AEFB159.4040208@lanl.gov>
+
+
+Apologies for the lateness in replying to this one.
+
+Just a quick reminder that there is also a 1st order upwinding scheme 
+that I put together for the summer school. It is currently in it's own 
+module in the same way that inc. remapping is ... and should be trivial 
+to move around. The source is in "fo_upwind_avect".
+
+Steve
+
+> and returning either thickness or surface (or both).  in a similar vein 
+> in thickness all of the velocity routines shpould be in the same module.
+> 
+> likely thickness solvers -
+> incremental remapping
+> piecewise parabolic
+> simple explicit euler
+> leapfrog etc
+> linear diffusion etc
+> bueler scheme
+
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Sat Nov  7 17:26:05 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Sat, 7 Nov 2009 16:26:05 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <4AE981CB.6000001@bristol.ac.uk>
+References: <1256741607.6328.73.camel@hog.marsupium.org>
+	<4AE85EF0.1050907@swansea.ac.uk> <4AE981CB.6000001@bristol.ac.uk>
+Message-ID: <B34BEEC4-DF9F-4CB4-97DC-2D8DB137BAE8@swansea.ac.uk>
+
+
+Hi All,
+
+Well, I actually changed my mind - I was persuaded by Magi's  
+arguments...
+
+One comment, though - the macros presently only work for code in  
+libglimmer. The build system isn't set up to find the include file  
+from other parts of the tree.
+
+Best,
+
+Ian
+
+On 29 Oct 2009, at 11:51, tony payne wrote:
+
+> hi
+>
+> i am with ian on this.  i would like to keep as clear and as simple  
+> as possible to read.
+>
+> tony
+>
+> Ian Rutt wrote:
+>> Hi Magi,
+>> Thanks for these. I must admit that I'm a bit ambivalent about  
+>> them, though, for several reasons:
+>> 1) The preprocessor isn't part of the fortran standard. Although  
+>> it's safe to assume that simple stuff (macro constants, conditional  
+>> compilation and includes) is always going to be available (or work  
+>> consistently), I'm more nervous about the more complex stuff. It  
+>> depends on how standards-compliant we need to be.
+>> 2) Although I see the point of making our allocation and  
+>> deallocation error-checked wherever it occurs, the programmer needs  
+>> to do as much extra effort to use the macros as he/she would have  
+>> to do to just add the error checking manually, with the  
+>> disadvantage that the detail is hidden in the macro.
+>> 3) It makes the code more opaque. It's not obvious reading the code  
+>> why the variable merr needs to be declared, or the error handling  
+>> functions included. Someone unfamiliar with the code needs to go  
+>> hunting round the   to find out the answers to those questions
+>> In short, I'm not convinced the advantages outweigh the extra  
+>> complexity and opacity.
+>> But, others may disagree. Again, this is an issue worth discussing.
+>> Cheers,
+>> Ian
+>> Dr Ian Rutt
+>> School of the Environment and Society
+>> Swansea University
+>> Singleton Park
+>> Swansea
+>> SA2 8PP
+>> Tel. (01792) 602685
+>> i.c.rutt at swansea.ac.uk
+>> Magnus Hagdorn wrote:
+>>> Hi all,
+>>> I have just committed a set of new preprocessor macros to the
+>>> refactoring branch. These macros should get used whereever memory is
+>>> allocated/deallocated. They macros include procedures which check  
+>>> the
+>>> error state of allocate/deallocate intrinsic.
+>>>
+>>> I have used them for vertCoord_type. An example:
+>>>
+>>> !> example of how the glimmer memory management routines are used
+>>> !! \author Magnus Hagdorn
+>>>
+>>> ! to start with the preprocessor file containing the memory  
+>>> management
+>>> ! macros needs to be loaded
+>>> #include "glimmer_memory.inc"
+>>>
+>>> program handlememory
+>>>  ! load the module containing the logging routines
+>>>  use glimmer_log, only : glimmer_allocErr, glimmer_deallocErr
+>>>  implicit none
+>>>
+>>>  ! an example allocatable array
+>>>  real, dimension(:), allocatable :: a
+>>>  ! an example pointer
+>>>  real, dimension(:,:), pointer :: p
+>>>
+>>>  ! need to define the flag which records the status
+>>>  integer merr
+>>>
+>>>  ! allocate a 1D array of size 10
+>>>  GLIMMER_ALLOC1D(a,10)
+>>>  ! allocate a 2D array of shape (/10,2/)
+>>>  GLIMMER_ALLOC2D(p,10,2)
+>>>
+>>>  ! and deallocate them again
+>>>  GLIMMER_DEALLOC(a)
+>>>  GLIMMER_DEALLOC(p)
+>>> end program handlememory
+>>>
+>>>
+>>> Similar macros for 3D and 4D arrays are available. Higher  
+>>> dimensional
+>>> ones are easy to add.
+>>>
+>>> Cheers
+>>> magi
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> -- 
+> ------------------------<>---------------------------
+> Tony Payne
+> School of Geographical Sciences,
+> University of Bristol,
+> Bristol BS8 1SS, UK.
+> Telephone:      +117 331 4156
+> Fax:            +117 928 7878
+> Email:          A.J.Payne at bristol.ac.uk
+> ------------------------<>---------------------------
+
+
+
+From I.C.Rutt at swansea.ac.uk  Sat Nov  7 17:47:28 2009
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Sat, 7 Nov 2009 16:47:28 +0000
+Subject: [Glimmer-cism-devel] more refactoring
+In-Reply-To: <4ADCAAF1.5040600@59A2.org>
+References: <1255605200.20097.16.camel@muick.geos.ed.ac.uk>	<4ADC2D08.2080201@swansea.ac.uk>
+	<1255943892.2209.7.camel@swine> <4ADCAAF1.5040600@59A2.org>
+Message-ID: <6A28A60F-C846-46CF-BDBA-6F4011AB2E64@swansea.ac.uk>
+
+
+Hi Jed (and all),
+
+I meant to read and reply to this when you sent it, but other things  
+intervened. Thanks very much for sending your thoughts. What you  
+suggest is I think what both Magi and I would like to work towards,  
+and we may be able to try it out once the present round of refactoring  
+is finished (though I guess I would probably try it in F2003... ;) ).  
+I'll keep you posted.
+
+Best,
+
+Ian
+
+On 19 Oct 2009, at 19:07, Jed Brown wrote:
+
+> Magnus Hagdorn wrote:
+>> On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+>>> * It makes sense to work towards making the API for DCs in the same
+>>> 'class' (i.e. all temperature solvers or all thickness solvers)
+>>> identical, so I would advocate using a single derived type for each
+>>> class. This means that the derived type will need to be extended for
+>>> each new DC, but that would reduce the changes which need to be made
+>>> elsewhere when a new DC is added. Of course, if we were using F2003,
+>>> we'd define a base class with some relevant virtual functions, and
+>>> derive the DC classes from that...
+>>>
+>> I was thinking to have one derived type per implementation otherwise
+>> different implementations are dependent on each other. In glide we  
+>> could
+>> have a wrapper DC which supports all know implementation similar to  
+>> how
+>> we deal with different projections:
+>> * derived types with pointers to individual supported DC derived  
+>> types
+>> and an ID for selecting the desired implementation
+>> * a time step procedures which consists of a select case structure to
+>> select desired implementation
+>
+> This relates to plugins, as we were discussing them long ago.  I never
+> follow up with an example, but here is the idea (in C, apparently we
+> could do something similar with F2003; note that this chunk being in C
+> makes no assumption on the language it is being called from or the
+> language that implementations are written in).  Skip to the line of  
+> hash
+> marks (##) for the benefits of this design.
+>
+>
+> The public interface is something like
+>
+> cism.h:
+>
+>  typedef _p_DC *DC;                     /* opaque handle */
+>  int DCCreate(MPI_Comm,DC *newdc);      /* allocate */
+>  int DCSetType(DC,const char *name);    /*
+>  int DCLoad(DC,const char *filename);   /* loads grid */
+>  int DCStep(DC,double dt,Vec x,Vec y);  /* take a time step */
+>  int DCDestroy(DC);                     /* deallocate */
+>
+>  /* Associate a string with an implementation */
+>  int DCRegister(const char*,int (*)(DC));
+>
+>  /* If command-line options are stored globally, you can have this
+>   * so that the type and implementation-specific options are easy
+>   * to set at runtime
+>   */
+>  int DCSetFromOptions(DC);
+>
+>  /* To support implicit integration, you could include */
+>  int DCResidual(DC,double dt,Vec x,Vec xdot,Vec res);
+>
+>
+> The climate model only sees the interface above.  The implementation
+> looks like
+>
+> cismimpl.h:
+>
+>  #include <cism.h>
+>
+>  struct _DCOps {
+>    int (*setfromoptions)(DC);
+>    int (*load)(DC,const char*);
+>    int (*step)(DC,double,Vec,Vec);
+>    int (*residual)(DC,double,Vec,Vec,Vec);
+>    int (*destroy)(DC);
+>  };
+>  struct _p_DC {
+>    struct _DCOp *ops;
+>    void *data;              /* implementation-specific data */
+>    MPI_Comm comm;
+>    /* anything else common to all implementations goes here */
+>  };
+>
+>
+> I assume that we allocate a different ops pointer for every instance.
+> This is more dynamic than a C++ delegator since we can override  
+> methods
+> on a per-instance rather than per-class basis (this capability,
+> sometimes known as monkey patching, should be used sparingly).  The
+> implementation of the interface (cism.h) looks something like
+>
+> cism.c:
+>
+>  #include <cismimpl.h>
+>
+>  static int DCPackageInitialized = 0;
+>  static FList DCList = 0;  /* list of (string,function) pairs */
+>
+>  /* function declarations for the implementations that are known,
+>   * various physics (shallow ice, shallow shelf, hydrostatic, stokes)
+>   * from various sources */
+>  extern int DCCreate_GlimmerSIA(DC);
+>  extern int DCCreate_GlimmerHS(DC);
+>  extern int DCCreate_PismSSA(DC);
+>  extern int DCCreate_CoolStokes(DC);
+>
+>  static int DCInitializePackage() {
+>    DCRegister("glimmersia",DCCreate_GlimmerSIA);
+>    DCRegister("glimmerhs", DCCreate_GlimmerHS);
+>    DCRegister("pismssa",   DCCreate_PismSSA);
+>    DCRegister("coolstokes",DCCreate_CoolStokes);
+>    DCPackageInitialized = 1;
+>    return 0;
+>  }
+>
+>  int DCCreate(MPI_Comm comm,DC *newdc) {
+>    DC dc;
+>
+>    /* Initialize the package only once */
+>    if (!DCPackageInitialized) DCInitializePackage();
+>    dc = calloc(sizeof(*dc));
+>    dc->ops = calloc(sizeof(*dc->ops));
+>    dc->comm = comm;
+>    /* any other generic stuff */
+>    *newdc = dc;
+>    return 0;
+>  }
+>
+>  int DCRegister(const char *name,int (*f)(DC)) {
+>    /* Suppose we have a generic data structure for this list */
+>    return FListAdd(&DCList,name,(void(*)(void))f);
+>  }
+>
+>  int DCSetType(DC dc,const char *name) {
+>    int (*f)(DC);
+>    FListGet(DCList,name,(void(**)(void))&f);
+>    if (!f) ERROR(1,"requested an implementation that has not been  
+> registered");
+>    if (dc->data) {dc->ops->destroy(dc);} /* destroy an old  
+> implementation */
+>    return f(dc);                         /* allocate space for the  
+> new one */
+>  }
+>
+>  int DCDestroy(DC dc) {
+>    dc->ops->destroy(dc);
+>    free(dc->ops);
+>    free(dc);
+>    return 0;
+>  }
+>
+>  /* delegate for the other functions, just trivial wrappers given  
+> here */
+>  int DCSetFromOptions(DC dc) {
+>    /* ... consult the runtime options and possibly change the type */
+>    /* ... other generic stuff */
+>    return dc->ops->setfromoptions(DC); /* implementation-specific  
+> options */
+>  }
+>  int DCLoad(DC dc,const char *filename) {
+>    return dc->ops->load(dc,filename);
+>  }
+>  int DCStep(DC dc,double dt,Vec x,Vec y) {
+>    return dc->ops->step(dc,dt,x,y);
+>  }
+>  int DCResidual(DC dc,double dt,Vec x,Vec xdot,Vec res) {
+>    return dc->ops->residual(dc,dt,x,xdot,res);
+>  }
+>
+>
+> Implementations look like:
+>
+> glimmerhs.c:
+>
+>  #include <cismimpl.h>
+>
+>  struct DC_GlimmerHS {
+>    /* whatever private data is needed by the hydrostatic  
+> implementation,
+>     * it could just be a pointer to the Fortran derived data types */
+>  };
+>
+>  /* These can be implemented in an language */
+>  extern int DCSetFromOptions_GlimmerHS(DC);
+>  extern int DCLoad_GlimmerHS(DC,const char*);
+>  extern int DCStep_GlimmerHS(DC,double,Vec,Vec);
+>  extern int DCResidual_GlimmerHS(DC,double,Vec,Vec,Vec);
+>  extern int DCDestroy_GlimmerHS(DC);
+>
+>  int DCCreate_GlimmerHS(DC dc) {
+>    struct DC_GlimmerHS *ghs;
+>
+>    dc->ops->setfromoptions = DCSetFromOptions_GlimmerHS;
+>    dc->ops->load           = DCLoad_GlimmerHS;
+>    dc->ops->step           = DCStep_GlimmerHS;
+>    dc->ops->residual       = DCResidual_GlimmerHS;
+>    dc->ops->destroy        = DCDestroy_GlimmerHS;
+>
+>    ghs = calloc(sizeof(*ghs));
+>    dc->data = ghs;
+>
+>    /* set defaults or call fortran to set up some private data  
+> structures */
+>
+>    return 0;
+>  }
+>
+>
+>
+>
+> ########################################################################
+>
+> What does all of this achieve?
+>
+> * Climate models all see the same interface with no knowledge of what
+> physics is going on underneath.
+>
+> * An arbitrary number of DCs can be in use at any time.  Their types  
+> are
+> completely independent.
+>
+> * Choice of implementation occurs at runtime.
+>
+> * If you have a new implementation, you just have to get  
+> DCRegister(..)
+> called before DCSetType() and it will be first-class (and selectable  
+> at
+> runtime exactly like the "blessed" implementations that are registered
+> by default).
+>
+> * With a variant of DCRegister(), we can distribute the implementation
+> as a binary and register it via dlopen/dlsym in which case nothing  
+> needs
+> to be recompiled or relinked.  (This is the strong definition of
+> plugin.)
+>
+> * Implementations can be written in any language.
+>
+> * The model can be called from any language.
+>
+> * Implementations can share code at will (e.g. between Glimmer
+> components for different physics) but this is not visible at the top
+> level.
+>
+> * Users can extend existing implementations in a very lightweight
+> per-instance way via "monkey-patching" or by creating their own
+> first-class implementations that reuses code from the other
+> implementation.
+>
+> * The type of a DC can be changed after it has been used without
+> destroying it's connections to other components.  This is a benefit of
+> the delegator (aka. pimpl) pattern.  This would be useful to allow
+> *external* control to use one model for a while (e.g. spinup) and then
+> switch to a different model.  If all climate components were written
+> this way we could do some interesting simulations with very little
+> effort.  For example, you could start with reconstructions or trivial
+> models for atmosphere, ocean, and land while using a SIA ice model.   
+> At
+> -4k years, you could switch to an implicit ocean model (taking large
+> time steps), then turn on a hydrostatic ice model at -1k years, and
+> activate an atmosphere model at some time close to present along with
+> changing to an ocean model with short time steps and more complete
+> physics, and switching to a Stokes model for ice.  All this would
+> require the user to provide one callback to the coupler (whatever has
+> top-level control) that would implement the logic of when to switch,
+> switching would not use the file system.
+>
+>
+>
+> I realize this sort of thing is radical and may never happen, but I
+> think it is a noble long-term goal for the ice sheet modeling  
+> community.
+> It would definitely benefit the various ASCR efforts.
+>
+>
+> Jed
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Sun Nov  8 14:20:16 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Sun, 08 Nov 2009 13:20:16 +0000
+Subject: [Glimmer-cism-devel] memory management macros
+In-Reply-To: <B34BEEC4-DF9F-4CB4-97DC-2D8DB137BAE8@swansea.ac.uk>
+References: <1256741607.6328.73.camel@hog.marsupium.org>
+	<4AE85EF0.1050907@swansea.ac.uk> <4AE981CB.6000001@bristol.ac.uk>
+	<B34BEEC4-DF9F-4CB4-97DC-2D8DB137BAE8@swansea.ac.uk>
+Message-ID: <1257686416.2053.0.camel@swine>
+
+On Sat, 2009-11-07 at 16:26 +0000, Ian Rutt wrote:
+> One comment, though - the macros presently only work for code in  
+> libglimmer. The build system isn't set up to find the include file  
+> from other parts of the tree.
+> 
+
+I think it should work provided the module path flag is the same as the
+include path flag which is true for gfortran and intel. i'll fix that...
+cheers
+magi
+
+
+
+From lipscomb at lanl.gov  Tue Nov 24 17:04:00 2009
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Tue, 24 Nov 2009 09:04:00 -0700
+Subject: [Glimmer-cism-devel] Glimmer-CISM data structure
+In-Reply-To: <1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+	<4AE96EA3.1080104@swansea.ac.uk>
+	<1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+Message-ID: <93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+
+
+Hi all,
+
+This is a general question about data structures for the software  
+engineers on the development list.
+
+In the current code, 3D arrays such as velocity and temperature are  
+indexed as (k,i,j).  That is, the vertical 'k' index is first, so that  
+vertical neighbors are closer in memory than horizontal neighbors.   
+For future developments, including full-Stokes and higher-order  
+solvers, are there compelling reasons to maintain the (k,i,j) data  
+structure?  Or should we consider switching to (i,j,k), so that the  
+'k' index is on the outside?  Our grids typically have horizontal  
+dimensions of order 10^3 to 10^4 and vertical dimensions of order 10.
+
+Thanks in advance for your input.
+
+Bill
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Nov 24 17:13:20 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 24 Nov 2009 16:13:20 +0000
+Subject: [Glimmer-cism-devel] Glimmer-CISM data structure
+In-Reply-To: <93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+	<4AE96EA3.1080104@swansea.ac.uk>
+	<1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+	<93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+Message-ID: <1259079200.7228.109.camel@muick.geos.ed.ac.uk>
+
+
+On Tue, 2009-11-24 at 09:04 -0700, William Lipscomb wrote:
+> In the current code, 3D arrays such as velocity and temperature are  
+> indexed as (k,i,j).  That is, the vertical 'k' index is first, so
+> that  
+> vertical neighbors are closer in memory than horizontal neighbors.   
+> For future developments, including full-Stokes and higher-order  
+> solvers, are there compelling reasons to maintain the (k,i,j) data  
+> structure?  Or should we consider switching to (i,j,k), so that the  
+> 'k' index is on the outside?  Our grids typically have horizontal  
+> dimensions of order 10^3 to 10^4 and vertical dimensions of order 10.
+
+Currently, the thermal part is essentially 1D (diffusion/advection is
+first solved vertically and then horizontal advection is added by
+iterating over vertical solutions). So this would lead to huge strides
+for the temperature code. Presumably, you could instruct the compiler to
+unroll the vertical loops, on the other hand, I am sure that we will end
+up with more vertical layers. 
+
+Another option might be to have mixed index ordering schemes - one
+(k,i,j) for the thermal and another one (i,j,k) for the kinematic part. 
+
+Cheers
+magi
+
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From worleyph at ornl.gov  Tue Nov 24 17:36:11 2009
+From: worleyph at ornl.gov (Patrick Worley)
+Date: Tue, 24 Nov 2009 11:36:11 -0500
+Subject: [Glimmer-cism-devel] Glimmer-CISM data structure
+In-Reply-To: <93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+	<4AE96EA3.1080104@swansea.ac.uk>
+	<1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+	<93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+Message-ID: <4B0C0B7B.9020303@ornl.gov>
+
+John Michalakes and I both did extensive studies of this (along with 
+many other) some years back, John with WRF and I with CAM physics. We 
+came up with completely different answers, so it might be worthwhile 
+doing a few empirical studies. I'll look at this is you like, but my 
+initial testing indicated that the solver performance dominated 
+everything else, so was going to wait until the choice of solvers 
+settled down. One twist to keep in mind is vectorization. The current 
+vector-like instructions in the target architectures should be fine with 
+vector lengths of 10, but that may not continue forever. For the CAM 
+physics, I factored one of the horizontal dimensions into two parts - 
+put one part as the inner index and left the rest as a later index. The 
+inner dimension was "declared" at compile time (compilers do a better 
+job if this is known), but the actual lengths were determined at 
+runtime. With this approach we can tune for the target architecture and 
+problem size. I do not know the impact of interfacing this type of data 
+structure with the solvers though. (For CAM physics, the indices are 
+(i1,k,i2) where i1*i2 = i*j, that is we combined the i and j into a 
+single index, then split this. I'm not suggesting that here - just 
+wanted to clarify what was done. CAM FV and spectral dynamics use (i,k,j).)
+
+Pat
+
+William Lipscomb wrote:
+> Hi all,
+>
+> This is a general question about data structures for the software  
+> engineers on the development list.
+>
+> In the current code, 3D arrays such as velocity and temperature are  
+> indexed as (k,i,j).  That is, the vertical 'k' index is first, so that  
+> vertical neighbors are closer in memory than horizontal neighbors.   
+> For future developments, including full-Stokes and higher-order  
+> solvers, are there compelling reasons to maintain the (k,i,j) data  
+> structure?  Or should we consider switching to (i,j,k), so that the  
+> 'k' index is on the outside?  Our grids typically have horizontal  
+> dimensions of order 10^3 to 10^4 and vertical dimensions of order 10.
+>
+> Thanks in advance for your input.
+>
+> Bill
+>
+> *******************************************************************************
+> William H. Lipscomb					E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory		Phone: (505) 667-0395
+> Group T-3, Mail Stop B216			Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *******************************************************************************
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From jed at 59A2.org  Tue Nov 24 17:47:21 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Tue, 24 Nov 2009 17:47:21 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM data structure
+In-Reply-To: <93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+	<4AE96EA3.1080104@swansea.ac.uk>
+	<1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+	<93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+Message-ID: <873a43zx7q.fsf@59A2.org>
+
+On Tue, 24 Nov 2009 09:04:00 -0700, William Lipscomb <lipscomb at lanl.gov> wrote:
+> 
+> In the current code, 3D arrays such as velocity and temperature are  
+> indexed as (k,i,j).  That is, the vertical 'k' index is first, so that  
+> vertical neighbors are closer in memory than horizontal neighbors.   
+> For future developments, including full-Stokes and higher-order  
+> solvers, are there compelling reasons to maintain the (k,i,j) data  
+> structure?  Or should we consider switching to (i,j,k), so that the  
+> 'k' index is on the outside?  Our grids typically have horizontal  
+> dimensions of order 10^3 to 10^4 and vertical dimensions of order 10.
+
+Definitely stick with (k,i,j) and structure the loops so that k is
+always the inner loop.  The most promising preconditioning candidate is
+to integrate residuals within columns and solve 2D systems in the map
+plane (this system is roughly equivalent to linearized SSA).  I'm
+starting to play with this for oceans, but it's a very similar process
+for ice.
+
+You can explain why this is a good ordering by applying the maxim
+
+  When the physics presents strong coupling between two points, those
+  points should be nearby in memory.
+
+(Okay, I made this up on the spot, but it's actually a very good
+guideline.)
+
+Also note that if you index as (k,i,j) you will have better cache reuse
+with
+
+  do j = ym,ym+ys
+    do i = xm,xm+xs
+      do k = 1,zs
+  
+than with
+
+  do i = xm,xm+xs
+    do j = ym,ym+ys
+      do k = 1,zs
+
+  
+Jed
+
+
+From jed at 59A2.org  Tue Nov 24 18:11:34 2009
+From: jed at 59A2.org (Jed Brown)
+Date: Tue, 24 Nov 2009 18:11:34 +0100
+Subject: [Glimmer-cism-devel] Glimmer-CISM data structure
+In-Reply-To: <4B0C0B7B.9020303@ornl.gov>
+References: <1256750961.6328.99.camel@hog.marsupium.org>
+	<4AE96EA3.1080104@swansea.ac.uk>
+	<1256817420.3667.6.camel@muick.geos.ed.ac.uk>
+	<93FE61A5-220B-4678-9ADD-A4AC5CA0F1A3@lanl.gov>
+	<4B0C0B7B.9020303@ornl.gov>
+Message-ID: <871vjnzw3d.fsf@59A2.org>
+
+On Tue, 24 Nov 2009 11:36:11 -0500, Patrick Worley <worleyph at ornl.gov> wrote:
+> John Michalakes and I both did extensive studies of this (along with 
+> many other) some years back, John with WRF and I with CAM physics. We 
+> came up with completely different answers, so it might be worthwhile 
+> doing a few empirical studies. I'll look at this is you like, but my 
+> initial testing indicated that the solver performance dominated 
+> everything else, so was going to wait until the choice of solvers 
+> settled down.
+
+> One twist to keep in mind is vectorization. The current vector-like
+> instructions in the target architectures should be fine with vector
+> lengths of 10, but that may not continue forever.
+
+Sure, but what architecture are we building this for?  GPUs are not much
+like the older vector machines, in terms of exotic architectures, it
+seems much more likely that you would want to run things there.
+
+> For the CAM physics, I factored one of the horizontal dimensions into
+> two parts - put one part as the inner index and left the rest as a
+> later index. The inner dimension was "declared" at compile time
+> (compilers do a better job if this is known), but the actual lengths
+> were determined at runtime. With this approach we can tune for the
+> target architecture and problem size.
+
+Ah yes, you are tiling to stay in L1.  To explain for others on the
+list, there are two reasons for these smaller inner loops.  The first is
+to keep the working set within L1 cache (32 to 64 kB), the other is to
+reduce the overhead of the loop increment by unrolling.  The first makes
+a big difference, and I can say with a fair amount of confidence that
+the latter makes very little difference (in any components related to
+the velocity solve) for ice because you have to evaluate the
+constitutive relation which involves exponentials and fractional powers.
+
+If the tile sizes cannot be chosen so that they decompose the domain
+uniformly, then you will occasionally have to work with tiles of
+different size.  If the former goal (staying in L1) is your only
+objective, then this doesn't cause any problems, but if you are trying
+to unroll inner loops then you have to do some fixup on the irregular
+tiles.
+
+> I do not know the impact of interfacing this type of data structure
+> with the solvers though. (For CAM physics, the indices are (i1,k,i2)
+> where i1*i2 = i*j, that is we combined the i and j into a single
+> index, then split this. I'm not suggesting that here - just wanted to
+> clarify what was done. CAM FV and spectral dynamics use (i,k,j).)
+
+Yes, this kind of ordering is better for solvers too, but I would be
+surprised if it matters when evaluating the physics (certainly not when
+the columns have 20+ points which is the case I'm familiar with).  With
+sparse matrix multiplication, L1 reuse is the central goal, even if you
+do everything right, you will get less than 10% of peak FPU throughput.
+As soon as there is a matrix involved, it is actually well worth the
+effort to compute an ordering of unknowns such as reverse Cuthill-McKee
+which reduces the bandwidth of the matrix [1], thus ensuring good cache
+reuse.
+
+This sort of ordering is rather complex to work with inside your
+physics, but the good news is that you can take advantage of these
+orderings (which are at least as good as the tiling that Pat describes)
+without changing your physics at all.  You simply create a "local to
+global mapping" (you need something like this in parallel anyway) such
+that you insert matrix entries in the ordering it will be using, and you
+compute physics with the local ordering (the naive (k,i,j)).
+
+
+[1] This has little to do with matrix factorization, low-bandwidth is
+NOT the objective of the orderings computed by direct solvers, in fact
+RCM would be a terrible ordering for this.
+
+
+Jed
+
+

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] tests dir vs. tests2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20tests%20dir%20vs.%20tests2&In-Reply-To=%3C4C88C5C1.2090009%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000341.html">
+   <LINK REL="Next"  HREF="000344.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] tests dir vs. tests2</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20tests%20dir%20vs.%20tests2&In-Reply-To=%3C4C88C5C1.2090009%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] tests dir vs. tests2">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Thu Sep  9 13:32:17 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000341.html">[Glimmer-cism-devel] tests dir vs. tests2
+</A></li>
+        <LI>Next message: <A HREF="000344.html">[Glimmer-cism-devel] tests dir vs. tests2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#342">[ date ]</a>
+              <a href="thread.html#342">[ thread ]</a>
+              <a href="subject.html#342">[ subject ]</a>
+              <a href="author.html#342">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus,
+Option 3 looks good to me, Cheers,
+Sarah
+
+Magnus Hagdorn wrote:
+&gt;<i> Sarah Shannon wrote:
+</I>&gt;&gt;<i> Hi Steve,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks for letting me know. I would have no problem with the 
+</I>&gt;&gt;<i> replacement you suggest. It looks like there is a peterman test in 
+</I>&gt;&gt;<i> &quot;test&quot; which is not in &quot;test2&quot;. We might want to copy that to the new 
+</I>&gt;&gt;<i> directory.
+</I>&gt;&gt;<i> Dividing the tests in SIA and HO tests would be a clear way to set up 
+</I>&gt;&gt;<i> the directory.  I am setting up an automatic EISMINT-1 and hump test 
+</I>&gt;&gt;<i> on the lanl trunk, to test the SIA and HO parts of the code. This 
+</I>&gt;&gt;<i> means, Ill be checking in extra configuration files to the test 
+</I>&gt;&gt;<i> directory, plus code to compare netCDF files and a test script. It 
+</I>&gt;&gt;<i> could be a good time restructure the directory. Perhaps having 
+</I>&gt;&gt;<i> subdirectories &quot;sia&quot;  &quot;ho&quot;   &quot;utils&quot; might be useful.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Do people have opinions about this?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> what about having them in the same directory, but using different 
+</I>&gt;<i> names for the configuration and output files?
+</I>&gt;<i> alternatively we could introduce a new level of directories and keep 
+</I>&gt;<i> the names, e.g.
+</I>&gt;<i> EISMINT-1/SIA
+</I>&gt;<i> EISMINT-1/HO
+</I>&gt;<i> etc
+</I>&gt;<i> this would have the benefit, that it would be easy to disable a 
+</I>&gt;<i> particular implementation test run.
+</I>&gt;<i>
+</I>&gt;<i> Option 3 is to have
+</I>&gt;<i> tests/SIA/EISMINT-1
+</I>&gt;<i>           ....
+</I>&gt;<i> tests/HO/EISMINT-1
+</I>&gt;<i>          ....
+</I>&gt;<i>
+</I>&gt;<i> in a way it doesn't matter so much as long as they are clearly 
+</I>&gt;<i> separated. Maybe option 3 is the best since disabling a particular 
+</I>&gt;<i> implementation is very straight forward.
+</I>&gt;<i>
+</I>&gt;<i> So, on reflection I'd go for Option 3
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100909/a0601f13/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100909/a0601f13/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000341.html">[Glimmer-cism-devel] tests dir vs. tests2
+</A></li>
+	<LI>Next message: <A HREF="000344.html">[Glimmer-cism-devel] tests dir vs. tests2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#342">[ date ]</a>
+              <a href="thread.html#342">[ thread ]</a>
+              <a href="subject.html#342">[ subject ]</a>
+              <a href="author.html#342">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

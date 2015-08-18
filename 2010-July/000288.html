@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] bootstrapping error on the parallel branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20bootstrapping%20error%20on%20the%20parallel%20branch&In-Reply-To=%3C02DBB0BF-CD1A-4FA1-8A68-DA5DACF5D0D8%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000287.html">
+   <LINK REL="Next"  HREF="000289.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] bootstrapping error on the parallel branch</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20bootstrapping%20error%20on%20the%20parallel%20branch&In-Reply-To=%3C02DBB0BF-CD1A-4FA1-8A68-DA5DACF5D0D8%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] bootstrapping error on the parallel branch">lipscomb at lanl.gov
+       </A><BR>
+    <I>Thu Jul 22 19:21:16 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000287.html">[Glimmer-cism-devel] Macs &amp; GNU tools
+</A></li>
+        <LI>Next message: <A HREF="000289.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#288">[ date ]</a>
+              <a href="thread.html#288">[ thread ]</a>
+              <a href="subject.html#288">[ subject ]</a>
+              <a href="author.html#288">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi,
+
+This is a question for those developing the glimmer-cism-lanl/parallel  
+branch.
+
+Today I did a fresh checkout of the parallel branch on LANL's coyote  
+machine, typed 'bootstrap', and got the error below.   Does anyone  
+know why this is happening and how to fix it?
+
+Thanks,
+
+Bill
+
+*******************************************************************************
+
+Checking if required version of automake is installed
+
+checking for autoconf &gt;= 2.54 ... yes (version 2.59)
+checking for automake &gt;= 1.9.6 ... yes (version 1.9.6)
+configure.in: installing `./install-sh'
+configure.in: installing `./missing'
+src/cpp/Makefile.am: installing `./depcomp'
+automake: CXXLD was already defined in condition TRILINOS, which is  
+included in condition TRUE ...
+src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+
+
+
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000287.html">[Glimmer-cism-devel] Macs &amp; GNU tools
+</A></li>
+	<LI>Next message: <A HREF="000289.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#288">[ date ]</a>
+              <a href="thread.html#288">[ thread ]</a>
+              <a href="subject.html#288">[ subject ]</a>
+              <a href="author.html#288">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

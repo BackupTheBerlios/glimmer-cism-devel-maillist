@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] memory management macros
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20memory%20management%20macros&In-Reply-To=%3C1256745444.6328.84.camel%40hog.marsupium.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000139.html">
+   <LINK REL="Next"  HREF="000144.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] memory management macros</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20memory%20management%20macros&In-Reply-To=%3C1256745444.6328.84.camel%40hog.marsupium.org%3E"
+       TITLE="[Glimmer-cism-devel] memory management macros">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Wed Oct 28 16:57:24 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000139.html">[Glimmer-cism-devel] memory management macros
+</A></li>
+        <LI>Next message: <A HREF="000144.html">[Glimmer-cism-devel] memory management macros
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#143">[ date ]</a>
+              <a href="thread.html#143">[ thread ]</a>
+              <a href="subject.html#143">[ subject ]</a>
+              <a href="author.html#143">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, 2009-10-28 at 15:10 +0000, Ian Rutt wrote:
+&gt;<i> Hi Magi,
+</I>&gt;<i> 
+</I>&gt;<i> Thanks for these. I must admit that I'm a bit ambivalent about them, 
+</I>&gt;<i> though, for several reasons:
+</I>&gt;<i> 
+</I>&gt;<i> 1) The preprocessor isn't part of the fortran standard. Although it's 
+</I>&gt;<i> safe to assume that simple stuff (macro constants, conditional 
+</I>&gt;<i> compilation and includes) is always going to be available (or work 
+</I>&gt;<i> consistently), I'm more nervous about the more complex stuff. It depends 
+</I>&gt;<i> on how standards-compliant we need to be.
+</I>&gt;<i> 
+</I>
+we are already relying on the preprocessor. AFAIK, Jesse has refactored
+hsum to use a preprocessor macro. Automake handles compilers that do not
+know about .F90 suffix and runs the preprocessor transparently. I have
+used something like this with a whole range of compilers (gfortran, PGI,
+SUN and IBM, I would anticipate that it's no prob with the Intel
+compiler) without problems.
+
+&gt;<i> 2) Although I see the point of making our allocation and deallocation 
+</I>&gt;<i> error-checked wherever it occurs, the programmer needs to do as much 
+</I>&gt;<i> extra effort to use the macros as he/she would have to do to just add 
+</I>&gt;<i> the error checking manually, with the disadvantage that the detail is 
+</I>&gt;<i> hidden in the macro.
+</I>&gt;<i> 
+</I>not really, it's three (one) lines of repetitive code less and it just
+happens.
+
+&gt;<i> 3) It makes the code more opaque. It's not obvious reading the code why 
+</I>&gt;<i> the variable merr needs to be declared, or the error handling functions 
+</I>&gt;<i> included. Someone unfamiliar with the code needs to go hunting round the 
+</I>&gt;<i>   to find out the answers to those questions
+</I>&gt;<i> 
+</I>
+we could unconditionally include some modules which would get rid of
+having to include the two procedures. we shouldn't hide merr.
+
+
+&gt;<i> In short, I'm not convinced the advantages outweigh the extra complexity 
+</I>&gt;<i> and opacity.
+</I>&gt;<i> 
+</I>
+it's a little extra complexity for having error checking everywhere. I
+think it is well worth it.
+
+magi
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000139.html">[Glimmer-cism-devel] memory management macros
+</A></li>
+	<LI>Next message: <A HREF="000144.html">[Glimmer-cism-devel] memory management macros
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#143">[ date ]</a>
+              <a href="thread.html#143">[ thread ]</a>
+              <a href="subject.html#143">[ subject ]</a>
+              <a href="author.html#143">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

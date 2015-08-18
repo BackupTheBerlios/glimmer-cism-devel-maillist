@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] trilinos
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos&In-Reply-To=%3CAANLkTi%3DiQu1pQW9TmsbMwBHcEqB4UtrONVsefGsQt0cZ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000442.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] trilinos</H1>
+    <B>Joshua Campbell</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos&In-Reply-To=%3CAANLkTi%3DiQu1pQW9TmsbMwBHcEqB4UtrONVsefGsQt0cZ%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] trilinos">jccampbell.umt at gmail.com
+       </A><BR>
+    <I>Thu Mar 24 02:31:43 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000442.html">[Glimmer-cism-devel] trilinos
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#443">[ date ]</a>
+              <a href="thread.html#443">[ thread ]</a>
+              <a href="subject.html#443">[ subject ]</a>
+              <a href="author.html#443">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Trilinos works in the &quot;parallel&quot; branch but not the &quot;merged&quot; branch
+(glimmer-cism2/branches/glimmer-cism-lanl) which will become the released
+branch yet.
+
+On Wed, Mar 23, 2011 at 8:45 AM, Salinger, Andrew &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">agsalin at sandia.gov</A>&gt;wrote:
+
+&gt;<i>
+</I>&gt;<i> Sarah,
+</I>&gt;<i>
+</I>&gt;<i> I'm guessing from the attached output that the
+</I>&gt;<i> Trilinos code is hooked up fine, but that the
+</I>&gt;<i> linear solver is just not converging for this
+</I>&gt;<i> problem with these settings.
+</I>&gt;<i>
+</I>&gt;<i> As the problems move to more processors, and get
+</I>&gt;<i> more ill-conditioned from the model description, the
+</I>&gt;<i> linear systems get more difficult to solve. There
+</I>&gt;<i> are parameters in the input file strat1.xml that
+</I>&gt;<i> can increase the robustness (and expense) of the
+</I>&gt;<i> preconditioner. Unfortunately, it is hard to have
+</I>&gt;<i> one setting that works across the board, and that
+</I>&gt;<i> is not too slow for smaller-serial runs.
+</I>&gt;<i>
+</I>&gt;<i> So, as an attempt to fix the problem, edit the
+</I>&gt;<i> strat1.xml file and increase the Overlap and
+</I>&gt;<i> level-of-fill flags incrementally, separately
+</I>&gt;<i> and/or together (from 0 to 1 to 2). (These
+</I>&gt;<i> are standard options with ILU preconditioners
+</I>&gt;<i> -- I can give explanations if you like.) For
+</I>&gt;<i> a Greenland model that we were running a year
+</I>&gt;<i> ago, we had to switch overlap from 0 to 1 as
+</I>&gt;<i> the processor count went up and that solve the
+</I>&gt;<i> problem.
+</I>&gt;<i>
+</I>&gt;<i> I can try and give more specific guidance, but
+</I>&gt;<i> I'd need to know more about the problem size,
+</I>&gt;<i> number of processors, and would turn on more
+</I>&gt;<i> verbose output from the Belos solver.
+</I>&gt;<i>
+</I>&gt;<i> Andy Salinger
+</I>&gt;<i> Sandia Labs
+</I>&gt;<i> Trilinos POC
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -----Original Message-----
+</I>&gt;<i> From: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-bounces at lists.berlios.de</A> [mailto:
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-bounces at lists.berlios.de</A>] On Behalf Of Sarah Shannon
+</I>&gt;<i> Sent: Tuesday, March 22, 2011 11:37 AM
+</I>&gt;<i> To: Glimmer/CISM (developers)
+</I>&gt;<i> Subject: [Glimmer-cism-devel] trilinos
+</I>&gt;<i>
+</I>&gt;<i> Hi,
+</I>&gt;<i> I was wondering if anyone knows whether trilinos now works on the
+</I>&gt;<i> parallel/soon to be released branch?
+</I>&gt;<i>
+</I>&gt;<i> When running a simulation for Antarctica, I get a bunch of errors saying
+</I>&gt;<i> the model doesn't converge (see below)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Belos::StatusTestOutput: Passed
+</I>&gt;<i>    (Num calls,Mod test,State test): (101, 1, Passed Failed Undefined)
+</I>&gt;<i>     Passed.......OR Combination -&gt;
+</I>&gt;<i>       Failed.......Number of Iterations = 100 == 100
+</I>&gt;<i>       Unconverged..(2-Norm Res Vec) / (2-Norm Prec Res0)
+</I>&gt;<i>                    residual [ 0 ] = 0.99553 &gt; 0.001
+</I>&gt;<i>
+</I>&gt;<i> The Belos solver of type &quot;Belos::BlockGmresSolMgr&lt;...,double&gt;{Ortho
+</I>&gt;<i> Type='DGKS', Block Size=1, Num Blocks=100, Max Restarts=20}&quot; returned a
+</I>&gt;<i> solve status of &quot;SOLVE_STATUS_UNCONVERGED with total CPU time of 42.5647
+</I>&gt;<i> sec
+</I>&gt;<i>
+</I>&gt;<i> Perhaps someone has seen these types of errors before.
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Sarah
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">jccampbell.umt at gmail.com</A>        Graduate Research Assistant
+                                Department of Computer Science
+                                University of Montana
+                                Joshua Charles Campbell
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110323/ac16206a/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110323/ac16206a/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000442.html">[Glimmer-cism-devel] trilinos
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#443">[ date ]</a>
+              <a href="thread.html#443">[ thread ]</a>
+              <a href="subject.html#443">[ subject ]</a>
+              <a href="author.html#443">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

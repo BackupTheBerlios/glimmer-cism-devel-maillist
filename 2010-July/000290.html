@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] building the parallel branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20building%20the%20parallel%20branch&In-Reply-To=%3C4C48C9A6.9030202%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000289.html">
+   <LINK REL="Next"  HREF="000295.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] building the parallel branch</H1>
+    <B>Tony Payne</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20building%20the%20parallel%20branch&In-Reply-To=%3C4C48C9A6.9030202%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] building the parallel branch">a.j.payne at bristol.ac.uk
+       </A><BR>
+    <I>Fri Jul 23 00:43:50 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000289.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+        <LI>Next message: <A HREF="000295.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#290">[ date ]</a>
+              <a href="thread.html#290">[ thread ]</a>
+              <a href="subject.html#290">[ subject ]</a>
+              <a href="author.html#290">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi
+
+i got the same warming message as Bill but the rest of the install went 
+well until ...
+
+i tried compiling the trilinos example in
+
+$GLIMMER_PREFIX/examples/TrilinosSolversUnitTest
+
+i edited the Makefile for our local system but we do not have openmpi 
+with cc which is used in the Makefile
+
+.cpp.o:
+         $(NOX_CXX_COMPILER) $(NOX_CXX_FLAGS) $(INC_PATH) 
+-I/usr/lib64/openmpi/1.3.2-gcc/include -c $&lt;
+
+the make fails at linking with
+
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to 
+`__intel_new_proc_init'
+TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to 
+`for_set_reentrancy'
+TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to 
+`for_write_seq_lis'
+TrilinosSolversUnitTest.o:TrilinosSolversUnitTest.F90:(.text+0x4bc): 
+more undefined references to `for_write_seq_lis' follow
+TrilinosSolversUnitTest.o: In function `MAIN__':
+TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to 
+`for_stop_core'
+sparse_trilinos.o: In function 
+`sparse_trilinos_mp_trilinos_solver_postprocess_':
+sparse_trilinos.F90:(.text+0x3e): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x77): undefined reference to `for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x127): undefined reference to 
+`for_write_seq_lis'
+sparse_trilinos.o: In function `sparse_trilinos_mp_trilinos_solve_':
+sparse_trilinos.F90:(.text+0x19b): undefined reference to 
+`for_write_seq_lis'
+sparse_trilinos.F90:(.text+0x1dd): undefined reference to 
+`for_write_seq_lis'
+sparse_trilinos.o:sparse_trilinos.F90:(.text+0xc58): more undefined 
+references to `for_write_seq_lis' follow
+collect2: ld returned 1 exit status
+make: *** [TrilinosSolversUnitTest.exe] Error 1
+
+my question is: does this error stem from the missing openmpi/**gcc?  do 
+we need to install openmpi/gcc?
+
+any ideas?
+
+thanks
+
+tony
+
+
+
+On 22/07/2010 18:53, William Lipscomb wrote:
+&gt;<i>
+</I>&gt;<i> Hi all,
+</I>&gt;<i>
+</I>&gt;<i> Erin Barker answered my question.  I'm able to build the code.
+</I>&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Bill
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Jul 22, 2010, at 11:33 AM, Barker, Erin I wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Bill,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> What you are seeing is really a warning message, not an error.  The
+</I>&gt;&gt;<i> bootstrap should still create the configure file and you should be 
+</I>&gt;&gt;<i> able to
+</I>&gt;&gt;<i> proceed.  Are you getting a follow on error or no configure file?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The warning comes from how I forced autoconf to use a particular 
+</I>&gt;&gt;<i> compiler
+</I>&gt;&gt;<i> for linking rather than the usual default.  Typically with mixed 
+</I>&gt;&gt;<i> language
+</I>&gt;&gt;<i> programs you use the highest level compiler to do the linking, in 
+</I>&gt;&gt;<i> this case
+</I>&gt;&gt;<i> C++ because of Trilinos.  However, C++ is getting called by Fortran 
+</I>&gt;&gt;<i> so the
+</I>&gt;&gt;<i> &quot;main&quot; is in the fortran part not the c++ part.  The newer fortran 
+</I>&gt;&gt;<i> compilers
+</I>&gt;&gt;<i> have a beginfortran library that deals with this.  However, the 
+</I>&gt;&gt;<i> compilers on
+</I>&gt;&gt;<i> Coyote are too old.  So I had to force autoconf to use the fortran 
+</I>&gt;&gt;<i> compiler
+</I>&gt;&gt;<i> for linking.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> There is probably a cleaner way to do it that won't produce the warning
+</I>&gt;&gt;<i> message, but it gets the right compilers in the right places.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Erin
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> __________________________________________________
+</I>&gt;&gt;<i> Erin I Barker
+</I>&gt;&gt;<i> Scientist
+</I>&gt;&gt;<i> Computational Sciences &amp; Mathematics Division
+</I>&gt;&gt;<i> Pacific Northwest National Laboratory
+</I>&gt;&gt;<i> Tel:  509-372-4727
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> From: William Lipscomb &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt;
+</I>&gt;&gt;&gt;<i> Date: Thu, 22 Jul 2010 09:13:49 -0700
+</I>&gt;&gt;&gt;<i> To: Stephen Price &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sprice at lanl.gov</A>&gt;
+</I>&gt;&gt;&gt;<i> Cc: &quot;Barker, Erin I&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">erin.barker at pnl.gov</A>&gt;
+</I>&gt;&gt;&gt;<i> Subject: building the parallel branch
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Steve,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I get the error below when I try to bootstrap the parallel branch on
+</I>&gt;&gt;&gt;<i> coyote (after a fresh checkout).  Do you know what's wrong here?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I'll copying Erin in case she's seen this.  It looks vaguely familiar
+</I>&gt;&gt;&gt;<i> to me.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Thanks,
+</I>&gt;&gt;&gt;<i> Bill
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> **********************************
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Checking if required version of automake is installed
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> checking for autoconf &gt;= 2.54 ... yes (version 2.59)
+</I>&gt;&gt;&gt;<i> checking for automake &gt;= 1.9.6 ... yes (version 1.9.6)
+</I>&gt;&gt;&gt;<i> configure.in: installing `./install-sh'
+</I>&gt;&gt;&gt;<i> configure.in: installing `./missing'
+</I>&gt;&gt;&gt;<i> src/cpp/Makefile.am: installing `./depcomp'
+</I>&gt;&gt;&gt;<i> automake: CXXLD was already defined in condition TRILINOS, which is
+</I>&gt;&gt;&gt;<i> included in condition TRUE ...
+</I>&gt;&gt;&gt;<i> src/cpp/Makefile.am:28: ... `CXXLD' previously defined here
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> ******************************************************************************&gt; 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> *
+</I>&gt;&gt;&gt;<i> William H. Lipscomb     E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+</I>&gt;&gt;&gt;<i> Los Alamos National Laboratory  Phone: (505) 667-0395
+</I>&gt;&gt;&gt;<i> Group T-3, Mail Stop B216   Fax: (505) 665-5926
+</I>&gt;&gt;&gt;<i> Los Alamos, NM 87545
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> ******************************************************************************&gt; 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> *
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ******************************************************************************* 
+</I>&gt;<i>
+</I>&gt;<i> William H. Lipscomb                    E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+</I>&gt;<i> Los Alamos National Laboratory        Phone: (505) 667-0395
+</I>&gt;<i> Group T-3, Mail Stop B216            Fax: (505) 665-5926
+</I>&gt;<i> Los Alamos, NM 87545
+</I>&gt;<i> ******************************************************************************* 
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+-- 
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100722/de7c6f18/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100722/de7c6f18/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000289.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+	<LI>Next message: <A HREF="000295.html">[Glimmer-cism-devel] building the parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#290">[ date ]</a>
+              <a href="thread.html#290">[ thread ]</a>
+              <a href="subject.html#290">[ subject ]</a>
+              <a href="author.html#290">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

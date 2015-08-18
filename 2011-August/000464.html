@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] problem with build on merge / release	branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20problem%20with%20build%20on%20merge%20/%20release%0A%09branch&In-Reply-To=%3C860948EB-0B88-4A2A-9C90-BDD2A13E6969%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] problem with build on merge / release	branch</H1>
+    <B>Stephen F. Price</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20problem%20with%20build%20on%20merge%20/%20release%0A%09branch&In-Reply-To=%3C860948EB-0B88-4A2A-9C90-BDD2A13E6969%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] problem with build on merge / release	branch">sprice at lanl.gov
+       </A><BR>
+    <I>Mon Aug 15 22:10:12 CEST 2011</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#464">[ date ]</a>
+              <a href="thread.html#464">[ thread ]</a>
+              <a href="subject.html#464">[ subject ]</a>
+              <a href="author.html#464">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Sarah,
+
+Apparently, the problem has to do w/ the version of autotools being used. You need something &gt;= version 2.6.2 (thanks to Jim Edwards at NCAR for figuring out the problem). I've just confirmed this by building this branch (most recent version your url below) successfully on Jaguar, using autoconf 2.6.3.
+
+I'm cc'ing the entire devel list because I don't know where and when we updated the build to require autotools &gt;= 2.6.2. Perhaps it happened during a commit that I did not see, or as part of the merge between the parallel branch and the gcm branch? At any rate, it would be good if everyone was aware of something as fundamental as a required change to the version of autotools being used.
+
+There may be another fix so that folks don't have to update their version of autotools, but I would not be the person to know what that fix is.
+
+cheers -
+
+Steve
+
+
+On Aug 15, 2011, at 4:40 AM, Sarah Shannon wrote:
+
+&gt;<i> Hi Steve,
+</I>
+&gt;<i> I  guess from the recent check in's you are currently working on this branch
+</I>&gt;<i> <A HREF="http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl">http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl</A>
+</I>&gt;<i> 
+</I>&gt;<i> I am having problems building the code. I tried to build with and without linking to trilinos.
+</I>&gt;<i> 
+</I>&gt;<i> When I build without trilinos, I run bootstrap and get the error messages below.
+</I>&gt;<i> Bootstrap errors:
+</I>&gt;<i> 
+</I>&gt;<i> Putting files in AC_CONFIG_AUX_DIR, `..'.
+</I>&gt;<i> configure:5289: error: possibly undefined macro: _AC_ARG_VAR_LIBS
+</I>&gt;<i>     If this token and others are legitimate, please use m4_pattern_allow.
+</I>&gt;<i>     See the Autoconf documentation.
+</I>&gt;<i> configure:5377: error: possibly undefined macro: _AC_LANG
+</I>&gt;<i> configure:5377: error: possibly undefined macro: _AS_ECHO_LOG
+</I>&gt;<i> configure:5381: error: possibly undefined macro: AS_MESSAGE_LOG_FD
+</I>&gt;<i> configure:5381: error: possibly undefined macro: _AC_DO
+</I>&gt;<i> configure:21518: error: possibly undefined macro: AS_ECHO
+</I>&gt;<i> configure:21518: error: possibly undefined macro: _AC_LANG_ABBREV
+</I>&gt;<i> 
+</I>&gt;<i> When I build with trilinos, I don't run bootstrap but I run configure.  These are the configure errors I get
+</I>&gt;<i> 
+</I>&gt;<i> ./configure: line 5377: syntax error near unexpected token `checking'
+</I>&gt;<i> ./configure: line 5377: `_AS_ECHO_LOG(checking for _AC_LANG compiler version)'
+</I>&gt;<i> 
+</I>&gt;<i> Both errors seem to be related to AC_LANG. I was wondering what way you are building the code? Have you come across similar build errors?
+</I>&gt;<i> 
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Sarah
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#464">[ date ]</a>
+              <a href="thread.html#464">[ thread ]</a>
+              <a href="subject.html#464">[ subject ]</a>
+              <a href="author.html#464">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

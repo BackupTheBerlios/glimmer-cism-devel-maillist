@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] development on parallel branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20development%20on%20parallel%20branch&In-Reply-To=%3CC86FB646.2F3C%25evanskj%40ornl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000293.html">
+   <LINK REL="Next"  HREF="000299.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] development on parallel branch</H1>
+    <B>Evans, Kate J.</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20development%20on%20parallel%20branch&In-Reply-To=%3CC86FB646.2F3C%25evanskj%40ornl.gov%3E"
+       TITLE="[Glimmer-cism-devel] development on parallel branch">evanskj at ornl.gov
+       </A><BR>
+    <I>Sat Jul 24 03:12:38 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000293.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+        <LI>Next message: <A HREF="000299.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#294">[ date ]</a>
+              <a href="thread.html#294">[ thread ]</a>
+              <a href="subject.html#294">[ subject ]</a>
+              <a href="author.html#294">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Bill-
+
+I'm glad you found that issue! You bring up several good points for
+discussion. In fact I was thinking about this since Tony sent in his 'tests'
+issue and I realized there was no documentation for them (I never run them
+myself and they are very architecture dependent). I am going to send an
+email soon asking for more info with regards to your issue, Tony. I just
+built the code again myself and will take a look this weekend.
+
+I think regular testing and changelog updates are crucial. This branch is a
+mix of model development types (performance, ice sheet modeling, third party
+packages...), so perhaps its a bit more of a challenge to keep clean? One
+suggestion is to take a pause to do some clean up, post that and list the
+overall changes, and start from a more firm footing with testing. Since I'll
+be at LANL next week Bill we can look at a to do list?
+
+Kate
+
+
+
+
+On 7/23/10 6:23 PM, &quot;Bill Lipscomb&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt; wrote:
+
+&gt;<i> 
+</I>&gt;<i> Hi all,
+</I>&gt;<i> 
+</I>&gt;<i> This week I started working on the parallel branch and noticed a
+</I>&gt;<i> couple of issues.
+</I>&gt;<i> 
+</I>&gt;<i> First, the SIA nonlinear thickness solver was broken because the RHS
+</I>&gt;<i> of the matrix was erroneously being recomputed for each Picard
+</I>&gt;<i> iteration (instead of being computed only on the first pass).  I don't
+</I>&gt;<i> know how long the solver has been broken, but this mistake would have
+</I>&gt;<i> been found earlier if the code were being tested regularly (for
+</I>&gt;<i> example, by running standard ESIMINT-2 tests).  Since there are many
+</I>&gt;<i> more developers now than there were a year or two ago, I wonder if
+</I>&gt;<i> it's time to introduce automated testing so that we catch major bugs
+</I>&gt;<i> sooner.
+</I>&gt;<i> 
+</I>&gt;<i> Second, the ChangeLog hadn't been updated since May 2009.  Am I right
+</I>&gt;<i> that we're supposed to update the log when we check in new code?  Or
+</I>&gt;<i> is this somehow handled automatically?
+</I>&gt;<i> 
+</I>&gt;<i> - Bill
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>******************************************************************************&gt;
+*
+&gt;<i> William H. Lipscomb     E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+</I>&gt;<i> Los Alamos National Laboratory  Phone: (505) 667-0395
+</I>&gt;<i> Group T-3, Mail Stop B216   Fax: (505) 665-5926
+</I>&gt;<i> Los Alamos, NM 87545
+</I>&gt;<i> 
+</I>******************************************************************************&gt;
+*
+&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000293.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+	<LI>Next message: <A HREF="000299.html">[Glimmer-cism-devel] development on parallel branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#294">[ date ]</a>
+              <a href="thread.html#294">[ thread ]</a>
+              <a href="subject.html#294">[ subject ]</a>
+              <a href="author.html#294">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

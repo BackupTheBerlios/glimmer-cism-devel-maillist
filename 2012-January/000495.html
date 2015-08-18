@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] changes in scaling of variables on netcdf	output
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2012-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20changes%20in%20scaling%20of%20variables%20on%20netcdf%0A%09output&In-Reply-To=%3C858CE935-FFC5-473A-BC32-341BD631EB17%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000496.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] changes in scaling of variables on netcdf	output</H1>
+    <B>Stephen F. Price</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20changes%20in%20scaling%20of%20variables%20on%20netcdf%0A%09output&In-Reply-To=%3C858CE935-FFC5-473A-BC32-341BD631EB17%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] changes in scaling of variables on netcdf	output">sprice at lanl.gov
+       </A><BR>
+    <I>Sat Jan 14 00:10:12 CET 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000496.html">[Glimmer-cism-devel] changes in scaling of variables on netcdf output
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#495">[ date ]</a>
+              <a href="thread.html#495">[ thread ]</a>
+              <a href="subject.html#495">[ subject ]</a>
+              <a href="author.html#495">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all,
+
+A year or so ago (longer?) there was discussion about changing the way non-dim variables in the code were scaled back up to dimensional values just before, or during output to netCDF. The changes were implemented some time ago on one of the Berlios repository branches and have persisted every since. 
+
+Currently, we are seeing a problem on some branches of the code - which were merged with / from older Berlios branches - whereby output looks to be scaled up to dimensional, twice. That is, all output variables in netcdf appear too large (or too small) by a factor exactly equal to the scale factor. When doing an ncdump, one can see that the variables are already dimensional in the netcdf file (when they should not be). Thus, when they are multiplied again by the scale factor, e.g. for viewing w/ something like ncview, what you actually see is the value: 
+
+variable * scale_factor * scale_factor
+
+What should be happening is that the non-dim values are written to the netcdf file so that scaling back up to dimensional is explicitly applied (e.g., in matlab one would not only import that values but the scale factor, in order to work w/ dimensional output).
+
+It looks like the original changes (or at least some of them) were made by Magi, on Berlios, rev. 1491, in Feb. of last year. My hunch is that some older piece of code is still hanging around, applying the scales to the variables before the netcdf write routines are called. 
+
+Please let me know if anyone has ideas for where to start hunting this bug down.
+
+thanks -
+
+Steve
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000496.html">[Glimmer-cism-devel] changes in scaling of variables on netcdf output
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#495">[ date ]</a>
+              <a href="thread.html#495">[ thread ]</a>
+              <a href="subject.html#495">[ subject ]</a>
+              <a href="author.html#495">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] automated nightly build &amp; test
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C0A767684525AC9FD5CE180D9%40geog-a81.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000302.html">
+   <LINK REL="Next"  HREF="000303.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] automated nightly build &amp; test</H1>
+    <B>DAG Williams, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20automated%20nightly%20build%20%26%20test&In-Reply-To=%3C0A767684525AC9FD5CE180D9%40geog-a81.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] automated nightly build &amp; test">Gethin.Williams at bristol.ac.uk
+       </A><BR>
+    <I>Tue Jul 27 12:23:30 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000302.html">[Glimmer-cism-devel] trilinos-humps
+</A></li>
+        <LI>Next message: <A HREF="000303.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#301">[ date ]</a>
+              <a href="thread.html#301">[ thread ]</a>
+              <a href="subject.html#301">[ subject ]</a>
+              <a href="author.html#301">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Folks,
+
+I run a nightly build &amp; test for the GENIE model and find it to be very 
+useful.
+
+&gt;<i> an automated test suite would be very nice. i suspect it will be fairly
+</I>&gt;<i> difficult to implement. since we would need to take into account various
+</I>&gt;<i> bits of middleware that handle scheduling on clusters. On the other
+</I>&gt;<i> hand, there might well be an existing test harness we could use.
+</I>
+Credential caching in Subversion is really handy in this regard.  It means 
+that after the first checkout, one can write a cron job to make a fresh 
+checkout on a nightly basis.
+
+I have a program that will compare (the intersection between) 2 NetCDF 
+files, allowing for tolerances in both absolute and relative differences 
+(command line options).  This makes comparing an output to a reference file 
+pretty straightforward.  Glimmer is very welcome to this program, and I can 
+commit it somewhere if desired.
+
+I create 'test-xzy' rules in the makefile, which trigger the relevant build 
+and run commands (contained in small shell scripts for neatness).  The test 
+definitions are encapsulated as configuration files kept in the repos.
+
+The remainder of the harness is a very small amount of shell-scripting 
+(called from cron).  Like you say, people have different setups, perhaps 
+including a queuing system etc.  I wouldn't bother trying to create 
+something which works for everyone--this part could be bespoke as it's not 
+many lines:
+
+1- fresh checkout
+2- runtests in makefile (perhaps calling bespoke qsub command if necessary)
+3- run diagnostics script, kept in repos
+4- run the email script, also in repos
+
+The email part could send the results back to berlios in some way.  I just 
+email the key developers directly, as human intervention is required sooner 
+or later if the tests show a failure.
+
+&gt;<i> The other question is, how do we define a successful test? Do results
+</I>&gt;<i> have to be exactly the same (I don't think so). If not we need to define
+</I>&gt;<i> what is acceptable.
+</I>&gt;<i>
+</I>&gt;<i> I anyone going to pick this up?
+</I>
+I hope the above is helpful.
+
+Cheers,
+Gethin.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000302.html">[Glimmer-cism-devel] trilinos-humps
+</A></li>
+	<LI>Next message: <A HREF="000303.html">[Glimmer-cism-devel] automated nightly build &amp; test
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#301">[ date ]</a>
+              <a href="thread.html#301">[ thread ]</a>
+              <a href="subject.html#301">[ subject ]</a>
+              <a href="author.html#301">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

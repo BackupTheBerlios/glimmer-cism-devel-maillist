@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] [Glimmer-cism-steering] bootstrap and configure
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-June/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BGlimmer-cism-steering%5D%20bootstrap%20and%0A%20configure&In-Reply-To=%3C1308066079.2225.3.camel%40bacon%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000456.html">
+   <LINK REL="Next"  HREF="000458.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] [Glimmer-cism-steering] bootstrap and configure</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BGlimmer-cism-steering%5D%20bootstrap%20and%0A%20configure&In-Reply-To=%3C1308066079.2225.3.camel%40bacon%3E"
+       TITLE="[Glimmer-cism-devel] [Glimmer-cism-steering] bootstrap and configure">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Tue Jun 14 17:41:19 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000456.html">[Glimmer-cism-devel] [Glimmer-cism-steering] bootstrap	and	configure
+</A></li>
+        <LI>Next message: <A HREF="000458.html">[Glimmer-cism-devel] GCM restarts, SMB and subgrid hypsometry
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#457">[ date ]</a>
+              <a href="thread.html#457">[ thread ]</a>
+              <a href="subject.html#457">[ subject ]</a>
+              <a href="author.html#457">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, 2011-06-14 at 11:33 +0100, Ian Rutt wrote:
+
+&gt;<i> Hi Bill and Magi,
+</I>&gt;<i> 
+</I>&gt;<i> I think the released version of Glimmer-CISM (i.e. tarballs from 
+</I>&gt;<i> BerliOS) needs to work in the way Magi described, and the development 
+</I>&gt;<i> versions on BerliOS also need to be bootstrap-able on any relevant 
+</I>&gt;<i> platform. I don't think it's a good idea for the development version to 
+</I>&gt;<i> be tied to Jaguar, Bluefire, etc.
+</I>&gt;<i> 
+</I>&gt;<i> If the bootstrapping process is very different between these HPC 
+</I>&gt;<i> platforms and a regular Linux machine, would it be possible to provide 
+</I>&gt;<i> two bootstrap scripts? Or make the one script do different things 
+</I>&gt;<i> dependent on the result of 'uname -a'?
+</I>&gt;<i> 
+</I>
+The problem with the bootstrap is that you need all the autoconf stuff.
+Once you have run bootstrap to create the configure script you should be
+fine, that's just a shell script and possibly m4 (although I can't
+remember). The whole idea is that you have a single system that can
+generate a build system that can be used anywhere - or at least that's
+the theory. IBM systems are a bit tricky because of the IBM compiler
+which is very different from all other compilers. Detecting that is no
+problem though and we might need to add some macros to fully support the
+IBM fortran compiler.
+Cheers
+magi
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000456.html">[Glimmer-cism-devel] [Glimmer-cism-steering] bootstrap	and	configure
+</A></li>
+	<LI>Next message: <A HREF="000458.html">[Glimmer-cism-devel] GCM restarts, SMB and subgrid hypsometry
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#457">[ date ]</a>
+              <a href="thread.html#457">[ thread ]</a>
+              <a href="subject.html#457">[ subject ]</a>
+              <a href="author.html#457">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

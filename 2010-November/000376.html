@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-November/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CEBDA56.5040006%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000375.html">
+   <LINK REL="Next"  HREF="000377.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Sarah Shannon</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CEBDA56.5040006%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">sarah.shannon at bristol.ac.uk
+       </A><BR>
+    <I>Tue Nov 23 16:14:30 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000375.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000377.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#376">[ date ]</a>
+              <a href="thread.html#376">[ thread ]</a>
+              <a href="subject.html#376">[ subject ]</a>
+              <a href="author.html#376">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Magnus,
+
+Thanks for letting me know the reasons why you prefer a user specified 
+golden standard directory. I hadn't anticipated a situation where 
+multiple source and builds are used simultaneously. I hardcoded the 
+location of the standard files to minimise user input, but I see why you 
+would want to do it differently in some cases.
+
+Ill make the changes you suggest:
+
+1. Set the golden standard directory so it user defined when configure 
+is run
+2. zip the files on the berlios ftp server.
+
+Ill drop you an email when the changes are checked in.
+
+Cheers,
+Sarah
+
+
+Magnus Hagdorn wrote:
+&gt;<i> Hi Sarah,
+</I>&gt;<i> sorry for taking so long to reply to your email. Please find my reply 
+</I>&gt;<i> inline.
+</I>&gt;<i>
+</I>&gt;<i> Sarah Shannon wrote:
+</I>&gt;&gt;<i> The test suite is setup on the glimmer-cism2 trunk for the EISMINT-1 
+</I>&gt;&gt;<i> &amp; 2 cases.  The reference files are stored on 
+</I>&gt;&gt;<i> <A HREF="ftp://ftp.berlios.de/pub/glimmer-cism/.">ftp://ftp.berlios.de/pub/glimmer-cism/.</A> We have approximately 200MB 
+</I>&gt;&gt;<i> space here. The test code downloads the files via anonymous FTP.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The location of the reference files is hard coded so there is no need 
+</I>&gt;&gt;<i> to specify this at build time. Here is an example for an EISMINT-1 test:
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> I really do think that hard coding the path is not a sensible idea. I 
+</I>&gt;<i> also don't like that the files are downloaded into the source 
+</I>&gt;<i> directory. Let me explain:
+</I>&gt;<i> * I wouldn't expect automatic downloads from a make file and would be 
+</I>&gt;<i> concerned about security. If you stick this into a script which the 
+</I>&gt;<i> user has to run explicitly they can audit it for themselves (if they 
+</I>&gt;<i> wish).
+</I>&gt;<i> * Typically, I have many source trees and even more build trees. 
+</I>&gt;<i> However, ideally I will have only a single gold standard. So 
+</I>&gt;<i> automatically downloading the files into the source directories is a 
+</I>&gt;<i> bad idea: I don't want to download it multiple times using extra disk 
+</I>&gt;<i> space.
+</I>&gt;<i> * Furthermore, the source directories might well be on expensive disk 
+</I>&gt;<i> space (e.g. disk space with a nightly backup schedule on a highly 
+</I>&gt;<i> available server) while the build directories are on cheap local disk 
+</I>&gt;<i> where I don't care if I loose them. I might want the gold standard 
+</I>&gt;<i> somewhere in-between, e.g. a networked scratch space. In our school we 
+</I>&gt;<i> have exactly this setup so presumably that's not too unusual.
+</I>&gt;<i> * At the moment only works for files that are stored on BerliOS, what 
+</I>&gt;<i> about runs that are not there, i.e. some new development that isn't 
+</I>&gt;<i> ready to be included in the gold standard but I would still like to 
+</I>&gt;<i> use the test machinery to check that the code still works like the 
+</I>&gt;<i> last time I checked.
+</I>&gt;<i> * netCDF files compress quite nicely, so sticking them into a gzip'ed 
+</I>&gt;<i> tar-ball reduces band width.
+</I>&gt;<i>
+</I>&gt;<i> So, I shall be persistent in asking for a separate user-defined gold 
+</I>&gt;<i> standard directory. It will address all the issues above. This 
+</I>&gt;<i> location could default to the source directory and we could build a 
+</I>&gt;<i> source distribution tar ball which includes the gold standard so that 
+</I>&gt;<i> those who don't care can get the entire lot.
+</I>&gt;<i>
+</I>&gt;<i> This way, when we build the distribution source tar-ball we should run 
+</I>&gt;<i> all the tests and compare them against the previous set. They should 
+</I>&gt;<i> all pass and we can include the new set of file in the tar ball.
+</I>&gt;<i>
+</I>&gt;<i> So I think the second half of your compare rule is spot on. For the 
+</I>&gt;<i> first half you just need to check if the file exists and if not print 
+</I>&gt;<i> out an error message. The error message could be something useful like,
+</I>&gt;<i> download the goldstandard tarb-ball from here and point configure at it.
+</I>&gt;<i>
+</I>&gt;<i> Add a configure switch to specify where the gold standard lives. The 
+</I>&gt;<i> directory structure of the gold standard should be exactly the same as 
+</I>&gt;<i> in the source directory, i.e.
+</I>&gt;<i> gold_standard/tests/EISMINT/EISMINT-2/
+</I>&gt;<i> etc...
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> To run a test cd to the test directory and type &quot;make e1-fm.1.nc&quot;
+</I>&gt;&gt;<i> To compare to the reference file type &quot;make compare-e1-fm.1&quot;
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> exactly.
+</I>&gt;<i>
+</I>&gt;&gt;<i> Magnus, I was wondering if I could change the EISMINT-1 &amp; 2 
+</I>&gt;&gt;<i> configuration files, to output a smaller subset of variables and time 
+</I>&gt;&gt;<i> slices?
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> sure, just go for it or send reduced output to another file.
+</I>&gt;<i>
+</I>&gt;&gt;<i> Also, what are the next steps to merge the tests to the parallel 
+</I>&gt;&gt;<i> branch?. We would like to have the HO tests working in this branch.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> once all is working as it should, it will be a straight forward merge.
+</I>&gt;<i>
+</I>&gt;<i> again, thanks a lot for looking into this. you are nearly there.
+</I>&gt;<i> cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101123/ce13608d/attachment.vcf">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101123/ce13608d/attachment.vcf</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000375.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000377.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#376">[ date ]</a>
+              <a href="thread.html#376">[ thread ]</a>
+              <a href="subject.html#376">[ subject ]</a>
+              <a href="author.html#376">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] restarts
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts&In-Reply-To=%3C4AA0F322.8030009%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000041.html">
+   <LINK REL="Next"  HREF="000044.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] restarts</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20restarts&In-Reply-To=%3C4AA0F322.8030009%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] restarts">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Fri Sep  4 12:59:46 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000041.html">[Glimmer-cism-devel] restarts
+</A></li>
+        <LI>Next message: <A HREF="000044.html">[Glimmer-cism-devel] restarts
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi All,
+
+Yes, restarts are a problem in various ways, since although the restart 
+code is auto-generated, it still relies on being stitched together 'by 
+hand', as it were.
+
+To clarify, though, my suggestion wasn't that we write our own parser 
+using ANTLR, but to replace my somewhat ad-hoc parser (written in 
+Python) with the already-existing Open Fortran Parser, which uses ANTLR:
+
+<A HREF="http://fortran-parser.sourceforge.net/">http://fortran-parser.sourceforge.net/</A>
+
+The difficulty is that OFP is configured to produce Java rather than 
+Python. I have been in touch with Craig Rasmussen at LANL, who is 
+involved with the development of OFP, but haven't had a chance to see 
+whether this would be beneficial to us.
+
+Checkpointing is a useful concept, but I wonder whether it's not 
+flexible enough for us. If a system has a checkpointing capability, then 
+it has to affect the whole of the running process. However, users may 
+want to do something more sophisticated (e.g. climate models are 
+frequently started from a restart dump, but with different parameters, 
+and they want to do the same with the coupled ice sheet component). The 
+hotstart mechanism in Glimmer works well for the core model, but isn't 
+perhaps all-encompassing enough for coupled applications. The restart 
+mechanism I devised is designed to fill the gap, but I would acknowledge 
+that it's not ideal.
+
+I would have to revisit it to be able to say exactly how to reconfigure 
+it for our new structure, but I think it should be possible.
+
+It all depends what functionality users actually need. As I said, it's 
+my impression that the capability which the existing code provides is at 
+least vaguely useful in a coupled context, but perhaps it needs refinement.
+
+All the best,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+
+Magnus Hagdorn wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> you might have noticed that I started to populate the new glimmer-cism2
+</I>&gt;<i> module. I have come across a problem which I suspected: restarts
+</I>&gt;<i> 
+</I>&gt;<i> The restart code effects most of the code and thus is tightly coupled to
+</I>&gt;<i> it. This makes the modularisation a lot more tricky. Ian also raised the
+</I>&gt;<i> question about what to do with the restart code. Suggesting to use the
+</I>&gt;<i> parser generator antlr. However, parsing fortran seems to be a nightmare
+</I>&gt;<i> - fortran is context-sensitive.
+</I>&gt;<i> 
+</I>&gt;<i> A quick google search came up with an interesting lwn.net article:
+</I>&gt;<i> <A HREF="http://lwn.net/Articles/293575/">http://lwn.net/Articles/293575/</A>
+</I>&gt;<i> The comments are also very interesting. The cluster in Edinburgh
+</I>&gt;<i> supports the Berkeley Lab Checkpoint/Restart (BLCR) system [1]. 
+</I>&gt;<i> 
+</I>&gt;<i> Personally I'd prefer a solution outside the code since that keeps it
+</I>&gt;<i> simple and makes decoupling the code much easier.
+</I>&gt;<i> 
+</I>&gt;<i> Is the CCSM using any checkpointing libraries? Any thoughts/suggestions?
+</I>&gt;<i> 
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> [1] <A HREF="https://ftg.lbl.gov/CheckpointRestart/CheckpointRestart.shtml">https://ftg.lbl.gov/CheckpointRestart/CheckpointRestart.shtml</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000041.html">[Glimmer-cism-devel] restarts
+</A></li>
+	<LI>Next message: <A HREF="000044.html">[Glimmer-cism-devel] restarts
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

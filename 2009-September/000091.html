@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] more comments on Ian's refactoring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20more%20comments%20on%20Ian%27s%20refactoring&In-Reply-To=%3CD5FD54890CA9190A56934CE1%40geog-bsq78.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000090.html">
+   <LINK REL="Next"  HREF="000082.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] more comments on Ian's refactoring</H1>
+    <B>AJ Payne, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20more%20comments%20on%20Ian%27s%20refactoring&In-Reply-To=%3CD5FD54890CA9190A56934CE1%40geog-bsq78.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] more comments on Ian's refactoring">A.J.Payne at bristol.ac.uk
+       </A><BR>
+    <I>Wed Sep 30 18:46:23 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000090.html">[Glimmer-cism-devel] more comments on Ian's refactoring
+</A></li>
+        <LI>Next message: <A HREF="000082.html">[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#91">[ date ]</a>
+              <a href="thread.html#91">[ thread ]</a>
+              <a href="subject.html#91">[ subject ]</a>
+              <a href="author.html#91">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi
+
+i think things will become a lot clearer once we have an idea of how the refactoring 
+looks and how this matches with the requirements of the external packages that we would 
+like to use.
+
+i hope that i have made it clear that i do not think glimmer-cism by itself is going to 
+provide us with a research tool that will be able to address the key glaciological issues 
+we say we want to address.  compatibility with other packages is therefore important. 
+automatic differentiation, AMR (note my concerns are not necessarily related to cpp but 
+to the use of AMR software such as the cpp chombo and the f90 agrif) and parallelism are 
+important here.
+
+all the best
+
+tony
+
+--On 2009-09-30 16:22 +0100 Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt; wrote:
+
+&gt;<i>
+</I>&gt;<i> Hi All,
+</I>&gt;<i>
+</I>&gt;&gt;<i> i also like this if form but i do not think that we should be that prescriptive about
+</I>&gt;&gt;<i> coding styles.
+</I>&gt;<i>
+</I>&gt;<i> I think some coding guidelines are essential:
+</I>&gt;<i>
+</I>&gt;<i> 1) We have to know what Fortran standard we're aiming for, and whether any particular
+</I>&gt;<i> language features are to be avoided.
+</I>&gt;<i>
+</I>&gt;<i> 2) Consistently-written code (e.g. in terms of a naming convention, etc), is much
+</I>&gt;<i> easier to read, much easier to debug, etc.
+</I>&gt;<i>
+</I>&gt;<i> To be honest, I can't think of a good reason not to do this.
+</I>&gt;<i>
+</I>&gt;&gt;<i> i have to say that i think it would be easier to create a set of flexible dynamical
+</I>&gt;&gt;<i> core  routines if we avoided the use of derived types at this level.  can't they be
+</I>&gt;&gt;<i> use above  and then their components passed as arguments?
+</I>&gt;<i>
+</I>&gt;<i> I think this is going to far. Derived types are very useful to package up data, and
+</I>&gt;<i> they make it easier to avoid many classes of bugs. Any new component we might want to
+</I>&gt;<i> plug into Glimmer is going to need its interface tailoring to whatever standard API we
+</I>&gt;<i> have: including a few derived types in that standard makes no difference to how easy
+</I>&gt;<i> that is to do.
+</I>&gt;<i>
+</I>&gt;<i> I suspect your specific concerns are to do with automatic differentiation and C/C++
+</I>&gt;<i> interoperability. For the former, derived types are not a problem for OpenAD to handle
+</I>&gt;<i> - this was confirmed in Chicago the other week. For the latter, simple derived types
+</I>&gt;<i> should work fine with C/C++, especially if all you need to do is pass them through.
+</I>&gt;<i> Alternatively, just write a wrapper to pack/unpack the relevant derived types. I don't
+</I>&gt;<i> think it would be a good idea to allow this consideration to affect the fundamental
+</I>&gt;<i> engineering approach of the code, given that it is fairly simple to get round.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i>
+</I>&gt;<i> Ian
+</I>
+
+
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000090.html">[Glimmer-cism-devel] more comments on Ian's refactoring
+</A></li>
+	<LI>Next message: <A HREF="000082.html">[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#91">[ date ]</a>
+              <a href="thread.html#91">[ thread ]</a>
+              <a href="subject.html#91">[ subject ]</a>
+              <a href="author.html#91">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

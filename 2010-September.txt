@@ -1,0 +1,1378 @@
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep  1 10:16:29 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 01 Sep 2010 09:16:29 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <5922C744-09A5-4D50-A240-011931E45BD2@lanl.gov>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+	<1282982358.3306.2.camel@bacon.marsupium.org>
+	<87bp8nezts.fsf@59A2.org> <4C7B6E55.6000801@ed.ac.uk>
+	<8739twtncm.fsf@59A2.org>
+	<5922C744-09A5-4D50-A240-011931E45BD2@lanl.gov>
+Message-ID: <4C7E0BDD.2030303@ed.ac.uk>
+
+William Lipscomb wrote:
+> 
+> Hi all,
+> 
+> I agree that it's worth taking some time to define and design the API 
+> infrastructure.  I wonder if it would make sense to form a development 
+> subgroup to think about this in detail.  This group might include 
+> representatives from the various ISICLES projects developing new dycores 
+> (e.g., Jed from SISIPHUS, Dan from ISICLES, Toby from U.Texas/Ymir) as 
+> well as the Glimmer-CISM steering committee (Magnus?) and the CESM 
+> community (Jesse or me?).  Others (e.g., from PISM) would of course be 
+> welcome.
+> 
+> I'll start by asking:
+> (1) Does anyone have strong feelings about whether this is or isn't a 
+> good idea?
+> (2) Assuming it's a good idea, who would like to be part of the group?
+> 
+> 
+
+Hi Bill,
+I think this is a very good idea and should involve representatives from 
+other projects. I'd be happy to be the Glimmer-CISM representative but 
+should stress that I don't have any funding which will make it difficult 
+for me to attend any meetings.
+
+I think there is not much point refactoring the code (Glimmer-CISM) at 
+this moment when we don't have an API yet.
+
+Regards
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From lipscomb at lanl.gov  Wed Sep  1 18:27:20 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 1 Sep 2010 10:27:20 -0600
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C7E0BDD.2030303@ed.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+	<1282982358.3306.2.camel@bacon.marsupium.org>
+	<87bp8nezts.fsf@59A2.org> <4C7B6E55.6000801@ed.ac.uk>
+	<8739twtncm.fsf@59A2.org>
+	<5922C744-09A5-4D50-A240-011931E45BD2@lanl.gov>
+	<4C7E0BDD.2030303@ed.ac.uk>
+Message-ID: <35B052E7-F303-4544-BD38-B7B0006D1A34@lanl.gov>
+
+
+Hi Magnus,
+
+Thanks for volunteering.  Since we're so widely distributed, I'm  
+assuming that business would be conducted via email and the occasional  
+teleconference, not face-to-face.
+
+Regards,
+Bill
+
+
+On Sep 1, 2010, at 2:16 AM, Magnus Hagdorn wrote:
+
+> William Lipscomb wrote:
+>> Hi all,
+>> I agree that it's worth taking some time to define and design the  
+>> API infrastructure.  I wonder if it would make sense to form a  
+>> development subgroup to think about this in detail.  This group  
+>> might include representatives from the various ISICLES projects  
+>> developing new dycores (e.g., Jed from SISIPHUS, Dan from ISICLES,  
+>> Toby from U.Texas/Ymir) as well as the Glimmer-CISM steering  
+>> committee (Magnus?) and the CESM community (Jesse or me?).  Others  
+>> (e.g., from PISM) would of course be welcome.
+>> I'll start by asking:
+>> (1) Does anyone have strong feelings about whether this is or isn't  
+>> a good idea?
+>> (2) Assuming it's a good idea, who would like to be part of the  
+>> group?
+>
+> Hi Bill,
+> I think this is a very good idea and should involve representatives  
+> from other projects. I'd be happy to be the Glimmer-CISM  
+> representative but should stress that I don't have any funding which  
+> will make it difficult for me to attend any meetings.
+>
+> I think there is not much point refactoring the code (Glimmer-CISM)  
+> at this moment when we don't have an API yet.
+>
+> Regards
+> magi
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From evanskj at ornl.gov  Sun Sep  5 04:01:42 2010
+From: evanskj at ornl.gov (Evans, Kate J.)
+Date: Sat, 04 Sep 2010 22:01:42 -0400
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <35B052E7-F303-4544-BD38-B7B0006D1A34@lanl.gov>
+Message-ID: <C8A447D7.3DB5%evanskj@ornl.gov>
+
+Hi Bill et al.-
+
+I think its a good idea too. Certainly someone from my group could be
+involved with this. Possibly Jeff.
+
+Kate 
+
+
+On 9/1/10 12:27 PM, "Bill Lipscomb" <lipscomb at lanl.gov> wrote:
+
+> 
+> Hi Magnus,
+> 
+> Thanks for volunteering.  Since we're so widely distributed, I'm
+> assuming that business would be conducted via email and the occasional
+> teleconference, not face-to-face.
+> 
+> Regards,
+> Bill
+> 
+> 
+> On Sep 1, 2010, at 2:16 AM, Magnus Hagdorn wrote:
+> 
+>> William Lipscomb wrote:
+>>> Hi all,
+>>> I agree that it's worth taking some time to define and design the
+>>> API infrastructure.  I wonder if it would make sense to form a
+>>> development subgroup to think about this in detail.  This group
+>>> might include representatives from the various ISICLES projects
+>>> developing new dycores (e.g., Jed from SISIPHUS, Dan from ISICLES,
+>>> Toby from U.Texas/Ymir) as well as the Glimmer-CISM steering
+>>> committee (Magnus?) and the CESM community (Jesse or me?).  Others
+>>> (e.g., from PISM) would of course be welcome.
+>>> I'll start by asking:
+>>> (1) Does anyone have strong feelings about whether this is or isn't
+>>> a good idea?
+>>> (2) Assuming it's a good idea, who would like to be part of the
+>>> group?
+>> 
+>> Hi Bill,
+>> I think this is a very good idea and should involve representatives
+>> from other projects. I'd be happy to be the Glimmer-CISM
+>> representative but should stress that I don't have any funding which
+>> will make it difficult for me to attend any meetings.
+>> 
+>> I think there is not much point refactoring the code (Glimmer-CISM)
+>> at this moment when we don't have an API yet.
+>> 
+>> Regards
+>> magi
+>> 
+>> -- 
+>> The University of Edinburgh is a charitable body, registered in
+>> Scotland, with registration number SC005336.
+>> 
+> 
+> 
+******************************************************************************>
+*
+> William H. Lipscomb     E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory  Phone: (505) 667-0395
+> Group T-3, Mail Stop B216   Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> 
+******************************************************************************>
+*
+> 
+> 
+> 
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+
+From sprice at lanl.gov  Wed Sep  8 21:53:11 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Wed, 08 Sep 2010 13:53:11 -0600
+Subject: [Glimmer-cism-devel] tests dir vs. tests2
+Message-ID: <4C87E9A7.8050707@lanl.gov>
+
+
+Hi Sarah,
+
+I saw your commit earlier today and it occurred to me that we should 
+have told you earlier that the "tests2" dir under the LANL branch of the 
+code was the more recent one. It is confusing and I think we should 
+probably have only one tests dir.
+
+I would suggest that we just do a replacement of the old "tests" dir 
+with the current "tests2" dir (that is: svn rm tests; svn mv tests2 
+tests; svn commit tests ... or something like that). Does anyone have 
+objections to this? Are there other tests in the current "tests" dir 
+that are not also in "tests2"? If so, can we just move them into 
+"tests2" so that we only have one "tests" directory?
+
+Another alternative would be to break the tests up between those that 
+apply only to the SIA code and those that apply to the higher-order code.
+
+Any comments?
+
+thanks -
+
+Steve
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep  8 23:17:00 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 08 Sep 2010 22:17:00 +0100
+Subject: [Glimmer-cism-devel] tests dir vs. tests2
+In-Reply-To: <4C87E9A7.8050707@lanl.gov>
+References: <4C87E9A7.8050707@lanl.gov>
+Message-ID: <1283980620.2334.2.camel@bacon.marsupium.org>
+
+On Wed, 2010-09-08 at 13:53 -0600, Stephen Price wrote:
+> Hi Sarah,
+> 
+> I saw your commit earlier today and it occurred to me that we should 
+> have told you earlier that the "tests2" dir under the LANL branch of the 
+> code was the more recent one. It is confusing and I think we should 
+> probably have only one tests dir.
+> 
+> I would suggest that we just do a replacement of the old "tests" dir 
+> with the current "tests2" dir (that is: svn rm tests; svn mv tests2 
+> tests; svn commit tests ... or something like that). Does anyone have 
+> objections to this? Are there other tests in the current "tests" dir 
+> that are not also in "tests2"? If so, can we just move them into 
+> "tests2" so that we only have one "tests" directory?
+> 
+> Another alternative would be to break the tests up between those that 
+> apply only to the SIA code and those that apply to the higher-order code.
+> 
+> Any comments?
+> 
+Hi all,
+what is the difference between tests and tests2? since tests2 is newer
+you could presumably copy the new files into their correct location in
+the tests directory. once everything is copied remove tests2. this way
+history is maintained.
+
+why is this done on the lanl branch? what is the plan to merge this into
+trunk since the tests directory might have changed there, certainly the
+infrastructure has so.
+
+cheers
+magi
+
+
+
+From sarah.shannon at bristol.ac.uk  Thu Sep  9 12:06:26 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Thu, 09 Sep 2010 11:06:26 +0100
+Subject: [Glimmer-cism-devel] tests dir vs. tests2
+In-Reply-To: <4C87E9A7.8050707@lanl.gov>
+References: <4C87E9A7.8050707@lanl.gov>
+Message-ID: <4C88B1A2.7000307@bristol.ac.uk>
+
+Hi Steve,
+
+Thanks for letting me know. I would have no problem with the replacement 
+you suggest. It looks like there is a peterman test in "test" which is 
+not in "test2". We might want to copy that to the new directory. 
+
+Dividing the tests in SIA and HO tests would be a clear way to set up 
+the directory.  I am setting up an automatic EISMINT-1 and hump test on 
+the lanl trunk, to test the SIA and HO parts of the code. This means, 
+Ill be checking in extra configuration files to the test directory, plus 
+code to compare netCDF files and a test script. It could be a good time 
+restructure the directory. Perhaps having subdirectories "sia"  "ho"   
+"utils" might be useful.
+
+Do people have opinions about this?
+
+Cheers,
+
+Sarah
+
+
+
+
+
+
+
+Stephen Price wrote:
+>
+> Hi Sarah,
+>
+> I saw your commit earlier today and it occurred to me that we should 
+> have told you earlier that the "tests2" dir under the LANL branch of 
+> the code was the more recent one. It is confusing and I think we 
+> should probably have only one tests dir.
+>
+> I would suggest that we just do a replacement of the old "tests" dir 
+> with the current "tests2" dir (that is: svn rm tests; svn mv tests2 
+> tests; svn commit tests ... or something like that). Does anyone have 
+> objections to this? Are there other tests in the current "tests" dir 
+> that are not also in "tests2"? If so, can we just move them into 
+> "tests2" so that we only have one "tests" directory?
+>
+> Another alternative would be to break the tests up between those that 
+> apply only to the SIA code and those that apply to the higher-order code.
+>
+> Any comments?
+>
+> thanks -
+>
+> Steve
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100909/bee0c6d3/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep  9 13:21:33 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 09 Sep 2010 12:21:33 +0100
+Subject: [Glimmer-cism-devel] tests dir vs. tests2
+In-Reply-To: <4C88B1A2.7000307@bristol.ac.uk>
+References: <4C87E9A7.8050707@lanl.gov> <4C88B1A2.7000307@bristol.ac.uk>
+Message-ID: <4C88C33D.5070407@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi Steve,
+> 
+> Thanks for letting me know. I would have no problem with the replacement 
+> you suggest. It looks like there is a peterman test in "test" which is 
+> not in "test2". We might want to copy that to the new directory.
+> Dividing the tests in SIA and HO tests would be a clear way to set up 
+> the directory.  I am setting up an automatic EISMINT-1 and hump test on 
+> the lanl trunk, to test the SIA and HO parts of the code. This means, 
+> Ill be checking in extra configuration files to the test directory, plus 
+> code to compare netCDF files and a test script. It could be a good time 
+> restructure the directory. Perhaps having subdirectories "sia"  "ho"   
+> "utils" might be useful.
+> 
+> Do people have opinions about this?
+> 
+> 
+
+what about having them in the same directory, but using different names 
+for the configuration and output files?
+alternatively we could introduce a new level of directories and keep the 
+names, e.g.
+EISMINT-1/SIA
+EISMINT-1/HO
+etc
+this would have the benefit, that it would be easy to disable a 
+particular implementation test run.
+
+Option 3 is to have
+tests/SIA/EISMINT-1
+           ....
+tests/HO/EISMINT-1
+          ....
+
+in a way it doesn't matter so much as long as they are clearly 
+separated. Maybe option 3 is the best since disabling a particular 
+implementation is very straight forward.
+
+So, on reflection I'd go for Option 3
+
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Thu Sep  9 13:32:17 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Thu, 09 Sep 2010 12:32:17 +0100
+Subject: [Glimmer-cism-devel] tests dir vs. tests2
+In-Reply-To: <4C88C33D.5070407@ed.ac.uk>
+References: <4C87E9A7.8050707@lanl.gov> <4C88B1A2.7000307@bristol.ac.uk>
+	<4C88C33D.5070407@ed.ac.uk>
+Message-ID: <4C88C5C1.2090009@bristol.ac.uk>
+
+Hi Magnus,
+Option 3 looks good to me, Cheers,
+Sarah
+
+Magnus Hagdorn wrote:
+> Sarah Shannon wrote:
+>> Hi Steve,
+>>
+>> Thanks for letting me know. I would have no problem with the 
+>> replacement you suggest. It looks like there is a peterman test in 
+>> "test" which is not in "test2". We might want to copy that to the new 
+>> directory.
+>> Dividing the tests in SIA and HO tests would be a clear way to set up 
+>> the directory.  I am setting up an automatic EISMINT-1 and hump test 
+>> on the lanl trunk, to test the SIA and HO parts of the code. This 
+>> means, Ill be checking in extra configuration files to the test 
+>> directory, plus code to compare netCDF files and a test script. It 
+>> could be a good time restructure the directory. Perhaps having 
+>> subdirectories "sia"  "ho"   "utils" might be useful.
+>>
+>> Do people have opinions about this?
+>>
+>>
+>
+> what about having them in the same directory, but using different 
+> names for the configuration and output files?
+> alternatively we could introduce a new level of directories and keep 
+> the names, e.g.
+> EISMINT-1/SIA
+> EISMINT-1/HO
+> etc
+> this would have the benefit, that it would be easy to disable a 
+> particular implementation test run.
+>
+> Option 3 is to have
+> tests/SIA/EISMINT-1
+>           ....
+> tests/HO/EISMINT-1
+>          ....
+>
+> in a way it doesn't matter so much as long as they are clearly 
+> separated. Maybe option 3 is the best since disabling a particular 
+> implementation is very straight forward.
+>
+> So, on reflection I'd go for Option 3
+>
+>
+> Cheers
+> magi
+>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100909/a0601f13/attachment.vcf>
+
+From a.j.payne at bristol.ac.uk  Mon Sep 13 16:06:20 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Mon, 13 Sep 2010 15:06:20 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <5922C744-09A5-4D50-A240-011931E45BD2@lanl.gov>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>	<871va25l6p.fsf@59A2.org>
+	<4C6A623E.2090300@swansea.ac.uk>	<20100817155318.GA22201@ices.utexas.edu>	<4C77C503.6020509@swansea.ac.uk>
+	<87iq2wgn22.fsf@59A2.org>	<4C77D2A8.7000900@ed.ac.uk>
+	<4C77DEA6.5000105@ed.ac.uk>	<4C77E0F7.2060100@bristol.ac.uk>	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>	<1282982358.3306.2.camel@bacon.marsupium.org>	<87bp8nezts.fsf@59A2.org>
+	<4C7B6E55.6000801@ed.ac.uk>	<8739twtncm.fsf@59A2.org>
+	<5922C744-09A5-4D50-A240-011931E45BD2@lanl.gov>
+Message-ID: <4C8E2FDC.2070501@bristol.ac.uk>
+
+hi
+
+sorry for late contribution to this theme.
+
+in answer to magnus' original questions: what is glimmer-cism?  i think 
+it will remain a code that has a variety of climate forcing drivers and 
+climate model couplers, it will also contain a range of ice flow and 
+mass balance routines including SIA and various flavours of higher order 
+code.  at some point it may well include parallelism both in matrix 
+inversion and more generally (domain decomposition).  unless very 
+considerable effort is made, it seems likely to continue to use a fixed, 
+staggered horizontal grid.  this configuration is fine for many 
+applications but has very serious shortcomings for key problems such as 
+grounding line migration.  we could rewrite glimmer-cism entirely to be 
+based on the type of grid more needed for these problems however this 
+would more or less mean starting from scratch and would be repeating 
+much of the work that has been done elsewhere in developing generic 
+solvers on advanced (ie non fixed, non quadrilateral) meshes.  the 
+dycore work is therefore a mean of allowing glimmer-cism access to these 
+more advanced solvers, which can be offered an alternative to the 
+standard fixed-grid dynamic calculations.  a typical application could 
+see glimmer-cism doing the climate coupling/forcing and mass balance 
+calculations (also isostasy), and passing the necessary geometry and 
+mass fluxes field over to the new dycore to do the ice 
+flow-temperature-thickness calculations.
+
+i agree with bill that it would make sense to define the interface that 
+more advanced dycores will need to use; and echo dan's point that the 
+job of regridding on to the mesh that glimmer-cism provides should be 
+the job of the dycore and not place any additional burden on 
+glimmer-cism.  i would urge that this interface is defined to be as 
+simple as possible.
+
+all the best
+
+tony
+
+
+
+On 30/08/2010 21:14, William Lipscomb wrote:
+>
+> Hi all,
+>
+> I agree that it's worth taking some time to define and design the API 
+> infrastructure.  I wonder if it would make sense to form a development 
+> subgroup to think about this in detail.  This group might include 
+> representatives from the various ISICLES projects developing new 
+> dycores (e.g., Jed from SISIPHUS, Dan from ISICLES, Toby from 
+> U.Texas/Ymir) as well as the Glimmer-CISM steering committee (Magnus?) 
+> and the CESM community (Jesse or me?).  Others (e.g., from PISM) would 
+> of course be welcome.
+>
+> I'll start by asking:
+> (1) Does anyone have strong feelings about whether this is or isn't a 
+> good idea?
+> (2) Assuming it's a good idea, who would like to be part of the group?
+>
+> Regards,
+>
+> Bill
+>
+>
+>
+>
+> On Aug 30, 2010, at 4:18 AM, Jed Brown wrote:
+>
+>> On Mon, 30 Aug 2010 09:39:49 +0100, Magnus Hagdorn 
+>> <Magnus.Hagdorn at ed.ac.uk> wrote:
+>>> This is an entirely different beast.
+>>
+>> Agreed, just wanted to put it out there because a change like this won't
+>> happen overnight and won't happen if there isn't some consensus that
+>> it's the right direction to be headed.
+>>
+>>> However, if this is what we want to achieve then we should really
+>>> spend some time on defining and designing the infrastructure and API
+>>> first. Once we have it we can port glimmer to it. I don't think there
+>>> is much point trying to come up with an API that fits the current
+>>> structure of glimmer.
+>>
+>> I would also suggest trying to avoid having too many CCSM coupler
+>> idiosyncrasies show up in the API.
+>>
+>> Other ISICLES projects, the PISM team, and possibly others should be
+>> prepared to weight in on the API.  I don't know if everyone is on this
+>> list, or if you want to have the discussion on this list.
+>>
+>> Jed
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> ******************************************************************************* 
+>
+> William H. Lipscomb                    E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory        Phone: (505) 667-0395
+> Group T-3, Mail Stop B216            Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> ******************************************************************************* 
+>
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From a.j.payne at bristol.ac.uk  Mon Sep 13 16:55:11 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Mon, 13 Sep 2010 15:55:11 +0100
+Subject: [Glimmer-cism-devel] tests dir vs. tests2
+In-Reply-To: <4C88C5C1.2090009@bristol.ac.uk>
+References: <4C87E9A7.8050707@lanl.gov>
+	<4C88B1A2.7000307@bristol.ac.uk>	<4C88C33D.5070407@ed.ac.uk>
+	<4C88C5C1.2090009@bristol.ac.uk>
+Message-ID: <4C8E3B4F.7010006@bristol.ac.uk>
+
+me too
+
+On 09/09/2010 12:32, Sarah Shannon wrote:
+> Hi Magnus,
+> Option 3 looks good to me, Cheers,
+> Sarah
+>
+> Magnus Hagdorn wrote:
+>> Sarah Shannon wrote:
+>>> Hi Steve,
+>>>
+>>> Thanks for letting me know. I would have no problem with the 
+>>> replacement you suggest. It looks like there is a peterman test in 
+>>> "test" which is not in "test2". We might want to copy that to the 
+>>> new directory.
+>>> Dividing the tests in SIA and HO tests would be a clear way to set 
+>>> up the directory.  I am setting up an automatic EISMINT-1 and hump 
+>>> test on the lanl trunk, to test the SIA and HO parts of the code. 
+>>> This means, Ill be checking in extra configuration files to the test 
+>>> directory, plus code to compare netCDF files and a test script. It 
+>>> could be a good time restructure the directory. Perhaps having 
+>>> subdirectories "sia"  "ho"   "utils" might be useful.
+>>>
+>>> Do people have opinions about this?
+>>>
+>>>
+>>
+>> what about having them in the same directory, but using different 
+>> names for the configuration and output files?
+>> alternatively we could introduce a new level of directories and keep 
+>> the names, e.g.
+>> EISMINT-1/SIA
+>> EISMINT-1/HO
+>> etc
+>> this would have the benefit, that it would be easy to disable a 
+>> particular implementation test run.
+>>
+>> Option 3 is to have
+>> tests/SIA/EISMINT-1
+>>           ....
+>> tests/HO/EISMINT-1
+>>          ....
+>>
+>> in a way it doesn't matter so much as long as they are clearly 
+>> separated. Maybe option 3 is the best since disabling a particular 
+>> implementation is very straight forward.
+>>
+>> So, on reflection I'd go for Option 3
+>>
+>>
+>> Cheers
+>> magi
+>>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>    
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100913/c1f2aec8/attachment.html>
+
+From I.C.Rutt at swansea.ac.uk  Mon Sep 20 11:38:23 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Mon, 20 Sep 2010 10:38:23 +0100
+Subject: [Glimmer-cism-devel] Fwd: dycore proposal
+In-Reply-To: <4C7E0BDD.2030303@ed.ac.uk>
+References: <689a26b23dbad64b1c5015802746b5f7@ices.utexas.edu>
+	<A37EB7A8-FB00-4236-9AD4-679E0B1919DC@lanl.gov>
+	<871va25l6p.fsf@59A2.org> <4C6A623E.2090300@swansea.ac.uk>
+	<20100817155318.GA22201@ices.utexas.edu>
+	<4C77C503.6020509@swansea.ac.uk> <87iq2wgn22.fsf@59A2.org>
+	<4C77D2A8.7000900@ed.ac.uk> <4C77DEA6.5000105@ed.ac.uk>
+	<4C77E0F7.2060100@bristol.ac.uk>
+	<1534452E-FAEF-42A4-A231-A21269BED7FD@lanl.gov>
+	<1282982358.3306.2.camel@bacon.marsupium.org>
+	<87bp8nezts.fsf@59A2.org> <4C7B6E55.6000801@ed.ac.uk>
+	<8739twtncm.fsf@59A2.org>
+	<5922C744-09A5-4D50-A240-011931E45BD2@lanl.gov>
+	<4C7E0BDD.2030303@ed.ac.uk>
+Message-ID: <9D5B4B1D-87D3-40F4-85B8-0E51B60C31F3@swansea.ac.uk>
+
+
+Hi All,
+
+Sorry for email absence over the last few weeks - I was away in  
+Helsinki for most of August, and am just recovering from moving house.
+
+I think the API discussion group is a good idea, and I think it would  
+be great if Magnus can be involved from the steering committee.
+
+I also think that anyone else who has a positive contribution to make  
+should take part - this needs to be an open, transparent process, and  
+I hope that even though we will identify particular people to be  
+involved, the discussions should be made open to everyone.
+
+All the best,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+On 1 Sep 2010, at 09:16, Magnus Hagdorn wrote:
+
+> William Lipscomb wrote:
+>> Hi all,
+>> I agree that it's worth taking some time to define and design the  
+>> API infrastructure.  I wonder if it would make sense to form a  
+>> development subgroup to think about this in detail.  This group  
+>> might include representatives from the various ISICLES projects  
+>> developing new dycores (e.g., Jed from SISIPHUS, Dan from ISICLES,  
+>> Toby from U.Texas/Ymir) as well as the Glimmer-CISM steering  
+>> committee (Magnus?) and the CESM community (Jesse or me?).  Others  
+>> (e.g., from PISM) would of course be welcome.
+>> I'll start by asking:
+>> (1) Does anyone have strong feelings about whether this is or isn't  
+>> a good idea?
+>> (2) Assuming it's a good idea, who would like to be part of the  
+>> group?
+>
+> Hi Bill,
+> I think this is a very good idea and should involve representatives  
+> from other projects. I'd be happy to be the Glimmer-CISM  
+> representative but should stress that I don't have any funding which  
+> will make it difficult for me to attend any meetings.
+>
+> I think there is not much point refactoring the code (Glimmer-CISM)  
+> at this moment when we don't have an API yet.
+>
+> Regards
+> magi
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100920/9f395f74/attachment.html>
+
+From sprice at lanl.gov  Tue Sep 21 04:30:28 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Mon, 20 Sep 2010 20:30:28 -0600
+Subject: [Glimmer-cism-devel] include .inc files
+Message-ID: <4C9818C4.3040502@lanl.gov>
+
+
+Hi all,
+
+I'm looking for a quick explanation on something.
+
+At the start of most .F90 files there is something like ...
+
+#include "glide_nan.inc"
+#include "glide_mask.inc"
+
+... for example, at the head of glide_velo_higher.F90.
+
+I recently made some seemingly trivial changes to that file so that some 
+options could be specified at run time rather than being hardwired into 
+the code. When I did this, I got a build error that I have not seen before:
+
+*** No rule to make target `config.inc', needed by 
+`glide_velo_higher.o'.  Stop.
+
+I fixed this by adding:
+
+#include "config.inc"
+
+to the head of glide_velo_higher.F90. This also required that I comment 
+out, or remove, an existing line there:
+
+#ifdef HAVE_CONFIG_H #include "config.inc" #endif
+
+Can someone provide a simple explanation? I've made similar changes to 
+this and other parts of the code before but have never seen this error 
+come up.
+
+thanks -
+
+Steve
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 21 09:44:37 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 21 Sep 2010 08:44:37 +0100
+Subject: [Glimmer-cism-devel] include .inc files
+In-Reply-To: <4C9818C4.3040502@lanl.gov>
+References: <4C9818C4.3040502@lanl.gov>
+Message-ID: <1285055077.2482.3.camel@bacon.marsupium.org>
+
+On Mon, 2010-09-20 at 20:30 -0600, Stephen Price wrote:
+> Hi all,
+> 
+> I'm looking for a quick explanation on something.
+> 
+> At the start of most .F90 files there is something like ...
+> 
+> #include "glide_nan.inc"
+> #include "glide_mask.inc"
+> 
+> ... for example, at the head of glide_velo_higher.F90.
+> 
+> I recently made some seemingly trivial changes to that file so that some 
+> options could be specified at run time rather than being hardwired into 
+> the code. When I did this, I got a build error that I have not seen before:
+> 
+> *** No rule to make target `config.inc', needed by 
+> `glide_velo_higher.o'.  Stop.
+> 
+> I fixed this by adding:
+> 
+> #include "config.inc"
+> 
+> to the head of glide_velo_higher.F90. This also required that I comment 
+> out, or remove, an existing line there:
+> 
+> #ifdef HAVE_CONFIG_H #include "config.inc" #endif
+> 
+> Can someone provide a simple explanation? I've made similar changes to 
+> this and other parts of the code before but have never seen this error 
+> come up.
+> 
+
+
+Hi Steve,
+how did you run configure? the macro HAVE_CONFIG should be defined after
+you have run configure.  When you run make what options are passed to
+the compiler? You should see something like -DHAVE_CONFIG.
+
+Is there a bug in glide_nan.inc or glide_mask.inc? These should also
+come after including config.inc.
+
+No answer - but some suggestions
+magi
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 21 16:57:01 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 21 Sep 2010 15:57:01 +0100
+Subject: [Glimmer-cism-devel] include .inc files
+In-Reply-To: <4C98C6AA.3040606@lanl.gov>
+References: <4C9818C4.3040502@lanl.gov>
+	<1285055077.2482.3.camel@bacon.marsupium.org>
+	<4C98C6AA.3040606@lanl.gov>
+Message-ID: <1285081021.7783.1.camel@bacon.marsupium.org>
+
+On Tue, 2010-09-21 at 08:52 -0600, Stephen Price wrote:
+
+> Thanks. For now, I just removed the
+> 
+> #ifdef HAVE_CONFIG_H #include "config.inc" #endif
+> 
+> line from the start of the file and added '#include config.inc', and it 
+> seems to work. But I'd like to make sure I'm not messing something else 
+> by doing that.
+> 
+> Note that in the original file, the lines were as follows:
+> 
+> #ifdef HAVE_CONFIG_H #include "config.inc" #endif
+
+I am not sure if this is correct, I think it should be
+#ifdef HAVE_CONFIG_H
+#include....
+#endif
+
+> #include "glide_nan.inc"
+> #include "glide_mask.inc"
+> 
+> I notice you just made a commit. Is that relevant here?
+> 
+
+maybe, that fixed a problem when compiling out of source tree.
+
+magi
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 21 18:01:40 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 21 Sep 2010 17:01:40 +0100
+Subject: [Glimmer-cism-devel] pardiso
+Message-ID: <1285084900.7783.4.camel@bacon.marsupium.org>
+
+Hi all,
+I am having a look at the HO branch. Are there any instructions on how
+to link against pardiso?
+Cheers
+magi
+
+
+
+
+From I.C.Rutt at swansea.ac.uk  Tue Sep 21 18:11:07 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 21 Sep 2010 17:11:07 +0100
+Subject: [Glimmer-cism-devel] glint_example
+In-Reply-To: <1872F973-3213-4B62-8ED6-664E3F1064A5@lanl.gov>
+References: <1872F973-3213-4B62-8ED6-664E3F1064A5@lanl.gov>
+Message-ID: <4C98D91B.1030907@swansea.ac.uk>
+
+
+Hi Bill (cc. developer list),
+
+Sorry for not replying to this back in July when you sent it. I'm just 
+catching up now...
+
+I've tried this with the latest glimmer-cism2/trunk checkout, but can't 
+reproduce the problem, I'm afraid. Are you still having difficulties? 
+Does anyone else have this problem?
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+William Lipscomb wrote:
+> 
+> Hi Ian and Magnus,
+> 
+> I found another problem that I wanted to ask you about before I post to 
+> the list.  When I run the standard glint_example test problem with 
+> Paterson/Budd variable flow factor (as opposed to constant flow factor), 
+> the code crashes in year 3.  This happens with either the gc2 trunk code 
+> or the (fixed) gc-lanl parallel code when I use the nonlinear thickness 
+> solver.  Is this a known problem?  Should I worry about it, or should I 
+> just assume it's an issue with the initial or forcing datasets?
+> 
+> Thanks,
+> 
+> Bill
+> 
+> 
+> ******************************************************************************* 
+> 
+> William H. Lipscomb                    E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory        Phone: (505) 667-0395
+> Group T-3, Mail Stop B216            Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> ******************************************************************************* 
+> 
+> 
+> 
+> 
+> 
+
+
+From I.C.Rutt at swansea.ac.uk  Tue Sep 21 18:25:45 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 21 Sep 2010 17:25:45 +0100
+Subject: [Glimmer-cism-devel] Paper of interest to climate coupling people
+Message-ID: <4C98DC89.1040607@swansea.ac.uk>
+
+
+Hi All,
+
+For those who work on coupling Glimmer-CISM to climate forcing (using 
+GLINT, or other couplers), you might find this paper from GMD of interest:
+
+http://www.geosci-model-dev.net/3/13/2010/gmd-3-13-2010.html
+
+Apologies for my slowness in sending it round - ignore if you've already 
+read it!
+
+All the best,
+
+Ian
+
+-- 
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From jed at 59A2.org  Tue Sep 21 21:14:34 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Tue, 21 Sep 2010 21:14:34 +0200
+Subject: [Glimmer-cism-devel] Paper of interest to climate coupling
+	people
+In-Reply-To: <4C98DC89.1040607@swansea.ac.uk>
+References: <4C98DC89.1040607@swansea.ac.uk>
+Message-ID: <AANLkTin3tftu6ytx4njJ93vL-_70gw9_n1tOmkVRyBUp@mail.gmail.com>
+
+On Tue, Sep 21, 2010 at 18:25, Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+> For those who work on coupling Glimmer-CISM to climate forcing (using GLINT,
+> or other couplers), you might find this paper from GMD of interest:
+>
+> http://www.geosci-model-dev.net/3/13/2010/gmd-3-13-2010.html
+
+Thanks.  Note that this does not implement an exactly conservative
+scheme.  See Table 4 which, after correcting for a total-area bias,
+still shows errors typically larger than 10%.  This may be acceptable
+for short time periods, but not for the long-term.
+
+Also note that all the projections are readily available in the open
+source library GDAL (http://gdal.org) which has bindings to many
+languages and is much more modern, supported, and complete than Proj4
+which some people are still using.
+
+Jed
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 28 10:15:24 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 28 Sep 2010 09:15:24 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism test suite
+Message-ID: <4CA1A41C.7050100@ed.ac.uk>
+
+Hi Sarah,
+what is the current status of the test suite? The steering committee 
+(that sounds very offical...) would like to integrate the test suite 
+before the stable version 1.6 is released. In order to do so we should 
+merge your changes into trunk. I am quite happy to do the merge if you 
+want me to and if you are ready. Once the test suite is fully integrated 
+into trunk we can merge it into the 1.6 branch and use it to test the 
+version 1.6.
+
+Thanks for tackling this much needed unglamorous feature.
+
+Cheers
+magi
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Tue Sep 28 12:04:06 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Tue, 28 Sep 2010 11:04:06 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism test suite
+Message-ID: <4CA1BD96.8070307@bristol.ac.uk>
+
+Hi Magnus,
+
+That's great the test suite will eventually be merged into the trunk. I 
+was at the Karthaus summer school for the last 2 weeks so I didn't get 
+time to work on it since then.
+
+Here is the current status: I am setting up tests for ho-other, 
+EISMINT-1 and ISMIP-HOM. I changed the layout of the test directory as 
+suggested in the last email. I modified configure to compile the netCDF 
+tool and added a rule in Makefile.am to call the script.
+
+I still have to check in the GS files and the final version of the test 
+script. I was thinking of putting the GS files in the test suite. I 
+should have this finalised by the end of the week and Ill email you 
+then. It would be helpful if you could do the merging - if you didn't 
+mind that -as I haven't merged code before.
+
+Ed Bueler was at Karthaus and he mentioned that you have set up 
+analytical tests for glimmer in the past. Are these in the repository 
+somewhere and do you think they would be useful to add to the test suite?
+
+Cheers,
+
+Sarah
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100928/0f9ca784/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Sep 28 13:07:49 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 28 Sep 2010 12:07:49 +0100
+Subject: [Glimmer-cism-devel] glimmer-cism test suite
+In-Reply-To: <4CA1BD96.8070307@bristol.ac.uk>
+References: <4CA1BD96.8070307@bristol.ac.uk>
+Message-ID: <4CA1CC85.5060804@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi Magnus,
+> 
+> That's great the test suite will eventually be merged into the trunk. I 
+> was at the Karthaus summer school for the last 2 weeks so I didn't get 
+> time to work on it since then.
+> 
+> Here is the current status: I am setting up tests for ho-other, 
+> EISMINT-1 and ISMIP-HOM. I changed the layout of the test directory as 
+> suggested in the last email. I modified configure to compile the netCDF 
+> tool and added a rule in Makefile.am to call the script.
+> 
+> I still have to check in the GS files and the final version of the test 
+> script. I was thinking of putting the GS files in the test suite. I 
+> should have this finalised by the end of the week and Ill email you 
+> then. It would be helpful if you could do the merging - if you didn't 
+> mind that -as I haven't merged code before.
+> 
+> Ed Bueler was at Karthaus and he mentioned that you have set up 
+> analytical tests for glimmer in the past. Are these in the repository 
+> somewhere and do you think they would be useful to add to the test suite?
+> 
+> 
+Hi Sarah,
+Ed Bueler's isothermal tests are in the tests directory. The main thing 
+at this stage is to get the framework sorted out. We can then add more 
+tests as we go along. Let me know when you are ready and we can have a 
+look/discuss how we go forward.
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Sep 29 15:55:33 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 29 Sep 2010 14:55:33 +0100
+Subject: [Glimmer-cism-devel] integrating the higher order physics model
+	into Glimmer-CISM
+Message-ID: <4CA34555.8080106@ed.ac.uk>
+
+Hi all,
+during the last Glimmer-CISM steering committee meeting, Bill suggested 
+to make the higher order physics model optional and distinct once it has 
+been merged into glimmer-cism trunk.
+
+We are not ready for the new API/separation into multiple dynamical 
+cores yet so we need to come up with an interim solution. This email 
+outlines a number of options.
+
+Adding another switch to configure to either enable or disable higher 
+order physics is straight forward. We can then use conditionals in the 
+automake files to decide what is to be compiled.
+
+I think there are 3 options:
+1. add the code to the libglide directory and define a group of
+    source files making up the HO model which gets added or not to
+    the libglide_SOURCES
+2. create two subdirectories under libglide one for the shallow ice
+    code and one for the higher order code. Bundle compiled object files
+    into helper libraries which will be combined to form libglide.
+3. keep libglide as it is and move the higher order code to a
+    subdirectory in the extensions directory. Handle the HO code
+    like any of the other existing extensions.
+
+Personally, I don't like option 2 because it suggests that the SIA and 
+HO code are equivalent when in fact the HO code requires the SIA code. 
+I'd be happy with Option 1 although it might lead to some confusion as 
+to where code belongs; well, it's somewhat more messy. I think Option 3 
+would be ideal because the HO model is an optional add-on which depends 
+on basic glimmer-cism. You might argue that the HO model ends up in a 
+less prominent place than it deserves, but I don't think so.
+
+What do you think?
+
+Cheers
+magi
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From a.j.payne at bristol.ac.uk  Wed Sep 29 20:13:13 2010
+From: a.j.payne at bristol.ac.uk (Tony Payne)
+Date: Wed, 29 Sep 2010 19:13:13 +0100
+Subject: [Glimmer-cism-devel] integrating the higher order physics model
+ into Glimmer-CISM
+In-Reply-To: <4CA34555.8080106@ed.ac.uk>
+References: <4CA34555.8080106@ed.ac.uk>
+Message-ID: <4CA381B9.706@bristol.ac.uk>
+
+hi
+
+i do not think it is true to say that the HO code requires the SIA 
+code.  best to think of the 3 key functions that the dynamic core has
+
+temperature (currently incl vertical vel)
+thickness
+horiz velocity
+
+in the SIA thickness and vel are sometimes solved together in the ice 
+sheet eqn.  the HO code MUST (or at least is very likely to) solve them 
+separately.  it may well be that the HO code will use the temperature 
+solver (there will be minor differences in the dissipation term).  a 
+further complication, some is flavours of HO will provide vertical and 
+others not, so perhaps best to bundle vertical vel in with the horiz vel 
+code.  i was thinking that which vel solver is called for a particular 
+region will depend on some field of  flags (slow flow, stream, shelf 
+etc) so that SIA (where horiz vel is found separately from thickness 
+evol), L1L2 and PP could all be potentially called.  perhaps the real 
+difference is between an option that solves the ice sheet eqn and one 
+that solves thickness and vel separately (be it with SIA, L1L2 or PP).
+
+the other functions of glimmer (isostasy, climate, SMB etc) will clearly 
+need to available to both SIA and HO codes.  there are issues about 
+ancillary functions needed to find basal traction coeffs etc which may 
+depend on which flow model is being used.
+
+i think that the HO code will fairly soon become the default because the 
+range of probs that can be done with SIA is fairly limited (assuming 
+that a fast enough HO version can be made).  in which case making it an 
+extension seems a bit obtuse.  if we have SIA/ice sheet eqn as the 
+default we are essentially presenting a model that is 20 years (well 15) 
+old, which may not be good PR.  i am not certain that we can tackle this 
+separately from the dycore issue in that whatever solution we choose 
+here should also work for the external dycores (and vice versa).
+
+
+all the best
+
+tony
+
+On 29/09/2010 14:55, Magnus Hagdorn wrote:
+> Hi all,
+> during the last Glimmer-CISM steering committee meeting, Bill 
+> suggested to make the higher order physics model optional and distinct 
+> once it has been merged into glimmer-cism trunk.
+>
+> We are not ready for the new API/separation into multiple dynamical 
+> cores yet so we need to come up with an interim solution. This email 
+> outlines a number of options.
+>
+> Adding another switch to configure to either enable or disable higher 
+> order physics is straight forward. We can then use conditionals in the 
+> automake files to decide what is to be compiled.
+>
+> I think there are 3 options:
+> 1. add the code to the libglide directory and define a group of
+>    source files making up the HO model which gets added or not to
+>    the libglide_SOURCES
+> 2. create two subdirectories under libglide one for the shallow ice
+>    code and one for the higher order code. Bundle compiled object files
+>    into helper libraries which will be combined to form libglide.
+> 3. keep libglide as it is and move the higher order code to a
+>    subdirectory in the extensions directory. Handle the HO code
+>    like any of the other existing extensions.
+>
+> Personally, I don't like option 2 because it suggests that the SIA and 
+> HO code are equivalent when in fact the HO code requires the SIA code. 
+> I'd be happy with Option 1 although it might lead to some confusion as 
+> to where code belongs; well, it's somewhat more messy. I think Option 
+> 3 would be ideal because the HO model is an optional add-on which 
+> depends on basic glimmer-cism. You might argue that the HO model ends 
+> up in a less prominent place than it deserves, but I don't think so.
+>
+> What do you think?
+>
+> Cheers
+> magi
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Sep 30 13:35:20 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 30 Sep 2010 12:35:20 +0100
+Subject: [Glimmer-cism-devel] integrating the higher order physics model
+ into Glimmer-CISM
+In-Reply-To: <4CA381B9.706@bristol.ac.uk>
+References: <4CA34555.8080106@ed.ac.uk> <4CA381B9.706@bristol.ac.uk>
+Message-ID: <4CA475F8.8040007@ed.ac.uk>
+
+Tony Payne wrote:
+> i think that the HO code will fairly soon become the default because the 
+> range of probs that can be done with SIA is fairly limited (assuming 
+> that a fast enough HO version can be made).  in which case making it an 
+> extension seems a bit obtuse.  if we have SIA/ice sheet eqn as the 
+> default we are essentially presenting a model that is 20 years (well 15) 
+> old, which may not be good PR.  i am not certain that we can tackle this 
+> separately from the dycore issue in that whatever solution we choose 
+> here should also work for the external dycores (and vice versa).
+> 
+> 
+
+yes, I am sure the HO code will become the default. at the moment it is 
+more a pragmatic question of where to put it before the refactoring of 
+the code, given that we plan to rearrange most things in the not too 
+distant future. my understanding of the HO code as it is at the moment, 
+is that it requires the existing SIA code to be compiled as well. If 
+that was the case then the HO code would be an add-on.
+
+I would expect the code to move somewhere else once we are tackling the 
+refactoring and it would become a real alternative to the SIA code.
+
+magnus
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+

@@ -1,0 +1,333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C60B51847BDBC5CBF38B9A2CC%40geog-a81.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000362.html">
+   <LINK REL="Next"  HREF="000364.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>DAG Williams, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C60B51847BDBC5CBF38B9A2CC%40geog-a81.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">Gethin.Williams at bristol.ac.uk
+       </A><BR>
+    <I>Tue Oct  5 12:40:36 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000362.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000364.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#363">[ date ]</a>
+              <a href="thread.html#363">[ thread ]</a>
+              <a href="subject.html#363">[ subject ]</a>
+              <a href="author.html#363">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi folks,
+
+On the topic of reference files and version control, I think that there is 
+significant benefit of having the reference files in the same repository as 
+the code, so long as the files are small enough:
+
+1. It simplifies configure--one less path to give.
+2. The reference files will change as the model develops, and keeping them 
+in version control means that there is no confusion about /which/ reference 
+files one is comparing against.  After all, one would like the tests to be 
+as infallible as possible.
+
+To that end, I wonder if there is mileage in refining the reference files 
+so that they can be small, yet powerful?
+
+Cheers,
+Gethin.
+
+--On 05 October 2010 12:00 +0200 
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A> wrote:
+
+&gt;<i> Send Glimmer-cism-devel mailing list submissions to
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> To subscribe or unsubscribe via the World Wide Web, visit
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i> or, via email, send a message with subject or body 'help' to
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> You can reach the person managing the list at
+</I>&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-owner at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> When replying, please edit your Subject line so it is more specific
+</I>&gt;<i> than &quot;Re: Contents of Glimmer-cism-devel digest...&quot;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Today's Topics:
+</I>&gt;<i>
+</I>&gt;<i>    1. Re: glimmer test suite (Magnus Hagdorn)
+</I>&gt;<i>    2. Re: glimmer test suite (Sarah Shannon)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ----------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 1
+</I>&gt;<i> Date: Mon, 04 Oct 2010 15:28:52 +0100
+</I>&gt;<i> From: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;<i> To: Sarah Shannon &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sarah.shannon at bristol.ac.uk</A>&gt;
+</I>&gt;<i> Cc: &quot;Glimmer/CISM \(developers\)&quot;
+</I>&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: Re: [Glimmer-cism-devel] glimmer test suite
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">4CA9E4A4.109 at ed.ac.uk</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+</I>&gt;<i>
+</I>&gt;<i> Sarah Shannon wrote:
+</I>&gt;&gt;<i> Hi Magnus and developers,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The test script is now checked into
+</I>&gt;&gt;<i> <A HREF="http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.">http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.</A>
+</I>&gt;&gt;<i> It is called automatic_test.sh located in /tests/utils/
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> To get help on how to invoke the test,  type 'make test' in the head
+</I>&gt;&gt;<i> directory.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The tests which currently work are:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 1. EISMINT-1 moving margin experiments 1,2 and 3.
+</I>&gt;&gt;<i> 2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson
+</I>&gt;&gt;<i> solvers 3. ISMIP-HOM tests A and C using the Payne/Price solver.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> For the ISMIP-HOM tests, I used the python script and configuration
+</I>&gt;&gt;<i> files for experiments A and C which were already in the tests2
+</I>&gt;&gt;<i> directory. Would it be useful to add the other ISMIP-HOM tests for both
+</I>&gt;&gt;<i> the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The test directory contains configuration files for petermann, ross and
+</I>&gt;&gt;<i> shelf tests. The script does not run these tests at the moment.  Perhaps
+</I>&gt;&gt;<i> you could checkout the code and see if you can run a test?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Let me know if you spot any places where improvements can be made.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Hi Sarah,
+</I>&gt;<i> there are a number of issues with your test suite implementation:
+</I>&gt;<i> 1. the gold versions shouldn't be under version control. these data
+</I>&gt;<i> files considerably contribute to the size of the project in subversion.
+</I>&gt;<i> We have only limited space. Also some people might not like to have to
+</I>&gt;<i> download the netCDF files all the time. We can think about where they
+</I>&gt;<i> should live later, but I am sure we can find some server with enough
+</I>&gt;<i> space/bandwidth to serve a tar-ball containing the gold standard.
+</I>&gt;<i>
+</I>&gt;<i> 2. you are making the automatic_test.sh more complicated than you need
+</I>&gt;<i> to. Have a look at the current trunk:
+</I>&gt;<i> <A HREF="https://magi@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk">https://magi@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk</A>
+</I>&gt;<i>
+</I>&gt;<i> the tests directory has a number of subdirectories with various test
+</I>&gt;<i> setups. Let's have a look at the EISMINT-1 tests in the directory
+</I>&gt;<i> tests/EISMINT/EISMINT-1
+</I>&gt;<i> All tests are controlled by make. So the Makefile.am specifies a a data
+</I>&gt;<i> macro containing all the names of the output files generated by each
+</I>&gt;<i> test setup. The Makefile includes the toplevel file extra_rules.am which
+</I>&gt;<i> defines a make rule to generate a netcdf output file given a
+</I>&gt;<i> configuration file. The make rule uses a python wrapper to either launch
+</I>&gt;<i> the model directly or via qsub. The python wrapper can also handle
+</I>&gt;<i> dependencies.
+</I>&gt;<i>
+</I>&gt;<i> So, all you need to do is to write another rule which does the
+</I>&gt;<i> comparison, for example
+</I>&gt;<i>
+</I>&gt;<i> compare-%:	%.nc
+</I>&gt;<i> 		$(top_builddir)/utils/compare $&lt; \
+</I>&gt;<i>                  $(PATH_TO_GOLD_STANDARD)/path/to/exp/$&lt;
+</I>&gt;<i>
+</I>&gt;<i> where the macro PATH_TO_GOLD_STANDARD is set by configure to the
+</I>&gt;<i> top-level directory where all the gold standard files are installed. You
+</I>&gt;<i> still need to figure out the path/to/exp which is just the difference
+</I>&gt;<i> between $(top_builddir) and $(builddir) (there might already be a macro
+</I>&gt;<i> for that, or some suitable shell trickery will give you it).
+</I>&gt;<i>
+</I>&gt;<i> running make compare-e1-fm.1 would then run the test if necessary and
+</I>&gt;<i> then compare it against the gold standard. it might be an idea to output
+</I>&gt;<i> whether it failed or not. a wrapper will be necessary to make use of the
+</I>&gt;<i> SGE stuff, but we can sort that out once the basics work.
+</I>&gt;<i>
+</I>&gt;<i> I hope this makes sense to you and please don't hesitate for further
+</I>&gt;<i> details.
+</I>&gt;<i>
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 2
+</I>&gt;<i> Date: Tue, 05 Oct 2010 09:01:26 +0100
+</I>&gt;<i> From: Sarah Shannon &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sarah.shannon at bristol.ac.uk</A>&gt;
+</I>&gt;<i> To: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;, 	&quot;Glimmer/CISM
+</I>&gt;<i> 	(developers)&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: Re: [Glimmer-cism-devel] glimmer test suite
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">4CAADB56.2000908 at bristol.ac.uk</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=&quot;iso-8859-1&quot;; Format=&quot;flowed&quot;
+</I>&gt;<i>
+</I>&gt;<i> Hi Magnus,
+</I>&gt;<i> Thanks of that,  I understand what you mean.  Ill add the rule to
+</I>&gt;<i> compare and the extra macro in
+</I>&gt;<i> svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/trunk and get
+</I>&gt;<i> back to you,
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Sarah
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Magnus Hagdorn wrote:
+</I>&gt;&gt;<i> Sarah Shannon wrote:
+</I>&gt;&gt;&gt;<i> Hi Magnus and developers,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> The test script is now checked into
+</I>&gt;&gt;&gt;<i> <A HREF="http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.">http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism-lanl/trunk.</A>
+</I>&gt;&gt;&gt;<i> It is called automatic_test.sh located in /tests/utils/
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> To get help on how to invoke the test,  type 'make test' in the head
+</I>&gt;&gt;&gt;<i> directory.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> The tests which currently work are:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> 1. EISMINT-1 moving margin experiments 1,2 and 3.
+</I>&gt;&gt;&gt;<i> 2. The hump test using the Payne/Price or the Pattyn/Bocek/Johonson
+</I>&gt;&gt;&gt;<i> solvers
+</I>&gt;&gt;&gt;<i> 3. ISMIP-HOM tests A and C using the Payne/Price solver.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> For the ISMIP-HOM tests, I used the python script and configuration
+</I>&gt;&gt;&gt;<i> files for experiments A and C which were already in the tests2
+</I>&gt;&gt;&gt;<i> directory. Would it be useful to add the other ISMIP-HOM tests for
+</I>&gt;&gt;&gt;<i> both the Payne/Price and the Pattyn/Bocek/Johonson solvers as well?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> The test directory contains configuration files for petermann, ross
+</I>&gt;&gt;&gt;<i> and shelf tests. The script does not run these tests at the moment.
+</I>&gt;&gt;&gt;<i> Perhaps you could checkout the code and see if you can run a test?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Let me know if you spot any places where improvements can be made.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Hi Sarah,
+</I>&gt;&gt;<i> there are a number of issues with your test suite implementation:
+</I>&gt;&gt;<i> 1. the gold versions shouldn't be under version control. these data
+</I>&gt;&gt;<i> files considerably contribute to the size of the project in
+</I>&gt;&gt;<i> subversion. We have only limited space. Also some people might not
+</I>&gt;&gt;<i> like to have to download the netCDF files all the time. We can think
+</I>&gt;&gt;<i> about where they should live later, but I am sure we can find some
+</I>&gt;&gt;<i> server with enough space/bandwidth to serve a tar-ball containing the
+</I>&gt;&gt;<i> gold standard.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2. you are making the automatic_test.sh more complicated than you need
+</I>&gt;&gt;<i> to. Have a look at the current trunk:
+</I>&gt;&gt;<i> <A HREF="https://magi@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/tru">https://magi@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/tru</A>
+</I>&gt;&gt;<i> nk
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> the tests directory has a number of subdirectories with various test
+</I>&gt;&gt;<i> setups. Let's have a look at the EISMINT-1 tests in the directory
+</I>&gt;&gt;<i> tests/EISMINT/EISMINT-1
+</I>&gt;&gt;<i> All tests are controlled by make. So the Makefile.am specifies a a
+</I>&gt;&gt;<i> data macro containing all the names of the output files generated by
+</I>&gt;&gt;<i> each test setup. The Makefile includes the toplevel file
+</I>&gt;&gt;<i> extra_rules.am which defines a make rule to generate a netcdf output
+</I>&gt;&gt;<i> file given a configuration file. The make rule uses a python wrapper
+</I>&gt;&gt;<i> to either launch the model directly or via qsub. The python wrapper
+</I>&gt;&gt;<i> can also handle dependencies.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> So, all you need to do is to write another rule which does the
+</I>&gt;&gt;<i> comparison, for example
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> compare-%:    %.nc
+</I>&gt;&gt;<i>         $(top_builddir)/utils/compare $&lt; \
+</I>&gt;&gt;<i>                 $(PATH_TO_GOLD_STANDARD)/path/to/exp/$&lt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> where the macro PATH_TO_GOLD_STANDARD is set by configure to the
+</I>&gt;&gt;<i> top-level directory where all the gold standard files are installed.
+</I>&gt;&gt;<i> You still need to figure out the path/to/exp which is just the
+</I>&gt;&gt;<i> difference between $(top_builddir) and $(builddir) (there might
+</I>&gt;&gt;<i> already be a macro for that, or some suitable shell trickery will give
+</I>&gt;&gt;<i> you it).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> running make compare-e1-fm.1 would then run the test if necessary and
+</I>&gt;&gt;<i> then compare it against the gold standard. it might be an idea to
+</I>&gt;&gt;<i> output whether it failed or not. a wrapper will be necessary to make
+</I>&gt;&gt;<i> use of the SGE stuff, but we can sort that out once the basics work.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I hope this makes sense to you and please don't hesitate for further
+</I>&gt;&gt;<i> details.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> magi
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -------------- next part --------------
+</I>&gt;<i> A non-text attachment was scrubbed...
+</I>&gt;<i> Name: sarah_shannon.vcf
+</I>&gt;<i> Type: text/x-vcard
+</I>&gt;<i> Size: 278 bytes
+</I>&gt;<i> Desc: not available
+</I>&gt;<i> URL:
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201010">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/201010</A>
+</I>&gt;<i> 05/edceae52/attachment-0001.vcf&gt;
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> End of Glimmer-cism-devel Digest, Vol 16, Issue 3
+</I>&gt;<i> *************************************************
+</I>
+
+
+Cheers,
+Gethin.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000362.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000364.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#363">[ date ]</a>
+              <a href="thread.html#363">[ thread ]</a>
+              <a href="subject.html#363">[ subject ]</a>
+              <a href="author.html#363">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Problem with gfortran and iargc
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Problem%20with%20gfortran%20and%20iargc&In-Reply-To=%3C648DBE84-104F-4967-B864-344D1AD7C66B%40columbia.edu%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000481.html">
+   <LINK REL="Next"  HREF="000483.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Problem with gfortran and iargc</H1>
+    <B>Bob</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Problem%20with%20gfortran%20and%20iargc&In-Reply-To=%3C648DBE84-104F-4967-B864-344D1AD7C66B%40columbia.edu%3E"
+       TITLE="[Glimmer-cism-devel] Problem with gfortran and iargc">rpf2116 at columbia.edu
+       </A><BR>
+    <I>Wed Oct  5 22:15:38 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000481.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+        <LI>Next message: <A HREF="000483.html">[Glimmer-cism-devel] finding a new hosting site
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#482">[ date ]</a>
+              <a href="thread.html#482">[ thread ]</a>
+              <a href="subject.html#482">[ subject ]</a>
+              <a href="author.html#482">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>It looks like HAVE_2003ARGS is not being set up correctly in the configure script.  It's another place where the script is lacking spaces in the front, which is not compliant fixed-format FORTRAN.
+
+The following diff fixed it for me.  But it's a temporary fix, and I don't know how to do the permanent fix.  Is anyone able to do this?
+
+-- Bob
+
+Index: configure
+===================================================================
+--- configure	(revision 1174)
++++ configure	(working copy)
+@@ -23812,7 +23812,7 @@
+ $as_echo_n &quot;checking for f2003 command line parser... &quot; &gt;&amp;6; }
+ cat &gt; conftest.$ac_ext &lt;&lt;_ACEOF
+       program main
+-i=command_argument_count()
++      i=command_argument_count()
+                 call get_command_argument(i)
+       end
+ _ACEOF
+
+
+
+On Oct 5, 2011, at 4:00 PM, Florence Colleoni wrote:
+
+&gt;<i> Hi Bob,
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> I have performed the modifications you suggested already and the error message I get is:
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i>  In file nc2config.F90:68
+</I>&gt;<i> 
+</I>&gt;<i>   numargs = iargc
+</I>&gt;<i>                 1
+</I>&gt;<i> Error: Function 'iargc' requires an argument list at (1)
+</I>&gt;<i> 
+</I>&gt;<i> Flo
+</I>&gt;<i> 
+</I>&gt;<i> 2011/10/5 Bob &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">rpf2116 at columbia.edu</A>&gt;
+</I>&gt;<i> This diff should do it, please tell me if it works.
+</I>&gt;<i> 
+</I>&gt;<i> -- Bob
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Index: libglimmer/nc2config.F90
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- libglimmer/nc2config.F90    (revision 1174)
+</I>&gt;<i> +++ libglimmer/nc2config.F90    (working copy)
+</I>&gt;<i> @@ -32,7 +32,7 @@
+</I>&gt;<i>  #endif
+</I>&gt;<i>  
+</I>&gt;<i>  #ifdef HAVE_2003ARGS
+</I>&gt;<i> -#define NARGS   command_argument_count
+</I>&gt;<i> +#define NARGS   command_argument_count()
+</I>&gt;<i>  #define GETARG  get_command_argument
+</I>&gt;<i>  #else
+</I>&gt;<i>  #define NARGS   iargc
+</I>&gt;<i> @@ -56,15 +56,16 @@
+</I>&gt;<i>    character(10000) :: config
+</I>&gt;<i>    integer :: status,ncid,attlen,unit,i,ellen
+</I>&gt;<i>    integer numargs,nfiles
+</I>&gt;<i> -#ifndef __GFORTRAN__
+</I>&gt;<i> +#ifndef HAVE_2003ARGS
+</I>&gt;<i>  ! iargc is an intrensic function in gfortran
+</I>&gt;<i> +! Anyway, we don't need it if we have 2003 args.
+</I>&gt;<i>    integer, external :: iargc
+</I>&gt;<i>  #endif
+</I>&gt;<i>    character(len=100) :: argument
+</I>&gt;<i>    integer, dimension(100) :: argumentIdx
+</I>&gt;<i>    
+</I>&gt;<i>    ! get number of arguments
+</I>&gt;<i> -  numargs = NARGS()
+</I>&gt;<i> +  numargs = NARGS
+</I>&gt;<i>    if (numargs.gt.0) then
+</I>&gt;<i>       i=0
+</I>&gt;<i>       nfiles = 0
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> On Oct 5, 2011, at 2:59 PM, Florence Colleoni wrote:
+</I>&gt;<i> 
+</I>&gt;&gt;<i> In fact, I fixed in glimmer_commandline and glint_commandline
+</I>&gt;&gt;<i> But the bug comes in nc2config.F90
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> I have tried to fixed it as for the previous routines but it does not solve the problem
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> Flo
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 2011/10/5 Bob &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">rpf2116 at columbia.edu</A>&gt;
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> On Oct 5, 2011, at 12:52 PM, Florence Colleoni wrote:
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> Hi Bob,
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> thanks for the suggestions! I managed to compile it on my macbook finally.
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> But I am still blocked on my linux machine with the &quot;iargc&quot; bugs. How can I fix it?
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> Revision 1153 on <A HREF="https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/trunk">https://svn-cism-model.cgd.ucar.edu/glimmer-cism2/trunk</A>
+</I>&gt;&gt;<i>  fixes this.
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> -- Bob
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> ===================================================================
+</I>&gt;&gt;<i> --- libglint/glint_commandline.F90      (revision 1152)
+</I>&gt;&gt;<i> +++ libglint/glint_commandline.F90      (revision 1153)
+</I>&gt;&gt;<i> @@ -30,7 +30,7 @@
+</I>&gt;&gt;<i>  #include &quot;config.inc&quot;
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>  #ifdef HAVE_2003ARGS
+</I>&gt;&gt;<i> -#define NARGS   command_argument_count
+</I>&gt;&gt;<i> +#define NARGS   command_argument_count()
+</I>&gt;&gt;<i>  #define GETARG  get_command_argument
+</I>&gt;&gt;<i>  #else
+</I>&gt;&gt;<i>  #define NARGS   iargc
+</I>&gt;&gt;<i> @@ -58,7 +58,9 @@
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>      integer numargs,nfiles
+</I>&gt;&gt;<i>      integer :: i
+</I>&gt;&gt;<i> +#ifndef HAVE_2003ARGS
+</I>&gt;&gt;<i>      integer, external :: iargc
+</I>&gt;&gt;<i> +#endif
+</I>&gt;&gt;<i>      character(len=100) :: argument
+</I>&gt;&gt;<i>      integer, dimension(100) :: argumentIdx
+</I>&gt;&gt;<i>      
+</I>&gt;&gt;<i> @@ -66,7 +68,7 @@
+</I>&gt;&gt;<i>      commandline_resultsname = 'results'
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>      ! get number of arguments and file names
+</I>&gt;&gt;<i> -    numargs = NARGS()
+</I>&gt;&gt;<i> +    numargs = NARGS
+</I>&gt;&gt;<i>      ! reconstruct command line to store commandline_history
+</I>&gt;&gt;<i>      call GETARG(0,commandline_history)
+</I>&gt;&gt;<i>      do i=1,numargs
+</I>&gt;&gt;<i> Index: libglimmer/glimmer_commandline.F90
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> ===================================================================
+</I>&gt;&gt;<i> --- libglimmer/glimmer_commandline.F90  (revision 1152)
+</I>&gt;&gt;<i> +++ libglimmer/glimmer_commandline.F90  (revision 1153)
+</I>&gt;&gt;<i> @@ -30,7 +30,7 @@
+</I>&gt;&gt;<i>  #include &quot;config.inc&quot;
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>  #ifdef HAVE_2003ARGS
+</I>&gt;&gt;<i> -#define NARGS   command_argument_count
+</I>&gt;&gt;<i> +#define NARGS   command_argument_count()
+</I>&gt;&gt;<i>  #define GETARG  get_command_argument
+</I>&gt;&gt;<i>  #else
+</I>&gt;&gt;<i>  #define NARGS   iargc
+</I>&gt;&gt;<i> @@ -57,7 +57,9 @@
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>      integer numargs,nfiles
+</I>&gt;&gt;<i>      integer :: i
+</I>&gt;&gt;<i> +#ifndef HAVE_2003ARGS
+</I>&gt;&gt;<i>      integer, external :: iargc
+</I>&gt;&gt;<i> +#endif
+</I>&gt;&gt;<i>      character(len=100) :: argument
+</I>&gt;&gt;<i>      integer, dimension(100) :: argumentIdx
+</I>&gt;&gt;<i>      
+</I>&gt;&gt;<i> @@ -65,7 +67,7 @@
+</I>&gt;&gt;<i>      commandline_resultsname = 'results'
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>      ! get number of arguments and file names
+</I>&gt;&gt;<i> -    numargs = NARGS()
+</I>&gt;&gt;<i> +    numargs = NARGS
+</I>&gt;&gt;<i>      ! reconstruct command line to store commandline_history
+</I>&gt;&gt;<i>      call GETARG(0,commandline_history)
+</I>&gt;&gt;<i>      do i=1,numargs
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> Cheers
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> Flo
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> 2011/10/4 Bob Fischer &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">rpf2116 at columbia.edu</A>&gt;
+</I>&gt;&gt;&gt;<i> On Tue, 2011-10-04 at 13:49 -0600, Florence Colleoni wrote:
+</I>&gt;&gt;&gt;<i> &gt; Hi all,
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt; I just downloaded the glimmer-cism2 trunk from the CISM repository at
+</I>&gt;&gt;&gt;<i> &gt; NCAR following William suggestion
+</I>&gt;&gt;&gt;<i> &gt; since I need some of the functions of this version.
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt; 1- When I try to compile it on a linux computer, with gfortran, I have
+</I>&gt;&gt;&gt;<i> &gt; the same
+</I>&gt;&gt;&gt;<i> &gt; error about iargc than Bob has.
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt; 2- however, if I compile it on my macbook pro, and if I had the option
+</I>&gt;&gt;&gt;<i> &gt; ffree-line-length-none,
+</I>&gt;&gt;&gt;<i> &gt; the compilation is ok.
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> Does the -ffree-line-length-none trick not work on Linux?  Which version
+</I>&gt;&gt;&gt;<i> of gfortran are you using on Linux, and on MacBook?
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> If I remember right... I couldn't get -ffree-line-length-none working on
+</I>&gt;&gt;&gt;<i> my Linux (Fedora 15, gfortran 4.6.0).  I &quot;fixed&quot; the problem via sed,
+</I>&gt;&gt;&gt;<i> which should at least get you along:
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> sed -i.bak  's/^FC = gfortran/FC = gfortran --free-line-length-none/'
+</I>&gt;&gt;&gt;<i> `find . -name Makefile`
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> &gt; But now I am facing another problem which I didn't have with the
+</I>&gt;&gt;&gt;<i> &gt; glimmer-cism2 trunk on Berlios.
+</I>&gt;&gt;&gt;<i> &gt; When I try executing the binaries (simple_glide etc...), I got this
+</I>&gt;&gt;&gt;<i> &gt; error with Netcdf:
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt; dyld: Symbol not found: _ncopts
+</I>&gt;&gt;&gt;<i> &gt;     Referenced from: /usr/local/lib/libnetcdff.5.dylib
+</I>&gt;&gt;&gt;<i> &gt;     Expected in: dynamic lookup
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt; Trace/BPT trap
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt;
+</I>&gt;&gt;&gt;<i> &gt; What does that mean?
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> Looks like you're running on a Mac.  The symbol _ncopts is apparently
+</I>&gt;&gt;&gt;<i> defined in libnetcdf, and used in libnetcdff.  If it compiled correctly
+</I>&gt;&gt;&gt;<i> but then didn't run, it looks to me like you're using a shared library
+</I>&gt;&gt;&gt;<i> version of NetCDF.  My best guess is that libnetcdf is somehow not being
+</I>&gt;&gt;&gt;<i> found or loaded at runtime.
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> To see for sure what dynamic libraries are loaded, try:
+</I>&gt;&gt;&gt;<i>     ldd &lt;my-binary-name&gt;
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> -- Bob
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i> -- 
+</I>&gt;&gt;&gt;<i> &quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent la R&#233;volution avec la Libert&#233;: c'est le tr&#232;s petit nombre; les autres veulent la R&#233;volution avec le Pouvoir: c'est l'immense majorit&#233;.&quot;
+</I>&gt;&gt;&gt;<i> Chateaubriand
+</I>&gt;&gt;&gt;<i> ......................................................................
+</I>&gt;&gt;&gt;<i> Florence Colleoni               
+</I>&gt;&gt;&gt;<i> CMCC
+</I>&gt;&gt;&gt;<i> Viale Aldo Moro, 44
+</I>&gt;&gt;&gt;<i> 40127 Bologna - Italy
+</I>&gt;&gt;&gt;<i>             
+</I>&gt;&gt;&gt;<i>      Phone: +39 051 3782622                                       
+</I>&gt;&gt;&gt;<i>      Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>    
+</I>&gt;&gt;&gt;<i>      URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+</I>&gt;&gt;&gt;<i> ......................................................................
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> -- 
+</I>&gt;&gt;<i> &quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent la R&#233;volution avec la Libert&#233;: c'est le tr&#232;s petit nombre; les autres veulent la R&#233;volution avec le Pouvoir: c'est l'immense majorit&#233;.&quot;
+</I>&gt;&gt;<i> Chateaubriand
+</I>&gt;&gt;<i> ......................................................................
+</I>&gt;&gt;<i> Florence Colleoni               
+</I>&gt;&gt;<i> CMCC
+</I>&gt;&gt;<i> Viale Aldo Moro, 44
+</I>&gt;&gt;<i> 40127 Bologna - Italy
+</I>&gt;&gt;<i>             
+</I>&gt;&gt;<i>      Phone: +39 051 3782622                                       
+</I>&gt;&gt;<i>      Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>    
+</I>&gt;&gt;<i>      URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+</I>&gt;&gt;<i> ......................................................................
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> &quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent la R&#233;volution avec la Libert&#233;: c'est le tr&#232;s petit nombre; les autres veulent la R&#233;volution avec le Pouvoir: c'est l'immense majorit&#233;.&quot;
+</I>&gt;<i> Chateaubriand
+</I>&gt;<i> ......................................................................
+</I>&gt;<i> Florence Colleoni               
+</I>&gt;<i> CMCC
+</I>&gt;<i> Viale Aldo Moro, 44
+</I>&gt;<i> 40127 Bologna - Italy
+</I>&gt;<i>             
+</I>&gt;<i>      Phone: +39 051 3782622                                       
+</I>&gt;<i>      Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>    
+</I>&gt;<i>      URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+</I>&gt;<i> ......................................................................
+</I>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111005/baf1894e/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20111005/baf1894e/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000481.html">[Glimmer-cism-devel] Problem with gfortran and iargc
+</A></li>
+	<LI>Next message: <A HREF="000483.html">[Glimmer-cism-devel] finding a new hosting site
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#482">[ date ]</a>
+              <a href="thread.html#482">[ thread ]</a>
+              <a href="subject.html#482">[ subject ]</a>
+              <a href="author.html#482">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] exact restart again
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C4B73F94E.4070106%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000192.html">
+   <LINK REL="Next"  HREF="000194.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] exact restart again</H1>
+    <B>tony payne</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C4B73F94E.4070106%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] exact restart again">a.j.payne at bristol.ac.uk
+       </A><BR>
+    <I>Thu Feb 11 13:34:22 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000192.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+        <LI>Next message: <A HREF="000194.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#193">[ date ]</a>
+              <a href="thread.html#193">[ thread ]</a>
+              <a href="subject.html#193">[ subject ]</a>
+              <a href="author.html#193">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>jed
+
+i think the idea would be that scaling would be done locally where it is 
+needed, for instance when solving matrix equations etc, but that 
+variables would be unscaled outside of these areas.  it is just one less 
+thing to worry about when coding.
+
+tony
+
+Jed Brown wrote:
+&gt;<i> On Thu, 11 Feb 2010 11:07:09 +0000, tony payne &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">a.j.payne at bristol.ac.uk</A>&gt; wrote:
+</I>&gt;&gt;<i> hi
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> i think i agreed to do the descaling work at the lat steering cmt 
+</I>&gt;&gt;<i> meeting.  still happy to do this after all it mostly stems from my 
+</I>&gt;&gt;<i> initial mistake in putting it in.
+</I>&gt;<i> 
+</I>&gt;<i> I feel obliged to make some comments on this.  There is significant
+</I>&gt;<i> benefit to nondimensionalizing for solvers.  It makes tolerances and
+</I>&gt;<i> matrix-free methods more robust.  You can hack it to work for your
+</I>&gt;<i> scaling, but it's really preferable when everything is O(1).  It's not
+</I>&gt;<i> sensitive to scaling, but it can be tedious to make components perform
+</I>&gt;<i> well with O(10^20) or O(10^-20), which means that you are likely to try
+</I>&gt;<i> something, have it perform poorly, and think that it doesn't work for
+</I>&gt;<i> your problem, even though the issue may have been mere scaling.
+</I>&gt;<i> 
+</I>&gt;<i> This of course also matters (everywhere) if you want to run in single
+</I>&gt;<i> precision (because intermediate values can easily become denormals).
+</I>&gt;<i> 
+</I>&gt;<i> In my opinion, the right way to do this is to have a &quot;Units&quot; object
+</I>&gt;<i> which handles all the relevant scales.  All user input remains fully
+</I>&gt;<i> dimensional, but is immediately converted to nondimensional in the code.
+</I>&gt;<i> By changing the Units object, you can verify that there are no
+</I>&gt;<i> dimensional errors in the code (results should be independent of the
+</I>&gt;<i> values in the units object, I find this to be a handy debugging tool
+</I>&gt;<i> since I always make scaling a runtime parameter).  All user-visible
+</I>&gt;<i> output is also dimensionalized so they never see the nondimensional
+</I>&gt;<i> values.
+</I>&gt;<i> 
+</I>&gt;<i> Exact restart complicates this slightly because it means that the
+</I>&gt;<i> restart files are necessarily scaled the same way as the internal
+</I>&gt;<i> equations.  Fortunately, CF includes the scale_factor attribute, which
+</I>&gt;<i> is the correct place to redimensionalize without impacting exact
+</I>&gt;<i> restart.  So the raw values in the NetCDF remain nondimensional, but all
+</I>&gt;<i> postprocessing would have already multiplied by scale_factor, so that
+</I>&gt;<i> the internal scaling is not user-visible.
+</I>&gt;<i> 
+</I>&gt;<i> Jed
+</I>
+-- 
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000192.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+	<LI>Next message: <A HREF="000194.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#193">[ date ]</a>
+              <a href="thread.html#193">[ thread ]</a>
+              <a href="subject.html#193">[ subject ]</a>
+              <a href="author.html#193">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

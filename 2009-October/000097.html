@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] visualisation
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20visualisation&In-Reply-To=%3C9288095c0910130749l40f96571mf41859131a903e2e%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000096.html">
+   <LINK REL="Next"  HREF="000098.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] visualisation</H1>
+    <B>Jesse Johnson</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20visualisation&In-Reply-To=%3C9288095c0910130749l40f96571mf41859131a903e2e%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] visualisation">jesse.v.johnson at gmail.com
+       </A><BR>
+    <I>Tue Oct 13 16:49:51 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000096.html">[Glimmer-cism-devel] visualisation
+</A></li>
+        <LI>Next message: <A HREF="000098.html">[Glimmer-cism-devel] visualisation
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#97">[ date ]</a>
+              <a href="thread.html#97">[ thread ]</a>
+              <a href="subject.html#97">[ subject ]</a>
+              <a href="author.html#97">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dear All,
+
+I think that the issue here is to provide some useful tools, but it's
+still incumbent on the user to figure out how to do more advanced data
+manipulation, if they need it. So, I propose that we stay away from
+NCL or Ferret.
+
+Because we've already been using matplotlib + python + numpy, I
+support continued use of those libraries. While they add to the
+dependency list, one can get the job done without them, and they seem
+to be becoming a standard.
+
+Two final issues on this front.
+
+1) Better compliance with the CF standards will allow easy use of
+several nice viz packages, including IDV [1]. I think that this should
+be a priority. Last time I checked, we were close, but there were some
+issues with the way we describe our grid.
+
+2) We need to agree on a library for importing netCDF files. I think
+this is the real stumbling block. We'll move to whatever, but let's
+agree on what it is. We have been using pycdf, which is adequate, but
+not commonly installed. Alternates might be the scipy.io.netcdf module
+[2], or the newer, but active netcdf4-python [3].
+
+
+[1]  <A HREF="http://www.unidata.ucar.edu/software/idv/">http://www.unidata.ucar.edu/software/idv/</A>
+[2 ]<A HREF="http://www.scipy.org/doc/api_docs/SciPy.io.netcdf.html">http://www.scipy.org/doc/api_docs/SciPy.io.netcdf.html</A>
+[3] <A HREF="http://code.google.com/p/netcdf4-python/">http://code.google.com/p/netcdf4-python/</A>
+
+
+
+
+On Tue, Oct 13, 2009 at 3:29 AM, Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt; wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> we currently have now supported way of producing nice graphical output.
+</I>&gt;<i>
+</I>&gt;<i> I'd like to start this discussion of what we want, what we already have,
+</I>&gt;<i> etc.
+</I>&gt;<i>
+</I>&gt;<i> The way I see it we have two options:
+</I>&gt;<i> 1. write our own system
+</I>&gt;<i> 2. extend an existing system
+</I>&gt;<i>
+</I>&gt;<i> To some extent I lean towards 1 since I know how to do that and I don't
+</I>&gt;<i> have to learn something new. My suggestion here would be to use python,
+</I>&gt;<i> numpy and matplotlib with the basemap extension for visualisation. We
+</I>&gt;<i> could start with our own 2D ice sheet class with methods to
+</I>&gt;<i> * plot base topo
+</I>&gt;<i> * plot (clipped) scalar fields on ice bed/ice surface
+</I>&gt;<i> * plot vector fields
+</I>&gt;<i> * plot contours
+</I>&gt;<i> * shade surfaces to give 3D impression
+</I>&gt;<i> * plot lines (for profiles)
+</I>&gt;<i>
+</I>&gt;<i> And we would need something similar for profiles.
+</I>&gt;<i>
+</I>&gt;<i> Option 2 has some merit as well. It might be easier for others to use
+</I>&gt;<i> our system if they already know it. Maybe it's less work for us. Anyway,
+</I>&gt;<i> NCL the NCAR Command Language springs to mind:
+</I>&gt;<i> <A HREF="http://www.ncl.ucar.edu/">http://www.ncl.ucar.edu/</A>
+</I>&gt;<i> It does projections, maths, statistics and supports a number of models -
+</I>&gt;<i> CCSM, WRF and others. So maybe we could add our own model specific
+</I>&gt;<i> tools. I have never used NCL, I only know it exists and that it looks
+</I>&gt;<i> quite nice. Has anyone used it. Would it make sense for us to extend it
+</I>&gt;<i> for our own needs? The thing I really don't like about it is that it is
+</I>&gt;<i> yet another programming language.
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">johnson at cs.umt.edu</A>
+<A HREF="http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540">http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000096.html">[Glimmer-cism-devel] visualisation
+</A></li>
+	<LI>Next message: <A HREF="000098.html">[Glimmer-cism-devel] visualisation
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#97">[ date ]</a>
+              <a href="thread.html#97">[ thread ]</a>
+              <a href="subject.html#97">[ subject ]</a>
+              <a href="author.html#97">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

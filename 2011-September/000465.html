@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] SIA not calculating advection correctly
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20SIA%20not%20calculating%20advection%20correctly&In-Reply-To=%3C32878.172.21.154.25.1314977662.squirrel%40webmail.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000466.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] SIA not calculating advection correctly</H1>
+    <B>William Roberts</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20SIA%20not%20calculating%20advection%20correctly&In-Reply-To=%3C32878.172.21.154.25.1314977662.squirrel%40webmail.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] SIA not calculating advection correctly">William.Roberts at bristol.ac.uk
+       </A><BR>
+    <I>Fri Sep  2 17:34:22 CEST 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000466.html">[Glimmer-cism-devel] SIA not calculating advection correctly
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#465">[ date ]</a>
+              <a href="thread.html#465">[ thread ]</a>
+              <a href="subject.html#465">[ subject ]</a>
+              <a href="author.html#465">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+This relates to the bug that Sarah highlighted in march:
+<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000426.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000426.html</A>
+and
+<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000429.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/2011-March/000429.html</A>
+
+Wherein under the SIA glimmer-cism couldn't replicate the EISMINT 2 results.
+
+This may already have been fixed in which case ignore the following, but
+if not hopefully this may be of use.
+
+I have found that under the SIA when caluclating the horizontal advection
+of temperature in glide_temp.F90, the terms hadv_u and hadv_v  are both
+zero.
+
+In this calculation the velocities used are both %velocities_hom%, however
+if I replace %velocity_hom% with %velocity%, hadv_v/u are both correctly
+calculated. This suggests that the pointer between hom and non-hom
+velocities isn't working right.
+
+As I say this may have been fixed when the similar bug relating to
+vertical velocities was fixed earlier in the year.
+
+Will
+
+
+
+
+
+
+
+
+
+
+-- 
+School of Geographical Sciences  Fax: +44 (0) 117 928 7878
+University of Bristol            Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">William.Roberts at bristol.ac.uk</A>
+University Road                  Http: www.bridge.bris.ac.uk
+Bristol BS8 1S
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000466.html">[Glimmer-cism-devel] SIA not calculating advection correctly
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#465">[ date ]</a>
+              <a href="thread.html#465">[ thread ]</a>
+              <a href="subject.html#465">[ subject ]</a>
+              <a href="author.html#465">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

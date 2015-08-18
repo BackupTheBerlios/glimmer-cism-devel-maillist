@@ -1,0 +1,419 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] exact restart again
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C8B4179DF-619A-40EF-9CEF-D5FDDE02A57B%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000185.html">
+   <LINK REL="Next"  HREF="000187.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] exact restart again</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart%20again&In-Reply-To=%3C8B4179DF-619A-40EF-9CEF-D5FDDE02A57B%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] exact restart again">lipscomb at lanl.gov
+       </A><BR>
+    <I>Wed Feb 10 17:52:28 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000185.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+        <LI>Next message: <A HREF="000187.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi again,
+
+Thanks to Gethin Williams for figuring out why a bit was getting  
+flipped in some of the netCDF output fields.  These fields were  
+multiplied by a scaling factor before writing to netCDF, then divided  
+by that factor after reading the fields back in.  In floating-point  
+arithmetic, it is not always the case that (a*b)/b = a.
+
+A fairly simple solution is to create in glide_vars.def a set of new  
+input-output variables specifically for hotstart (e.g., thck_hot,  
+temp_hot).  These variable will be written out in double precision and  
+without scaling factors.   Other IO variables (e.g., thck, temp) are  
+intended for diagnostic purposes; these are written out in single  
+precision (to save memory) and with appropriate scaling factors (so  
+that the units are user-friendly).
+
+I now have a modified version of the glimmer-cism trunk that starts  
+exactly in glint_example test runs.  The fields written to restart  
+(with a _hot suffix) are the following: relx, thk, thkmask, topg,  
+bheatflx, bmlt, bwat, uvel, vvel, wgrd, flwa, temp, and litho_temp.
+
+This is a longer list of restart variables than I would like.  In  
+particular, there are several 3D fields (uvel, vvel, wgrd, flwa, and  
+temp) that require lots of memory.  Of these 3D fields, it ought to be  
+possible to store temp alone.  We can then derive flwa and the 3D  
+velocity field from other state variables.  That these fields are  
+needed for exact restart is an accident of code organization--and in  
+particular, of the fact that temperature evolution is computed before  
+thickness evolution during each timestep.  The current ordering is (1)  
+temperature evolution, (2) thickness evolution, and (3) isostasy.
+
+I would propose that we support the option of calling the various  
+stages of glide in a different order:  (1) thickness evolution, (2)  
+isostasy, and (3) temperature evolution.   The changes would mostly be  
+at a high level.  We would rename glide_tstep_p1 to something more  
+descriptive (e.g.,, glide_tstep_temperature), and likewise for  
+glide_tstep_p2 and glide_tstep_p3.  Then we would change the order of  
+calls in the drivers, such as simple_glide.  We could use a flag to  
+support more than one ordering, if there are users who are comfortable  
+with the existing order and reluctant to switch.
+
+What do people think of this idea?  I'd like some feedback before I  
+start switching things around.  Development would initially take place  
+on the new glimmer-cism-gcm branch of glimmer-cism2.  Ultimately these  
+changes would be merged onto the glimmer-cism2 trunk.
+
+Thanks,
+
+Bill
+
+
+On Feb 5, 2010, at 9:14 AM, William Lipscomb wrote:
+
+&gt;<i>
+</I>&gt;<i> Hi all,
+</I>&gt;<i>
+</I>&gt;<i> I'm still working on exact restart of Glimmer.  To make sure it wasn't
+</I>&gt;<i> an issue of machine, compiler, or obsolete code, I checked out the
+</I>&gt;<i> current glimmer-cism trunk and got it running on a LANL machine
+</I>&gt;<i> (coyote) using the Intel compiler.  One of the restart fields that I'm
+</I>&gt;<i> having trouble with is wgrd.  (If anyone wonders why wgrd is needed
+</I>&gt;<i> for exact restart, I can explain offline.)
+</I>&gt;<i>
+</I>&gt;<i> I did the following test in glint-example:
+</I>&gt;<i>
+</I>&gt;<i> (1) Write the 3D field in question (model%velocity%wgrd) to a Fortran
+</I>&gt;<i> unformatted binary file (wgrd.before_restart) just before writing to
+</I>&gt;<i> the netCDF hotstart file (in double precision).
+</I>&gt;<i> (2) As a sanity check, read in wgrd from wgrd.before_restart and write
+</I>&gt;<i> it to another file (wgrd.from_binary) to make sure I get the same
+</I>&gt;<i> values.
+</I>&gt;<i> (3) Read in the netCDF hotstart file, assign values to model%velocity
+</I>&gt;<i> %wgrd, and write those values to another unformatted binary file
+</I>&gt;<i> (wgrd.from_restart).
+</I>&gt;<i> (4) Compare files:
+</I>&gt;<i>
+</I>&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at cy-c1</A> glint-example-1.0.0]$ cmp -l wgrd.before_restart
+</I>&gt;<i> wgrd.from_binary       ! no difference, as expected
+</I>&gt;<i>
+</I>&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at cy-c1</A> glint-example-1.0.0]$ cmp -l wgrd.before_restart
+</I>&gt;<i> wgrd.from_netcdf       ! these need to be the same for exact restart
+</I>&gt;<i> 151724 354 355
+</I>&gt;<i> 151804 334 335
+</I>&gt;<i> 165212 247 246
+</I>&gt;<i> 176956 224 223
+</I>&gt;<i> 177068  77  76
+</I>&gt;<i> 177308 271 272
+</I>&gt;<i> 177324 217 216
+</I>&gt;<i> 177660  54  55
+</I>&gt;<i> 177836 174 175
+</I>&gt;<i> 177964 214 215
+</I>&gt;<i> 178348 101 102    ! followed by many similar lines, always with the
+</I>&gt;<i> second two columns disagreeing by one bit.
+</I>&gt;<i>
+</I>&gt;<i> So it would seem that a bit gets flipped between the time the field is
+</I>&gt;<i> written to netCDF and the time it's read back and assigned to a
+</I>&gt;<i> variable.  I'm wondering if this is standard netCDF behavior and if
+</I>&gt;<i> there's a simple fix.
+</I>&gt;<i>
+</I>&gt;<i> Gethin, I'll prepare a tarball and send it to you so you can try to
+</I>&gt;<i> duplicate the problem.
+</I>&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i>
+</I>&gt;<i> Bill
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On Feb 2, 2010, at 3:47 AM, DAG Williams, Geographical Sciences wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> On the topic of exact restarts:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Hi Bill,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> This sounds interesting, could you forward a tarball, so that I can
+</I>&gt;&gt;<i> try to
+</I>&gt;&gt;<i> replicate the problem on my machines?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I think in principle that NetCDF should be able to do the job for
+</I>&gt;&gt;<i> you.  I
+</I>&gt;&gt;<i> wonder if there has been an implicit type conversion somewhere in
+</I>&gt;&gt;<i> the chain
+</I>&gt;&gt;<i> to/from the file.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cheers,
+</I>&gt;&gt;<i> Gethin.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --On 30 January 2010 12:00 +0100
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A> wrote:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Send Glimmer-cism-devel mailing list submissions to
+</I>&gt;&gt;&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> To subscribe or unsubscribe via the World Wide Web, visit
+</I>&gt;&gt;&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;&gt;<i> or, via email, send a message with subject or body 'help' to
+</I>&gt;&gt;&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> You can reach the person managing the list at
+</I>&gt;&gt;&gt;<i> 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-owner at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> When replying, please edit your Subject line so it is more specific
+</I>&gt;&gt;&gt;<i> than &quot;Re: Contents of Glimmer-cism-devel digest...&quot;
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Today's Topics:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  1. Re: exact restart (Ian Rutt)
+</I>&gt;&gt;&gt;<i>  2. Re: exact restart (Jed Brown)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> ----------------------------------------------------------------------
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Message: 1
+</I>&gt;&gt;&gt;<i> Date: Fri, 29 Jan 2010 16:41:36 +0000
+</I>&gt;&gt;&gt;<i> From: Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt;
+</I>&gt;&gt;&gt;<i> Subject: Re: [Glimmer-cism-devel] exact restart
+</I>&gt;&gt;&gt;<i> To: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;&gt;&gt;<i> Cc: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">r.gladstone at bristol.ac.uk</A>,	Glimmer-CISM developer list
+</I>&gt;&gt;&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;&gt;&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">4B630FC0.6050003 at swansea.ac.uk</A>&gt;
+</I>&gt;&gt;&gt;<i> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Hi All,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I've moved this to the developer list, since it has wider  
+</I>&gt;&gt;&gt;<i> relevance -
+</I>&gt;&gt;&gt;<i> hope that's OK.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> That's a tricky kind of thing to diagnose and fix. It sounds like a
+</I>&gt;&gt;&gt;<i> wrinkle in the translation from machine representation to file and
+</I>&gt;&gt;&gt;<i> back
+</I>&gt;&gt;&gt;<i> again, probably to do with the innards of the NetCDF library. I  
+</I>&gt;&gt;&gt;<i> can't
+</I>&gt;&gt;&gt;<i> remember what NetCDF file types the restart library uses (or where
+</I>&gt;&gt;&gt;<i> that
+</I>&gt;&gt;&gt;<i> code resides), but possibly if one were to promote them to the next
+</I>&gt;&gt;&gt;<i> precision up, as it were, that would fix your problem, by giving you
+</I>&gt;&gt;&gt;<i> greater precision in the file than needed.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I'm afraid I don't have time at the moment to track it down - I
+</I>&gt;&gt;&gt;<i> hope the
+</I>&gt;&gt;&gt;<i> clue is helpful, though.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Cheers,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Ian
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Dr Ian Rutt
+</I>&gt;&gt;&gt;<i> School of the Environment and Society
+</I>&gt;&gt;&gt;<i> Swansea University
+</I>&gt;&gt;&gt;<i> Singleton Park
+</I>&gt;&gt;&gt;<i> Swansea
+</I>&gt;&gt;&gt;<i> SA2 8PP
+</I>&gt;&gt;&gt;<i> Tel. (01792) 602685
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Magnus Hagdorn wrote:
+</I>&gt;&gt;&gt;&gt;<i> William H. Lipscomb wrote:
+</I>&gt;&gt;&gt;&gt;&gt;<i> Hi Ian and Magnus,
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> I'm trying to get exact restart working for glint-example in
+</I>&gt;&gt;&gt;&gt;&gt;<i> Glimmer
+</I>&gt;&gt;&gt;&gt;&gt;<i> version 1.0, in preparation for getting exact restart in CCSM.  I
+</I>&gt;&gt;&gt;&gt;&gt;<i> am
+</I>&gt;&gt;&gt;&gt;&gt;<i> very close--I think I am writing out all the necessary fields at
+</I>&gt;&gt;&gt;&gt;&gt;<i> the
+</I>&gt;&gt;&gt;&gt;&gt;<i> required precision--but I'm not quite there.  Here is one issue:
+</I>&gt;&gt;&gt;&gt;&gt;<i> When
+</I>&gt;&gt;&gt;&gt;&gt;<i> I read in wgrd in certain grid cells, the value read in is not
+</I>&gt;&gt;&gt;&gt;&gt;<i> quite
+</I>&gt;&gt;&gt;&gt;&gt;<i> identical to the value written out.  For instance, in layer 1 of
+</I>&gt;&gt;&gt;&gt;&gt;<i> cell
+</I>&gt;&gt;&gt;&gt;&gt;<i> (30,50), I get this:
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> -0.09466907827340063   ! value just before writing to netCDF file
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> -0.09466907827340064   ! value just after reading from netCDF file
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> The difference is only in the last digit, and it doesn't lead to a
+</I>&gt;&gt;&gt;&gt;&gt;<i> noticeable difference in the simulation.  However, it does destroy
+</I>&gt;&gt;&gt;&gt;&gt;<i> bit-for-bit agreement, which is the CCSM requirement.
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> Can you think of any reason why this should happen?  I've talked
+</I>&gt;&gt;&gt;&gt;&gt;<i> to CCSM
+</I>&gt;&gt;&gt;&gt;&gt;<i> folks who use netCDF for restart and aren't having any problems.
+</I>&gt;&gt;&gt;&gt;&gt;<i> I'm
+</I>&gt;&gt;&gt;&gt;&gt;<i> running on a linux cluster that is pretty well vetted.  I'm
+</I>&gt;&gt;&gt;&gt;&gt;<i> reading and
+</I>&gt;&gt;&gt;&gt;&gt;<i> writing with the same executable, which is built using the Lahey
+</I>&gt;&gt;&gt;&gt;&gt;<i> lf95
+</I>&gt;&gt;&gt;&gt;&gt;<i> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562,
+</I>&gt;&gt;&gt;&gt;&gt;<i> which
+</I>&gt;&gt;&gt;&gt;&gt;<i> should be compatible with the compiler.  This problem is starting
+</I>&gt;&gt;&gt;&gt;&gt;<i> to
+</I>&gt;&gt;&gt;&gt;&gt;<i> drive
+</I>&gt;&gt;&gt;&gt;&gt;<i> me crazy, so I'd be grateful for any ideas you have.
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> I'm copying this to Rupert in case he's run across anything
+</I>&gt;&gt;&gt;&gt;&gt;<i> similar.
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> [maybe for developer list?]
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Hi Bill,
+</I>&gt;&gt;&gt;&gt;<i> you could decrease the precision to less than machine precision.
+</I>&gt;&gt;&gt;&gt;<i> this
+</I>&gt;&gt;&gt;&gt;<i> way you would be able to ensure you always get the same value.
+</I>&gt;&gt;&gt;&gt;<i> magi
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> ------------------------------
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Message: 2
+</I>&gt;&gt;&gt;<i> Date: Fri, 29 Jan 2010 18:08:31 +0100
+</I>&gt;&gt;&gt;<i> From: Jed Brown &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">jed at 59A2.org</A>&gt;
+</I>&gt;&gt;&gt;<i> Subject: Re: [Glimmer-cism-devel] exact restart
+</I>&gt;&gt;&gt;<i> To: William Lipscomb &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt;
+</I>&gt;&gt;&gt;<i> Cc: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">r.gladstone at bristol.ac.uk</A>,	Glimmer-CISM developer list
+</I>&gt;&gt;&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>&gt;,	Ian Rutt
+</I>&gt;&gt;&gt;<i> 	&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt;
+</I>&gt;&gt;&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">87pr4syh2o.fsf at 59A2.org</A>&gt;
+</I>&gt;&gt;&gt;<i> Content-Type: text/plain; charset=us-ascii
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> I'm trying to get exact restart working for glint-example in
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> Glimmer
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> version 1.0, in preparation for getting exact restart in CCSM.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> I am
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> very close--I think I am writing out all the necessary fields at
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> the
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> required precision--but I'm not quite there.  Here is one issue:
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> When I read in wgrd in certain grid cells, the value read in is
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> not
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> quite identical to the value written out.  For instance, in
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> layer 1
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> of cell (30,50), I get this:
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> -0.09466907827340063   ! value just before writing to netCDF file
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Are you writing this string out where the value was computed, or
+</I>&gt;&gt;&gt;<i> after
+</I>&gt;&gt;&gt;<i> it has been stored in the array (i.e. are you certain that the
+</I>&gt;&gt;&gt;<i> register
+</I>&gt;&gt;&gt;<i> that computed *this* value has been flushed after it was computed)?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> Can you think of any reason why this should happen?  I've talked
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> to
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> CCSM folks who use netCDF for restart and aren't having any
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> problems.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> I'm running on a linux cluster that is pretty well vetted.  I'm
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> reading and writing with the same executable, which is built  
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> using
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> the Lahey lf95 compiler.  The netCDF library is
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> netcdf-3.6.3-gcc-4.1.2-lf9562, which should be compatible with  
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> the
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> compiler.  This problem is starting to  drive me crazy, so I'd be
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> grateful for any ideas you have.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Are these running in 32 or 64-bit mode?  Have you set -ffloat-store
+</I>&gt;&gt;&gt;<i> (or
+</I>&gt;&gt;&gt;<i> whatever Lahey option has that meaning)?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Jed
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> ------------------------------
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> End of Glimmer-cism-devel Digest, Vol 7, Issue 5
+</I>&gt;&gt;&gt;<i> ************************************************
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i> *******************************************************************************
+</I>&gt;<i> William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+</I>&gt;<i> Los Alamos National Laboratory		Phone: (505) 667-0395
+</I>&gt;<i> Group T-3, Mail Stop B216			Fax: (505) 665-5926
+</I>&gt;<i> Los Alamos, NM 87545
+</I>&gt;<i> *******************************************************************************
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000185.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+	<LI>Next message: <A HREF="000187.html">[Glimmer-cism-devel] exact restart again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

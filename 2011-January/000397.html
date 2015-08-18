@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] basal water bugs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20basal%20water%20bugs&In-Reply-To=%3CAANLkTimsNJ3EqChWD8aq4JSLo0_5GdBvR8Ercgi4%2B6au%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000396.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] basal water bugs</H1>
+    <B>Joshua Campbell</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20basal%20water%20bugs&In-Reply-To=%3CAANLkTimsNJ3EqChWD8aq4JSLo0_5GdBvR8Ercgi4%2B6au%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] basal water bugs">jccampbell.umt at gmail.com
+       </A><BR>
+    <I>Mon Jan 24 18:16:42 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000396.html">[Glimmer-cism-devel] basal water bugs
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#397">[ date ]</a>
+              <a href="thread.html#397">[ thread ]</a>
+              <a href="subject.html#397">[ subject ]</a>
+              <a href="author.html#397">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>If they're fixed in parallel, then I will be sure to merge those fixes
+to glimmer-cism2/branches/glimmer-cism-lanl.
+
+On Mon, Jan 24, 2011 at 2:55 AM, Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;wrote:
+
+&gt;<i> Hi Sarah,
+</I>&gt;<i> thanks for sorting these out. I lost track of the various branches. Do the
+</I>&gt;<i> bugs also occur in trunk and glimmer-cism2/branches/glimmer-cism-lanl?
+</I>&gt;<i>
+</I>&gt;<i> As long as the bugs are fixed on the branch from which we cut the releases
+</I>&gt;<i> we are fine.
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Sarah Shannon wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi,
+</I>&gt;&gt;<i> There were several bugs in the basal water scheme on the parallel branch.
+</I>&gt;&gt;<i>  The bugs resulted in an increase in basal traction with a decrease in water
+</I>&gt;&gt;<i> depth.
+</I>&gt;&gt;<i> The bugs were in glide_velo.F90 in two places.
+</I>&gt;&gt;<i> 1. subroutine init_velo where the parameters that define the shape of the
+</I>&gt;&gt;<i> curve between basal water depth and basal traction are calculated
+</I>&gt;&gt;<i> 2. subroutine calc_btrc where the basal traction is calculated
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The values for the minimum and maximum basal traction defined as 'bpar' in
+</I>&gt;&gt;<i> glide_types.F90 were also reversed.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I checked the corrections into the parallel branch. I was wondering do
+</I>&gt;&gt;<i> these changes need to be put somewhere else in the repository to be included
+</I>&gt;&gt;<i> in the next release?. The bugs are in version glimmer-cism 1.7.0 as well.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cheers,
+</I>&gt;&gt;<i> Sarah
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">jccampbell.umt at gmail.com</A>        Graduate Research Assistant
+                                Department of Computer Science
+                                University of Montana
+                                Joshua Charles Campbell
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110124/294fa2e5/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110124/294fa2e5/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000396.html">[Glimmer-cism-devel] basal water bugs
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#397">[ date ]</a>
+              <a href="thread.html#397">[ thread ]</a>
+              <a href="subject.html#397">[ subject ]</a>
+              <a href="author.html#397">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

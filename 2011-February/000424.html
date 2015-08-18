@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] possible bug in eismint-1 moving margin experiment
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20possible%20bug%20in%20eismint-1%20moving%20margin%0A%20experiment&In-Reply-To=%3C4D63CCCD.6030308%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000422.html">
+   <LINK REL="Next"  HREF="000425.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] possible bug in eismint-1 moving margin experiment</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20possible%20bug%20in%20eismint-1%20moving%20margin%0A%20experiment&In-Reply-To=%3C4D63CCCD.6030308%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] possible bug in eismint-1 moving margin experiment">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Tue Feb 22 15:48:45 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000422.html">[Glimmer-cism-devel] possible bug in eismint-1 moving margin	experiment
+</A></li>
+        <LI>Next message: <A HREF="000425.html">[Glimmer-cism-devel] change to build moving simple_glide	directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#424">[ date ]</a>
+              <a href="thread.html#424">[ thread ]</a>
+              <a href="subject.html#424">[ subject ]</a>
+              <a href="author.html#424">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Sarah Shannon wrote:
+&gt;<i> Hi
+</I>&gt;<i> 
+</I>&gt;<i> I think there may be a bug in the parallel version when running an 
+</I>&gt;<i> EISMINT-1 moving margin experiment (e1-mm.2)
+</I>&gt;<i> 
+</I>&gt;<i> At the ice-ocean boundary, the temperature for each model level appears 
+</I>&gt;<i> to be set to the air temperature even though the thickness and velocity 
+</I>&gt;<i> is zero.
+</I>&gt;<i> 
+</I>&gt;<i> I put some plots up on the wiki here.
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_e1-mm.2_bug">http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_e1-mm.2_bug</A> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+&lt;snip&gt;
+
+&gt;<i> The part which should set ice free notes to zero is commented out and 
+</I>&gt;<i> would only happen if the mask is negative. As far as I can see, the mask 
+</I>&gt;<i> does not become negative.
+</I>&gt;<i> 
+</I>
+&lt;snip&gt;
+
+&gt;<i> 
+</I>&gt;<i> I was wondering if that's the correct thing to do?
+</I>
+This sounds more like a bug where the mask isn't correctly set.
+
+However, your suggestion to use GLIDE_NO_ICE is quite sensible.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000422.html">[Glimmer-cism-devel] possible bug in eismint-1 moving margin	experiment
+</A></li>
+	<LI>Next message: <A HREF="000425.html">[Glimmer-cism-devel] change to build moving simple_glide	directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#424">[ date ]</a>
+              <a href="thread.html#424">[ thread ]</a>
+              <a href="subject.html#424">[ subject ]</a>
+              <a href="author.html#424">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] plans for 2010
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20plans%20for%202010&In-Reply-To=%3CF855FA78-E308-4D1C-998C-B1949CBEBF81%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000177.html">
+   <LINK REL="Next"  HREF="000180.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] plans for 2010</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20plans%20for%202010&In-Reply-To=%3CF855FA78-E308-4D1C-998C-B1949CBEBF81%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] plans for 2010">lipscomb at lanl.gov
+       </A><BR>
+    <I>Wed Feb  3 17:31:44 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000177.html">[Glimmer-cism-devel] plans for 2010
+</A></li>
+        <LI>Next message: <A HREF="000180.html">[Glimmer-cism-devel] plans for 2010
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#179">[ date ]</a>
+              <a href="thread.html#179">[ thread ]</a>
+              <a href="subject.html#179">[ subject ]</a>
+              <a href="author.html#179">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all (and Magnus in particular),
+
+One more merger to add to the list:  The changes made for CCSM (and  
+GCMs in general, including the Hadley Centre) need to find their way  
+onto the Glimmer-CISM-2 trunk at some point.  The major changes are:
+
+(1) adding functionality to Glint to receive the surface mass balance  
+as input from the climate model and downscale it to the Glimmer grid,  
+and also to upscale the new ice sheet geometry and return it to the  
+climate model.  This is currently done in an inelegant way, but could  
+be improved later along the lines suggested by Rupert recently.
+
+(2) adding exact restart, building on the current hotstart capability.
+
+Should we do this merger at a relatively early stage (e.g., before  
+merging glimmer-cism-lanl onto the Glimmer-CISM-2 trunk), or later?   
+These GCM-related changes are mostly independent of glimmer-cism-lanl  
+development.
+
+And given that we anticipate a merge, is it better to implement these  
+changes starting from the Glimmer-1 trunk or the Glimmer-CISM-2  
+trunk?  My current working implementation is on an old Glimmer 1.0  
+release.  I'd like to make these changes in an up-to-date version  
+which is suitable for public release in the near future (summer 2010),  
+while leaving a minimum of additional work to do later.
+
+Thanks,
+
+Bill
+
+
+On Feb 3, 2010, at 8:43 AM, Magnus Hagdorn wrote:
+
+&gt;<i> Stephen Price wrote:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Magi,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> A related question ... your diagram has
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> (1) &quot;create a preview snapshot of the Glimmer-CISM-lanl branch in  
+</I>&gt;&gt;<i> February&quot;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> and
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> (3) &quot;make a release of Glimmer-CISM2-trunk which includes the higher
+</I>&gt;&gt;<i> order physics. This will become Glimmer-CISM-1.8-stable series. Aim  
+</I>&gt;&gt;<i> for
+</I>&gt;&gt;<i> a release in time for EGU in May.&quot;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm not clear if (1) or (3) is the &quot;beta&quot; release that we'd talked
+</I>&gt;&gt;<i> about, but we had discussed releasing something along those lines in
+</I>&gt;&gt;<i> Feb. (or is that the &quot;snapshot&quot; mentioned in (1)?).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> If (1) is the beta release, then is (3) what we've been discussing as
+</I>&gt;&gt;<i> the &quot;refactored&quot; release?
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Hi Steve and Tony,
+</I>&gt;<i> ok I admit to slightly changing what we discussed in that I introduced
+</I>&gt;<i> another beta. They are both betas if you want:
+</I>&gt;<i> * item 1 is the February beta release based on the current
+</I>&gt;<i> glimmer-cism-lanl trunk
+</I>&gt;<i> * item 2 is the beta arising from merging glimmer-cism-lanl trunk into
+</I>&gt;<i> glimmer-cism2-trunk
+</I>&gt;<i>
+</I>&gt;<i> The refactored v2.0 release will happen afterwards. Does that make  
+</I>&gt;<i> sense?
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -- 
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000177.html">[Glimmer-cism-devel] plans for 2010
+</A></li>
+	<LI>Next message: <A HREF="000180.html">[Glimmer-cism-devel] plans for 2010
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#179">[ date ]</a>
+              <a href="thread.html#179">[ thread ]</a>
+              <a href="subject.html#179">[ subject ]</a>
+              <a href="author.html#179">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

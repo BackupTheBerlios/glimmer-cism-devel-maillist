@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Fwd: dycore proposal
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C4C77D2A8.7000900%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000321.html">
+   <LINK REL="Next"  HREF="000323.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Fwd: dycore proposal</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Fwd%3A%20dycore%20proposal&In-Reply-To=%3C4C77D2A8.7000900%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Fwd: dycore proposal">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Fri Aug 27 16:58:48 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000321.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+        <LI>Next message: <A HREF="000323.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#322">[ date ]</a>
+              <a href="thread.html#322">[ thread ]</a>
+              <a href="subject.html#322">[ subject ]</a>
+              <a href="author.html#322">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Jed Brown wrote:
+&gt;<i> On Fri, 27 Aug 2010 15:00:35 +0100, Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt; wrote:
+</I>&gt;&gt;<i> Yes, this is what I had in mind. What you can do (as Jed indicated in 
+</I>&gt;&gt;<i> his recent message), is load an arbitrary number of shared libraries 
+</I>&gt;&gt;<i> while the code is running. This overcomes all three problems you outline.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I had a go at making a toy example work a little while ago. Looking 
+</I>&gt;&gt;<i> through it again, I realise the main difficulty is that it requires two 
+</I>&gt;&gt;<i> features from Fortran 2003: ISO C bindings and procedure pointers, as 
+</I>&gt;&gt;<i> the dynamic loading library (libdl) is part of the standard C library, 
+</I>&gt;&gt;<i> and returns a pointer to the desired procedure. The other issue is one 
+</I>&gt;&gt;<i> of name-mangling: ths fortran code needs to know what the procedure in 
+</I>&gt;&gt;<i> the library file is called.
+</I>&gt;<i> 
+</I>&gt;<i> You can do the dynamic loading on the C side, you don't need F2003
+</I>&gt;<i> function pointers.  Just have configure detect the name mangling scheme
+</I>&gt;<i> and you don't need F2003 ISO C bindings either.  People have been doing
+</I>&gt;<i> this robustly and portably for decades.
+</I>
+
+Hi all,
+to weigh in at this stage and without having read the proposal yet.
+I totally agree with Jed :-)
+and to expand a little, I have a since used a setup similar to what Jed 
+proposed ages ago [1] - I hope you don't mind. It works extremely well, 
+in that you only have to wrap a single API and then it doesn't matter if 
+you are using F03 or something like cfortran.h.
+
+So I think we should really think about the external API first and then 
+worry about the actual implementation. I also think that programming 
+against a C API would make sense because C functions are easy to wrap in 
+any language.
+
+Right, I shall now read Toby's proposal...
+
+magi
+
+
+[1] 
+<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/000114.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/000114.html</A>
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000321.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+	<LI>Next message: <A HREF="000323.html">[Glimmer-cism-devel] Fwd: dycore proposal
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#322">[ date ]</a>
+              <a href="thread.html#322">[ thread ]</a>
+              <a href="subject.html#322">[ subject ]</a>
+              <a href="author.html#322">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

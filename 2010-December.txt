@@ -1,0 +1,521 @@
+From sarah.shannon at bristol.ac.uk  Fri Dec  3 13:36:18 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Fri, 03 Dec 2010 12:36:18 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+Message-ID: <4CF8E442.7030006@bristol.ac.uk>
+
+Hi Magnus,
+ 
+I added the rule dist-gold-standard to create a tar file containing the 
+output of all the tests. The tar file has the version number of the code 
+in the filename.
+
+I used 'find' to get a list of the netCDF files and created the tar file 
+from the list. Perhaps we are ready to think about the next steps for 
+merging the test suite to the parallel branch?
+
+Cheers,
+
+Sarah
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101203/5362df59/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Dec  8 11:16:03 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 08 Dec 2010 10:16:03 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CF8E442.7030006@bristol.ac.uk>
+References: <4CF8E442.7030006@bristol.ac.uk>
+Message-ID: <4CFF5AE3.7010800@ed.ac.uk>
+
+Sarah Shannon wrote:
+> Hi Magnus,
+> 
+> I added the rule dist-gold-standard to create a tar file containing the 
+> output of all the tests. The tar file has the version number of the code 
+> in the filename.
+> 
+> I used 'find' to get a list of the netCDF files and created the tar file 
+> from the list. Perhaps we are ready to think about the next steps for 
+> merging the test suite to the parallel branch?
+> 
+>
+
+Hi Sarah,
+sorry it took me so long again to have a look at what you have done...
+in no particular order.
+
+configure.in:
+the option should be called
+--with-gold-std rather than --with-gold_std
+
+extra_rules.am:
+compare-% rule - you should report which test passed or failed, e.g. 
+echo test $< passed
+also you should use the macro $< instead of $^
+check-data rule:
+you don't need a loop here. just use a substitution
+check-data: $(patsubst %.nc, compare-%,$(data))
+
+i'd suggest to call the gold-standard tar-ball
+glimmer-cism-gold-version.tar.gz, i.e. $(PACKAGE)-gold-$(VERSION)
+have a look at the generated Makefile to figure out how automake creates 
+a tar-ball. Essentially, I think you need to have a rule that creates 
+and populates the directory you want to distribute, and then a second 
+rule which tars and gzips this directory and cleans up after itself.
+I think using the find command is fine, you can create the directory 
+structure by first extracting all the directories from the list of files 
+to distribute, sorting them and running the list through uniq and then 
+mkdir -p; you can then copy the files into the new directory structure, 
+or if you want create hard links.
+This is probably not as portable as the original automake stuff but a 
+lot less work, if we run into problems we can fix them later.
+
+You also have the dist-gold-standard rule in both the top-level 
+Makefile.am and the extra_rules.am, just keep it in the Makefile.am.
+
+
+Nearly there.
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Thu Dec  9 15:04:48 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Thu, 09 Dec 2010 14:04:48 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4CFF5AE3.7010800@ed.ac.uk>
+References: <4CF8E442.7030006@bristol.ac.uk> <4CFF5AE3.7010800@ed.ac.uk>
+Message-ID: <4D00E200.4050408@bristol.ac.uk>
+
+Hi Magnus, 
+
+Thanks for taking a look and getting back to me.
+
+I have made all the changes that you suggested apart from the last one. 
+Here are the changes : 
+
+1. In configure.in: changed --with-gold_std to --with-gold-std
+
+2. In check-data rule I replaced
+
+    @$(foreach data,$(data), make compare-$(basename $(data));)  with
+
+    @make $(patsubst %.nc,  compare-%, $(data))
+
+3. In the compare rule I replaced echo "test passed" with echo "test $< 
+passed" . Instances of $^ replaced with $<
+
+4. Changed the naming of the tar file from
+ gold-standard_$(PACKAGE)-$(VERSION) .tgz to $(PACKAGE)-gold-$(VERSION).tgz
+
+5. Removed dist-gold-standard rule from extra_rules.am.  It only occurs 
+in the top-level Makefile.am now.
+
+6. Regarding the tar ball.  The directory structure of the tar ball has 
+the same layout as the test directory. i.e tests/ EISMINT/EISMINT-1 etc. 
+If you un-zip the tar file you will be able to see this. Why is it 
+necessary to re-create this directory structure, copy the files into the 
+new directory and then compress it, when the same tar ball can be 
+produced in one command? Maybe I've misunderstood something 
+obvious............
+
+Cheers,
+Sarah
+
+
+
+
+
+
+
+
+
+  
+
+
+Magnus Hagdorn wrote:
+> Sarah Shannon wrote:
+>> Hi Magnus,
+>>
+>> I added the rule dist-gold-standard to create a tar file containing 
+>> the output of all the tests. The tar file has the version number of 
+>> the code in the filename.
+>>
+>> I used 'find' to get a list of the netCDF files and created the tar 
+>> file from the list. Perhaps we are ready to think about the next 
+>> steps for merging the test suite to the parallel branch?
+>>
+>>
+>
+> Hi Sarah,
+> sorry it took me so long again to have a look at what you have done...
+> in no particular order.
+>
+> configure.in:
+> the option should be called
+> --with-gold-std rather than --with-gold_std
+>
+> extra_rules.am:
+> compare-% rule - you should report which test passed or failed, e.g. 
+> echo test $< passed
+
+> also you should use the macro $< instead of $^
+> check-data rule:
+> you don't need a loop here. just use a substitution
+> check-data: $(patsubst %.nc, compare-%,$(data))
+>
+> i'd suggest to call the gold-standard tar-ball
+> glimmer-cism-gold-version.tar.gz, i.e. $(PACKAGE)-gold-$(VERSION)
+> have a look at the generated Makefile to figure out how automake 
+> creates a tar-ball. Essentially, I think you need to have a rule that 
+> creates and populates the directory you want to distribute, and then a 
+> second rule which tars and gzips this directory and cleans up after 
+> itself.
+> I think using the find command is fine, you can create the directory 
+> structure by first extracting all the directories from the list of 
+> files to distribute, sorting them and running the list through uniq 
+> and then mkdir -p; you can then copy the files into the new directory 
+> structure, or if you want create hard links.
+> This is probably not as portable as the original automake stuff but a 
+> lot less work, if we run into problems we can fix them later.
+>
+> You also have the dist-gold-standard rule in both the top-level 
+> Makefile.am and the extra_rules.am, just keep it in the Makefile.am.
+>
+>
+> Nearly there.
+> Cheers
+> magi
+>
+>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101209/cd5ead61/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Dec  9 15:58:54 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 09 Dec 2010 14:58:54 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4D00E200.4050408@bristol.ac.uk>
+References: <4CF8E442.7030006@bristol.ac.uk> <4CFF5AE3.7010800@ed.ac.uk>
+	<4D00E200.4050408@bristol.ac.uk>
+Message-ID: <4D00EEAE.7090702@ed.ac.uk>
+
+Hi Sarah,
+
+Sarah Shannon wrote:
+> I have made all the changes that you suggested apart from the last one. 
+>
+excellent
+
+ > 4. Changed the naming of the tar file from
+ > gold-standard_$(PACKAGE)-$(VERSION) .tgz to 
+$(PACKAGE)-gold-$(VERSION).tgz
+
+This should be .tar.gz
+
+> 6. Regarding the tar ball.  The directory structure of the tar ball has 
+> the same layout as the test directory. i.e tests/ EISMINT/EISMINT-1 etc. 
+> If you un-zip the tar file you will be able to see this. Why is it 
+> necessary to re-create this directory structure, copy the files into the 
+> new directory and then compress it, when the same tar ball can be 
+> produced in one command? Maybe I've misunderstood something 
+> obvious............
+> 
+
+you are missing the top-level directory you would get
+glimmer-cism-gold-1.2.3/test/....
+rather than just
+tests/
+this allows you to unpack more than one version of the standard.
+
+so you need to create a directory
+$(PACKAGE)-gold-$(VERSION)
+copy all the test directory structure into that and copy the files you 
+want to distribute.
+tar up the entire directory
+remove the directory and its children.
+
+I hope this clarifies my request.
+
+Cheers
+magi
+
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sarah.shannon at bristol.ac.uk  Thu Dec  9 16:02:53 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Thu, 09 Dec 2010 15:02:53 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4D00EEAE.7090702@ed.ac.uk>
+References: <4CF8E442.7030006@bristol.ac.uk> <4CFF5AE3.7010800@ed.ac.uk>
+	<4D00E200.4050408@bristol.ac.uk> <4D00EEAE.7090702@ed.ac.uk>
+Message-ID: <4D00EF9D.4030002@bristol.ac.uk>
+
+Hi Magnus,
+OK, I see now. Thanks for clarifying that.
+Sarah
+
+Magnus Hagdorn wrote:
+> Hi Sarah,
+>
+> Sarah Shannon wrote:
+>> I have made all the changes that you suggested apart from the last one.
+> excellent
+>
+> > 4. Changed the naming of the tar file from
+> > gold-standard_$(PACKAGE)-$(VERSION) .tgz to 
+> $(PACKAGE)-gold-$(VERSION).tgz
+>
+> This should be .tar.gz
+>
+>> 6. Regarding the tar ball.  The directory structure of the tar ball 
+>> has the same layout as the test directory. i.e tests/ 
+>> EISMINT/EISMINT-1 etc. If you un-zip the tar file you will be able to 
+>> see this. Why is it necessary to re-create this directory structure, 
+>> copy the files into the new directory and then compress it, when the 
+>> same tar ball can be produced in one command? Maybe I've 
+>> misunderstood something obvious............
+>>
+>
+> you are missing the top-level directory you would get
+> glimmer-cism-gold-1.2.3/test/....
+> rather than just
+> tests/
+> this allows you to unpack more than one version of the standard.
+>
+> so you need to create a directory
+> $(PACKAGE)-gold-$(VERSION)
+> copy all the test directory structure into that and copy the files you 
+> want to distribute.
+> tar up the entire directory
+> remove the directory and its children.
+>
+> I hope this clarifies my request.
+>
+> Cheers
+> magi
+>
+>
+>
+>
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 278 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101209/b3ece745/attachment.vcf>
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Dec 10 09:18:28 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 10 Dec 2010 08:18:28 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <4D00EEAE.7090702@ed.ac.uk>
+References: <4CF8E442.7030006@bristol.ac.uk> <4CFF5AE3.7010800@ed.ac.uk>
+	<4D00E200.4050408@bristol.ac.uk>  <4D00EEAE.7090702@ed.ac.uk>
+Message-ID: <1291969108.1679.8.camel@swine>
+
+On Thu, 2010-12-09 at 14:58 +0000, Magnus Hagdorn wrote:
+
+
+> > 6. Regarding the tar ball.  The directory structure of the tar ball has 
+> > the same layout as the test directory. i.e tests/ EISMINT/EISMINT-1 etc. 
+> > If you un-zip the tar file you will be able to see this. Why is it 
+> > necessary to re-create this directory structure, copy the files into the 
+> > new directory and then compress it, when the same tar ball can be 
+> > produced in one command? Maybe I've misunderstood something 
+> > obvious............
+> so you need to create a directory
+> $(PACKAGE)-gold-$(VERSION)
+> copy all the test directory structure into that and copy the files you 
+> want to distribute.
+> tar up the entire directory
+> remove the directory and its children.
+> 
+
+Hi Sarah,
+it occurred to me this morning that you actually don't need to use the
+find command. You can use the $(relbuild_dir) macro to create the
+directories in the  top gold-distrib dir, i.e.
+mkdir -p $(top_builddir)/$(PACKAGE)-gold-$(VERSION)/$(rel_builddir)
+and then loop over the files in the $(DATA) macro and copy them into the
+directory. That way we can tell the system exactly what should get
+distributed.
+Cheers
+magi
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101210/84c4ccc0/attachment.html>
+
+From sarah.shannon at bristol.ac.uk  Fri Dec 10 17:45:20 2010
+From: sarah.shannon at bristol.ac.uk (Sarah Shannon)
+Date: Fri, 10 Dec 2010 16:45:20 +0000
+Subject: [Glimmer-cism-devel] glimmer test suite
+In-Reply-To: <1291969108.1679.8.camel@swine>
+References: <4CF8E442.7030006@bristol.ac.uk> <4CFF5AE3.7010800@ed.ac.uk>	
+	<4D00E200.4050408@bristol.ac.uk> <4D00EEAE.7090702@ed.ac.uk>
+	<1291969108.1679.8.camel@swine>
+Message-ID: <4D025920.9050800@bristol.ac.uk>
+
+Hi Magnus,
+
+Just to clarify that this is what you want instead of using the find 
+command.
+
+1. Copy the test files into a directory by adding the following to 
+extra_rules.am
+
+dist-gold-standard:
+    @mkdir -p $(top_builddir)/$(PACKAGE)-gold-$(VERSION)/$(rel_builddir)
+    $(foreach data,$(data), cp $(data) 
+$(top_builddir)/$(PACKAGE)-gold-$(VERSION)/$(rel_builddir);)
+
+2. In the top level Makefile.am add the following to repeat the rule and 
+compress the files
+dist-gold-standard::
+        list='$(datadir)'; for dir in $$list; do \
+          (cd $$dir && $(MAKE) $@); \
+        done
+        tar -cvzf $(PACKAGE)-gold-$(VERSION).tar.gz 
+$(top_builddir)/$(PACKAGE)-gold-$(VERSION) 
+        echo "Output of tests compressed to" 
+$(PACKAGE)-gold-$(VERSION).tar.gz
+
+3.  Add the rule to Makefile.am contained in each subdirectory of the 
+tests directory.
+dist-gold-standard::
+        list='$(datadir)'; for dir in $$list; do \
+          (cd $$dir && $(MAKE) $@); \
+        done
+Is that correct?
+Cheers,
+Sarah
+
+
+Magnus Hagdorn wrote:
+> On Thu, 2010-12-09 at 14:58 +0000, Magnus Hagdorn wrote:
+>
+>> > 6. Regarding the tar ball.  The directory structure of the tar ball has 
+>> > the same layout as the test directory. i.e tests/ EISMINT/EISMINT-1 etc. 
+>> > If you un-zip the tar file you will be able to see this. Why is it 
+>> > necessary to re-create this directory structure, copy the files into the 
+>> > new directory and then compress it, when the same tar ball can be 
+>> > produced in one command? Maybe I've misunderstood something 
+>> > obvious............
+>> so you need to create a directory
+>> $(PACKAGE)-gold-$(VERSION)
+>> copy all the test directory structure into that and copy the files you 
+>> want to distribute.
+>> tar up the entire directory
+>> remove the directory and its children.
+>>
+>>     
+> Hi Sarah,
+> it occurred to me this morning that you actually don't need to use the 
+> find command. You can use the $(relbuild_dir) macro to create the 
+> directories in the  top gold-distrib dir, i.e.
+> mkdir -p $(top_builddir)/$(PACKAGE)-gold-$(VERSION)/$(rel_builddir)
+> and then loop over the files in the $(DATA) macro and copy them into 
+> the directory. That way we can tell the system exactly what should get 
+> distributed.
+> Cheers
+> magi 
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sarah_shannon.vcf
+Type: text/x-vcard
+Size: 288 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20101210/a09303d9/attachment.vcf>
+
+From lipscomb at lanl.gov  Fri Dec 31 16:57:39 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 31 Dec 2010 08:57:39 -0700
+Subject: [Glimmer-cism-devel] changes on parallel branch
+In-Reply-To: <C92E8896.5FB0%evanskj@ornl.gov>
+References: <C92E8896.5FB0%evanskj@ornl.gov>
+Message-ID: <41EE75CC-5AA1-4F34-A73D-6B0C94B2170D@lanl.gov>
+
+
+Hi all,
+
+As you may have noticed, I've recently made a number of changes on the  
+glimmer-cism-lanl parallel branch.  If you're not working with that  
+branch, you can ignore the rest of this message.
+
+The recent changes allow for advection of temperature (and other  
+tracers, if you like) using the incremental remapping scheme.  Here's  
+what you need to know:
+
+(1) The next time you do an svn update, you will need to clean,  
+reconfigure, and rebuild the code.  This is because I've added some  
+files, removed others, and made some changes in .../src/fortran/ 
+Makefile.am.
+
+(2) If you're not interested in remapping of temperature, there's  
+nothing else you need to do.  Existing config files should work in the  
+same way.  The most recent revisions (r2145-2149) should not change  
+any answers for prior configurations.  If they do, please let me know!
+
+(3) If you're interested in remapping of temperature or other tracers,  
+please read the message associated with r2145 and try out the new  
+option.  You will need to set evolution = 3 and temperature = 3 in the  
+options section of the config file.   Recall that evolution = 3 turns  
+on the remapping option for thickness.  Setting temperature = 3 turns  
+on the remapping option for temperature as well.  I've tested the new  
+option for the hump test case with Payne-Price dynamics, but not yet  
+for the more realistic test cases.
+
+(4) During the next few weeks, Jeff Nichols and I will be porting  
+these changes over to the glimmer-cism-lanl distributed branch, so  
+that the remapping of thickness and temperature can be done in parallel.
+
+Please let me know if you have any questions or run into problems.
+
+Happy new year,
+
+Bill
+
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+

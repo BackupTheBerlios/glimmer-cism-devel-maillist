@@ -1,0 +1,362 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Glimmer-CISM data structure
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-December/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-CISM%20data%20structure&In-Reply-To=%3C7CF1508D-1A1C-484F-9758-24B3FB6673A5%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Glimmer-CISM data structure</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-CISM%20data%20structure&In-Reply-To=%3C7CF1508D-1A1C-484F-9758-24B3FB6673A5%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] Glimmer-CISM data structure">lipscomb at lanl.gov
+       </A><BR>
+    <I>Tue Dec  1 19:42:53 CET 2009</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#164">[ date ]</a>
+              <a href="thread.html#164">[ thread ]</a>
+              <a href="subject.html#164">[ subject ]</a>
+              <a href="author.html#164">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all,
+
+Following last week's discussion of data structures for Glimmer-CISM,  
+Jed and I had an offline discussion that may be of interest to others,  
+especially those of you thinking about solvers and preconditioners.   
+I've cut and pasted the full discussion below, in chronological order  
+from top to bottom.  Comments are welcome.
+
+- Bill
+
+**********************************************************************************
+
+On Nov 24, 2009, at 9:47 AM, Jed Brown wrote:
+
+&gt;<i> On Tue, 24 Nov 2009 09:04:00 -0700, William Lipscomb &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A> 
+</I>&gt;<i> &gt; wrote:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> In the current code, 3D arrays such as velocity and temperature are
+</I>&gt;&gt;<i> indexed as (k,i,j).  That is, the vertical 'k' index is first, so  
+</I>&gt;&gt;<i> that
+</I>&gt;&gt;<i> vertical neighbors are closer in memory than horizontal neighbors.
+</I>&gt;&gt;<i> For future developments, including full-Stokes and higher-order
+</I>&gt;&gt;<i> solvers, are there compelling reasons to maintain the (k,i,j) data
+</I>&gt;&gt;<i> structure?  Or should we consider switching to (i,j,k), so that the
+</I>&gt;&gt;<i> 'k' index is on the outside?  Our grids typically have horizontal
+</I>&gt;&gt;<i> dimensions of order 10^3 to 10^4 and vertical dimensions of order 10.
+</I>&gt;<i>
+</I>&gt;<i> Definitely stick with (k,i,j) and structure the loops so that k is
+</I>&gt;<i> always the inner loop.  The most promising preconditioning candidate  
+</I>&gt;<i> is
+</I>&gt;<i> to integrate residuals within columns and solve 2D systems in the map
+</I>&gt;<i> plane (this system is roughly equivalent to linearized SSA).  I'm
+</I>&gt;<i> starting to play with this for oceans, but it's a very similar process
+</I>&gt;<i> for ice.
+</I>&gt;<i>
+</I>&gt;<i> You can explain why this is a good ordering by applying the maxim
+</I>&gt;<i>
+</I>&gt;<i>  When the physics presents strong coupling between two points, those
+</I>&gt;<i>  points should be nearby in memory.
+</I>&gt;<i>
+</I>&gt;<i> (Okay, I made this up on the spot, but it's actually a very good
+</I>&gt;<i> guideline.)
+</I>&gt;<i>
+</I>&gt;<i> Also note that if you index as (k,i,j) you will have better cache  
+</I>&gt;<i> reuse
+</I>&gt;<i> with
+</I>&gt;<i>
+</I>&gt;<i>  do j = ym,ym+ys
+</I>&gt;<i>    do i = xm,xm+xs
+</I>&gt;<i>      do k = 1,zs
+</I>&gt;<i>
+</I>&gt;<i> than with
+</I>&gt;<i>
+</I>&gt;<i>  do i = xm,xm+xs
+</I>&gt;<i>    do j = ym,ym+ys
+</I>&gt;<i>      do k = 1,zs
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Jed
+</I>
+
+
+
+*****************************
+
+Jed,
+
+Thanks for your thoughts.  Before I spam the group again, I want to  
+make sure I understand the details of what you're saying.
+
+Below I've pasted some text from Wikipedia--this is the preconditioned  
+CG algorithm.  I'm guessing you would do something similar for other  
+Krylov methods.  Each time through the loop, we have to solve z = M^-1  
+r, or equivalently Mz = r.  Does M live in 3D?  Or does it live in the  
+map plane and operate on a vertically integrated form of r?  If the  
+latter, then I'm unclear on exactly how you go back and forth between  
+the map plane and 3D.
+
+Thanks,
+Bill
+
+******************************
+
+On Tue, 24 Nov 2009 10:50:32 -0700, William Lipscomb  
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>&gt; wrote:
+&gt;<i> Below I've pasted some text from Wikipedia--this is the preconditioned
+</I>&gt;<i> CG algorithm.  I'm guessing you would do something similar for other
+</I>&gt;<i> Krylov methods.  Each time through the loop, we have to solve z = M^-1
+</I>&gt;<i> r, or equivalently Mz = r.
+</I>
+Indeed, but recall that M is just some linear operation such that we can
+apply M^-1, it is often not the case that we know how to apply M.
+
+&gt;<i> Does M live in 3D?
+</I>
+Yes.
+
+&gt;<i> Or does it live in the map plane and operate on a vertically
+</I>&gt;<i> integrated form of r?
+</I>
+Maybe.
+
+&gt;<i> If the latter, then I'm unclear on exactly how you go back and forth
+</I>&gt;<i> between the map plane and 3D.
+</I>
+The idea is that M is the operation
+
+  vertically integrate r
+  apply H
+  distribute correction in the vertical
+
+plus (additive or multiplicative with above)
+
+  &quot;tridiagional&quot; column solve
+
+where H is the operator responsible for horizontal coupling and the
+column solve handles vertical coupling.
+
+Jed
+
+******************************
+
+Jed,
+
+I think that the paste from Wikipedia may not have worked, but anyway  
+you got the idea.
+
+The combined application of H and a column solver seems a lot like the  
+Bueler-Brown hybrid SIA/SSA solver.  Is the idea, then, that you apply  
+this solver, or something similar, to the equation Mz = r (where r =  
+Ax - r* is the residual of the full system)?  Then you use the  
+resulting z to compute your next Krylov vector and step length, as in  
+the standard PCG algorithm.  In that case, you need the following for  
+an efficient (linear) higher-order solver:
+
+* an operator that computes Ax, where A is the full higher-order matrix
+* A Bueler-Brown solver to solve Mz = r
+* a PCG solver to wrap everything
+
+For full-Stokes you can't use CG, but the general idea is the same.
+
+Now back to my original question:  Where in this process is it  
+important to have the vertical neighbors close in memory?  Obviously  
+this will make the column solve more efficient, that doesn't seem like  
+the bottleneck.
+
+Thanks again,
+
+Bill
+
+******************************
+
+&gt;<i> The combined application of H and a column solver seems a lot like the
+</I>&gt;<i> Bueler-Brown hybrid SIA/SSA solver.
+</I>
+Yes, sort of.
+
+&gt;<i> Is the idea, then, that you apply this solver, or something similar,
+</I>&gt;<i> to the equation Mz = r (where r = Ax - r* is the residual of the full
+</I>&gt;<i> system)?  Then you use the resulting z to compute your next Krylov
+</I>&gt;<i> vector and step length, as in the standard PCG algorithm.  In that
+</I>&gt;<i> case, you need the following for an efficient (linear) higher-order
+</I>&gt;<i> solver:
+</I>
+Yes
+
+&gt;<i> * an operator that computes Ax, where A is the full higher-order  
+</I>&gt;<i> matrix
+</I>
+Yes, but note that this does not need to be assembled.  With Newton
+schemes, it can be computed as
+
+  (F(z+e*x) - F(z))/e
+
+for some small e, where z is the state we are linearized around.  It can
+also be computed by forward-mode AD (no storage issues, and easy to keep
+contained so that only a small bit of code needs to be differentiated).
+You can also hand-code the action, this is usually easier to write than
+assembling the matrix anyway.
+
+&gt;<i> * A Bueler-Brown solver to solve Mz = r
+</I>
+Pretty much.
+
+&gt;<i> * a PCG solver to wrap everything
+</I>
+Yes, but this is *any* iterative method and you don't need to choose
+until runtime.
+
+&gt;<i> For full-Stokes you can't use CG, but the general idea is the same.
+</I>
+Well, you can use CG if you keep all the iterates in a &quot;benign&quot; space,
+but you're right that it's not practical.  Instead, we would normally
+use something like MINRES or SQMR if we have a symmetric preconditioner,
+and GMRES or BiCG if we are using a nonsymmetric preconditioner.
+
+&gt;<i> Now back to my original question: Where in this process is it
+</I>&gt;<i> important to have the vertical neighbors close in memory?  Obviously
+</I>&gt;<i> this will make the column solve more efficient, that doesn't seem like
+</I>&gt;<i> the bottleneck.
+</I>
+Well, with this scheme, you do the following in 3D
+
+* evaluate residuals (the full nonlinear physics)
+* integrate in columns
+* distribute corrections throughout the column
+* solve linearized problems in columns
+
+All of these operations operate on columns.  Now, if you only have
+points per column, then you probably won't spend much time in it, you
+may indeed spend more time in the crucial 2D operation
+
+* solve linearized SSA in the map plane (a symmetric positive-definite  
+system)
+
+Note that the cheapest preconditioner for this system would just be
+pointwise multiplication (this is called Jacobi and is actually used).
+The next step up is to use 0-fill incomplete factorization on each
+process (or relaxation like SOR which has similar cost), this only does
+about 20 floating point operations per column, but needs
+9*sizeof(int)+18*sizeof(double) bytes from memory (which will not be
+reused).  These need to update ghosted values so the network latency can
+cost quite a bit if your subdomains are very small and/or your network
+is cheap.  As we move on to stronger preconditioners, we start allowing
+fill in the factorization and/or subcycle on the 2D problem and/or add
+coarse levels.
+
+If you make the preconditioner very strong then it will likely cost more
+than your 3D operations, but if it is cheap, then you also need to do
+the 3D operations more frequently and they can be a bottleneck.  Also,
+it matters if you have many levels because the cost of the 2D
+preconditioner is not dependent on the number of levels.  In any case,
+there are no operations that involve traversing the domain in layers.
+
+
+******************************
+Jed,
+
+Thanks again for the detailed reply.  Just one more issue for now:
+
+&gt;<i>
+</I>&gt;<i> All of these operations operate on columns.  Now, if you only have
+</I>&gt;<i> points per column, then you probably won't spend much time in it, you
+</I>&gt;<i> may indeed spend more time in the crucial 2D operation
+</I>
+
+There's some text missing at the end of the first line.  Did you mean  
+to say &quot;10&quot; or &quot;a few&quot;?
+
+Which leads to a follow-up question:  Is there a sweet spot for the  
+number of vertical levels?  I know that PISM uses a lot of levels  
+(~50?), whereas Glimmer uses only 10.  Is there a number in between  
+that would give us good cache re-use and accuracy while limiting the  
+total number of column operations?  I doubt the accuracy question can  
+be answered a priori, but I wonder if it might be pretty cheap to go  
+from 10 levels to, say, 20 levels for our target architectures.
+
+******************************
+
+&gt;<i> There's some text missing at the end of the first line.  Did you mean
+</I>&gt;<i> to say &quot;10&quot; or &quot;a few&quot;?
+</I>
+Yes that's what I meant.  (I accidentally the adjective. [1])
+
+&gt;<i> Which leads to a follow-up question:  Is there a sweet spot for the
+</I>&gt;<i> number of vertical levels?  I know that PISM uses a lot of levels
+</I>&gt;<i> (~50?), whereas Glimmer uses only 10.
+</I>
+Note that PISM does not use sigma coordinates.  We do have unevenly
+spaced levels so that the resolution near the bed is not too bad.  There
+is a cost to low vertical resolution, mostly in how you predict the
+transition from cold to temperate bed.  We usually try to use enough
+levels such that further refinement does not significantly move this
+transition.  It may be that higher horizontal resolution is more
+important than fully converging the temperature system.  Also, it may
+not be important to such high vertical resolution for momentum, but PISM
+currently uses the same vertical spacing for both.
+
+&gt;<i> Is there a number in between that would give us good cache re-use and
+</I>&gt;<i> accuracy while limiting the total number of column operations?  I
+</I>&gt;<i> doubt the accuracy question can be answered a priori, but I wonder if
+</I>&gt;<i> it might be pretty cheap to go from 10 levels to, say, 20 levels for
+</I>&gt;<i> our target architectures.
+</I>
+That cost is dependent on (a) single-process memory and (b) relative
+solver cost.
+
+Jed
+
+
+[1] Eliding the verb, on the other hand, is a silly internet meme that's
+been raging for the past year or more.
+
+
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091201/c796f8ec/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091201/c796f8ec/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#164">[ date ]</a>
+              <a href="thread.html#164">[ thread ]</a>
+              <a href="subject.html#164">[ subject ]</a>
+              <a href="author.html#164">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

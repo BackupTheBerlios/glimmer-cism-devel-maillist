@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Northern Hemisphere grid: segmentation	fault
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2011-April/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Northern%20Hemisphere%20grid%3A%20segmentation%0A%09fault&In-Reply-To=%3CBANLkTimdDBcHzz8zbmMp%3DGCuD%3D%2B0TFD_4g%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000446.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Northern Hemisphere grid: segmentation	fault</H1>
+    <B>Florence Colleoni</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Northern%20Hemisphere%20grid%3A%20segmentation%0A%09fault&In-Reply-To=%3CBANLkTimdDBcHzz8zbmMp%3DGCuD%3D%2B0TFD_4g%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] Northern Hemisphere grid: segmentation	fault">flocolleoni at gmail.com
+       </A><BR>
+    <I>Tue Apr  5 11:32:46 CEST 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000446.html">[Glimmer-cism-devel] Changes to Makefile.am
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#445">[ date ]</a>
+              <a href="thread.html#445">[ thread ]</a>
+              <a href="subject.html#445">[ subject ]</a>
+              <a href="author.html#445">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dear all,
+
+The segmentation fault was due to the lack of memory of my computer...I was
+running on my laptop...
+So I decided to intall glimmer on a little cluster we had and it was able to
+run for Antarctica which approximately has
+the same number of point of my NH grid.
+
+Now I have a second error about the numerical conversion of my initial NH
+data...But I think I can solve it quickly.
+
+Thank you anyway for the disucssion.
+
+Flo
+
+2011/3/10 Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>&gt;
+
+&gt;<i>
+</I>&gt;<i> Hi Flo,
+</I>&gt;<i>
+</I>&gt;<i> Sorry to have been out of touch these last few weeks. Teaching has been
+</I>&gt;<i> very hectic, and now I'm in Svalbard, teaching at UNIS with Nick Hulton.
+</I>&gt;<i> We're here until next week, then back to Swansea for the mad dash to the end
+</I>&gt;<i> of term...
+</I>&gt;<i>
+</I>&gt;<i> The website isn't clear about this, but 1.7.0 is a beta (test) version, and
+</I>&gt;<i> it has some bugs. Do you get the same problem if you use the 1.0.18 version
+</I>&gt;<i> (also on the website)?
+</I>&gt;<i>
+</I>&gt;<i> Will reply to your other email and suggest some visit dates soon.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i>
+</I>&gt;<i> Ian
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> On 21/02/11 15:00, Florence Colleoni wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi Ian,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I am using the last version of glimmer available for download on the
+</I>&gt;&gt;<i> Berlios website. So it is Glimmer-1.7.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I attach the config file and I copy the header of netcdf file here:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Cheers
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Flo
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ***************************************************************************
+</I>&gt;&gt;<i> netcdf NH_40km_input {
+</I>&gt;&gt;<i> dimensions:
+</I>&gt;&gt;<i>     time = 1 ;
+</I>&gt;&gt;<i>     level = 11 ;
+</I>&gt;&gt;<i>     x0 = 316 ;
+</I>&gt;&gt;<i>     x1 = 317 ;
+</I>&gt;&gt;<i>     y0 = 316 ;
+</I>&gt;&gt;<i>     y1 = 317 ;
+</I>&gt;&gt;<i> variables:
+</I>&gt;&gt;<i>     float time(time) ;
+</I>&gt;&gt;<i>         time:long_name = &quot;Model time&quot; ;
+</I>&gt;&gt;<i>         time:standard_name = &quot;time&quot; ;
+</I>&gt;&gt;<i>         time:units = &quot;year since 1-1-1 0:0:0&quot; ;
+</I>&gt;&gt;<i>         time:calendar = &quot;none&quot; ;
+</I>&gt;&gt;<i>     char mapping ;
+</I>&gt;&gt;<i>         mapping:grid_mapping_name = &quot;polar_stereographic&quot; ;
+</I>&gt;&gt;<i>         mapping:false_easting = 0.f ;
+</I>&gt;&gt;<i>         mapping:false_northing = 0.f ;
+</I>&gt;&gt;<i>         mapping:traight_vertical_longitude_from_pole = 0.f ;
+</I>&gt;&gt;<i>         mapping:latitude_of_projection_origin = 90.f ;
+</I>&gt;&gt;<i>         mapping:standard_parallel = 81.f ;
+</I>&gt;&gt;<i>     float level(level) ;
+</I>&gt;&gt;<i>         level:formula_terms = &quot;sigma: level topo: topg thick: thk&quot; ;
+</I>&gt;&gt;<i>         level:long_name = &quot;sigma layers&quot; ;
+</I>&gt;&gt;<i>         level:standard_name = &quot;land_ice_sigma_coordinate&quot; ;
+</I>&gt;&gt;<i>         level:units = &quot;1&quot; ;
+</I>&gt;&gt;<i>     float x0(x0) ;
+</I>&gt;&gt;<i>         x0:long_name = &quot;Cartisian x-coordinate, velocity grid&quot; ;
+</I>&gt;&gt;<i>         x0:standard_name = &quot;projection_x_coordinate&quot; ;
+</I>&gt;&gt;<i>         x0:units = &quot;meter&quot; ;
+</I>&gt;&gt;<i>     float x1(x1) ;
+</I>&gt;&gt;<i>         x1:long_name = &quot;Cartisian x-coordinate&quot; ;
+</I>&gt;&gt;<i>         x1:standard_name = &quot;projection_x_coordinate&quot; ;
+</I>&gt;&gt;<i>         x1:units = &quot;meter&quot; ;
+</I>&gt;&gt;<i>     float y0(y0) ;
+</I>&gt;&gt;<i>         y0:long_name = &quot;Cartisian y-coordinate, velocity grid&quot; ;
+</I>&gt;&gt;<i>         y0:standard_name = &quot;projection_y_coordinate&quot; ;
+</I>&gt;&gt;<i>         y0:units = &quot;meter&quot; ;
+</I>&gt;&gt;<i>     float y1(y1) ;
+</I>&gt;&gt;<i>         y1:long_name = &quot;Cartisian y-coordinate&quot; ;
+</I>&gt;&gt;<i>         y1:standard_name = &quot;projection_y_coordinate&quot; ;
+</I>&gt;&gt;<i>         y1:units = &quot;meter&quot; ;
+</I>&gt;&gt;<i>     float mask(time, y1, x1) ;
+</I>&gt;&gt;<i>         mask:long_name = &quot;upscaling and downscaling mask&quot; ;
+</I>&gt;&gt;<i>         mask:units = &quot;1&quot; ;
+</I>&gt;&gt;<i>         mask:grid_mapping = &quot;mapping&quot; ;
+</I>&gt;&gt;<i>     float relx(time, y1, x1) ;
+</I>&gt;&gt;<i>         relx:coordinates = &quot;lon lat&quot; ;
+</I>&gt;&gt;<i>         relx:long_name = &quot;relaxed bedrock topography&quot; ;
+</I>&gt;&gt;<i>         relx:units = &quot;meter&quot; ;
+</I>&gt;&gt;<i>         relx:grid_mapping = &quot;mapping&quot; ;
+</I>&gt;&gt;<i>     float thk(time, y1, x1) ;
+</I>&gt;&gt;<i>         thk:coordinates = &quot;lon lat&quot; ;
+</I>&gt;&gt;<i>         thk:long_name = &quot;ice thickness&quot; ;
+</I>&gt;&gt;<i>         thk:standard_name = &quot;land_ice_thickness&quot; ;
+</I>&gt;&gt;<i>         thk:units = &quot;meter&quot; ;
+</I>&gt;&gt;<i>         thk:grid_mapping = &quot;mapping&quot; ;
+</I>&gt;&gt;<i>     float topg(time, y1, x1) ;
+</I>&gt;&gt;<i>         topg:coordinates = &quot;lon lat&quot; ;
+</I>&gt;&gt;<i>         topg:long_name = &quot;bedrock topography&quot; ;
+</I>&gt;&gt;<i>         topg:standard_name = &quot;bedrock_altitude&quot; ;
+</I>&gt;&gt;<i>         topg:units = &quot;meter&quot; ;
+</I>&gt;&gt;<i>         topg:grid_mapping = &quot;mapping&quot; ;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> // global attributes:
+</I>&gt;&gt;<i>         :Conventions = &quot;CF-1.0&quot; ;
+</I>&gt;&gt;<i>         :title = &quot;Northern Hemisphere (30N-90N) ISM grid - 40km&quot; ;
+</I>&gt;&gt;<i>         :institution = &quot;Centro Euro-Mediterraneo per i Cambiamenti
+</I>&gt;&gt;<i> Climatici (Bologna, Italy)&quot; ;
+</I>&gt;&gt;<i>         :source = &quot;ETOPO1&quot; ;
+</I>&gt;&gt;<i>         :history = &quot;Interpolated using GLIMMER and OBLIMAP routines&quot; ;
+</I>&gt;&gt;<i>         :references = &quot; &quot; ;
+</I>&gt;&gt;<i>         :comment = &quot; &quot; ;
+</I>&gt;&gt;<i> }
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> ***************************************************************************
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 2011/2/21 Ian Rutt &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A> &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">I.C.Rutt at swansea.ac.uk</A>
+</I>&gt;&gt;<i> &gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Hi Flo,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Could you post to the list two things which might help narrow down
+</I>&gt;&gt;<i>    the problem:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    1) Your .config file for the model
+</I>&gt;&gt;<i>    2) The header of your NetCDF input file (i.e. when you run ncdump -h
+</I>&gt;&gt;<i>    on it)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Also - which version of Glimmer-CISM are you using?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Cheers,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Ian
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    Dr Ian Rutt
+</I>&gt;&gt;<i>    Department of Geography
+</I>&gt;&gt;<i>    College of Science
+</I>&gt;&gt;<i>    Swansea University
+</I>&gt;&gt;<i>    Singleton Park
+</I>&gt;&gt;<i>    Swansea
+</I>&gt;&gt;<i>    SA2 8PP
+</I>&gt;&gt;<i>    Tel. +44 (0)1792 602685
+</I>&gt;&gt;<i>    <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A> &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    On 20/02/11 20:05, Florence Colleoni wrote:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        Sorry, I should be a little bit more specific:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        when the model ouputs are written, the variable already provided
+</I>&gt;&gt;<i>        by the
+</I>&gt;&gt;<i>        input file
+</I>&gt;&gt;<i>        are red and written very well. The only thing that comes to my
+</I>&gt;&gt;<i>        mind is that
+</I>&gt;&gt;<i>        there maybe a problem when the model downscales the climate fields
+</I>&gt;&gt;<i>        (which I already tested
+</I>&gt;&gt;<i>        in the Greenland grid and work pefectly): maybe the way I
+</I>&gt;&gt;<i>        performed the
+</I>&gt;&gt;<i>        projection
+</I>&gt;&gt;<i>        and the mapping informations I provide in the input file do not
+</I>&gt;&gt;<i>        allow
+</I>&gt;&gt;<i>        the mapping
+</I>&gt;&gt;<i>        codes to interpolate on the x,y grid.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        But even if the downscaling where slightly different from the
+</I>&gt;&gt;<i>        projection
+</I>&gt;&gt;<i>        grid prived in the input file,
+</I>&gt;&gt;<i>        would the fields not be interpolated and written in the ouput file?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        Florence
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        2011/2/20 Florence Colleoni &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt;
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A> &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt;&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            Hi, all
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            I finished to construct the Northern Hemisphere grid (40km
+</I>&gt;&gt;<i>        spacing-
+</I>&gt;&gt;<i>            317*317 horizontal res. and 11 vertical signa layers).
+</I>&gt;&gt;<i>            The file is identical to that of the glint-example
+</I>&gt;&gt;<i>        gland20.input.nc &lt;<A HREF="http://gland20.input.nc">http://gland20.input.nc</A>&gt;
+</I>&gt;&gt;<i>        &lt;<A HREF="http://gland20.input.nc">http://gland20.input.nc</A>&gt;.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            However, when I try to use the Northern Hemisphere grid with
+</I>&gt;&gt;<i>        GLINT
+</I>&gt;&gt;<i>            it stops at the beginning with a Segmentation fault error.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            I mean, it reads the input file parameters well but when it
+</I>&gt;&gt;<i>        starts
+</I>&gt;&gt;<i>            calculating the ice variables from
+</I>&gt;&gt;<i>            the model, it stops before writing the first step results in
+</I>&gt;&gt;<i> the
+</I>&gt;&gt;<i>            output file.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            Do somebody have an idea? Are the number of points too large
+</I>&gt;&gt;<i>        for the
+</I>&gt;&gt;<i>            model?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            Florence
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            --
+</I>&gt;&gt;<i>            /&quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent
+</I>&gt;&gt;<i> la
+</I>&gt;&gt;<i>            R&#233;volution avec la Libert&#233;: c'est le tr&#232;s petit nombre; les
+</I>&gt;&gt;<i>        autres
+</I>&gt;&gt;<i>            veulent la R&#233;volution avec le Pouvoir: c'est l'immense
+</I>&gt;&gt;<i>        majorit&#233;.&quot;
+</I>&gt;&gt;<i>            Chateaubriand/
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  ......................................................................
+</I>&gt;&gt;<i>            Florence Colleoni
+</I>&gt;&gt;<i>            CMCC &lt;<A HREF="http://www.cmcc.it">http://www.cmcc.it</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            Viale Aldo Moro, 44
+</I>&gt;&gt;<i>            40127 Bologna - Italy
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>                  Phone: +39 051 3782622
+</I>&gt;&gt;<i>                  Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt; &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>                  URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  ......................................................................
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        --
+</I>&gt;&gt;<i>        /&quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent la
+</I>&gt;&gt;<i>        R&#233;volution avec la Libert&#233;: c'est le tr&#232;s petit nombre; les autres
+</I>&gt;&gt;<i>        veulent la R&#233;volution avec le Pouvoir: c'est l'immense majorit&#233;.&quot;
+</I>&gt;&gt;<i>        Chateaubriand/
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  ......................................................................
+</I>&gt;&gt;<i>        Florence Colleoni
+</I>&gt;&gt;<i>        CMCC &lt;<A HREF="http://www.cmcc.it">http://www.cmcc.it</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        Viale Aldo Moro, 44
+</I>&gt;&gt;<i>        40127 Bologna - Italy
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>              Phone: +39 051 3782622
+</I>&gt;&gt;<i>              Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt; &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt;&gt;
+</I>&gt;&gt;<i>              URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  ......................................................................
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        _______________________________________________
+</I>&gt;&gt;<i>        Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i>        <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i>        &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    _______________________________________________
+</I>&gt;&gt;<i>    Glimmer-cism-devel mailing list
+</I>&gt;&gt;<i>    <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i>    &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>    <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> /&quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent la
+</I>&gt;&gt;<i> R&#233;volution avec la Libert&#233;: c'est le tr&#232;s petit nombre; les autres
+</I>&gt;&gt;<i> veulent la R&#233;volution avec le Pouvoir: c'est l'immense majorit&#233;.&quot;
+</I>&gt;&gt;<i> Chateaubriand/
+</I>&gt;&gt;<i> ......................................................................
+</I>&gt;&gt;<i> Florence Colleoni
+</I>&gt;&gt;<i> CMCC &lt;<A HREF="http://www.cmcc.it">http://www.cmcc.it</A>&gt;
+</I>&gt;&gt;<i> Viale Aldo Moro, 44
+</I>&gt;&gt;<i> 40127 Bologna - Italy
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>      Phone: +39 051 3782622
+</I>&gt;&gt;<i>      Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A> &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>&gt;
+</I>&gt;&gt;<i>      URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+</I>&gt;&gt;<i> ......................................................................
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Dr Ian Rutt
+</I>&gt;<i> School of the Environment and Society
+</I>&gt;<i>
+</I>&gt;<i> Swansea University
+</I>&gt;<i> Singleton Park
+</I>&gt;<i> Swansea
+</I>&gt;<i> SA2 8PP
+</I>&gt;<i> Tel. (01792) 602685
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+*&quot;Il existe deux sortes de r&#233;volutionnaires; les uns d&#233;sirent la R&#233;volution
+avec la Libert&#233;: c'est le tr&#232;s petit nombre; les autres veulent la
+R&#233;volution avec le Pouvoir: c'est l'immense majorit&#233;.&quot;
+Chateaubriand*
+......................................................................
+Florence Colleoni
+CMCC &lt;<A HREF="http://www.cmcc.it">http://www.cmcc.it</A>&gt;
+Viale Aldo Moro, 44
+40127 Bologna - Italy
+
+     Phone: +39 051 3782622
+     Email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">flocolleoni at gmail.com</A>
+     URL: <A HREF="http://flocolleoni.org">http://flocolleoni.org</A>
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110405/f0951cd6/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20110405/f0951cd6/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000446.html">[Glimmer-cism-devel] Changes to Makefile.am
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#445">[ date ]</a>
+              <a href="thread.html#445">[ thread ]</a>
+              <a href="subject.html#445">[ subject ]</a>
+              <a href="author.html#445">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

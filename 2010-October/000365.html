@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CAB2F34.20400%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000366.html">
+   <LINK REL="Next"  HREF="000367.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CAB2F34.20400%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Tue Oct  5 15:59:16 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000366.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000367.html">[Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#365">[ date ]</a>
+              <a href="thread.html#365">[ thread ]</a>
+              <a href="subject.html#365">[ subject ]</a>
+              <a href="author.html#365">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Sarah Shannon wrote:
+&gt;<i> Hi Magnus,
+</I>&gt;<i> 
+</I>&gt;<i> OK, Adding the macro seems straight forward enough.
+</I>&gt;<i> 
+</I>&gt;<i> I was wondering if the tests (invoked by make data) actually output 
+</I>&gt;<i> netCDF files somewhere? Is the idea to run each test in the test 
+</I>&gt;<i> directory sequentially using the python launcher and then do the 
+</I>&gt;<i> comparison after? Sorry if this is an obvious question. The reason I am 
+</I>&gt;<i> asking, is because it seems to take a while to run the tests in one go.
+</I>&gt;<i>
+</I>
+yes, they should output data in the test directory. you can run a single 
+test by for example running
+make e1-fm.1.nc
+in the tests/EISMINT/EISMINT-1 directory. If you have rule
+compare-%:	%.nc
+                 do some stuff
+then running
+make compare-e1-fm.1
+would make sure that the netCDF file created and then do some 
+comparison. One of the main points of having the launcher is that it can 
+submit jobs to a cluster using SGE. The testing can then be done in 
+parallel. The comparisons should also work in parallel, but I think we 
+can sort that out once the sequential ones work.
+
+
+&gt;<i> I am looking at how to add the 'compare rule'.  On the lanl branch I 
+</I>&gt;<i> added the rule to Makefile.am. I am bit confused about why I should add 
+</I>&gt;<i> it to the extra_rules.am instead.
+</I>&gt;<i> 
+</I>
+because extra_rules.am get included by other Makefile.am files. So you 
+only need to write it once.
+
+hope this helps
+magi
+
+PS: cc'd gc-devel list to make discussion public...
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000366.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000367.html">[Glimmer-cism-devel] Glimmer-CISM 1.7.0: EISMINT 1 oddity
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#365">[ date ]</a>
+              <a href="thread.html#365">[ thread ]</a>
+              <a href="subject.html#365">[ subject ]</a>
+              <a href="author.html#365">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

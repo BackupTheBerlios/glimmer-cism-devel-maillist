@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] directory layout for glimmer-cism v2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20directory%20layout%20for%20glimmer-cism%20v2&In-Reply-To=%3C515DE361599AE3CCB5F0E4FE%40geog-bsq78.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000050.html">
+   <LINK REL="Next"  HREF="000051.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] directory layout for glimmer-cism v2</H1>
+    <B>AJ Payne, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20directory%20layout%20for%20glimmer-cism%20v2&In-Reply-To=%3C515DE361599AE3CCB5F0E4FE%40geog-bsq78.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] directory layout for glimmer-cism v2">A.J.Payne at bristol.ac.uk
+       </A><BR>
+    <I>Mon Sep 14 17:15:37 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000050.html">[Glimmer-cism-devel] directory layout for glimmer-cism v2
+</A></li>
+        <LI>Next message: <A HREF="000051.html">[Glimmer-cism-devel] doxygen documentation
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi magi/all
+
+no comments on the new directory structure - all looks sensible.
+
+my main question is if you are happy for anyone to add to the list of tasks?
+
+&lt;<A HREF="http://developer.berlios.de/pm/task.php?group_project_id=1964&amp;group_id=10995&amp;func=browse">http://developer.berlios.de/pm/task.php?group_project_id=1964&amp;group_id=10995&amp;func=browse</A>&gt;
+
+i have some ideas that i would not mind adding.  do you think that we should set up a 
+protocol?  should be bounce any tasks off the developers email list before adding?
+
+
+thanks
+
+tony
+
+--On 2009-09-07 12:09 +0100 Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt; wrote:
+
+&gt;<i> Hi all,
+</I>&gt;<i> I have finished copying files into the new directory structure for
+</I>&gt;<i> glimmer-cism v2. It contains files from :
+</I>&gt;<i> * original glimmer module
+</I>&gt;<i> * glimmer-doc
+</I>&gt;<i> * verif
+</I>&gt;<i> * vanilla blas (used when system BLAS lib cannot be found)
+</I>&gt;<i> As outlined on the wiki [1] I have rearranged files into the following
+</I>&gt;<i> top level directories:
+</I>&gt;<i> * doc - documentation
+</I>&gt;<i> * libglimmer - sources for libglimmer and libglimmer-IO
+</I>&gt;<i> * libglimmer-solve - blas and SLAP
+</I>&gt;<i> * libglide - the ice sheet model
+</I>&gt;<i> * libglint - the climate coupler
+</I>&gt;<i> * tests - EISMIT1/2 and exact iso-thermal solutions
+</I>&gt;<i> * example-drivers - EIS, glint and EISMINT3
+</I>&gt;<i> * scripts - python programs
+</I>&gt;<i>
+</I>&gt;<i> I disabled the restart code for now. I think we need to figure out what
+</I>&gt;<i> we are going to do with the hotstart/restart code [2].
+</I>&gt;<i>
+</I>&gt;<i> The new module can be found in our subversion repository here:
+</I>&gt;<i> <A HREF="https://DEVELOPER@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/">https://DEVELOPER@svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/</A>
+</I>&gt;<i>
+</I>&gt;<i> Things to do:
+</I>&gt;<i> * I have created a small list of things that should get done at some
+</I>&gt;<i> stage, mostly related to the test cases:
+</I>&gt;<i> <A HREF="http://developer.berlios.de/pm/task.php?group_project_id=1964&amp;group_id=10995&amp;func=browse">http://developer.berlios.de/pm/task.php?group_project_id=1964&amp;group_id=10995&amp;func=browse</A>
+</I>&gt;<i> * I guess it would be good for Tim Wylie to integrate the
+</I>&gt;<i> thermomechanical exact solutions into a subdir of tests
+</I>&gt;<i>
+</I>&gt;<i> I also think we should do a test release (1.9.2) if everyone is happy
+</I>&gt;<i> with what we have.
+</I>&gt;<i>
+</I>&gt;<i> Please give the new structure a whirl, break it and fix it :-)
+</I>&gt;<i>
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> [1]
+</I>&gt;<i> <A HREF="http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Direc">http://openfacts2.berlios.de/wikien/index.php/BerliosProject:Glimmer_-_CISM_-_New_Direc</A>
+</I>&gt;<i> tory_Structure [2]
+</I>&gt;<i> <A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/000041.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/000041.html</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+
+
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000050.html">[Glimmer-cism-devel] directory layout for glimmer-cism v2
+</A></li>
+	<LI>Next message: <A HREF="000051.html">[Glimmer-cism-devel] doxygen documentation
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

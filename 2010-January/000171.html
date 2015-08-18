@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] suggested glimmer-cism GCM interface	changes
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20suggested%20glimmer-cism%20GCM%20interface%0A%09changes&In-Reply-To=%3CCA96C379-B587-43A1-BEC1-3E7B02A6F99A%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000170.html">
+   <LINK REL="Next"  HREF="000172.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] suggested glimmer-cism GCM interface	changes</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20suggested%20glimmer-cism%20GCM%20interface%0A%09changes&In-Reply-To=%3CCA96C379-B587-43A1-BEC1-3E7B02A6F99A%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] suggested glimmer-cism GCM interface	changes">lipscomb at lanl.gov
+       </A><BR>
+    <I>Tue Jan 26 22:13:33 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000170.html">[Glimmer-cism-devel] suggested glimmer-cism GCM interface changes
+</A></li>
+        <LI>Next message: <A HREF="000172.html">[Glimmer-cism-devel] exact restart
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#171">[ date ]</a>
+              <a href="thread.html#171">[ thread ]</a>
+              <a href="subject.html#171">[ subject ]</a>
+              <a href="author.html#171">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Rupert,
+
+Thanks for opening this discussion and putting together a strawman  
+document.  In general, I think this is a good idea.  Some of your  
+subroutines (for instance, glint_gcm_put_smb) correspond to routines  
+I've written for CCSM.  It would be good to make these and other  
+subroutines part of standard Glint, so that they don't need to be  
+rewritten for each GCM implementation.
+
+Also, I would like to reduce the number of optional arguments in Glint  
+subroutines, especially in the case that we are passing the surface  
+mass balance and many of those fields are not needed.  When working  
+with CCSM, I've tried to modify Glint as little as possible while  
+adding the capability to receive the SMB from the GCM.  This leads to  
+fairly ugly code with many unnecessary arguments and subroutine  
+calls.  Now that we have two GCMs (Hadley Centre and CCSM) sending the  
+SMB to Glint, it would be a good time to clean up the code and develop  
+some standard interfaces.
+
+I would suggest we start from the most recent version of Glimmer on  
+the repository, version 1.0.18.  (Ian and Magnus, please let us know  
+if there are plans to update this version.)
+
+At some point we'll want to merge these Glint changes with the higher- 
+order dynamics and other code improvements that Jesse, Steve, and  
+others have made in preparation for a Glimmer-CISM 2.0 release.  I  
+don't think a merger will be difficult, because these other code  
+improvements are mostly independent of Glint.
+
+I will be writing to this list soon to suggest some changes in how we  
+do restarts.  It would probably make sense to do restart changes in  
+coordination with Glint changes, on the same branch.
+
+Maybe we should form an ad hoc committee consisting of those who are  
+keenly interested in Glimmer-GCM interfaces.  Ian, I would invite you  
+to  join Rupert and me on this committee.  Is anyone else interested?
+
+Regards,
+
+Bill
+
+
+On Jan 25, 2010, at 10:27 AM, Rupert Gladstone wrote:
+
+&gt;<i>
+</I>&gt;<i> Dear glimmer-cism developers,
+</I>&gt;<i> the GCM/glimmer-cism interface (i.e. the part of glint that talks to  
+</I>&gt;<i> the climate model) is expanding with recent/planned developments  
+</I>&gt;<i> (such as altitude tiling for surface mass balance and incorporating  
+</I>&gt;<i> a plume model that will want to talk to the ocean GCM) and I was  
+</I>&gt;<i> wondering whether it might be time to think about breaking away from  
+</I>&gt;<i> the current approach of carrying out the entire exchange between GCM  
+</I>&gt;<i> and glimmer-cism in one large subroutine call with many optional  
+</I>&gt;<i> arguments (19 last time I checked) and instead present the GCM with  
+</I>&gt;<i> a number of smaller calls, only some of which will actually be  
+</I>&gt;<i> called depending on how the GCM wants to run.  This follows on from  
+</I>&gt;<i> conversations I've had with Bill and Ian last year.  To this end I  
+</I>&gt;<i> attach a 'straw man' written in a combination of fortran and pseudo  
+</I>&gt;<i> code for how the new interface might look.  If you want to play  
+</I>&gt;<i> around with the straw man feel free to check it in somewhere - I  
+</I>&gt;<i> don't know where to put it, I'm quite out of touch with all the  
+</I>&gt;<i> different branches there seem to be.
+</I>&gt;<i>
+</I>&gt;<i> I think the main advantages will be ease of development and reduced  
+</I>&gt;<i> chance of bugs on both the GCM and glimmer-cism side of the  
+</I>&gt;<i> interface.  I think if we keep on expanding the large call we have  
+</I>&gt;<i> at the moment we increase the risk of bugs creeping in on both sides  
+</I>&gt;<i> as the GCM builds up its long list of arguments and glimmer-cism  
+</I>&gt;<i> tries to decide what to do with them all.
+</I>&gt;<i>
+</I>&gt;<i> I can't see any obvious disadvantages.
+</I>&gt;<i>
+</I>&gt;<i> Questions:
+</I>&gt;<i> Do you think this is a good idea in general?
+</I>&gt;<i> If so, do you mind implementation being incremental? (We can add new  
+</I>&gt;<i> functionality in this more modular way without having to undo the  
+</I>&gt;<i> current large subroutine call if we don't have resource to do it all  
+</I>&gt;<i> at once)
+</I>&gt;<i> Do you have any specific comments on the 'straw man'?
+</I>&gt;<i> If we take this route, which branch should we use?  I am quite out  
+</I>&gt;<i> of touch with the different branches.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i> Rupert
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -------------------------------
+</I>&gt;<i> Rupert Gladstone
+</I>&gt;<i> School of Geographical Sciences
+</I>&gt;<i> University of Bristol
+</I>&gt;<i> University Road
+</I>&gt;<i> Bristol BS8 1SS
+</I>&gt;<i> Tel +44 (0) 117 33 14154
+</I>&gt;<i> &lt; 
+</I>&gt;<i> glint_gcm_interface_strawman 
+</I>&gt;<i> .f90&gt;_______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000170.html">[Glimmer-cism-devel] suggested glimmer-cism GCM interface changes
+</A></li>
+	<LI>Next message: <A HREF="000172.html">[Glimmer-cism-devel] exact restart
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#171">[ date ]</a>
+              <a href="thread.html#171">[ thread ]</a>
+              <a href="subject.html#171">[ subject ]</a>
+              <a href="author.html#171">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

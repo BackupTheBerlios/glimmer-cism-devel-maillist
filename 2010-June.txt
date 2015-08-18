@@ -1,0 +1,504 @@
+From Magnus.Hagdorn at ed.ac.uk  Tue Jun  8 18:17:22 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 08 Jun 2010 17:17:22 +0100
+Subject: [Glimmer-cism-devel] applying scale_factor in python
+Message-ID: <4C0E6D12.1060101@ed.ac.uk>
+
+Hi all,
+I am trying to figure out the best way to apply the scale_factor to data 
+loaded from netCDF file. Scientific.IO.NetCDF does not support this in a 
+transparent way. netCDF4 does, provided the add_offset attribute is also 
+present. There are a number of options:
+1. rely on netCDF4 to do the scaling transparently - if you don't have 
+the netCDF4 module you don't get scaled variables. It also automatically 
+masks the array if there are missing values.
+2. wrap the netCDF module in some clever way so that we can 
+transparently apply the scale factor
+3. apply it by hand whenever we access a variable
+
+Option 2 would be neat if someone can think of how to do that. You don't 
+seem to be able to inherit from Scientific.IO.NetCDF.NetCDFFile. So we 
+would need to write some form of wrapper.
+
+Option 3 is a recipe for disaster. We are bound to forget instances 
+where we need to apply the scaling.
+
+So, I tend to option 1 and make netCDF4 a requirement. We would then 
+also need to add the add_offset attribute for scaled variables. I don't 
+think netCDF4 is packaged for debian or ubuntu. It does come with 
+enthought python distribution though so mac and windows users will be 
+fine, linux users can install it from source relatively easily.
+
+what do you think?
+
+cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Tue Jun  8 18:26:16 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Tue, 08 Jun 2010 17:26:16 +0100
+Subject: [Glimmer-cism-devel] applying scale_factor in python
+In-Reply-To: <4C0E6D12.1060101@ed.ac.uk>
+References: <4C0E6D12.1060101@ed.ac.uk>
+Message-ID: <4C0E6F28.5070704@swansea.ac.uk>
+
+
+Hi Magi,
+
+> Option 2 would be neat if someone can think of how to do that. You don't 
+> seem to be able to inherit from Scientific.IO.NetCDF.NetCDFFile. So we 
+> would need to write some form of wrapper.
+
+I agree that this is the best option, but as you say, you won't be able 
+to inherit from Scientific.IO.NetCDF.NetCDFFile because it's a c-coded 
+module/routine. On the other hand, it implements very few methods, so it 
+should be relatively straightforward to wrap.
+
+Cheers,
+
+Ian
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Jun 10 16:41:19 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 10 Jun 2010 15:41:19 +0100
+Subject: [Glimmer-cism-devel] applying scale_factor in python
+In-Reply-To: <4C0E6F28.5070704@swansea.ac.uk>
+References: <4C0E6D12.1060101@ed.ac.uk> <4C0E6F28.5070704@swansea.ac.uk>
+Message-ID: <4C10F98F.1030505@ed.ac.uk>
+
+Ian Rutt wrote:
+> 
+> Hi Magi,
+> 
+>> Option 2 would be neat if someone can think of how to do that. You 
+>> don't seem to be able to inherit from Scientific.IO.NetCDF.NetCDFFile. 
+>> So we would need to write some form of wrapper.
+> 
+> I agree that this is the best option, but as you say, you won't be able 
+> to inherit from Scientific.IO.NetCDF.NetCDFFile because it's a c-coded 
+> module/routine. On the other hand, it implements very few methods, so it 
+> should be relatively straightforward to wrap.
+> 
+
+
+I suspect that Scientific.IO.NetCDF is written in such a way that you 
+cannot. You can certainly inherit from netCDF4.Dataset. Ah well, it 
+wasn't too difficult to write a wrapper class in the end. OO programming 
+is quite amazing when you can insert some functionality into the middle 
+of an application....
+
+Anyway, you might have noticed that I have started reviving some of the 
+old PyCF stuff, now called PyGC for Glimmer-CISM. One of my main goals 
+for this reincarnation is that I/O should be totally decoupled from any 
+display. So the PyGC/IO module only depends on either 
+Scientific.IO.NetCDF or netCDF4 [1], numpy and my own wrapper for proj4. 
+The I/O module can open or append to existing files or create new ones 
+and it handles projection. In the PyGC directory are some shared python 
+modules handling common command line options and loading GMT colourmaps 
+for consumption by matplotlib. So far I have only ported the plotGCvar 
+which will plot a variable from a netCDF file using matplotlib. If the 
+basemap toolkit is available it will also plot coastlines and a 
+geographic coordinate system.
+
+Using matplotlib is certainly much nicer than the clunky GMT stuff I had 
+earlier. At some stage we can consider to add a GUI to it all if we deem 
+it's worthwhile...
+
+Cheers
+magi
+
+
+
+[1] I realised that there are many more python netcdf bindings, all with 
+a similar API :-(
+
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From lipscomb at lanl.gov  Wed Jun 16 07:06:18 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Tue, 15 Jun 2010 23:06:18 -0600
+Subject: [Glimmer-cism-devel] program files
+Message-ID: <8CE1B868-1DFA-4DD6-8457-47F5CFE35FF0@lanl.gov>
+
+
+Hi all,
+
+For those who have an interest in glimmer-cism2 development:  I just  
+checked in the latest contents of the CESM glimmer-cism source  
+directory.  The CESM release is scheduled for next week.  This means  
+we're almost ready for a Glimmer-CISM 1.6 release, which will include  
+the new GCM coupling infrastructure but not the higher-order  
+dynamics.  (The HO dynamics will go in version 1.8.)
+
+Here's a question.  I'm wondering if it would be possible to include  
+only modules, and not programs, in the libglide, libglimmer, and  
+libglint directories.  This would mean moving the program files  
+elsewhere, for example to somewhere in the example_drivers directory.   
+Is there any reason why we shouldn't do this?  Assuming it's OK to  
+move the files, where should they go?
+
+The reason I'd like to move these program files is that CESM won't  
+compile them, which means that I currently have to remove them by hand  
+each time I copy a fresh version of the code into CESM.
+
+Thanks,
+Bill
+
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Jun 16 10:25:21 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 16 Jun 2010 09:25:21 +0100
+Subject: [Glimmer-cism-devel] program files
+In-Reply-To: <8CE1B868-1DFA-4DD6-8457-47F5CFE35FF0@lanl.gov>
+References: <8CE1B868-1DFA-4DD6-8457-47F5CFE35FF0@lanl.gov>
+Message-ID: <4C188A71.2080309@ed.ac.uk>
+
+William Lipscomb wrote:
+> 
+> Hi all,
+> 
+> For those who have an interest in glimmer-cism2 development:  I just 
+> checked in the latest contents of the CESM glimmer-cism source 
+> directory.  The CESM release is scheduled for next week.  This means 
+> we're almost ready for a Glimmer-CISM 1.6 release, which will include 
+> the new GCM coupling infrastructure but not the higher-order dynamics.  
+> (The HO dynamics will go in version 1.8.)
+> 
+> Here's a question.  I'm wondering if it would be possible to include 
+> only modules, and not programs, in the libglide, libglimmer, and 
+> libglint directories.  This would mean moving the program files 
+> elsewhere, for example to somewhere in the example_drivers directory.  
+> Is there any reason why we shouldn't do this?  Assuming it's OK to move 
+> the files, where should they go?
+> 
+> The reason I'd like to move these program files is that CESM won't 
+> compile them, which means that I currently have to remove them by hand 
+> each time I copy a fresh version of the code into CESM.
+> 
+
+
+There is only one program in libglimmer - nc2config. We could move that 
+to the utils directory where it belongs.
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Jun 16 17:57:28 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 16 Jun 2010 16:57:28 +0100
+Subject: [Glimmer-cism-devel] libphaml directory
+Message-ID: <4C18F468.3060501@ed.ac.uk>
+
+Hi all,
+the files in the libphaml directory have no copyright notices, there is 
+also no documentation of what libphaml does. I would also suggest to 
+move the libphaml directory into the extensions directory which 
+currently only exists in the glimmer-cism-extensions branch.
+
+Tim, since you added the code, is it ok to attach the copyright notices? 
+Can you provide a short paragraph of what it does which we can stick 
+into the README file?
+
+Are you all happy to move it to a new top-level directory called extensions?
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From timwylie at hotmail.com  Wed Jun 16 19:17:40 2010
+From: timwylie at hotmail.com (tim wylie)
+Date: Wed, 16 Jun 2010 12:17:40 -0500
+Subject: [Glimmer-cism-devel] libphaml directory
+Message-ID: <BAY112-W20ED0F491284F19BCE2191D1DE0@phx.gbl>
+
+
+I'm sorry the code is not completely documented yet and doesn't have the copyright notices.  I have been working on this, but haven't finished and was encouraged to commit the code.  I will be finishing up the documentation and committing those changes.
+
+The directory placement was not my decision.  Jesse talked with other people(I don't know who) and I was just putting the code where instructed.  I'm sorry for the confusion and I will try and get more information up quickly.
+
+Tim
+ 		 	   		  
+_________________________________________________________________
+Hotmail has tools for the New Busy. Search, chat and e-mail from your inbox.
+http://www.windowslive.com/campaign/thenewbusy?ocid=PID28326::T:WLMTAGL:ON:WL:en-US:WM_HMP:042010_1
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100616/54d11a81/attachment.html>
+
+From timwylie at hotmail.com  Wed Jun 16 19:48:32 2010
+From: timwylie at hotmail.com (tim wylie)
+Date: Wed, 16 Jun 2010 12:48:32 -0500
+Subject: [Glimmer-cism-devel] Glimmer config
+Message-ID: <BAY112-W35AC763243A8CB21BD152ED1DE0@phx.gbl>
+
+
+Hello,
+  Since I updated this morning the code will not compile anymore giving an error in glimmer_config.F90:
+
+glimmer_config.F90:106.64:
+    use shr_file_mod, only : shr_file_getunit, shr_file_freeunit                                                                1
+Fatal Error: Can't open module file 'shr_file_mod.mod' for reading at (1): No such file or directory
+
+How can I fix this?
+
+Tim
+ 		 	   		  
+_________________________________________________________________
+The New Busy think 9 to 5 is a cute idea. Combine multiple calendars with Hotmail. 
+http://www.windowslive.com/campaign/thenewbusy?tile=multicalendar&ocid=PID28326::T:WLMTAGL:ON:WL:en-US:WM_HMP:042010_5
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100616/fee73a3c/attachment.html>
+
+From lipscomb at lanl.gov  Wed Jun 16 22:02:40 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 16 Jun 2010 14:02:40 -0600
+Subject: [Glimmer-cism-devel] Glimmer config
+In-Reply-To: <BAY112-W35AC763243A8CB21BD152ED1DE0@phx.gbl>
+References: <BAY112-W35AC763243A8CB21BD152ED1DE0@phx.gbl>
+Message-ID: <FD72411A-05A0-467B-82E8-D01153B4DFCA@lanl.gov>
+
+
+Hi Tim,
+
+I'm working on this.  I'll check in a fix shortly.
+
+- Bill
+
+
+On Jun 16, 2010, at 11:48 AM, tim wylie wrote:
+
+>
+> Hello,
+>  Since I updated this morning the code will not compile anymore  
+> giving an error in glimmer_config.F90:
+>
+> glimmer_config.F90:106.64:
+>    use shr_file_mod, only : shr_file_getunit,  
+> shr_file_freeunit 
+>                                                                 1
+> Fatal Error: Can't open module file 'shr_file_mod.mod' for reading  
+> at (1): No such file or directory
+>
+> How can I fix this?
+>
+> Tim
+> 		 	   		
+> _________________________________________________________________
+> The New Busy think 9 to 5 is a cute idea. Combine multiple calendars  
+> with Hotmail.
+> http://www.windowslive.com/campaign/thenewbusy?tile=multicalendar&ocid=PID28326::T:WLMTAGL:ON:WL:en-US:WM_HMP:042010_5_______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Jun 16 22:02:05 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 16 Jun 2010 21:02:05 +0100
+Subject: [Glimmer-cism-devel] Glimmer config
+In-Reply-To: <BAY112-W35AC763243A8CB21BD152ED1DE0@phx.gbl>
+References: <BAY112-W35AC763243A8CB21BD152ED1DE0@phx.gbl>
+Message-ID: <1276718525.2316.0.camel@bacon.marsupium.org>
+
+On Wed, 2010-06-16 at 12:48 -0500, tim wylie wrote:
+> Hello,
+>   Since I updated this morning the code will not compile anymore
+> giving an error in glimmer_config.F90:
+> 
+> glimmer_config.F90:106.64:
+>     use shr_file_mod, only : shr_file_getunit, shr_file_freeunit
+> 1
+> Fatal Error: Can't open module file 'shr_file_mod.mod' for reading at
+> (1): No such file or directory
+> 
+> How can I fix this?
+> 
+
+
+Hi Tim,
+this is a known issue. Bill is looking into it at the moment.
+cheers
+magi
+
+
+
+From timwylie at hotmail.com  Wed Jun 16 22:43:38 2010
+From: timwylie at hotmail.com (tim wylie)
+Date: Wed, 16 Jun 2010 15:43:38 -0500
+Subject: [Glimmer-cism-devel] Problems
+Message-ID: <BAY112-W269C0303C0A4A6057EB1D1D1DE0@phx.gbl>
+
+
+Okay.  Thanks for working on it.  Here's a list of other problems I know of besides just glimmer_config.F90 (which I see has now been fixed)
+
+glint_initialise
+glint_main
+glint_timestep
+glimmer_writestats
+glint_example
+glint_example_clim
+
+And there are others but I got tired of reverting one after the other to try and fix the problems.  I'm on a bit of a time crunch to get things done, so I'm sorry for the rush of emails.
+
+Tim
+ 		 	   		  
+_________________________________________________________________
+The New Busy is not the too busy. Combine all your e-mail accounts with Hotmail.
+http://www.windowslive.com/campaign/thenewbusy?tile=multiaccount&ocid=PID28326::T:WLMTAGL:ON:WL:en-US:WM_HMP:042010_4
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100616/42f543d6/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Jun 17 00:03:42 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 16 Jun 2010 23:03:42 +0100
+Subject: [Glimmer-cism-devel] [Glimmer-cism-commit] r1756 -
+	glimmer-cism2/trunk
+In-Reply-To: <201006161434.02951.joshua.campbell@umontana.edu>
+References: <201006161434.02951.joshua.campbell@umontana.edu>
+Message-ID: <1276725822.2316.9.camel@bacon.marsupium.org>
+
+On Wed, 2010-06-16 at 14:34 -0600, Joshua Charles Campbell wrote:
+> What version of automake are we standardizing on?
+> 
+
+at work I am using a SL5.4 system which has relatively old packages.
+However, I suspect there are many people using CentOS 5, RHEL5, etc out
+there so using versions available and this platform seems to be
+reasonable. So the autotool versions are:
+
+automake (GNU automake) 1.9.6
+autoconf (GNU Autoconf) 2.59
+libtoolize (GNU libtool) 1.5.22
+autoheader (GNU Autoconf) 2.59
+
+Cheers
+magi
+
+CC'd to gc-devel list since this might be of general interest
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Jun 18 10:51:22 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 18 Jun 2010 09:51:22 +0100
+Subject: [Glimmer-cism-devel] additions to gc v.1.6
+Message-ID: <4C1B338A.6060308@ed.ac.uk>
+
+Hi all (and in particular Bill),
+I have started writing some visualisation scripts and also the erosion 
+module. They are both optional. So I was wondering if you would mind if 
+we added them now, in particular the start of the visualisation scripts 
+might be very useful.
+What do you think?
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From lipscomb at lanl.gov  Fri Jun 18 14:55:34 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 18 Jun 2010 06:55:34 -0600
+Subject: [Glimmer-cism-devel] additions to gc v.1.6
+In-Reply-To: <4C1B338A.6060308@ed.ac.uk>
+References: <4C1B338A.6060308@ed.ac.uk>
+Message-ID: <A51E4A16-2291-41C7-8216-982E0B6B1DCC@lanl.gov>
+
+
+Hi Magnus,
+
+If you think the visualization scripts will be useful, please go ahead  
+and add them.  I assume the erosion module represents new physics, so  
+we might want to hold off till after version 1.6 is done.  The initial  
+CESM release is scheduled for next week, and I'd like to tag version  
+1.6 soon thereafter.
+
+Thanks,
+Bill
+
+
+On Jun 18, 2010, at 2:51 AM, Magnus Hagdorn wrote:
+
+> Hi all (and in particular Bill),
+> I have started writing some visualisation scripts and also the  
+> erosion module. They are both optional. So I was wondering if you  
+> would mind if we added them now, in particular the start of the  
+> visualisation scripts might be very useful.
+> What do you think?
+> Cheers
+> magi
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+

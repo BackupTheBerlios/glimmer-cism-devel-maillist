@@ -1,0 +1,18 @@
+From Magnus.Hagdorn at ed.ac.uk  Tue Jun 30 15:28:27 2009
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 30 Jun 2009 14:28:27 +0100
+Subject: [Glimmer-cism-devel] documentation (was: Re: BerliOS - the next
+	steps)
+In-Reply-To: <99D0F970-4C2C-44BD-879F-CF46F7E1E7E1@swansea.ac.uk>
+References: <1246270512.9055.12.camel@muick.geos.ed.ac.uk>
+	<4A48D2C0.6040904@swansea.ac.uk>
+	<1246286968.9055.20.camel@muick.geos.ed.ac.uk>
+	<9288095c0906290806h244ad944pc73c4c6df7e0f7ea@mail.gmail.com>
+	<1246289392.9055.24.camel@muick.geos.ed.ac.uk>
+	<99D0F970-4C2C-44BD-879F-CF46F7E1E7E1@swansea.ac.uk>
+Message-ID: <1246368507.8480.5.camel@muick.geos.ed.ac.uk>
+
+An embedded and charset-unspecified text was scrubbed...
+Name: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090630/aa5f3984/attachment.ksh>
+

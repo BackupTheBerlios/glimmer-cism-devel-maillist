@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] [CF-metadata] Standard	names	for	Glaciology and ice-sheet	modeling
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BCF-metadata%5D%0A%20Standard%09names%09for%09Glaciology%20and%20ice-sheet%09modeling&In-Reply-To=%3C25DC90D9B38872988DA494ED%40geog-bsq78.ggy.bris.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000086.html">
+   <LINK REL="Next"  HREF="000088.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] [CF-metadata] Standard	names	for	Glaciology and ice-sheet	modeling</H1>
+    <B>AJ Payne, Geographical Sciences</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20%5BCF-metadata%5D%0A%20Standard%09names%09for%09Glaciology%20and%20ice-sheet%09modeling&In-Reply-To=%3C25DC90D9B38872988DA494ED%40geog-bsq78.ggy.bris.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] [CF-metadata] Standard	names	for	Glaciology and ice-sheet	modeling">A.J.Payne at bristol.ac.uk
+       </A><BR>
+    <I>Wed Sep 30 13:01:59 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000086.html">[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling
+</A></li>
+        <LI>Next message: <A HREF="000088.html">[Glimmer-cism-devel] various branches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#87">[ date ]</a>
+              <a href="thread.html#87">[ thread ]</a>
+              <a href="subject.html#87">[ subject ]</a>
+              <a href="author.html#87">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>1/ my comments about boundaries were related to how things are done in glimmer-cism.  i 
+think an ocean-land-land ice-ice shelf mask is fine for CF (perhaps with inclusion of ice 
+streams). points below also apply to glimemr-cism not CF.
+
+2/ if we are writing a general model then we should have the ability to easily 
+differentiate fast and slow flow.  ideally we will be using the 3d O(1) code to model 
+everything but there may be times when we need to split the flow, unnatural as that is.
+
+3/ GL the mask provides a very easy way of identifying which points to worry about in the 
+GL parameterization.  it may well be that the GL may not easily be derived from other 
+data (ie by flotation) if we are, for instance, using observation or have a prognostic 
+calculation for its location (a la hindmarsh).
+
+
+--On 2009-09-30 10:42 +0100 Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt; wrote:
+
+&gt;<i> snipped list of recipients - it's getting rather long.
+</I>&gt;<i>
+</I>&gt;<i> On Wed, 2009-09-30 at 11:30 +0200, Jed Brown wrote:
+</I>&gt;&gt;<i> AJ Payne, Geographical Sciences wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> While it's often handy to have a mask within your code, and to look at
+</I>&gt;&gt;<i> model output to know what the model is doing with different regions, I
+</I>&gt;&gt;<i> think the mask may lock us into the current (esp. Glimmer) way of doing
+</I>&gt;&gt;<i> things.  Distinguishing between slow ice and ice streams is very
+</I>&gt;&gt;<i> unnatural since it will always be subjective and some models (e.g. PISM)
+</I>&gt;&gt;<i> do not normally distinguish in this way (solving unified physics
+</I>&gt;&gt;<i> everywhere).
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> As for grounding line resolution, the combination of bathymetry and ice
+</I>&gt;&gt;<i> thickness provides subgrid resolution where as the mask cannot.  What
+</I>&gt;&gt;<i> does the mask provide that cannot be reconstructed with an NCO or
+</I>&gt;&gt;<i> visualization filter?
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> you are absolutely right, the mask quantities can be derived from other
+</I>&gt;<i> data.
+</I>&gt;<i>
+</I>&gt;<i> However, I think it might be useful to include some way of
+</I>&gt;<i> distinguishing between floating and grounded ice: I can well imagine
+</I>&gt;<i> that observations could provide this observation in which case we must
+</I>&gt;<i> be able to record this.
+</I>&gt;<i>
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+
+
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000086.html">[Glimmer-cism-devel] [CF-metadata] Standard names for	Glaciology and ice-sheet	modeling
+</A></li>
+	<LI>Next message: <A HREF="000088.html">[Glimmer-cism-devel] various branches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#87">[ date ]</a>
+              <a href="thread.html#87">[ thread ]</a>
+              <a href="subject.html#87">[ subject ]</a>
+              <a href="author.html#87">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

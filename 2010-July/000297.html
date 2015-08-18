@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] trilinos example error messages
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos%20example%20error%20messages&In-Reply-To=%3CC872FBCB.2F78%25evanskj%40ornl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000296.html">
+   <LINK REL="Next"  HREF="000298.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] trilinos example error messages</H1>
+    <B>Evans, Kate J.</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20trilinos%20example%20error%20messages&In-Reply-To=%3CC872FBCB.2F78%25evanskj%40ornl.gov%3E"
+       TITLE="[Glimmer-cism-devel] trilinos example error messages">evanskj at ornl.gov
+       </A><BR>
+    <I>Mon Jul 26 14:46:03 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000296.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+        <LI>Next message: <A HREF="000298.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#297">[ date ]</a>
+              <a href="thread.html#297">[ thread ]</a>
+              <a href="subject.html#297">[ subject ]</a>
+              <a href="author.html#297">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Sarah, 
+The email response from Tony probably crossed in the ether, but his email
+explains that they found the right libraries. If you svn update, their
+Makefile.ifort is there and probably will work for you.
+
+Let me know ...
+Kate
+
+
+On 7/26/10 3:57 AM, &quot;Sarah Shannon&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">sarah.shannon at bristol.ac.uk</A>&gt; wrote:
+
+&gt;<i> Hi,
+</I>&gt;<i> 
+</I>&gt;<i> I have checked out the parallel version of  glimmer-cism and I am trying
+</I>&gt;<i> to run the example located in
+</I>&gt;<i> /example/TrilinosSolversUnitTest
+</I>&gt;<i> 
+</I>&gt;<i> Would anyone know why I get the error messages below?. I am using the
+</I>&gt;<i> intel fortran compiler.
+</I>&gt;<i> 
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Sarah
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> (.text+0x20): undefined reference to `main'
+</I>&gt;<i> TrilinosSolversUnitTest.o: In function `MAIN__':
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0xd): undefined reference to
+</I>&gt;<i> `__intel_new_proc_init'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x28): undefined reference to
+</I>&gt;<i> `for_set_reentrancy'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x368): undefined reference to
+</I>&gt;<i> `for_write_seq_lis'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3a1): undefined reference to
+</I>&gt;<i> `for_write_seq_lis'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3da): undefined reference to
+</I>&gt;<i> `for_write_seq_lis'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3e6): undefined reference to
+</I>&gt;<i> `sparse_trilinos_mp_trilinos_solver_preprocess_'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x3fc): undefined reference to
+</I>&gt;<i> `sparse_trilinos_mp_trilinos_solve_'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x408): undefined reference to
+</I>&gt;<i> `sparse_trilinos_mp_trilinos_solver_postprocess_'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x441): undefined reference to
+</I>&gt;<i> `for_write_seq_lis'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x47a): undefined reference to
+</I>&gt;<i> `for_write_seq_lis'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x4bc): undefined reference to
+</I>&gt;<i> `for_write_seq_lis'
+</I>&gt;<i> TrilinosSolversUnitTest.F90:(.text+0x4d4): undefined reference to
+</I>&gt;<i> `for_stop_core'
+</I>&gt;<i> 
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000296.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+	<LI>Next message: <A HREF="000298.html">[Glimmer-cism-devel] trilinos example error messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#297">[ date ]</a>
+              <a href="thread.html#297">[ thread ]</a>
+              <a href="subject.html#297">[ subject ]</a>
+              <a href="author.html#297">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

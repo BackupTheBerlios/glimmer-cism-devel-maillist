@@ -1,0 +1,60 @@
+From sprice at lanl.gov  Mon Aug 15 22:10:12 2011
+From: sprice at lanl.gov (Stephen F. Price)
+Date: Mon, 15 Aug 2011 14:10:12 -0600
+Subject: [Glimmer-cism-devel] problem with build on merge / release
+	branch
+In-Reply-To: <4E48F782.1020701@bristol.ac.uk>
+References: <4D6EB5DB.5060604@lanl.gov> <4D6F8B16.7000005@bristol.ac.uk>
+	<4D6FC1A0.9010003@lanl.gov> <4D6FC55C.2010501@bristol.ac.uk>
+	<09E7A412-98B6-44E2-924E-7D1FDA5D95D0@lanl.gov>
+	<4E48F782.1020701@bristol.ac.uk>
+Message-ID: <860948EB-0B88-4A2A-9C90-BDD2A13E6969@lanl.gov>
+
+
+Sarah,
+
+Apparently, the problem has to do w/ the version of autotools being used. You need something >= version 2.6.2 (thanks to Jim Edwards at NCAR for figuring out the problem). I've just confirmed this by building this branch (most recent version your url below) successfully on Jaguar, using autoconf 2.6.3.
+
+I'm cc'ing the entire devel list because I don't know where and when we updated the build to require autotools >= 2.6.2. Perhaps it happened during a commit that I did not see, or as part of the merge between the parallel branch and the gcm branch? At any rate, it would be good if everyone was aware of something as fundamental as a required change to the version of autotools being used.
+
+There may be another fix so that folks don't have to update their version of autotools, but I would not be the person to know what that fix is.
+
+cheers -
+
+Steve
+
+
+On Aug 15, 2011, at 4:40 AM, Sarah Shannon wrote:
+
+> Hi Steve,
+
+> I  guess from the recent check in's you are currently working on this branch
+> http://svn.berlios.de/wsvn/glimmer-cism/glimmer-cism2/branches/glimmer-cism-lanl
+> 
+> I am having problems building the code. I tried to build with and without linking to trilinos.
+> 
+> When I build without trilinos, I run bootstrap and get the error messages below.
+> Bootstrap errors:
+> 
+> Putting files in AC_CONFIG_AUX_DIR, `..'.
+> configure:5289: error: possibly undefined macro: _AC_ARG_VAR_LIBS
+>     If this token and others are legitimate, please use m4_pattern_allow.
+>     See the Autoconf documentation.
+> configure:5377: error: possibly undefined macro: _AC_LANG
+> configure:5377: error: possibly undefined macro: _AS_ECHO_LOG
+> configure:5381: error: possibly undefined macro: AS_MESSAGE_LOG_FD
+> configure:5381: error: possibly undefined macro: _AC_DO
+> configure:21518: error: possibly undefined macro: AS_ECHO
+> configure:21518: error: possibly undefined macro: _AC_LANG_ABBREV
+> 
+> When I build with trilinos, I don't run bootstrap but I run configure.  These are the configure errors I get
+> 
+> ./configure: line 5377: syntax error near unexpected token `checking'
+> ./configure: line 5377: `_AS_ECHO_LOG(checking for _AC_LANG compiler version)'
+> 
+> Both errors seem to be related to AC_LANG. I was wondering what way you are building the code? Have you come across similar build errors?
+> 
+> Cheers,
+> Sarah
+
+

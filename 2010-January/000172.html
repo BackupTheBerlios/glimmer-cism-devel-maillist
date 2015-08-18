@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] exact restart
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart&In-Reply-To=%3C4B630FC0.6050003%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000171.html">
+   <LINK REL="Next"  HREF="000173.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] exact restart</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20exact%20restart&In-Reply-To=%3C4B630FC0.6050003%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] exact restart">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Fri Jan 29 17:41:36 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000171.html">[Glimmer-cism-devel] suggested glimmer-cism GCM interface	changes
+</A></li>
+        <LI>Next message: <A HREF="000173.html">[Glimmer-cism-devel] exact restart
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi All,
+
+I've moved this to the developer list, since it has wider relevance - 
+hope that's OK.
+
+That's a tricky kind of thing to diagnose and fix. It sounds like a 
+wrinkle in the translation from machine representation to file and back 
+again, probably to do with the innards of the NetCDF library. I can't 
+remember what NetCDF file types the restart library uses (or where that 
+code resides), but possibly if one were to promote them to the next 
+precision up, as it were, that would fix your problem, by giving you 
+greater precision in the file than needed.
+
+I'm afraid I don't have time at the moment to track it down - I hope the 
+clue is helpful, though.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+
+Magnus Hagdorn wrote:
+&gt;<i> William H. Lipscomb wrote:
+</I>&gt;&gt;<i> Hi Ian and Magnus,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm trying to get exact restart working for glint-example in Glimmer
+</I>&gt;&gt;<i> version 1.0, in preparation for getting exact restart in CCSM.  I am very
+</I>&gt;&gt;<i> close--I think I am writing out all the necessary fields at the required
+</I>&gt;&gt;<i> precision--but I'm not quite there.  Here is one issue:  When I read in
+</I>&gt;&gt;<i> wgrd in certain grid cells, the value read in is not quite identical to
+</I>&gt;&gt;<i> the value written out.  For instance, in layer 1 of cell (30,50), I get
+</I>&gt;&gt;<i> this:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -0.09466907827340063   ! value just before writing to netCDF file
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> -0.09466907827340064   ! value just after reading from netCDF file
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The difference is only in the last digit, and it doesn't lead to a
+</I>&gt;&gt;<i> noticeable difference in the simulation.  However, it does destroy
+</I>&gt;&gt;<i> bit-for-bit agreement, which is the CCSM requirement.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Can you think of any reason why this should happen?  I've talked to CCSM
+</I>&gt;&gt;<i> folks who use netCDF for restart and aren't having any problems.  I'm
+</I>&gt;&gt;<i> running on a linux cluster that is pretty well vetted.  I'm reading and
+</I>&gt;&gt;<i> writing with the same executable, which is built using the Lahey lf95
+</I>&gt;&gt;<i> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562, which
+</I>&gt;&gt;<i> should be compatible with the compiler.  This problem is starting to 
+</I>&gt;&gt;<i> drive
+</I>&gt;&gt;<i> me crazy, so I'd be grateful for any ideas you have.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm copying this to Rupert in case he's run across anything similar.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> [maybe for developer list?]
+</I>&gt;<i> 
+</I>&gt;<i> Hi Bill,
+</I>&gt;<i> you could decrease the precision to less than machine precision. this 
+</I>&gt;<i> way you would be able to ensure you always get the same value.
+</I>&gt;<i> magi
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000171.html">[Glimmer-cism-devel] suggested glimmer-cism GCM interface	changes
+</A></li>
+	<LI>Next message: <A HREF="000173.html">[Glimmer-cism-devel] exact restart
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

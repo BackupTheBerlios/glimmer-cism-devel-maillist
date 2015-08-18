@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Thickness solver refactoring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Thickness%20solver%20refactoring&In-Reply-To=%3C4AE97ED6.4070709%40bristol.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000145.html">
+   <LINK REL="Next"  HREF="000150.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Thickness solver refactoring</H1>
+    <B>tony payne</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Thickness%20solver%20refactoring&In-Reply-To=%3C4AE97ED6.4070709%40bristol.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Thickness solver refactoring">a.j.payne at bristol.ac.uk
+       </A><BR>
+    <I>Thu Oct 29 12:39:02 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000145.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+        <LI>Next message: <A HREF="000150.html">[Glimmer-cism-devel] vertical coord system and glide_tempFullSoln
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#152">[ date ]</a>
+              <a href="thread.html#152">[ thread ]</a>
+              <a href="subject.html#152">[ subject ]</a>
+              <a href="author.html#152">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi ian
+
+1/  could we have a structure where all of the various thickness are 
+located in the same module/file?  there will be 5-6 in the end and all 
+will have the basic structure of taking vel and mass balance as inputs 
+and returning either thickness or surface (or both).  in a similar vein 
+in thickness all of the velocity routines shpould be in the same module.
+
+likely thickness solvers -
+incremental remapping
+piecewise parabolic
+simple explicit euler
+leapfrog etc
+linear diffusion etc
+bueler scheme
+
+2/ there are some ancillary bits of code for finding lower surface etc 
+from flotation and it would make sense to have them here also.  i 
+wonnder if the standard should be that the DCR returns thcikness, upp 
+and lower surface (ie that we ensure the thickness solver remembers to 
+call floatation etc).  i think this would get over the problem of some 
+solvers returning surface elavtion and others thickness.
+
+3/ the floatation code is likely to be changed shortly to include a 
+density calculation with firm depth (a 2d field).  this will be very 
+important for antarctica and ensuring the GL is consistent with obs.
+
+4/ the one exception to 1/ should be the non-linear diffision which is 
+limited to O(0) SIA.   i think this is a separate methodology but should 
+be retained as legacy.  it would not necessariliy then need to take vel 
+as an input.
+
+5/ i think the linear diffusion should be retained in module 1. because 
+it takes vel as an input (e.g., from O(1) SIA models).
+
+6/ i think the adi scheme can be dispensed with.
+
+7/ the call to SLAP (or whatever linear matrix code we use) occurs 
+several times within the code (eg isostasy and higher order vel codes). 
+  it might be worth separating this off into a separate module.  this 
+would be the subr that do the packing, the actual slap call etc etc.
+
+all the best
+
+tony
+
+
+
+Ian Rutt wrote:
+&gt;<i> Dear All,
+</I>&gt;<i> 
+</I>&gt;<i> I've begun to work on refactoring the thickness dynamical core, but 
+</I>&gt;<i> there are a few of points I'd like to discuss with you before I go much 
+</I>&gt;<i> further.
+</I>&gt;<i> 
+</I>&gt;<i> 1) What to do about velocity calculations. The velocity field is not 
+</I>&gt;<i> needed for the thickness calculation in the SIA, except for the basal 
+</I>&gt;<i> velocity, which also needs to be recalculated during the Picard 
+</I>&gt;<i> iteration in the nonlinear case. The post-hoc diagnostic calculation of 
+</I>&gt;<i> velocities is only relevant to the SIA, so I propose incorporating the 
+</I>&gt;<i> velocity and thickness calculations into a single DC, so one call 
+</I>&gt;<i> calculates the whole lot.
+</I>&gt;<i> 
+</I>&gt;<i> 2) The linear and non-linear codes are very similar, so I would suggest 
+</I>&gt;<i> merging the two, and then selecting non-linearity using an 
+</I>&gt;<i> initialisation flag, if required. This keeps the amount of code to be 
+</I>&gt;<i> maintained smaller.
+</I>&gt;<i> 
+</I>&gt;<i> 3) Several bits of thickness code are used by both 'standard' thickness 
+</I>&gt;<i> DCs as well as the ADI scheme, so I would suggest having a 
+</I>&gt;<i> glide_thckShared module (or a different name) to contain those parts.
+</I>&gt;<i> 
+</I>&gt;<i> All comments most welcome.
+</I>&gt;<i> 
+</I>&gt;<i> Best wishes,
+</I>&gt;<i> 
+</I>&gt;<i> Ian
+</I>&gt;<i> 
+</I>
+-- 
+------------------------&lt;&gt;---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+------------------------&lt;&gt;---------------------------
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000145.html">[Glimmer-cism-devel] Thickness solver refactoring
+</A></li>
+	<LI>Next message: <A HREF="000150.html">[Glimmer-cism-devel] vertical coord system and glide_tempFullSoln
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#152">[ date ]</a>
+              <a href="thread.html#152">[ thread ]</a>
+              <a href="subject.html#152">[ subject ]</a>
+              <a href="author.html#152">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glide_temp refactoring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glide_temp%20refactoring&In-Reply-To=%3C1256724964.6328.51.camel%40hog.marsupium.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000122.html">
+   <LINK REL="Next"  HREF="000125.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glide_temp refactoring</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glide_temp%20refactoring&In-Reply-To=%3C1256724964.6328.51.camel%40hog.marsupium.org%3E"
+       TITLE="[Glimmer-cism-devel] glide_temp refactoring">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Wed Oct 28 11:16:04 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000122.html">[Glimmer-cism-devel] Refactoring help?
+</A></li>
+        <LI>Next message: <A HREF="000125.html">[Glimmer-cism-devel] glide_temp refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Ian (and the rest),
+I am looking through your changes and have a few comments/suggestions:
+
+- I don't like the names of the procedures. I think it is clearer if
+routines are prefixed by the name space rather than attaching the name
+space as a suffix: 
+  type_tempFullSoln -&gt; tempFullSoln_type
+  init_tempFullSoln -&gt; tempFullSoln_init
+
+- the temperature type is carrying around coordinate system info
+  I think we should move that into it's own type so it can be shared
+among other modules. I can look into that.
+
+- everything is double precision - we should use rk which is either sp
+or dp depending on configury options
+
+- vertCoord type should contain sigma levels
+
+- documentation is missing :-)
+
+On Mon, 2009-10-26 at 11:22 +0000, Ian Rutt wrote:
+
+&gt;<i> 1) Because of the way I did the refactoring - essentially taking the 
+</I>&gt;<i> code apart and putting it back together - the necessary work arrays
+</I>are 
+&gt;<i> currently allocated on the stack as assumed-shape local arrays. This
+</I>is 
+&gt;<i> probably not ideal (stack overflow potential), but has the virtue of 
+</I>&gt;<i> simplicity (no allocation/deallocation to manage). There are two
+</I>other 
+&gt;<i> options: put the work arrays in type_tempFullSoln and allocate during 
+</I>&gt;<i> the call to init_tempFullSoln, or use local allocatable arrays which
+</I>are 
+&gt;<i> allocated and deallocated on each call. My suspicion is that for AD 
+</I>&gt;<i> purposes the first of these might be best, but I'd like to hear Jean
+</I>or 
+&gt;<i> Paul's thoughts on the matter.
+</I>
+I think allocating large arrays on the stack is fine. I have used a
+model with 10 of GB on the stack and had no problems (with newer linux
+kernels - 2.4 died miserably). Allocating variables on the stack has the
+benefit of making parallelisation using OpenMP simpler.
+
+2) A question of style: the arrays in the interface to 
+&gt;<i> tstep_tempFullSoln are currently declared as assumed shape (i.e.
+</I>(:,:), 
+&gt;<i> etc.). Since grid extents are contained in type_tempFullSoln, the 
+</I>&gt;<i> interface arrays could have their shape explicitly stated (i.e. 
+</I>&gt;<i> (params%ewn, params%nsn), etc). I think the latter might be better, as
+</I>a 
+&gt;<i> bounds-checking compiler should pick up if the subroutine is being 
+</I>
+Yes, I think using explicit arrays also improves readability.
+
+
+P.S. One of the consequences of refactoring is to make the code
+slightly 
+&gt;<i> less efficient in places (for example, some coefficients which were 
+</I>&gt;<i> formerly calculated just once are now recalculated each timestep, to 
+</I>&gt;<i> allow variable time-steps). My own tests do not indicate that these 
+</I>&gt;<i> changes impact significantly on the run-time of the model (I doubt
+</I>the 
+&gt;<i> effect is measurable), and in any case they are the necessary cost of 
+</I>&gt;<i> improving modularity.
+</I>
+well, we can worry about performance later and figure out how to avoid
+recomputing surface gradients, etc.
+
+Cheers for all the work and getting refactoring going. This will
+definitely improve the code.
+
+magi
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000122.html">[Glimmer-cism-devel] Refactoring help?
+</A></li>
+	<LI>Next message: <A HREF="000125.html">[Glimmer-cism-devel] glide_temp refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

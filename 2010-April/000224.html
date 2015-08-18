@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Northern Hemisphere grid for CISM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Northern%20Hemisphere%20grid%20for%20CISM&In-Reply-To=%3C4BB6410F.4000808%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000225.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Northern Hemisphere grid for CISM</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Northern%20Hemisphere%20grid%20for%20CISM&In-Reply-To=%3C4BB6410F.4000808%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] Northern Hemisphere grid for CISM">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Fri Apr  2 21:10:07 CEST 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000225.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#224">[ date ]</a>
+              <a href="thread.html#224">[ thread ]</a>
+              <a href="subject.html#224">[ subject ]</a>
+              <a href="author.html#224">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Flo,
+
+I don't know if you've had any other answers from the mailing list, so 
+at the risk of duplication...
+
+&gt;<i> I am starting a project about simulating the Northern Hemisphere glacial 
+</I>&gt;<i> inception
+</I>&gt;<i> using CCSM4. As far as I understand, CISM only comes along with the 
+</I>&gt;<i> Greenland grid
+</I>&gt;<i> into CCSM4.
+</I>
+That's correct (at least in the 'vanilla' version of Glimmer-CISM - the 
+CCSM-coupled branch may have more).
+
+&gt;<i> My questions are:
+</I>&gt;<i> - How does CISM works with grids?
+</I>
+Several projections are available in Glimmer-CISM. You can see the full 
+list in the documentation (on BerliOS).
+
+&gt;<i> - I was thinking about using polar stereographic projection for the NH. 
+</I>&gt;<i> is it ok?
+</I>
+Yes, that should be fine. Presumably the Standard Parallel is defined 
+somewhere about 70-80 degrees North, so that the distortion at the edge 
+of the grid isn't too bad?
+
+I guess the other comment I would make is to think carefully about 
+whether you need the whole Northern Hemisphere, given the computational 
+cost.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">i.c.rutt at swansea.ac.uk</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000225.html">[Glimmer-cism-devel] merging plume_integration into	glimmer-cism-lanl/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#224">[ date ]</a>
+              <a href="thread.html#224">[ thread ]</a>
+              <a href="subject.html#224">[ subject ]</a>
+              <a href="author.html#224">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

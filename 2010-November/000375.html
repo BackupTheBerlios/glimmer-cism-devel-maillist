@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer test suite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-November/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CEA7A98.7080005%40ed.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000374.html">
+   <LINK REL="Next"  HREF="000376.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer test suite</H1>
+    <B>Magnus Hagdorn</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer%20test%20suite&In-Reply-To=%3C4CEA7A98.7080005%40ed.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] glimmer test suite">Magnus.Hagdorn at ed.ac.uk
+       </A><BR>
+    <I>Mon Nov 22 15:13:44 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000374.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+        <LI>Next message: <A HREF="000376.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#375">[ date ]</a>
+              <a href="thread.html#375">[ thread ]</a>
+              <a href="subject.html#375">[ subject ]</a>
+              <a href="author.html#375">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Sarah,
+sorry for taking so long to reply to your email. Please find my reply 
+inline.
+
+Sarah Shannon wrote:
+&gt;<i> The test suite is setup on the glimmer-cism2 trunk for the EISMINT-1 &amp; 2 
+</I>&gt;<i> cases.  The reference files are stored on 
+</I>&gt;<i> <A HREF="ftp://ftp.berlios.de/pub/glimmer-cism/.">ftp://ftp.berlios.de/pub/glimmer-cism/.</A> We have approximately 200MB 
+</I>&gt;<i> space here. The test code downloads the files via anonymous FTP.
+</I>&gt;<i> 
+</I>&gt;<i> The location of the reference files is hard coded so there is no need to 
+</I>&gt;<i> specify this at build time. 
+</I>&gt;<i> Here is an example for an EISMINT-1 test:
+</I>&gt;<i> 
+</I>
+I really do think that hard coding the path is not a sensible idea. I 
+also don't like that the files are downloaded into the source directory. 
+Let me explain:
+* I wouldn't expect automatic downloads from a make file and would be 
+concerned about security. If you stick this into a script which the user 
+has to run explicitly they can audit it for themselves (if they wish).
+* Typically, I have many source trees and even more build trees. 
+However, ideally I will have only a single gold standard. So 
+automatically downloading the files into the source directories is a bad 
+idea: I don't want to download it multiple times using extra disk space.
+* Furthermore, the source directories might well be on expensive disk 
+space (e.g. disk space with a nightly backup schedule on a highly 
+available server) while the build directories are on cheap local disk 
+where I don't care if I loose them. I might want the gold standard 
+somewhere in-between, e.g. a networked scratch space. In our school we 
+have exactly this setup so presumably that's not too unusual.
+* At the moment only works for files that are stored on BerliOS, what 
+about runs that are not there, i.e. some new development that isn't 
+ready to be included in the gold standard but I would still like to use 
+the test machinery to check that the code still works like the last time 
+I checked.
+* netCDF files compress quite nicely, so sticking them into a gzip'ed 
+tar-ball reduces band width.
+
+So, I shall be persistent in asking for a separate user-defined gold 
+standard directory. It will address all the issues above. This location 
+could default to the source directory and we could build a source 
+distribution tar ball which includes the gold standard so that those who 
+don't care can get the entire lot.
+
+This way, when we build the distribution source tar-ball we should run 
+all the tests and compare them against the previous set. They should all 
+pass and we can include the new set of file in the tar ball.
+
+So I think the second half of your compare rule is spot on. For the 
+first half you just need to check if the file exists and if not print 
+out an error message. The error message could be something useful like,
+download the goldstandard tarb-ball from here and point configure at it.
+
+Add a configure switch to specify where the gold standard lives. The 
+directory structure of the gold standard should be exactly the same as 
+in the source directory, i.e.
+gold_standard/tests/EISMINT/EISMINT-2/
+etc...
+
+
+
+&gt;<i> To run a test cd to the test directory and type &quot;make e1-fm.1.nc&quot;
+</I>&gt;<i> To compare to the reference file type &quot;make compare-e1-fm.1&quot;
+</I>&gt;<i> 
+</I>
+exactly.
+
+&gt;<i> Magnus, I was wondering if I could change the EISMINT-1 &amp; 2 
+</I>&gt;<i> configuration files, to output a smaller subset of variables and time 
+</I>&gt;<i> slices?
+</I>&gt;<i> 
+</I>
+sure, just go for it or send reduced output to another file.
+
+&gt;<i> Also, what are the next steps to merge the tests to the parallel 
+</I>&gt;<i> branch?. We would like to have the HO tests working in this branch.
+</I>&gt;<i> 
+</I>&gt;<i>
+</I>once all is working as it should, it will be a straight forward merge.
+
+again, thanks a lot for looking into this. you are nearly there.
+cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000374.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+	<LI>Next message: <A HREF="000376.html">[Glimmer-cism-devel] glimmer test suite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#375">[ date ]</a>
+              <a href="thread.html#375">[ thread ]</a>
+              <a href="subject.html#375">[ subject ]</a>
+              <a href="author.html#375">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

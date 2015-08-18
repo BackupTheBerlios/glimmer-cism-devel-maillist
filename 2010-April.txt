@@ -1,0 +1,1191 @@
+From I.C.Rutt at swansea.ac.uk  Fri Apr  2 21:10:07 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 02 Apr 2010 20:10:07 +0100
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid for CISM
+In-Reply-To: <9aee31ab1002251507y16ade13ew3591e60b6f2635ea@mail.gmail.com>
+References: <9aee31ab1002251507y16ade13ew3591e60b6f2635ea@mail.gmail.com>
+Message-ID: <4BB6410F.4000808@swansea.ac.uk>
+
+
+Hi Flo,
+
+I don't know if you've had any other answers from the mailing list, so 
+at the risk of duplication...
+
+> I am starting a project about simulating the Northern Hemisphere glacial 
+> inception
+> using CCSM4. As far as I understand, CISM only comes along with the 
+> Greenland grid
+> into CCSM4.
+
+That's correct (at least in the 'vanilla' version of Glimmer-CISM - the 
+CCSM-coupled branch may have more).
+
+> My questions are:
+> - How does CISM works with grids?
+
+Several projections are available in Glimmer-CISM. You can see the full 
+list in the documentation (on BerliOS).
+
+> - I was thinking about using polar stereographic projection for the NH. 
+> is it ok?
+
+Yes, that should be fine. Presumably the Standard Parallel is defined 
+somewhere about 70-80 degrees North, so that the distortion at the edge 
+of the grid isn't too bad?
+
+I guess the other comment I would make is to think carefully about 
+whether you need the whole Northern Hemisphere, given the computational 
+cost.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+From gladish at cims.nyu.edu  Thu Apr  8 22:20:26 2010
+From: gladish at cims.nyu.edu (Carl Gladish)
+Date: Thu, 8 Apr 2010 16:20:26 -0400
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+Message-ID: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+
+Hi developers,
+
+I am on the verge of merging my ongoing work involving plume coupling.  I
+don't want to scare anyone (or break the code!), so does anyone want to
+monitor what I am doing?
+
+I have merged my plume-related code into my working copy of the
+glimmer-cism-lanl trunk and I am able to build (using Sun f90 compiler, and
+gfortran) and run my own cases.  Before I commit could one of the senior
+people approve the changes?
+
+By the way, the source in branches/plume_integration doesn't look exactly
+like my working copy of the trunk since I did some of the merging by hand.
+
+The files affected by the merge, along with a description of the changes to
+existing glide code follows.
+
+src/fortran/Makefile.am
+* added libplume.a to lib_LIBRARIES
+* added shelf_driver to bin_PROGRAMS
+* added a line for libplume_a_SOURCE
+* added a line for shelf_driver_SOURCES
+* added a line for shelf_driver_LDADD
+* added $(libplume_a_SOURCES) $(shelf_driver_SOURCES) to ALL_SRC
+
+src/fortran/glide_temp.F90
+*  made bmlt intent(inout) in calcbmlt
+*  added logic to check if we are counting on the plume to write bmlt for
+floating ice
+
+src/fortran/glide_setup.F90
+* added 'use_plume' to the '[options]' section which takes values 0 or 1, 1
+meaning that we are using the plume model to calculate basal melt rates
+
+src/fortran/glide_types.F90
+* added use_plume as an integer member of the glide_options type
+
+src/fortran/shelf_driver.F90  [ a new driver]
+
+src/fortran/plume*.F90   [all plume related code]
+
+tests/petermann/*   [various tools to set up Petermann Glacier style model
+runs]
+
+
+Cheers,
+Carl Gladish
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+http://www.cims.nyu.edu/~gladish <http://www.cims.nyu.edu/%7Egladish>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100408/a4adef2a/attachment.html>
+
+From sprice at lanl.gov  Fri Apr  9 18:20:39 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Fri, 09 Apr 2010 10:20:39 -0600
+Subject: [Glimmer-cism-devel] merging plume_integration
+	into	glimmer-cism-lanl/trunk
+In-Reply-To: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+Message-ID: <4BBF53D7.6020304@lanl.gov>
+
+
+Hi Carl,
+
+Thanks for the update. From the amount of commit traffic, it looks like 
+you've made some great progress recently.
+
+This will take a bit of thinking about. We are currently right in the 
+middle of (1) freezing the higher-order code on the LANL branch for a 
+"beta" release of the code (hopefully done by next week) and (2) getting 
+ready to do some other merging of various branches and trunks.
+
+If you are not in a hurry to do the merge for any reason, perhaps it 
+could wait for a week or two? Once we get the beta release out, and 
+start finalizing plans for other merges that follow, we can take this 
+into account and figure out how to handle it.
+
+That is just my opinion, so other folks should feel free to weigh in as 
+well.
+
+cheers -
+
+Steve
+
+
+Carl Gladish wrote:
+> Hi developers,
+> 
+> I am on the verge of merging my ongoing work involving plume coupling. 
+>  I don't want to scare anyone (or break the code!), so does anyone want 
+> to monitor what I am doing?  
+> 
+> I have merged my plume-related code into my working copy of the 
+> glimmer-cism-lanl trunk and I am able to build (using Sun f90 compiler, 
+> and gfortran) and run my own cases.  Before I commit could one of the 
+> senior people approve the changes? 
+> 
+> By the way, the source in branches/plume_integration doesn't look 
+> exactly like my working copy of the trunk since I did some of the 
+> merging by hand.
+> 
+> The files affected by the merge, along with a description of the changes 
+> to existing glide code follows.
+> 
+> src/fortran/Makefile.am 
+> * added libplume.a to lib_LIBRARIES
+> * added shelf_driver to bin_PROGRAMS
+> * added a line for libplume_a_SOURCE
+> * added a line for shelf_driver_SOURCES
+> * added a line for shelf_driver_LDADD
+> * added $(libplume_a_SOURCES) $(shelf_driver_SOURCES) to ALL_SRC
+> 
+> src/fortran/glide_temp.F90
+> *  made bmlt intent(inout) in calcbmlt
+> *  added logic to check if we are counting on the plume to write bmlt 
+> for floating ice
+> 
+> src/fortran/glide_setup.F90
+> * added 'use_plume' to the '[options]' section which takes values 0 or 
+> 1, 1 meaning that we are using the plume model to calculate basal melt rates
+> 
+> src/fortran/glide_types.F90
+> * added use_plume as an integer member of the glide_options type
+> 
+> src/fortran/shelf_driver.F90  [ a new driver]
+> 
+> src/fortran/plume*.F90   [all plume related code]
+> 
+> tests/petermann/*   [various tools to set up Petermann Glacier style 
+> model runs]
+> 
+> 
+> Cheers,
+> Carl Gladish
+> 
+
+
+From gladish at cims.nyu.edu  Fri Apr  9 18:48:28 2010
+From: gladish at cims.nyu.edu (Carl Gladish)
+Date: Fri, 9 Apr 2010 12:48:28 -0400
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+In-Reply-To: <4BBF53D7.6020304@lanl.gov>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+	<4BBF53D7.6020304@lanl.gov>
+Message-ID: <s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+
+Hi all,
+
+I don't mind waiting.
+
+One thing I don't understand is, how does this developer group plan to
+review merges?  In particular, if I have changes sitting in my working copy
+of the trunk, it isn't easy for anyone else to review them unless I commit
+them and then it might be too late to avoid causing build-breaking
+problems.  How do we get around that?  On the other hand, I am confident
+that my merge-related changes won't break anything or affect other users, so
+I think it's reasonable to just commit the changes and have others review it
+post hoc.
+
+-Carl
+
+On Fri, Apr 9, 2010 at 12:20 PM, Stephen Price <sprice at lanl.gov> wrote:
+
+>
+> Hi Carl,
+>
+> Thanks for the update. From the amount of commit traffic, it looks like
+> you've made some great progress recently.
+>
+> This will take a bit of thinking about. We are currently right in the
+> middle of (1) freezing the higher-order code on the LANL branch for a "beta"
+> release of the code (hopefully done by next week) and (2) getting ready to
+> do some other merging of various branches and trunks.
+>
+> If you are not in a hurry to do the merge for any reason, perhaps it could
+> wait for a week or two? Once we get the beta release out, and start
+> finalizing plans for other merges that follow, we can take this into account
+> and figure out how to handle it.
+>
+> That is just my opinion, so other folks should feel free to weigh in as
+> well.
+>
+> cheers -
+>
+> Steve
+>
+>
+>
+> Carl Gladish wrote:
+>
+>> Hi developers,
+>>
+>> I am on the verge of merging my ongoing work involving plume coupling.  I
+>> don't want to scare anyone (or break the code!), so does anyone want to
+>> monitor what I am doing?
+>> I have merged my plume-related code into my working copy of the
+>> glimmer-cism-lanl trunk and I am able to build (using Sun f90 compiler, and
+>> gfortran) and run my own cases.  Before I commit could one of the senior
+>> people approve the changes?
+>> By the way, the source in branches/plume_integration doesn't look exactly
+>> like my working copy of the trunk since I did some of the merging by hand.
+>>
+>> The files affected by the merge, along with a description of the changes
+>> to existing glide code follows.
+>>
+>> src/fortran/Makefile.am * added libplume.a to lib_LIBRARIES
+>> * added shelf_driver to bin_PROGRAMS
+>> * added a line for libplume_a_SOURCE
+>> * added a line for shelf_driver_SOURCES
+>> * added a line for shelf_driver_LDADD
+>> * added $(libplume_a_SOURCES) $(shelf_driver_SOURCES) to ALL_SRC
+>>
+>> src/fortran/glide_temp.F90
+>> *  made bmlt intent(inout) in calcbmlt
+>> *  added logic to check if we are counting on the plume to write bmlt for
+>> floating ice
+>>
+>> src/fortran/glide_setup.F90
+>> * added 'use_plume' to the '[options]' section which takes values 0 or 1,
+>> 1 meaning that we are using the plume model to calculate basal melt rates
+>>
+>> src/fortran/glide_types.F90
+>> * added use_plume as an integer member of the glide_options type
+>>
+>> src/fortran/shelf_driver.F90  [ a new driver]
+>>
+>> src/fortran/plume*.F90   [all plume related code]
+>>
+>> tests/petermann/*   [various tools to set up Petermann Glacier style model
+>> runs]
+>>
+>>
+>> Cheers,
+>> Carl Gladish
+>>
+>>
+>
+
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+http://www.cims.nyu.edu/~gladish
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100409/0fbe5cf2/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Apr 12 13:10:22 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 12 Apr 2010 12:10:22 +0100
+Subject: [Glimmer-cism-devel] merging plume_integration
+	into	glimmer-cism-lanl/trunk
+In-Reply-To: <s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>	<4BBF53D7.6020304@lanl.gov>
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+Message-ID: <4BC2FF9E.5060902@ed.ac.uk>
+
+Carl Gladish wrote:
+> Hi all,
+> 
+> I don't mind waiting. 
+> 
+> One thing I don't understand is, how does this developer group plan to 
+> review merges?  In particular, if I have changes sitting in my working 
+> copy of the trunk, it isn't easy for anyone else to review them unless I 
+> commit them and then it might be too late to avoid causing 
+> build-breaking problems.  How do we get around that?  On the other hand, 
+> I am confident that my merge-related changes won't break anything or 
+> affect other users, so I think it's reasonable to just commit the 
+> changes and have others review it post hoc.
+> 
+> 
+
+Hi Carl,
+currently, we don't have a particular policy on how code gets reviewed. 
+This is certainly something we need to figure out and define. One idea 
+might be that someone of the core developer team (whoever they might be) 
+merges feature branches into trunk.
+Regards
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From I.C.Rutt at swansea.ac.uk  Fri Apr 16 12:11:03 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 16 Apr 2010 11:11:03 +0100
+Subject: [Glimmer-cism-devel] merging
+	plume_integration	into	glimmer-cism-lanl/trunk
+In-Reply-To: <4BC2FF9E.5060902@ed.ac.uk>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>	<4BBF53D7.6020304@lanl.gov>	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+	<4BC2FF9E.5060902@ed.ac.uk>
+Message-ID: <4BC837B7.3030907@swansea.ac.uk>
+
+
+Hi Carl,
+
+Quick question: is your branch up-to-date with subsequent changes from 
+the glimmer-cism-lanl trunk? If you merge that changeset into your 
+branch, the you're essentially doing the merge without touching the 
+trunk. Having satisfied yourself that the merged code on the branch 
+works as you expect, it will be fairly simple for someone else to review 
+your changes by doing a diff between the branch and the trunk.
+
+Well, I suppose that's what I would do - others might have better 
+suggestions.
+
+Cheers,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+Magnus Hagdorn wrote:
+> Carl Gladish wrote:
+>> Hi all,
+>>
+>> I don't mind waiting.
+>> One thing I don't understand is, how does this developer group plan to 
+>> review merges?  In particular, if I have changes sitting in my working 
+>> copy of the trunk, it isn't easy for anyone else to review them unless 
+>> I commit them and then it might be too late to avoid causing 
+>> build-breaking problems.  How do we get around that?  On the other 
+>> hand, I am confident that my merge-related changes won't break 
+>> anything or affect other users, so I think it's reasonable to just 
+>> commit the changes and have others review it post hoc.
+>>
+>>
+> 
+> Hi Carl,
+> currently, we don't have a particular policy on how code gets reviewed. 
+> This is certainly something we need to figure out and define. One idea 
+> might be that someone of the core developer team (whoever they might be) 
+> merges feature branches into trunk.
+> Regards
+> magi
+> 
+
+
+From carlgladish at gmail.com  Fri Apr 16 18:55:40 2010
+From: carlgladish at gmail.com (Carl Gladish)
+Date: Fri, 16 Apr 2010 12:55:40 -0400
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+In-Reply-To: <4BC837B7.3030907@swansea.ac.uk>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+	<4BBF53D7.6020304@lanl.gov>
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+	<4BC2FF9E.5060902@ed.ac.uk> <4BC837B7.3030907@swansea.ac.uk>
+Message-ID: <r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>
+
+Hi ian,
+
+That sounds reasonable to me.  I haven't merged in the most recent trunk
+changes (past few days) but I will.
+
+Could someone volunteer to review my work?  It's really not that much code
+to look at (given that you trust that the plume code is correct on its own).
+
+-Carl
+
+On Fri, Apr 16, 2010 at 6:11 AM, Ian Rutt <I.C.Rutt at swansea.ac.uk> wrote:
+
+>
+> Hi Carl,
+>
+> Quick question: is your branch up-to-date with subsequent changes from the
+> glimmer-cism-lanl trunk? If you merge that changeset into your branch, the
+> you're essentially doing the merge without touching the trunk. Having
+> satisfied yourself that the merged code on the branch works as you expect,
+> it will be fairly simple for someone else to review your changes by doing a
+> diff between the branch and the trunk.
+>
+> Well, I suppose that's what I would do - others might have better
+> suggestions.
+>
+> Cheers,
+>
+> Ian
+>
+> Dr Ian Rutt
+> School of the Environment and Society
+> Swansea University
+> Singleton Park
+> Swansea
+> SA2 8PP
+> Tel. (01792) 602685
+> i.c.rutt at swansea.ac.uk
+>
+>
+>
+> Magnus Hagdorn wrote:
+>
+>> Carl Gladish wrote:
+>>
+>>> Hi all,
+>>>
+>>> I don't mind waiting.
+>>> One thing I don't understand is, how does this developer group plan to
+>>> review merges?  In particular, if I have changes sitting in my working copy
+>>> of the trunk, it isn't easy for anyone else to review them unless I commit
+>>> them and then it might be too late to avoid causing build-breaking problems.
+>>>  How do we get around that?  On the other hand, I am confident that my
+>>> merge-related changes won't break anything or affect other users, so I think
+>>> it's reasonable to just commit the changes and have others review it post
+>>> hoc.
+>>>
+>>>
+>>>
+>> Hi Carl,
+>> currently, we don't have a particular policy on how code gets reviewed.
+>> This is certainly something we need to figure out and define. One idea might
+>> be that someone of the core developer team (whoever they might be) merges
+>> feature branches into trunk.
+>> Regards
+>> magi
+>>
+>>  _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+http://www.cims.nyu.edu/~gladish
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100416/2786f3ad/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Mon Apr 19 11:35:14 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Mon, 19 Apr 2010 10:35:14 +0100
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+In-Reply-To: <r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>	
+	<4BBF53D7.6020304@lanl.gov>	
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>	
+	<4BC2FF9E.5060902@ed.ac.uk> <4BC837B7.3030907@swansea.ac.uk>
+	<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>
+Message-ID: <4BCC23D2.6090604@ed.ac.uk>
+
+Carl Gladish wrote:
+> Hi ian,
+> 
+> That sounds reasonable to me.  I haven't merged in the most recent trunk 
+> changes (past few days) but I will.
+> 
+> Could someone volunteer to review my work?  It's really not that much 
+> code to look at (given that you trust that the plume code is correct on 
+> its own).
+> 
+>
+
+Hi Carl,
+I volunteer! I couldn't download the plume code itself because of 
+insufficient permissions. I guess I need an account on your subversion 
+server. So I will restrict my review to the few changes to the actual 
+glimmer code.
+
+As you said, the changes are small and absolutely fine. So my comments 
+are about style and only the file shelf_driver.F90:
+* indentation is not consistent - I use xemacs as editor which has a 
+nice fortran mode which does indentation automatically for you.
+* I'd suggest to move the contained procedures into a separate file(s) 
+which are then also linked to the libplume.a library. This way it makes 
+it easier to use your lib in other drivers.
+* I would also split up plume_read_print_config into two procedures. 
+some people prefer a quiet operation. Also it is conceivable that the 
+library might be used in parallel when you have multiple reads but only 
+one print.
+* is petermann a plume test case? If so could you add a readme.
+
+Build system
+------------
+Let me guess, you develop on windows? Unix directory separators are / 
+rather than \. So you'll need to change the file names for the 
+libplume.a target.
+Finally and most importantly, I think we need some way of 
+disabling/enabling whether the plume code should be compiled. I would 
+suggest to have it disabled by default and enable it with a configure 
+switch. The configure.in contains some examples on how to do this, e.g. 
+--enable-tests.
+
+Finally, I think there should be some instruction on how to get the 
+plume code in the README.
+
+Do you have any plans to host your code on BerliOS or do you want to 
+keep hosting it elsewhere?
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From gladish at cims.nyu.edu  Wed Apr 21 01:19:08 2010
+From: gladish at cims.nyu.edu (Carl Gladish)
+Date: Tue, 20 Apr 2010 19:19:08 -0400
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+In-Reply-To: <4BCC23D2.6090604@ed.ac.uk>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+	<4BBF53D7.6020304@lanl.gov>
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+	<4BC2FF9E.5060902@ed.ac.uk> <4BC837B7.3030907@swansea.ac.uk>
+	<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>
+	<4BCC23D2.6090604@ed.ac.uk>
+Message-ID: <g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+
+Hi Magnus,
+
+I found it too complicated to have trunk updates merged in my
+plume_integration branch.  Now the changes in plume_integration between
+r1410:1616 are just things that I did.
+
+I carried out your suggestions in plume_integration.  In particular:
+
+* I copied the plume code from my NYU repository into the Berlios repos.  It
+is just made up of a handful of files matching src/fortran/plume*.F90
+* I changed configure.in and src/fortran/Makefile.am to build libplume.a and
+shelf_driver only if the project was configured with --enable-plume
+* I changed the indentation as you recommended.
+* Splitting up the shelf_driver seems like overkill to me at this second
+* I develop on linux (I'll try not to be offended)
+* In glam_strs2.F90 I made uvel and vvel intent(inout) in
+glam_velo_fordsiapstr since the values in uvel and vvel as passed as
+intent(in) args inside that subroutine.  That was a bug with the sun f90
+compiler (I think... it was a while ago that I saw that).
+* In glide_temp.F90 calcbmlt I made bmlt intent(inout) because in the case
+that the subroutine doesn't write a value to bmlt (floating cells with the
+plume turned on), I don't want to compiler to think we don't care what the
+values in bmlt are (since they will be values calculated by the plume model
+outside of that subroutine somewhere).
+
+You can confirm these things by running
+
+svn diff -r1410:1616 https://<you>@
+svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism-lanl/branches/plume_integration
+
+Also, I have merged those changes into my copy of the trunk (not committed
+though).  There were some conflicts, which I resolved by hand.  The
+resulting diffs are in the attached file.
+
+I consider those diffs to be ready to commit in trunk.  What do you think?
+If you would rather do the merge yourself, feel free.
+
+-Carl
+
+
+On Mon, Apr 19, 2010 at 5:35 AM, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>wrote:
+
+> Carl Gladish wrote:
+>
+>> Hi ian,
+>>
+>> That sounds reasonable to me.  I haven't merged in the most recent trunk
+>> changes (past few days) but I will.
+>>
+>> Could someone volunteer to review my work?  It's really not that much code
+>> to look at (given that you trust that the plume code is correct on its own).
+>>
+>>
+>>
+> Hi Carl,
+> I volunteer! I couldn't download the plume code itself because of
+> insufficient permissions. I guess I need an account on your subversion
+> server. So I will restrict my review to the few changes to the actual
+> glimmer code.
+>
+> As you said, the changes are small and absolutely fine. So my comments are
+> about style and only the file shelf_driver.F90:
+> * indentation is not consistent - I use xemacs as editor which has a nice
+> fortran mode which does indentation automatically for you.
+> * I'd suggest to move the contained procedures into a separate file(s)
+> which are then also linked to the libplume.a library. This way it makes it
+> easier to use your lib in other drivers.
+> * I would also split up plume_read_print_config into two procedures. some
+> people prefer a quiet operation. Also it is conceivable that the library
+> might be used in parallel when you have multiple reads but only one print.
+> * is petermann a plume test case? If so could you add a readme.
+>
+> Build system
+> ------------
+> Let me guess, you develop on windows? Unix directory separators are /
+> rather than \. So you'll need to change the file names for the libplume.a
+> target.
+> Finally and most importantly, I think we need some way of
+> disabling/enabling whether the plume code should be compiled. I would
+> suggest to have it disabled by default and enable it with a configure
+> switch. The configure.in contains some examples on how to do this, e.g.
+> --enable-tests.
+>
+> Finally, I think there should be some instruction on how to get the plume
+> code in the README.
+>
+> Do you have any plans to host your code on BerliOS or do you want to keep
+> hosting it elsewhere?
+>
+> Cheers
+>
+> magi
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+>
+
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+http://www.cims.nyu.edu/~gladish <http://www.cims.nyu.edu/%7Egladish>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100420/0d040fe9/attachment.html>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: proposedTrunkChanges_Gladish_April20
+Type: application/octet-stream
+Size: 311681 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100420/0d040fe9/attachment.obj>
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Apr 21 16:15:20 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 21 Apr 2010 15:15:20 +0100
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+In-Reply-To: <g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>	
+	<4BBF53D7.6020304@lanl.gov>	
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>	
+	<4BC2FF9E.5060902@ed.ac.uk> <4BC837B7.3030907@swansea.ac.uk>	
+	<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>	
+	<4BCC23D2.6090604@ed.ac.uk>
+	<g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+Message-ID: <4BCF0878.8040200@ed.ac.uk>
+
+Hi Carl,
+I had another look at your changes and am quite satisfied now. Thanks a 
+lot for your contribution. I'd like to thank you in particular for your 
+decision to copy the actual code to the repo. This certainly makes life 
+a lot easier. I would suggest that you add yourself to the AUTHORS document.
+
+Another thing I noticed now that I have access to the rest of the code 
+is that you don't make use of any of the existing I/O infrastructure. 
+Any particular reason?
+
+Carl Gladish wrote:
+> * Splitting up the shelf_driver seems like overkill to me at this second
+fair enough
+
+> * I develop on linux (I'll try not to be offended)
+please accept my humble apology. i was just surprised by the directory 
+separators. in fact i am surprised that it worked. ah well, I learned 
+something new...
+
+> 
+> Also, I have merged those changes into my copy of the trunk (not 
+> committed though).  There were some conflicts, which I resolved by 
+> hand.  The resulting diffs are in the attached file.
+> 
+> I consider those diffs to be ready to commit in trunk.  What do you 
+> think?  If you would rather do the merge yourself, feel free.
+> 
+
+I am not in a position to give you the go-ahead for merging your changes 
+to glimmer-cism-lanl-trunk. You should ask  Jesse, Bill and/or Steve. 
+This might not be the best of times since a beta release is prepared. On 
+the other hand it might be a good time. Anyway, it's not my call.
+
+Cheers
+magi
+
+
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From sprice at lanl.gov  Wed Apr 21 16:54:26 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Wed, 21 Apr 2010 08:54:26 -0600
+Subject: [Glimmer-cism-devel] merging plume_integration
+	into	glimmer-cism-lanl/trunk
+In-Reply-To: <4BCF0878.8040200@ed.ac.uk>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>		<4BBF53D7.6020304@lanl.gov>		<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>		<4BC2FF9E.5060902@ed.ac.uk>
+	<4BC837B7.3030907@swansea.ac.uk>		<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>		<4BCC23D2.6090604@ed.ac.uk>	<g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+	<4BCF0878.8040200@ed.ac.uk>
+Message-ID: <4BCF11A2.7030006@lanl.gov>
+
+
+Thanks Carl, Magi ...
+
+> I am not in a position to give you the go-ahead for merging your changes 
+> to glimmer-cism-lanl-trunk. You should ask  Jesse, Bill and/or Steve. 
+> This might not be the best of times since a beta release is prepared. On 
+> the other hand it might be a good time. Anyway, it's not my call.
+
+My preference would be to wait until after the release, which should 
+happen today or tomorrow, I hope.
+
+We then need to have a discussion about the various planned merges 
+taking place with the folks who will be doing that work. Perhaps it will 
+be trivial to merge the plume code onto the lanl branch just after the 
+beta release, and then continue on from there with the rest of the 
+merging plans. But I'd rather not commit to that right now. Give us a 
+few more days and we'll have some time to look at it more closely.
+
+
+Steve
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Apr 21 17:36:51 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 21 Apr 2010 16:36:51 +0100
+Subject: [Glimmer-cism-devel] merging plume_integration
+	into	glimmer-cism-lanl/trunk
+In-Reply-To: <4BCF0878.8040200@ed.ac.uk>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>		<4BBF53D7.6020304@lanl.gov>		<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>		<4BC2FF9E.5060902@ed.ac.uk>
+	<4BC837B7.3030907@swansea.ac.uk>		<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>		<4BCC23D2.6090604@ed.ac.uk>	<g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+	<4BCF0878.8040200@ed.ac.uk>
+Message-ID: <4BCF1B93.8010000@ed.ac.uk>
+
+bah, I forgot to say that there is a spurious character 'g' at the 
+beginning of configure.in in your patch...
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From trey at ornl.gov  Thu Apr 22 22:58:24 2010
+From: trey at ornl.gov (White III, James B.)
+Date: Thu, 22 Apr 2010 16:58:24 -0400
+Subject: [Glimmer-cism-devel] Refactoring suggestion
+Message-ID: <96835BE9-FCBF-4FB7-A365-858FCF90B391@ornl.gov>
+
+Fellow Glimmer/CISM developers,
+
+I have a suggestion for future refactoring.
+
+In "timeevoltemp" (glide_temp.F90), there is a call to "calcbwat" that passes "model" as the "model" argument and "model%temper%bwat" as the "bwat" argument.
+
+"calcbwat" (glide_grids.F90) then sets the values of its argument "bwat". It then calls "stagvarb" with the argument "model%temper%bwat". I found this confusing. Looking at the code, you might not know that "bwat" is in fact the same thing as "model%temper%bwat" because of how "calcbwat" happens to be called.
+
+In the refactoring work, you might want to standardize on just one route to a given variable in a given procedure, for clarity and safety. Either provide it as an argument *or* pull it out of the "model" type, but don't do both?
+--
+James B. White III (Trey)
+National Center for Computational Sciences
+Oak Ridge National Laboratory
+trey at ornl.gov
+
+
+
+From I.C.Rutt at swansea.ac.uk  Fri Apr 23 16:46:01 2010
+From: I.C.Rutt at swansea.ac.uk (Ian Rutt)
+Date: Fri, 23 Apr 2010 15:46:01 +0100
+Subject: [Glimmer-cism-devel] Refactoring suggestion
+In-Reply-To: <96835BE9-FCBF-4FB7-A365-858FCF90B391@ornl.gov>
+References: <96835BE9-FCBF-4FB7-A365-858FCF90B391@ornl.gov>
+Message-ID: <4BD1B2A9.9000808@swansea.ac.uk>
+
+
+Hi James,
+
+Thanks for your suggestion. Those of us whove worked with the code for a 
+while are aware of these issues - they stem from the engineering legacy 
+of Glimmer-CISM - and some of us (mostly myself and Magnus Hagdorn) are 
+working on improving the structure at the moment.
+
+If you want to take a look at what we're up to - and contribute, if you 
+like - take a look at this branch of the svn tree:
+
+https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/GCISM2-refactor-ICR
+
+You'll see this is based on a reorganised directory structure compared 
+to the present LANL branch, which we hope will form the basis of a 
+future Glimmer-CISM 2.0 release. Mostly, we've been working in the 
+libglide directory. Progress is continuing, but is a bit sporadic, due 
+to other commitments. Although we've tried to adopt a common approach 
+across the bits of code we've tackled at the moment, there are many 
+wrinkles and inconsistencies still, so please regard it as work-in-progress.
+
+As I said, if you would like to join us in this effort, you would be 
+most welcome.
+
+Best wishes,
+
+Ian
+
+Dr Ian Rutt
+School of the Environment and Society
+Swansea University
+Singleton Park
+Swansea
+SA2 8PP
+Tel. (01792) 602685
+i.c.rutt at swansea.ac.uk
+
+
+White III, James B. wrote:
+> Fellow Glimmer/CISM developers,
+> 
+> I have a suggestion for future refactoring.
+> 
+> In "timeevoltemp" (glide_temp.F90), there is a call to "calcbwat" that passes "model" as the "model" argument and "model%temper%bwat" as the "bwat" argument.
+> 
+> "calcbwat" (glide_grids.F90) then sets the values of its argument "bwat". It then calls "stagvarb" with the argument "model%temper%bwat". I found this confusing. Looking at the code, you might not know that "bwat" is in fact the same thing as "model%temper%bwat" because of how "calcbwat" happens to be called.
+> 
+> In the refactoring work, you might want to standardize on just one route to a given variable in a given procedure, for clarity and safety. Either provide it as an argument *or* pull it out of the "model" type, but don't do both?
+> --
+> James B. White III (Trey)
+> National Center for Computational Sciences
+> Oak Ridge National Laboratory
+> trey at ornl.gov
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+From trey at ornl.gov  Fri Apr 23 17:55:04 2010
+From: trey at ornl.gov (White III, James B.)
+Date: Fri, 23 Apr 2010 11:55:04 -0400
+Subject: [Glimmer-cism-devel] Refactoring suggestion
+In-Reply-To: <4BD1B2A9.9000808@swansea.ac.uk>
+References: <96835BE9-FCBF-4FB7-A365-858FCF90B391@ornl.gov>
+	<4BD1B2A9.9000808@swansea.ac.uk>
+Message-ID: <D9BB51DD-47CC-4AB5-814E-71AF4F091A26@ornl.gov>
+
+
+On Apr 23, 2010, at 10:46 AM, Ian Rutt wrote:
+
+> If you want to take a look at what we're up to - and contribute, if you 
+> like - take a look at this branch of the svn tree:
+> 
+> https://svn.berlios.de/svnroot/repos/glimmer-cism/glimmer-cism2/branches/GCISM2-refactor-ICR
+> 
+
+I see from "glide_bwat.F90" that you have already resolved the issue I raised. The new "calcbwat" standardizes on argument passing. This allows clear intents on the arguments and clean executable code, at the expense of long argument lists. Seems like a good tradeoff to me.
+
+> As I said, if you would like to join us in this effort, you would be 
+> most welcome.
+
+But it is much easier to heckle from the sidelines.
+
+Right now I am concentrating on parallelizing the LANL branch with minimal code changes. Thanks for pointing me to the refactored branch. I can check there to make sure my changes will be consistent with yours. So far it looks like the changes are comfortably orthogonal.
+--
+James B. White III (Trey)
+National Center for Computational Sciences
+Oak Ridge National Laboratory
+trey at ornl.gov
+
+
+
+From gladish at cims.nyu.edu  Fri Apr 30 17:33:47 2010
+From: gladish at cims.nyu.edu (Carl Gladish)
+Date: Fri, 30 Apr 2010 11:33:47 -0400
+Subject: [Glimmer-cism-devel] merging plume_integration into
+	glimmer-cism-lanl/trunk
+In-Reply-To: <4BCF11A2.7030006@lanl.gov>
+References: <k2w8a364a0f1004081320i5d17c17ak7726aa18887be57e@mail.gmail.com>
+	<4BBF53D7.6020304@lanl.gov>
+	<s2s8a364a0f1004090948tb631e63h2ad1f979b68dc3b2@mail.gmail.com>
+	<4BC2FF9E.5060902@ed.ac.uk> <4BC837B7.3030907@swansea.ac.uk>
+	<r2i8a364a0f1004160955i18dff4c5v5c24ab05da3cbab1@mail.gmail.com>
+	<4BCC23D2.6090604@ed.ac.uk>
+	<g2p8a364a0f1004201619pb3b574d0n210e7d58bd1c75d5@mail.gmail.com>
+	<4BCF0878.8040200@ed.ac.uk> <4BCF11A2.7030006@lanl.gov>
+Message-ID: <w2m8a364a0f1004300833za1b0385axbe7e8824a646baeb@mail.gmail.com>
+
+Hi everyone,
+
+I see the beta release has been carried out.  If no one objects I'd like to
+carry out the plume merge at this point.  It is a very easy and minor merge,
+in my opinion.
+
+The changes consist of the file additions listed below, and diffs to the
+existing code which are in the attached file.
+
+A      src/fortran/plume_global.F90
+A      src/fortran/plume_functions.F90
+A      src/fortran/plume_main.F90
+A      src/fortran/plume_io.F90
+A      src/fortran/plume_context.F90
+A      src/fortran/plume.F90
+A  +   tests/petermann
+A      tests/petermann/build_case.py
+A      tests/petermann/test.config
+A  +   tests/petermann/sample.gs.config.py
+A      tests/petermann/test.nl
+A      tests/petermann/build_nc_gen_input
+A      tests/petermann/nc_regrid.F90
+A      tests/petermann/petermann.config
+A      tests/petermann/ideal_geometry.config
+A      tests/petermann/README
+A      tests/petermann/standalone.nl
+A      tests/petermann/partgrounded.nc_gen_args
+A      tests/petermann/make_ncdf_shelf_input.m
+A      tests/petermann/partgrounded.config
+A      tests/petermann/ideal_peterman.config.py
+A      tests/petermann/nc_gen_input.F90
+A      tests/petermann/partgrounded.nl
+A      tests/petermann/build_nc_regrid
+A      tests/petermann/sample.config.py
+
+
+On Wed, Apr 21, 2010 at 10:54 AM, Stephen Price <sprice at lanl.gov> wrote:
+
+>
+> Thanks Carl, Magi ...
+>
+>
+>  I am not in a position to give you the go-ahead for merging your changes
+>> to glimmer-cism-lanl-trunk. You should ask  Jesse, Bill and/or Steve. This
+>> might not be the best of times since a beta release is prepared. On the
+>> other hand it might be a good time. Anyway, it's not my call.
+>>
+>
+> My preference would be to wait until after the release, which should happen
+> today or tomorrow, I hope.
+>
+> We then need to have a discussion about the various planned merges taking
+> place with the folks who will be doing that work. Perhaps it will be trivial
+> to merge the plume code onto the lanl branch just after the beta release,
+> and then continue on from there with the rest of the merging plans. But I'd
+> rather not commit to that right now. Give us a few more days and we'll have
+> some time to look at it more closely.
+>
+>
+> Steve
+>
+>
+
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+http://www.cims.nyu.edu/~gladish
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100430/31565f99/attachment.html>
+-------------- next part --------------
+Index: configure.in
+===================================================================
+--- configure.in	(revision 1640)
++++ configure.in	(working copy)
+@@ -296,6 +296,17 @@
+ esac],[AC_MSG_RESULT([no])])
+ AM_CONDITIONAL([BUILD_RESTARTS],[test "$enable_restarts" == "yes"])
+ 
++# should we build the plume code
++AC_MSG_CHECKING([whether we should build plume code])
++AC_ARG_ENABLE(plume, AS_HELP_STRING([--enable-plume],[Build plume code]),
++[case "${enableval}" in
++ yes) AC_DEFINE(BUILD_PLUME,1,[Define to 1 if you want to build plume code])
++      AC_MSG_RESULT([yes]);;
++ no)  AC_MSG_RESULT([no]);;
++ *) AC_MSG_ERROR(bad value ${enableval} for --enable-plume) ;;
++esac], [AC_MSG_RESULT([no])])
++AM_CONDITIONAL([BUILD_PLUME], [test "$enable_plume" == "yes"])
++
+ AC_MSG_CHECKING([whether the build is single precision])
+ AC_ARG_ENABLE(sp, AS_HELP_STRING([--enable-sp],[Build code as single precision]),
+ [case "${enableval}" in
+Index: src/fortran/Makefile.am
+===================================================================
+--- src/fortran/Makefile.am	(revision 1640)
++++ src/fortran/Makefile.am	(working copy)
+@@ -86,6 +86,18 @@
+                        eismint3_io.F90 spin_forcing.F90 spin_mb.F90 \
+                        spin_temp.F90 spin_slc.F90 spin_io.F90 \
+                        testsfg.F90 spin_types.F90 
++
++if BUILD_PLUME
++lib_LIBRARIES += libplume.a
++bin_PROGRAMS += shelf_driver
++libplume_a_SOURCES = plume_global.F90 plume_functions.F90 plume_context.F90 \
++                     plume.F90 plume_io.F90
++shelf_driver_SOURCES = shelf_driver.F90 
++shelf_driver_LDADD = libclimate.a libglide.a libglimmer.a \
++	             SLAP_library/libslap.a libplume.a \
++                     $(BLAS_LIBS) $(NETCDF_LDFLAGS) $(NETCDF_LIBS) 
++endif BUILD_PLUME
++
+ if PARDISO
+ RESTART_CODE += glimmer_sparse_pardiso.F90
+ libglimmer_a_SOURCES += glimmer_sparse_pardiso.F90
+@@ -130,7 +142,7 @@
+         $(test_config_SOURCES) $(nc2config_SOURCES) $(glex_ebm_SOURCES) $(glint_example_SOURCES) \
+ 	$(eis_glide_SOURCES) $(simple_glide_SOURCES) $(eismint3_glide_SOURCES) $(libglimmer_a_SOURCES) \
+ 	$(libglide_a_SOURCES) $(libglint_a_SOURCES) $(libclimate_a_SOURCES) $(spin_glide_SOURCES) \
+-        $(glimmer_unittest_SOURCES) $(glide_thermal_equib_SOURCES)
++        $(glimmer_unittest_SOURCES) $(glide_thermal_equib_SOURCES) $(libplume_a_SOURCES) $(shelf_driver_SOURCES)
+ 
+ AM_FCFLAGS = $(NETCDF_CPPFLAGS) $(HDF5_CPPFLAGS)
+ 
+Index: src/fortran/glam_strs2.F90
+===================================================================
+--- src/fortran/glam_strs2.F90	(revision 1640)
++++ src/fortran/glam_strs2.F90	(working copy)
+@@ -210,7 +210,7 @@
+   integer, intent(in) :: whichsparse  ! options for which method for doing elliptic solve
+   logical, intent(in) :: periodic_ew, periodic_ns  ! options for applying periodic bcs or not
+ 
+-  real (kind = dp), dimension(:,:,:), intent(out) :: uvel, vvel  ! horiz vel components: u(z), v(z)
++  real (kind = dp), dimension(:,:,:), intent(inout) :: uvel, vvel  ! horiz vel components: u(z), v(z)
+   real (kind = dp), dimension(:,:),   intent(out) :: uflx, vflx  ! horiz fluxs: u_bar*H, v_bar*H
+   real (kind = dp), dimension(:,:,:), intent(out) :: efvs        ! effective viscosity
+ 
+Index: src/fortran/glide_temp.F90
+===================================================================
+--- src/fortran/glide_temp.F90	(revision 1640)
++++ src/fortran/glide_temp.F90	(working copy)
+@@ -933,7 +933,7 @@
+     type(glide_global_type) :: model
+     real(dp), dimension(:,0:,0:), intent(in) :: temp
+     real(dp), dimension(:,:), intent(in) :: thck,  stagthck, dusrfdew, dusrfdns, ubas, vbas  
+-    real(dp), dimension(:,:), intent(out) :: bmlt
++    real(dp), dimension(:,:), intent(inout) :: bmlt
+     logical, dimension(:,:), intent(in) :: floater
+     integer, intent(in) :: whichbmelt
+ 
+@@ -1038,10 +1038,13 @@
+ 
+              end if
+ 
+-          else
++          else if (model%options%use_plume == 1) then
+ 
+-             bmlt(ew,ns) = 0.0d0
++		! do nothing because the plume model will have written the bmlt field
++	       else
+ 
++                  bmlt(ew,ns) = 0.0d0
++
+           end if
+        end do
+     end do
+Index: src/fortran/glide_setup.F90
+===================================================================
+--- src/fortran/glide_setup.F90	(revision 1640)
++++ src/fortran/glide_setup.F90	(working copy)
+@@ -410,6 +410,7 @@
+     call GetValue(section,'periodic_ew',model%options%periodic_ew)
+     call GetValue(section,'periodic_ns',model%options%periodic_ns)
+     call GetValue(section,'diagnostic_run',model%options%diagnostic_run)
++    call GetValue(section, 'use_plume',model%options%use_plume)
+   end subroutine handle_options
+   
+   !Higher order options
+@@ -588,6 +589,11 @@
+     if (model%options%hotstart.eq.1) then
+        call write_log('Hotstarting model')
+     end if
++    if (model%options%use_plume.eq.1) then
++       call write_log('Using plume model to calculate bmlt below floating ice')
++    else
++       call write_log('Using glimmer to calculate bmlt everywhere')
++    end if
+ 
+     !HO options
+     call write_log("***Higher-order options:")
+Index: src/fortran/glide_types.F90
+===================================================================
+--- src/fortran/glide_types.F90	(revision 1640)
++++ src/fortran/glide_types.F90	(working copy)
+@@ -394,6 +394,12 @@
+ 
+     integer :: diagnostic_run = 0
+ 
++    integer :: use_plume = 0
++    !*FD \begin{description}
++    !*FD \item[0] standard bmlt calculation
++    !*FD \item[1] use plume to calculate bmlt
++    !*FD \end{description}
++
+   end type glide_options
+ 
+   !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+

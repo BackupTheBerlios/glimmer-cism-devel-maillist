@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] support for allocatable components
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-January/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20support%20for%20allocatable%20components&In-Reply-To=%3C4B459485.6090805%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000165.html">
+   <LINK REL="Next"  HREF="000167.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] support for allocatable components</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20support%20for%20allocatable%20components&In-Reply-To=%3C4B459485.6090805%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] support for allocatable components">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Thu Jan  7 09:00:05 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000165.html">[Glimmer-cism-devel] support for allocatable components
+</A></li>
+        <LI>Next message: <A HREF="000167.html">[Glimmer-cism-devel] support for allocatable components
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Thanks, Magi - that's useful.
+
+However, I think we should keep an eye on this situation and remove the 
+gcc 4.1 support at some point - it does make things more complex (for 
+example, a test suite would ideally test both situations). There is only 
+so much we can do for people... ;)
+
+Cheers,
+
+Ian
+
+Magnus Hagdorn wrote:
+&gt;<i> Hi all,
+</I>&gt;<i> allocatable components are a newish addition to the fortran standard, 
+</I>&gt;<i> although most compilers support them. It makes sense to use allocatable 
+</I>&gt;<i> components rather than pointers. However, not all compilers support this 
+</I>&gt;<i> new feature - most notably gcc-4.1 which is supplied by RHEL5 systems 
+</I>&gt;<i> and derivatives. I have added a configure check whether this feature is 
+</I>&gt;<i> supported by the fortran compiler or not. Two macros are set:
+</I>&gt;<i> 1. GC_DYNARRAY_ATTRIB expands to allocatable or pointer
+</I>&gt;<i> 2. GC_DYNARRAY_CHECK expands to allocated or associated
+</I>&gt;<i> 
+</I>&gt;<i> So far only libglimmer/glimmer_slap.F90 and libglide/glide_thckADI.F90 
+</I>&gt;<i> make use of these macros. We should port the other uses of pointers 
+</I>&gt;<i> inside derived types where necessary as we go along.
+</I>&gt;<i> 
+</I>&gt;<i> Cheers
+</I>&gt;<i> magi
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000165.html">[Glimmer-cism-devel] support for allocatable components
+</A></li>
+	<LI>Next message: <A HREF="000167.html">[Glimmer-cism-devel] support for allocatable components
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,4485 @@
+From Gethin.Williams at bristol.ac.uk  Tue Feb  2 11:47:57 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Tue, 02 Feb 2010 10:47:57 +0000
+Subject: [Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 7, Issue 5
+In-Reply-To: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+Message-ID: <36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+
+
+On the topic of exact restarts:
+
+Hi Bill,
+
+This sounds interesting, could you forward a tarball, so that I can try to 
+replicate the problem on my machines?
+
+I think in principle that NetCDF should be able to do the job for you.  I 
+wonder if there has been an implicit type conversion somewhere in the chain 
+to/from the file.
+
+Cheers,
+Gethin.
+
+
+--On 30 January 2010 12:00 +0100 
+glimmer-cism-devel-request at lists.berlios.de wrote:
+
+> Send Glimmer-cism-devel mailing list submissions to
+> 	glimmer-cism-devel at lists.berlios.de
+>
+> To subscribe or unsubscribe via the World Wide Web, visit
+> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+> or, via email, send a message with subject or body 'help' to
+> 	glimmer-cism-devel-request at lists.berlios.de
+>
+> You can reach the person managing the list at
+> 	glimmer-cism-devel-owner at lists.berlios.de
+>
+> When replying, please edit your Subject line so it is more specific
+> than "Re: Contents of Glimmer-cism-devel digest..."
+>
+>
+> Today's Topics:
+>
+>    1. Re: exact restart (Ian Rutt)
+>    2. Re: exact restart (Jed Brown)
+>
+>
+> ----------------------------------------------------------------------
+>
+> Message: 1
+> Date: Fri, 29 Jan 2010 16:41:36 +0000
+> From: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+> Subject: Re: [Glimmer-cism-devel] exact restart
+> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+> Cc: r.gladstone at bristol.ac.uk,	Glimmer-CISM developer list
+> 	<glimmer-cism-devel at lists.berlios.de>
+> Message-ID: <4B630FC0.6050003 at swansea.ac.uk>
+> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>
+>
+> Hi All,
+>
+> I've moved this to the developer list, since it has wider relevance -
+> hope that's OK.
+>
+> That's a tricky kind of thing to diagnose and fix. It sounds like a
+> wrinkle in the translation from machine representation to file and back
+> again, probably to do with the innards of the NetCDF library. I can't
+> remember what NetCDF file types the restart library uses (or where that
+> code resides), but possibly if one were to promote them to the next
+> precision up, as it were, that would fix your problem, by giving you
+> greater precision in the file than needed.
+>
+> I'm afraid I don't have time at the moment to track it down - I hope the
+> clue is helpful, though.
+>
+> Cheers,
+>
+> Ian
+>
+> Dr Ian Rutt
+> School of the Environment and Society
+> Swansea University
+> Singleton Park
+> Swansea
+> SA2 8PP
+> Tel. (01792) 602685
+> i.c.rutt at swansea.ac.uk
+>
+>
+> Magnus Hagdorn wrote:
+>> William H. Lipscomb wrote:
+>>> Hi Ian and Magnus,
+>>>
+>>> I'm trying to get exact restart working for glint-example in Glimmer
+>>> version 1.0, in preparation for getting exact restart in CCSM.  I am
+>>> very close--I think I am writing out all the necessary fields at the
+>>> required precision--but I'm not quite there.  Here is one issue:  When
+>>> I read in wgrd in certain grid cells, the value read in is not quite
+>>> identical to the value written out.  For instance, in layer 1 of cell
+>>> (30,50), I get this:
+>>>
+>>> -0.09466907827340063   ! value just before writing to netCDF file
+>>>
+>>> -0.09466907827340064   ! value just after reading from netCDF file
+>>>
+>>> The difference is only in the last digit, and it doesn't lead to a
+>>> noticeable difference in the simulation.  However, it does destroy
+>>> bit-for-bit agreement, which is the CCSM requirement.
+>>>
+>>> Can you think of any reason why this should happen?  I've talked to CCSM
+>>> folks who use netCDF for restart and aren't having any problems.  I'm
+>>> running on a linux cluster that is pretty well vetted.  I'm reading and
+>>> writing with the same executable, which is built using the Lahey lf95
+>>> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562, which
+>>> should be compatible with the compiler.  This problem is starting to
+>>> drive
+>>> me crazy, so I'd be grateful for any ideas you have.
+>>>
+>>> I'm copying this to Rupert in case he's run across anything similar.
+>>>
+>>>
+>> [maybe for developer list?]
+>>
+>> Hi Bill,
+>> you could decrease the precision to less than machine precision. this
+>> way you would be able to ensure you always get the same value.
+>> magi
+>>
+>>
+>>
+>>
+>
+>
+> ------------------------------
+>
+> Message: 2
+> Date: Fri, 29 Jan 2010 18:08:31 +0100
+> From: Jed Brown <jed at 59A2.org>
+> Subject: Re: [Glimmer-cism-devel] exact restart
+> To: William Lipscomb <lipscomb at lanl.gov>
+> Cc: r.gladstone at bristol.ac.uk,	Glimmer-CISM developer list
+> 	<glimmer-cism-devel at lists.berlios.de>,	Ian Rutt
+> 	<I.C.Rutt at swansea.ac.uk>
+> Message-ID: <87pr4syh2o.fsf at 59A2.org>
+> Content-Type: text/plain; charset=us-ascii
+>
+>
+>> >> I'm trying to get exact restart working for glint-example in Glimmer
+>> >> version 1.0, in preparation for getting exact restart in CCSM.  I am
+>> >> very close--I think I am writing out all the necessary fields at the
+>> >> required precision--but I'm not quite there.  Here is one issue:
+>> >> When I read in wgrd in certain grid cells, the value read in is not
+>> >> quite identical to the value written out.  For instance, in layer 1
+>> >> of cell (30,50), I get this:
+>> >>
+>> >> -0.09466907827340063   ! value just before writing to netCDF file
+>
+> Are you writing this string out where the value was computed, or after
+> it has been stored in the array (i.e. are you certain that the register
+> that computed *this* value has been flushed after it was computed)?
+>
+>> >> Can you think of any reason why this should happen?  I've talked to
+>> >> CCSM folks who use netCDF for restart and aren't having any problems.
+>> >> I'm running on a linux cluster that is pretty well vetted.  I'm
+>> >> reading and writing with the same executable, which is built using
+>> >> the Lahey lf95 compiler.  The netCDF library is
+>> >> netcdf-3.6.3-gcc-4.1.2-lf9562, which should be compatible with the
+>> >> compiler.  This problem is starting to  drive me crazy, so I'd be
+>> >> grateful for any ideas you have.
+>
+> Are these running in 32 or 64-bit mode?  Have you set -ffloat-store (or
+> whatever Lahey option has that meaning)?
+>
+> Jed
+>
+>
+> ------------------------------
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+> End of Glimmer-cism-devel Digest, Vol 7, Issue 5
+> ************************************************
+
+
+
+
+
+
+From a.j.payne at bristol.ac.uk  Wed Feb  3 13:21:10 2010
+From: a.j.payne at bristol.ac.uk (tony payne)
+Date: Wed, 03 Feb 2010 12:21:10 +0000
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <4B50583B.8010906@ed.ac.uk>
+References: <4B50583B.8010906@ed.ac.uk>
+Message-ID: <4B696A36.5060709@bristol.ac.uk>
+
+hi magi
+
+sorry for the delay in replying.  this is very helpful.  a few comments.
+
+1/ would be helpful to have a legend for the colour coding.  do they 
+reflect trunks/branches?
+
+2/ i had some trouble mapping the various names in the figure to 
+trunks/branches on berlios.  it may be worth using the same wording for 
+both or provide a table mapping the connections.
+
+from what i can see we have (how should we refer to these 3 things? 
+they are all trunks).
+
+glimmer-cism
+- trunk (your GLIMMER-1_trunk)
+- some branches (not shown in the figure - fine they look minor)
+
+glimmer-cism-lanl
+- trunk (your GLIMMER-CISM-lanl)
+- parallel branch (not shown)
+- plume branch
+- [chombo branch to come]
+
+glimmer-cism2
+- trunk (your GLIMMER-CISM-2-trunk)
+- ian's refactoring (your GLIMMER-CISM-2-refactoring)
+
+i guess the main issue is what happens at 2: is it best to merge 
+GLIMMER-CISM-lanl into GLIMMER-CISM-2-trunk of vice versa? would be 
+helpful to know what the benefits of lanl->2 are.
+
+all the best
+
+tony
+
+Magnus Hagdorn wrote:
+> Hi all,
+> I have added an article on our web page
+> http://glimmer-cism.berlios.de/
+> outlining our plans for 2010.
+> 
+> Cheers
+> magi
+> 
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Feb  3 16:39:56 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 03 Feb 2010 15:39:56 +0000
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <4B696A36.5060709@bristol.ac.uk>
+References: <4B50583B.8010906@ed.ac.uk> <4B696A36.5060709@bristol.ac.uk>
+Message-ID: <4B6998CC.9080400@ed.ac.uk>
+
+Hi Tony,
+comments inline
+
+tony payne wrote:
+> hi magi
+> 
+> sorry for the delay in replying.  this is very helpful.  a few comments.
+> 
+> 1/ would be helpful to have a legend for the colour coding.  do they 
+> reflect trunks/branches?
+> 
+
+green branches are production/stable branches
+red branches are development branches
+
+
+> 2/ i had some trouble mapping the various names in the figure to 
+> trunks/branches on berlios.  it may be worth using the same wording for 
+> both or provide a table mapping the connections.
+> 
+> from what i can see we have (how should we refer to these 3 things? they 
+> are all trunks).
+> 
+> glimmer-cism
+> - trunk (your GLIMMER-1_trunk)
+> - some branches (not shown in the figure - fine they look minor)
+> 
+> glimmer-cism-lanl
+> - trunk (your GLIMMER-CISM-lanl)
+> - parallel branch (not shown)
+> - plume branch
+> - [chombo branch to come]
+> 
+> glimmer-cism2
+> - trunk (your GLIMMER-CISM-2-trunk)
+> - ian's refactoring (your GLIMMER-CISM-2-refactoring)
+> 
+
+yes, I tried to simplify the diagram. the glimmer-cism-lanl branches
+need to be considered at some stage. i'd suggest to first merge the lanl
+branch into gc2-trunk, then create corresponding branches for the
+current gcl branches and finally apply the differences between the
+gcl-branches and gcl-trunk to the new gc2-branches. we can figure that
+out later.
+
+> i guess the main issue is what happens at 2: is it best to merge 
+> GLIMMER-CISM-lanl into GLIMMER-CISM-2-trunk of vice versa? would be 
+> helpful to know what the benefits of lanl->2 are.
+> 
+
+i think you should view the gcl-trunk as a feature development branch
+which will get merged into the real trunk at some stage. the current
+gc2-trunk is essentially the old glimmer1-trunk with files rearranged.
+
+I hope this clarifies the diagram. I'll amend the image at some stage.
+
+
+Cheers
+magi
+
+
+> all the best
+> 
+> tony
+> 
+> Magnus Hagdorn wrote:
+>> Hi all,
+>> I have added an article on our web page
+>> http://glimmer-cism.berlios.de/
+>> outlining our plans for 2010.
+>>
+>> Cheers
+>> magi
+>>
+> 
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Feb  3 16:43:44 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 03 Feb 2010 15:43:44 +0000
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <4B69966B.3080100@lanl.gov>
+References: <4B50583B.8010906@ed.ac.uk> <4B696A36.5060709@bristol.ac.uk>
+	<4B69966B.3080100@lanl.gov>
+Message-ID: <4B6999B0.3010600@ed.ac.uk>
+
+Stephen Price wrote:
+> 
+> Magi,
+> 
+> A related question ... your diagram has
+> 
+> (1) "create a preview snapshot of the Glimmer-CISM-lanl branch in February"
+> 
+> and
+> 
+> (3) "make a release of Glimmer-CISM2-trunk which includes the higher 
+> order physics. This will become Glimmer-CISM-1.8-stable series. Aim for 
+> a release in time for EGU in May."
+> 
+> I'm not clear if (1) or (3) is the "beta" release that we'd talked 
+> about, but we had discussed releasing something along those lines in 
+> Feb. (or is that the "snapshot" mentioned in (1)?).
+> 
+> If (1) is the beta release, then is (3) what we've been discussing as 
+> the "refactored" release?
+> 
+
+Hi Steve and Tony,
+ok I admit to slightly changing what we discussed in that I introduced 
+another beta. They are both betas if you want:
+* item 1 is the February beta release based on the current 
+glimmer-cism-lanl trunk
+* item 2 is the beta arising from merging glimmer-cism-lanl trunk into 
+glimmer-cism2-trunk
+
+The refactored v2.0 release will happen afterwards. Does that make sense?
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jed at 59A2.org  Wed Feb  3 17:01:06 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 03 Feb 2010 17:01:06 +0100
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <4B6998CC.9080400@ed.ac.uk>
+References: <4B50583B.8010906@ed.ac.uk> <4B696A36.5060709@bristol.ac.uk>
+	<4B6998CC.9080400@ed.ac.uk>
+Message-ID: <87636ejol9.fsf@59A2.org>
+
+I see lots of plans for merging, but as far as I'm aware, no major
+merges in the past.  I don't really know how much the branches have
+diverged, but how concrete are the plans for how these merges are going
+to be done?
+
+How does merging interact with ISICLES (or other) parallelization?
+
+As a purely technical matter, when are you planning to switch to Git or
+Mercurial (I strongly recommend doing this before attempting any major
+merges).
+
+Jed
+
+
+From lipscomb at lanl.gov  Wed Feb  3 17:31:44 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 3 Feb 2010 09:31:44 -0700
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <4B6999B0.3010600@ed.ac.uk>
+References: <4B50583B.8010906@ed.ac.uk> <4B696A36.5060709@bristol.ac.uk>
+	<4B69966B.3080100@lanl.gov> <4B6999B0.3010600@ed.ac.uk>
+Message-ID: <F855FA78-E308-4D1C-998C-B1949CBEBF81@lanl.gov>
+
+
+Hi all (and Magnus in particular),
+
+One more merger to add to the list:  The changes made for CCSM (and  
+GCMs in general, including the Hadley Centre) need to find their way  
+onto the Glimmer-CISM-2 trunk at some point.  The major changes are:
+
+(1) adding functionality to Glint to receive the surface mass balance  
+as input from the climate model and downscale it to the Glimmer grid,  
+and also to upscale the new ice sheet geometry and return it to the  
+climate model.  This is currently done in an inelegant way, but could  
+be improved later along the lines suggested by Rupert recently.
+
+(2) adding exact restart, building on the current hotstart capability.
+
+Should we do this merger at a relatively early stage (e.g., before  
+merging glimmer-cism-lanl onto the Glimmer-CISM-2 trunk), or later?   
+These GCM-related changes are mostly independent of glimmer-cism-lanl  
+development.
+
+And given that we anticipate a merge, is it better to implement these  
+changes starting from the Glimmer-1 trunk or the Glimmer-CISM-2  
+trunk?  My current working implementation is on an old Glimmer 1.0  
+release.  I'd like to make these changes in an up-to-date version  
+which is suitable for public release in the near future (summer 2010),  
+while leaving a minimum of additional work to do later.
+
+Thanks,
+
+Bill
+
+
+On Feb 3, 2010, at 8:43 AM, Magnus Hagdorn wrote:
+
+> Stephen Price wrote:
+>>
+>> Magi,
+>>
+>> A related question ... your diagram has
+>>
+>> (1) "create a preview snapshot of the Glimmer-CISM-lanl branch in  
+>> February"
+>>
+>> and
+>>
+>> (3) "make a release of Glimmer-CISM2-trunk which includes the higher
+>> order physics. This will become Glimmer-CISM-1.8-stable series. Aim  
+>> for
+>> a release in time for EGU in May."
+>>
+>> I'm not clear if (1) or (3) is the "beta" release that we'd talked
+>> about, but we had discussed releasing something along those lines in
+>> Feb. (or is that the "snapshot" mentioned in (1)?).
+>>
+>> If (1) is the beta release, then is (3) what we've been discussing as
+>> the "refactored" release?
+>>
+>
+> Hi Steve and Tony,
+> ok I admit to slightly changing what we discussed in that I introduced
+> another beta. They are both betas if you want:
+> * item 1 is the February beta release based on the current
+> glimmer-cism-lanl trunk
+> * item 2 is the beta arising from merging glimmer-cism-lanl trunk into
+> glimmer-cism2-trunk
+>
+> The refactored v2.0 release will happen afterwards. Does that make  
+> sense?
+> Cheers
+> magi
+>
+>
+> -- 
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Feb  3 17:44:35 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 03 Feb 2010 16:44:35 +0000
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <F855FA78-E308-4D1C-998C-B1949CBEBF81@lanl.gov>
+References: <4B50583B.8010906@ed.ac.uk> <4B696A36.5060709@bristol.ac.uk>
+	<4B69966B.3080100@lanl.gov> <4B6999B0.3010600@ed.ac.uk>
+	<F855FA78-E308-4D1C-998C-B1949CBEBF81@lanl.gov>
+Message-ID: <4B69A7F3.4050700@ed.ac.uk>
+
+William Lipscomb wrote:
+> 
+> Hi all (and Magnus in particular),
+> 
+> One more merger to add to the list:  The changes made for CCSM (and GCMs 
+> in general, including the Hadley Centre) need to find their way onto the 
+> Glimmer-CISM-2 trunk at some point.  The major changes are:
+> 
+> (1) adding functionality to Glint to receive the surface mass balance as 
+> input from the climate model and downscale it to the Glimmer grid, and 
+> also to upscale the new ice sheet geometry and return it to the climate 
+> model.  This is currently done in an inelegant way, but could be 
+> improved later along the lines suggested by Rupert recently.
+> 
+> (2) adding exact restart, building on the current hotstart capability.
+> 
+> Should we do this merger at a relatively early stage (e.g., before 
+> merging glimmer-cism-lanl onto the Glimmer-CISM-2 trunk), or later?  
+> These GCM-related changes are mostly independent of glimmer-cism-lanl 
+> development.
+> 
+> And given that we anticipate a merge, is it better to implement these 
+> changes starting from the Glimmer-1 trunk or the Glimmer-CISM-2 trunk?  
+> My current working implementation is on an old Glimmer 1.0 release.  I'd 
+> like to make these changes in an up-to-date version which is suitable 
+> for public release in the near future (summer 2010), while leaving a 
+> minimum of additional work to do later.
+> 
+
+As suggested before, this should go into a branch on glimmer-cism2.
+I'll create this branch in the next wee while.
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Feb  3 18:07:25 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 03 Feb 2010 17:07:25 +0000
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <87636ejol9.fsf@59A2.org>
+References: <4B50583B.8010906@ed.ac.uk>
+	<4B696A36.5060709@bristol.ac.uk>	<4B6998CC.9080400@ed.ac.uk>
+	<87636ejol9.fsf@59A2.org>
+Message-ID: <4B69AD4D.5040801@ed.ac.uk>
+
+Jed Brown wrote:
+> I see lots of plans for merging, but as far as I'm aware, no major
+> merges in the past.  I don't really know how much the branches have
+> diverged, but how concrete are the plans for how these merges are going
+> to be done?
+> 
+the feeling is not too much, except for the refactoring branch.
+
+> How does merging interact with ISICLES (or other) parallelization?
+> 
+presumably we will need new branches once the GCL-trunk 
+(glimmer-cism-lanl) has been merged into GC2-trunk. The differences 
+between GCL-branch and its branch point will need to get ported to their 
+new branch off GC2-trunk.
+
+We really need to reduce the number of active branches - although as 
+said before git should be helpful there.
+
+> As a purely technical matter, when are you planning to switch to Git or
+> Mercurial (I strongly recommend doing this before attempting any major
+> merges).
+> 
+> 
+we have a git repo (and had it for while). but it's not populated yet. i 
+agree it would be good to take the plunge sooner rather than later, 
+certainly with all this merging of branches around the corner.
+
+I haven't found the time to play with git at all. If someone has itchy 
+fingers, please let me know.
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jed at 59A2.org  Wed Feb  3 18:54:59 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 03 Feb 2010 18:54:59 +0100
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <4B69AD4D.5040801@ed.ac.uk>
+References: <4B50583B.8010906@ed.ac.uk> <4B696A36.5060709@bristol.ac.uk>
+	<4B6998CC.9080400@ed.ac.uk> <87636ejol9.fsf@59A2.org>
+	<4B69AD4D.5040801@ed.ac.uk>
+Message-ID: <873a1ijjbg.fsf@59A2.org>
+
+On Wed, 03 Feb 2010 17:07:25 +0000, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> the feeling is not too much, except for the refactoring branch.
+
+If the refactoring branch is the "future" then you have to decide how to
+merge all the features developed in various other branches (e.g. GCL)
+into it.  This may be a multi-step process of first bringing them into
+something common, and then porting them over, but who is going to do all
+of this, and when?
+
+> We really need to reduce the number of active branches - although as 
+> said before git should be helpful there.
+
+So there is no particular problem with many branches as long as they are
+merged regularly.  The Linux kernel has over 150 active branches, but
+there is a very well-defined merge process so it doesn't cause a
+problem.  Branches that aren't frequently merged are a big problem, and
+the tools have much less information if you're trying to merge a year of
+uncorrelated development versus a month.
+
+> we have a git repo (and had it for while). but it's not populated yet.
+
+How is having an empty repository different from none at all?  If you
+aren't using it, then it doesn't exist.
+
+Jed
+
+
+From Magnus.Hagdorn at ed.ac.uk  Wed Feb  3 21:28:08 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Wed, 03 Feb 2010 20:28:08 +0000
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <873a1ijjbg.fsf@59A2.org>
+References: <4B50583B.8010906@ed.ac.uk>
+	<4B696A36.5060709@bristol.ac.uk>	<4B6998CC.9080400@ed.ac.uk>
+	<87636ejol9.fsf@59A2.org>	<4B69AD4D.5040801@ed.ac.uk>
+	<873a1ijjbg.fsf@59A2.org>
+Message-ID: <4B69DC58.40007@ed.ac.uk>
+
+Jed Brown wrote:
+> On Wed, 03 Feb 2010 17:07:25 +0000, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+>> the feeling is not too much, except for the refactoring branch.
+> 
+> If the refactoring branch is the "future" then you have to decide how to
+> merge all the features developed in various other branches (e.g. GCL)
+> into it.  This may be a multi-step process of first bringing them into
+> something common, and then porting them over, but who is going to do all
+> of this, and when?
+> 
+
+absolutely, and that's what gc2-trunk is. as to who does the work. well, 
+that has to be seen. at the end of the day, i think those people who 
+create a branch surely must have an interest in merging it into trunk so 
+it gets more widely used.
+
+>> We really need to reduce the number of active branches - although as 
+>> said before git should be helpful there.
+> 
+> So there is no particular problem with many branches as long as they are
+> merged regularly.  The Linux kernel has over 150 active branches, but
+> there is a very well-defined merge process so it doesn't cause a
+> problem.  Branches that aren't frequently merged are a big problem, and
+> the tools have much less information if you're trying to merge a year of
+> uncorrelated development versus a month.
+> 
+
+again, i agree. however, we are currently in the situation where we have 
+to sort out a number of branches and developments that go into various 
+directions.
+
+>> we have a git repo (and had it for while). but it's not populated yet.
+> 
+> How is having an empty repository different from none at all?  If you
+> aren't using it, then it doesn't exist.
+> 
+>
+it's slightly better than having none at all, in that the repo is 
+created and ready to be used. as i said, i am happy for volunteers to 
+get the gits stuff going.
+
+magi
+
+
+
+
+From jed at 59A2.org  Wed Feb  3 22:47:37 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Wed, 03 Feb 2010 22:47:37 +0100
+Subject: [Glimmer-cism-devel] plans for 2010
+In-Reply-To: <4B69DC58.40007@ed.ac.uk>
+References: <4B50583B.8010906@ed.ac.uk> <4B696A36.5060709@bristol.ac.uk>
+	<4B6998CC.9080400@ed.ac.uk> <87636ejol9.fsf@59A2.org>
+	<4B69AD4D.5040801@ed.ac.uk> <873a1ijjbg.fsf@59A2.org>
+	<4B69DC58.40007@ed.ac.uk>
+Message-ID: <87wryuhtza.fsf@59A2.org>
+
+On Wed, 03 Feb 2010 20:28:08 +0000, Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk> wrote:
+> it's slightly better than having none at all, in that the repo is 
+> created and ready to be used. as i said, i am happy for volunteers to 
+> get the gits stuff going.
+
+It's a simple task, either git svn clone and fix up the branches, or use
+a tool like svn2git which automates this, then push.  But make sure
+everyone is ready, it will be somewhat awkward if you move all of your
+branches to git but some people stick with subversion and want to merge
+with you (purely upstream should be okay, but 2-way is a problem since
+svn's data model is less expressive).
+
+Jed
+
+
+From lipscomb at lanl.gov  Fri Feb  5 17:14:20 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 5 Feb 2010 09:14:20 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+Message-ID: <874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>
+
+
+Hi all,
+
+I'm still working on exact restart of Glimmer.  To make sure it wasn't  
+an issue of machine, compiler, or obsolete code, I checked out the  
+current glimmer-cism trunk and got it running on a LANL machine  
+(coyote) using the Intel compiler.  One of the restart fields that I'm  
+having trouble with is wgrd.  (If anyone wonders why wgrd is needed  
+for exact restart, I can explain offline.)
+
+I did the following test in glint-example:
+
+(1) Write the 3D field in question (model%velocity%wgrd) to a Fortran  
+unformatted binary file (wgrd.before_restart) just before writing to  
+the netCDF hotstart file (in double precision).
+(2) As a sanity check, read in wgrd from wgrd.before_restart and write  
+it to another file (wgrd.from_binary) to make sure I get the same  
+values.
+(3) Read in the netCDF hotstart file, assign values to model%velocity 
+%wgrd, and write those values to another unformatted binary file  
+(wgrd.from_restart).
+(4) Compare files:
+
+[lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart  
+wgrd.from_binary       ! no difference, as expected
+
+[lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart  
+wgrd.from_netcdf       ! these need to be the same for exact restart
+151724 354 355
+151804 334 335
+165212 247 246
+176956 224 223
+177068  77  76
+177308 271 272
+177324 217 216
+177660  54  55
+177836 174 175
+177964 214 215
+178348 101 102    ! followed by many similar lines, always with the  
+second two columns disagreeing by one bit.
+
+So it would seem that a bit gets flipped between the time the field is  
+written to netCDF and the time it's read back and assigned to a  
+variable.  I'm wondering if this is standard netCDF behavior and if  
+there's a simple fix.
+
+Gethin, I'll prepare a tarball and send it to you so you can try to  
+duplicate the problem.
+
+Thanks,
+
+Bill
+
+
+On Feb 2, 2010, at 3:47 AM, DAG Williams, Geographical Sciences wrote:
+
+>
+> On the topic of exact restarts:
+>
+> Hi Bill,
+>
+> This sounds interesting, could you forward a tarball, so that I can  
+> try to
+> replicate the problem on my machines?
+>
+> I think in principle that NetCDF should be able to do the job for  
+> you.  I
+> wonder if there has been an implicit type conversion somewhere in  
+> the chain
+> to/from the file.
+>
+> Cheers,
+> Gethin.
+>
+>
+> --On 30 January 2010 12:00 +0100
+> glimmer-cism-devel-request at lists.berlios.de wrote:
+>
+>> Send Glimmer-cism-devel mailing list submissions to
+>> 	glimmer-cism-devel at lists.berlios.de
+>>
+>> To subscribe or unsubscribe via the World Wide Web, visit
+>> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>> or, via email, send a message with subject or body 'help' to
+>> 	glimmer-cism-devel-request at lists.berlios.de
+>>
+>> You can reach the person managing the list at
+>> 	glimmer-cism-devel-owner at lists.berlios.de
+>>
+>> When replying, please edit your Subject line so it is more specific
+>> than "Re: Contents of Glimmer-cism-devel digest..."
+>>
+>>
+>> Today's Topics:
+>>
+>>   1. Re: exact restart (Ian Rutt)
+>>   2. Re: exact restart (Jed Brown)
+>>
+>>
+>> ----------------------------------------------------------------------
+>>
+>> Message: 1
+>> Date: Fri, 29 Jan 2010 16:41:36 +0000
+>> From: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+>> Subject: Re: [Glimmer-cism-devel] exact restart
+>> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>> Cc: r.gladstone at bristol.ac.uk,	Glimmer-CISM developer list
+>> 	<glimmer-cism-devel at lists.berlios.de>
+>> Message-ID: <4B630FC0.6050003 at swansea.ac.uk>
+>> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>>
+>>
+>> Hi All,
+>>
+>> I've moved this to the developer list, since it has wider relevance -
+>> hope that's OK.
+>>
+>> That's a tricky kind of thing to diagnose and fix. It sounds like a
+>> wrinkle in the translation from machine representation to file and  
+>> back
+>> again, probably to do with the innards of the NetCDF library. I can't
+>> remember what NetCDF file types the restart library uses (or where  
+>> that
+>> code resides), but possibly if one were to promote them to the next
+>> precision up, as it were, that would fix your problem, by giving you
+>> greater precision in the file than needed.
+>>
+>> I'm afraid I don't have time at the moment to track it down - I  
+>> hope the
+>> clue is helpful, though.
+>>
+>> Cheers,
+>>
+>> Ian
+>>
+>> Dr Ian Rutt
+>> School of the Environment and Society
+>> Swansea University
+>> Singleton Park
+>> Swansea
+>> SA2 8PP
+>> Tel. (01792) 602685
+>> i.c.rutt at swansea.ac.uk
+>>
+>>
+>> Magnus Hagdorn wrote:
+>>> William H. Lipscomb wrote:
+>>>> Hi Ian and Magnus,
+>>>>
+>>>> I'm trying to get exact restart working for glint-example in  
+>>>> Glimmer
+>>>> version 1.0, in preparation for getting exact restart in CCSM.  I  
+>>>> am
+>>>> very close--I think I am writing out all the necessary fields at  
+>>>> the
+>>>> required precision--but I'm not quite there.  Here is one issue:   
+>>>> When
+>>>> I read in wgrd in certain grid cells, the value read in is not  
+>>>> quite
+>>>> identical to the value written out.  For instance, in layer 1 of  
+>>>> cell
+>>>> (30,50), I get this:
+>>>>
+>>>> -0.09466907827340063   ! value just before writing to netCDF file
+>>>>
+>>>> -0.09466907827340064   ! value just after reading from netCDF file
+>>>>
+>>>> The difference is only in the last digit, and it doesn't lead to a
+>>>> noticeable difference in the simulation.  However, it does destroy
+>>>> bit-for-bit agreement, which is the CCSM requirement.
+>>>>
+>>>> Can you think of any reason why this should happen?  I've talked  
+>>>> to CCSM
+>>>> folks who use netCDF for restart and aren't having any problems.   
+>>>> I'm
+>>>> running on a linux cluster that is pretty well vetted.  I'm  
+>>>> reading and
+>>>> writing with the same executable, which is built using the Lahey  
+>>>> lf95
+>>>> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562,  
+>>>> which
+>>>> should be compatible with the compiler.  This problem is starting  
+>>>> to
+>>>> drive
+>>>> me crazy, so I'd be grateful for any ideas you have.
+>>>>
+>>>> I'm copying this to Rupert in case he's run across anything  
+>>>> similar.
+>>>>
+>>>>
+>>> [maybe for developer list?]
+>>>
+>>> Hi Bill,
+>>> you could decrease the precision to less than machine precision.  
+>>> this
+>>> way you would be able to ensure you always get the same value.
+>>> magi
+>>>
+>>>
+>>>
+>>>
+>>
+>>
+>> ------------------------------
+>>
+>> Message: 2
+>> Date: Fri, 29 Jan 2010 18:08:31 +0100
+>> From: Jed Brown <jed at 59A2.org>
+>> Subject: Re: [Glimmer-cism-devel] exact restart
+>> To: William Lipscomb <lipscomb at lanl.gov>
+>> Cc: r.gladstone at bristol.ac.uk,	Glimmer-CISM developer list
+>> 	<glimmer-cism-devel at lists.berlios.de>,	Ian Rutt
+>> 	<I.C.Rutt at swansea.ac.uk>
+>> Message-ID: <87pr4syh2o.fsf at 59A2.org>
+>> Content-Type: text/plain; charset=us-ascii
+>>
+>>
+>>>>> I'm trying to get exact restart working for glint-example in  
+>>>>> Glimmer
+>>>>> version 1.0, in preparation for getting exact restart in CCSM.   
+>>>>> I am
+>>>>> very close--I think I am writing out all the necessary fields at  
+>>>>> the
+>>>>> required precision--but I'm not quite there.  Here is one issue:
+>>>>> When I read in wgrd in certain grid cells, the value read in is  
+>>>>> not
+>>>>> quite identical to the value written out.  For instance, in  
+>>>>> layer 1
+>>>>> of cell (30,50), I get this:
+>>>>>
+>>>>> -0.09466907827340063   ! value just before writing to netCDF file
+>>
+>> Are you writing this string out where the value was computed, or  
+>> after
+>> it has been stored in the array (i.e. are you certain that the  
+>> register
+>> that computed *this* value has been flushed after it was computed)?
+>>
+>>>>> Can you think of any reason why this should happen?  I've talked  
+>>>>> to
+>>>>> CCSM folks who use netCDF for restart and aren't having any  
+>>>>> problems.
+>>>>> I'm running on a linux cluster that is pretty well vetted.  I'm
+>>>>> reading and writing with the same executable, which is built using
+>>>>> the Lahey lf95 compiler.  The netCDF library is
+>>>>> netcdf-3.6.3-gcc-4.1.2-lf9562, which should be compatible with the
+>>>>> compiler.  This problem is starting to  drive me crazy, so I'd be
+>>>>> grateful for any ideas you have.
+>>
+>> Are these running in 32 or 64-bit mode?  Have you set -ffloat-store  
+>> (or
+>> whatever Lahey option has that meaning)?
+>>
+>> Jed
+>>
+>>
+>> ------------------------------
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>>
+>> End of Glimmer-cism-devel Digest, Vol 7, Issue 5
+>> ************************************************
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From lipscomb at lanl.gov  Wed Feb 10 17:52:28 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Wed, 10 Feb 2010 09:52:28 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>
+Message-ID: <8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+
+
+Hi again,
+
+Thanks to Gethin Williams for figuring out why a bit was getting  
+flipped in some of the netCDF output fields.  These fields were  
+multiplied by a scaling factor before writing to netCDF, then divided  
+by that factor after reading the fields back in.  In floating-point  
+arithmetic, it is not always the case that (a*b)/b = a.
+
+A fairly simple solution is to create in glide_vars.def a set of new  
+input-output variables specifically for hotstart (e.g., thck_hot,  
+temp_hot).  These variable will be written out in double precision and  
+without scaling factors.   Other IO variables (e.g., thck, temp) are  
+intended for diagnostic purposes; these are written out in single  
+precision (to save memory) and with appropriate scaling factors (so  
+that the units are user-friendly).
+
+I now have a modified version of the glimmer-cism trunk that starts  
+exactly in glint_example test runs.  The fields written to restart  
+(with a _hot suffix) are the following: relx, thk, thkmask, topg,  
+bheatflx, bmlt, bwat, uvel, vvel, wgrd, flwa, temp, and litho_temp.
+
+This is a longer list of restart variables than I would like.  In  
+particular, there are several 3D fields (uvel, vvel, wgrd, flwa, and  
+temp) that require lots of memory.  Of these 3D fields, it ought to be  
+possible to store temp alone.  We can then derive flwa and the 3D  
+velocity field from other state variables.  That these fields are  
+needed for exact restart is an accident of code organization--and in  
+particular, of the fact that temperature evolution is computed before  
+thickness evolution during each timestep.  The current ordering is (1)  
+temperature evolution, (2) thickness evolution, and (3) isostasy.
+
+I would propose that we support the option of calling the various  
+stages of glide in a different order:  (1) thickness evolution, (2)  
+isostasy, and (3) temperature evolution.   The changes would mostly be  
+at a high level.  We would rename glide_tstep_p1 to something more  
+descriptive (e.g.,, glide_tstep_temperature), and likewise for  
+glide_tstep_p2 and glide_tstep_p3.  Then we would change the order of  
+calls in the drivers, such as simple_glide.  We could use a flag to  
+support more than one ordering, if there are users who are comfortable  
+with the existing order and reluctant to switch.
+
+What do people think of this idea?  I'd like some feedback before I  
+start switching things around.  Development would initially take place  
+on the new glimmer-cism-gcm branch of glimmer-cism2.  Ultimately these  
+changes would be merged onto the glimmer-cism2 trunk.
+
+Thanks,
+
+Bill
+
+
+On Feb 5, 2010, at 9:14 AM, William Lipscomb wrote:
+
+>
+> Hi all,
+>
+> I'm still working on exact restart of Glimmer.  To make sure it wasn't
+> an issue of machine, compiler, or obsolete code, I checked out the
+> current glimmer-cism trunk and got it running on a LANL machine
+> (coyote) using the Intel compiler.  One of the restart fields that I'm
+> having trouble with is wgrd.  (If anyone wonders why wgrd is needed
+> for exact restart, I can explain offline.)
+>
+> I did the following test in glint-example:
+>
+> (1) Write the 3D field in question (model%velocity%wgrd) to a Fortran
+> unformatted binary file (wgrd.before_restart) just before writing to
+> the netCDF hotstart file (in double precision).
+> (2) As a sanity check, read in wgrd from wgrd.before_restart and write
+> it to another file (wgrd.from_binary) to make sure I get the same
+> values.
+> (3) Read in the netCDF hotstart file, assign values to model%velocity
+> %wgrd, and write those values to another unformatted binary file
+> (wgrd.from_restart).
+> (4) Compare files:
+>
+> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+> wgrd.from_binary       ! no difference, as expected
+>
+> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+> wgrd.from_netcdf       ! these need to be the same for exact restart
+> 151724 354 355
+> 151804 334 335
+> 165212 247 246
+> 176956 224 223
+> 177068  77  76
+> 177308 271 272
+> 177324 217 216
+> 177660  54  55
+> 177836 174 175
+> 177964 214 215
+> 178348 101 102    ! followed by many similar lines, always with the
+> second two columns disagreeing by one bit.
+>
+> So it would seem that a bit gets flipped between the time the field is
+> written to netCDF and the time it's read back and assigned to a
+> variable.  I'm wondering if this is standard netCDF behavior and if
+> there's a simple fix.
+>
+> Gethin, I'll prepare a tarball and send it to you so you can try to
+> duplicate the problem.
+>
+> Thanks,
+>
+> Bill
+>
+>
+> On Feb 2, 2010, at 3:47 AM, DAG Williams, Geographical Sciences wrote:
+>
+>>
+>> On the topic of exact restarts:
+>>
+>> Hi Bill,
+>>
+>> This sounds interesting, could you forward a tarball, so that I can
+>> try to
+>> replicate the problem on my machines?
+>>
+>> I think in principle that NetCDF should be able to do the job for
+>> you.  I
+>> wonder if there has been an implicit type conversion somewhere in
+>> the chain
+>> to/from the file.
+>>
+>> Cheers,
+>> Gethin.
+>>
+>>
+>> --On 30 January 2010 12:00 +0100
+>> glimmer-cism-devel-request at lists.berlios.de wrote:
+>>
+>>> Send Glimmer-cism-devel mailing list submissions to
+>>> 	glimmer-cism-devel at lists.berlios.de
+>>>
+>>> To subscribe or unsubscribe via the World Wide Web, visit
+>>> 	https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>> or, via email, send a message with subject or body 'help' to
+>>> 	glimmer-cism-devel-request at lists.berlios.de
+>>>
+>>> You can reach the person managing the list at
+>>> 	glimmer-cism-devel-owner at lists.berlios.de
+>>>
+>>> When replying, please edit your Subject line so it is more specific
+>>> than "Re: Contents of Glimmer-cism-devel digest..."
+>>>
+>>>
+>>> Today's Topics:
+>>>
+>>>  1. Re: exact restart (Ian Rutt)
+>>>  2. Re: exact restart (Jed Brown)
+>>>
+>>>
+>>> ----------------------------------------------------------------------
+>>>
+>>> Message: 1
+>>> Date: Fri, 29 Jan 2010 16:41:36 +0000
+>>> From: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>>> Cc: r.gladstone at bristol.ac.uk,	Glimmer-CISM developer list
+>>> 	<glimmer-cism-devel at lists.berlios.de>
+>>> Message-ID: <4B630FC0.6050003 at swansea.ac.uk>
+>>> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>>>
+>>>
+>>> Hi All,
+>>>
+>>> I've moved this to the developer list, since it has wider  
+>>> relevance -
+>>> hope that's OK.
+>>>
+>>> That's a tricky kind of thing to diagnose and fix. It sounds like a
+>>> wrinkle in the translation from machine representation to file and
+>>> back
+>>> again, probably to do with the innards of the NetCDF library. I  
+>>> can't
+>>> remember what NetCDF file types the restart library uses (or where
+>>> that
+>>> code resides), but possibly if one were to promote them to the next
+>>> precision up, as it were, that would fix your problem, by giving you
+>>> greater precision in the file than needed.
+>>>
+>>> I'm afraid I don't have time at the moment to track it down - I
+>>> hope the
+>>> clue is helpful, though.
+>>>
+>>> Cheers,
+>>>
+>>> Ian
+>>>
+>>> Dr Ian Rutt
+>>> School of the Environment and Society
+>>> Swansea University
+>>> Singleton Park
+>>> Swansea
+>>> SA2 8PP
+>>> Tel. (01792) 602685
+>>> i.c.rutt at swansea.ac.uk
+>>>
+>>>
+>>> Magnus Hagdorn wrote:
+>>>> William H. Lipscomb wrote:
+>>>>> Hi Ian and Magnus,
+>>>>>
+>>>>> I'm trying to get exact restart working for glint-example in
+>>>>> Glimmer
+>>>>> version 1.0, in preparation for getting exact restart in CCSM.  I
+>>>>> am
+>>>>> very close--I think I am writing out all the necessary fields at
+>>>>> the
+>>>>> required precision--but I'm not quite there.  Here is one issue:
+>>>>> When
+>>>>> I read in wgrd in certain grid cells, the value read in is not
+>>>>> quite
+>>>>> identical to the value written out.  For instance, in layer 1 of
+>>>>> cell
+>>>>> (30,50), I get this:
+>>>>>
+>>>>> -0.09466907827340063   ! value just before writing to netCDF file
+>>>>>
+>>>>> -0.09466907827340064   ! value just after reading from netCDF file
+>>>>>
+>>>>> The difference is only in the last digit, and it doesn't lead to a
+>>>>> noticeable difference in the simulation.  However, it does destroy
+>>>>> bit-for-bit agreement, which is the CCSM requirement.
+>>>>>
+>>>>> Can you think of any reason why this should happen?  I've talked
+>>>>> to CCSM
+>>>>> folks who use netCDF for restart and aren't having any problems.
+>>>>> I'm
+>>>>> running on a linux cluster that is pretty well vetted.  I'm
+>>>>> reading and
+>>>>> writing with the same executable, which is built using the Lahey
+>>>>> lf95
+>>>>> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562,
+>>>>> which
+>>>>> should be compatible with the compiler.  This problem is starting
+>>>>> to
+>>>>> drive
+>>>>> me crazy, so I'd be grateful for any ideas you have.
+>>>>>
+>>>>> I'm copying this to Rupert in case he's run across anything
+>>>>> similar.
+>>>>>
+>>>>>
+>>>> [maybe for developer list?]
+>>>>
+>>>> Hi Bill,
+>>>> you could decrease the precision to less than machine precision.
+>>>> this
+>>>> way you would be able to ensure you always get the same value.
+>>>> magi
+>>>>
+>>>>
+>>>>
+>>>>
+>>>
+>>>
+>>> ------------------------------
+>>>
+>>> Message: 2
+>>> Date: Fri, 29 Jan 2010 18:08:31 +0100
+>>> From: Jed Brown <jed at 59A2.org>
+>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>> To: William Lipscomb <lipscomb at lanl.gov>
+>>> Cc: r.gladstone at bristol.ac.uk,	Glimmer-CISM developer list
+>>> 	<glimmer-cism-devel at lists.berlios.de>,	Ian Rutt
+>>> 	<I.C.Rutt at swansea.ac.uk>
+>>> Message-ID: <87pr4syh2o.fsf at 59A2.org>
+>>> Content-Type: text/plain; charset=us-ascii
+>>>
+>>>
+>>>>>> I'm trying to get exact restart working for glint-example in
+>>>>>> Glimmer
+>>>>>> version 1.0, in preparation for getting exact restart in CCSM.
+>>>>>> I am
+>>>>>> very close--I think I am writing out all the necessary fields at
+>>>>>> the
+>>>>>> required precision--but I'm not quite there.  Here is one issue:
+>>>>>> When I read in wgrd in certain grid cells, the value read in is
+>>>>>> not
+>>>>>> quite identical to the value written out.  For instance, in
+>>>>>> layer 1
+>>>>>> of cell (30,50), I get this:
+>>>>>>
+>>>>>> -0.09466907827340063   ! value just before writing to netCDF file
+>>>
+>>> Are you writing this string out where the value was computed, or
+>>> after
+>>> it has been stored in the array (i.e. are you certain that the
+>>> register
+>>> that computed *this* value has been flushed after it was computed)?
+>>>
+>>>>>> Can you think of any reason why this should happen?  I've talked
+>>>>>> to
+>>>>>> CCSM folks who use netCDF for restart and aren't having any
+>>>>>> problems.
+>>>>>> I'm running on a linux cluster that is pretty well vetted.  I'm
+>>>>>> reading and writing with the same executable, which is built  
+>>>>>> using
+>>>>>> the Lahey lf95 compiler.  The netCDF library is
+>>>>>> netcdf-3.6.3-gcc-4.1.2-lf9562, which should be compatible with  
+>>>>>> the
+>>>>>> compiler.  This problem is starting to  drive me crazy, so I'd be
+>>>>>> grateful for any ideas you have.
+>>>
+>>> Are these running in 32 or 64-bit mode?  Have you set -ffloat-store
+>>> (or
+>>> whatever Lahey option has that meaning)?
+>>>
+>>> Jed
+>>>
+>>>
+>>> ------------------------------
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>
+>>>
+>>> End of Glimmer-cism-devel Digest, Vol 7, Issue 5
+>>> ************************************************
+>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> *******************************************************************************
+> William H. Lipscomb					E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory		Phone: (505) 667-0395
+> Group T-3, Mail Stop B216			Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *******************************************************************************
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From jesse.v.johnson at gmail.com  Wed Feb 10 23:14:17 2010
+From: jesse.v.johnson at gmail.com (Jesse Johnson)
+Date: Wed, 10 Feb 2010 15:14:17 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>
+	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+Message-ID: <9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+
+Hi All,
+
+Thanks Gethin, I was wondering why that was happening.
+
+I would propose that we try and eliminate rescaling to fix the problem
+with least significant bits in exact restarts. That should do it,
+right? At this point, I think it's just glam that would need to
+modified to eliminate rescaling.
+
+For different reasons, I support the ability to move away from the way
+drivers work using tstep_p1, tstep_p2, tstep_p3.
+
+I would argue that we keep those functions, so things that use them
+are not broken, and instead work on a new set of drivers that make
+explicit calls to only the dynamical modules they need. For example,
+after doing the same configuration file parsing that you would have in
+any of the other drivers, a time loop like this:
+
+  do while(time.le.model%numerics%tend)
+     call geometry_derivs(model)
+
+     call run_ho_diagnostic(model)
+
+     call timeevoltemp(model, model%options%whichtemp)
+
+     call inc_remap_driver(model)
+
+     ! write to netCDF file
+     call glide_io_writeall(model,model)
+
+     ! increment time counter
+     time = time + get_tinc(model)
+     ! and the internal clock
+     model%numerics%time = time
+  end do
+
+where if there is a gotcha (like needing to compute the geometry
+derivatives in advance), it would probably be better to pull the
+function call into the dynamical module, either directly, or by
+writing a short cover subroutine in glide.F90.
+
+Compiling such a driver could be done in branch, but it would probably
+be easier to keep it in a separate directory and link to glimmer libs
+in the build process, see Magnus' example directory.
+
+Jesse
+
+
+
+
+
+On Wed, Feb 10, 2010 at 9:52 AM, William Lipscomb <lipscomb at lanl.gov> wrote:
+>
+> Hi again,
+>
+> Thanks to Gethin Williams for figuring out why a bit was getting
+> flipped in some of the netCDF output fields. ?These fields were
+> multiplied by a scaling factor before writing to netCDF, then divided
+> by that factor after reading the fields back in. ?In floating-point
+> arithmetic, it is not always the case that (a*b)/b = a.
+>
+> A fairly simple solution is to create in glide_vars.def a set of new
+> input-output variables specifically for hotstart (e.g., thck_hot,
+> temp_hot). ?These variable will be written out in double precision and
+> without scaling factors. ? Other IO variables (e.g., thck, temp) are
+> intended for diagnostic purposes; these are written out in single
+> precision (to save memory) and with appropriate scaling factors (so
+> that the units are user-friendly).
+>
+> I now have a modified version of the glimmer-cism trunk that starts
+> exactly in glint_example test runs. ?The fields written to restart
+> (with a _hot suffix) are the following: relx, thk, thkmask, topg,
+> bheatflx, bmlt, bwat, uvel, vvel, wgrd, flwa, temp, and litho_temp.
+>
+> This is a longer list of restart variables than I would like. ?In
+> particular, there are several 3D fields (uvel, vvel, wgrd, flwa, and
+> temp) that require lots of memory. ?Of these 3D fields, it ought to be
+> possible to store temp alone. ?We can then derive flwa and the 3D
+> velocity field from other state variables. ?That these fields are
+> needed for exact restart is an accident of code organization--and in
+> particular, of the fact that temperature evolution is computed before
+> thickness evolution during each timestep. ?The current ordering is (1)
+> temperature evolution, (2) thickness evolution, and (3) isostasy.
+>
+> I would propose that we support the option of calling the various
+> stages of glide in a different order: ?(1) thickness evolution, (2)
+> isostasy, and (3) temperature evolution. ? The changes would mostly be
+> at a high level. ?We would rename glide_tstep_p1 to something more
+> descriptive (e.g.,, glide_tstep_temperature), and likewise for
+> glide_tstep_p2 and glide_tstep_p3. ?Then we would change the order of
+> calls in the drivers, such as simple_glide. ?We could use a flag to
+> support more than one ordering, if there are users who are comfortable
+> with the existing order and reluctant to switch.
+>
+> What do people think of this idea? ?I'd like some feedback before I
+> start switching things around. ?Development would initially take place
+> on the new glimmer-cism-gcm branch of glimmer-cism2. ?Ultimately these
+> changes would be merged onto the glimmer-cism2 trunk.
+>
+> Thanks,
+>
+> Bill
+>
+>
+> On Feb 5, 2010, at 9:14 AM, William Lipscomb wrote:
+>
+>>
+>> Hi all,
+>>
+>> I'm still working on exact restart of Glimmer. ?To make sure it wasn't
+>> an issue of machine, compiler, or obsolete code, I checked out the
+>> current glimmer-cism trunk and got it running on a LANL machine
+>> (coyote) using the Intel compiler. ?One of the restart fields that I'm
+>> having trouble with is wgrd. ?(If anyone wonders why wgrd is needed
+>> for exact restart, I can explain offline.)
+>>
+>> I did the following test in glint-example:
+>>
+>> (1) Write the 3D field in question (model%velocity%wgrd) to a Fortran
+>> unformatted binary file (wgrd.before_restart) just before writing to
+>> the netCDF hotstart file (in double precision).
+>> (2) As a sanity check, read in wgrd from wgrd.before_restart and write
+>> it to another file (wgrd.from_binary) to make sure I get the same
+>> values.
+>> (3) Read in the netCDF hotstart file, assign values to model%velocity
+>> %wgrd, and write those values to another unformatted binary file
+>> (wgrd.from_restart).
+>> (4) Compare files:
+>>
+>> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+>> wgrd.from_binary ? ? ? ! no difference, as expected
+>>
+>> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+>> wgrd.from_netcdf ? ? ? ! these need to be the same for exact restart
+>> 151724 354 355
+>> 151804 334 335
+>> 165212 247 246
+>> 176956 224 223
+>> 177068 ?77 ?76
+>> 177308 271 272
+>> 177324 217 216
+>> 177660 ?54 ?55
+>> 177836 174 175
+>> 177964 214 215
+>> 178348 101 102 ? ?! followed by many similar lines, always with the
+>> second two columns disagreeing by one bit.
+>>
+>> So it would seem that a bit gets flipped between the time the field is
+>> written to netCDF and the time it's read back and assigned to a
+>> variable. ?I'm wondering if this is standard netCDF behavior and if
+>> there's a simple fix.
+>>
+>> Gethin, I'll prepare a tarball and send it to you so you can try to
+>> duplicate the problem.
+>>
+>> Thanks,
+>>
+>> Bill
+>>
+>>
+>> On Feb 2, 2010, at 3:47 AM, DAG Williams, Geographical Sciences wrote:
+>>
+>>>
+>>> On the topic of exact restarts:
+>>>
+>>> Hi Bill,
+>>>
+>>> This sounds interesting, could you forward a tarball, so that I can
+>>> try to
+>>> replicate the problem on my machines?
+>>>
+>>> I think in principle that NetCDF should be able to do the job for
+>>> you. ?I
+>>> wonder if there has been an implicit type conversion somewhere in
+>>> the chain
+>>> to/from the file.
+>>>
+>>> Cheers,
+>>> Gethin.
+>>>
+>>>
+>>> --On 30 January 2010 12:00 +0100
+>>> glimmer-cism-devel-request at lists.berlios.de wrote:
+>>>
+>>>> Send Glimmer-cism-devel mailing list submissions to
+>>>> ? ? glimmer-cism-devel at lists.berlios.de
+>>>>
+>>>> To subscribe or unsubscribe via the World Wide Web, visit
+>>>> ? ? https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>> or, via email, send a message with subject or body 'help' to
+>>>> ? ? glimmer-cism-devel-request at lists.berlios.de
+>>>>
+>>>> You can reach the person managing the list at
+>>>> ? ? glimmer-cism-devel-owner at lists.berlios.de
+>>>>
+>>>> When replying, please edit your Subject line so it is more specific
+>>>> than "Re: Contents of Glimmer-cism-devel digest..."
+>>>>
+>>>>
+>>>> Today's Topics:
+>>>>
+>>>> ?1. Re: exact restart (Ian Rutt)
+>>>> ?2. Re: exact restart (Jed Brown)
+>>>>
+>>>>
+>>>> ----------------------------------------------------------------------
+>>>>
+>>>> Message: 1
+>>>> Date: Fri, 29 Jan 2010 16:41:36 +0000
+>>>> From: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+>>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>>> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>>>> Cc: r.gladstone at bristol.ac.uk, ? ? ?Glimmer-CISM developer list
+>>>> ? ? <glimmer-cism-devel at lists.berlios.de>
+>>>> Message-ID: <4B630FC0.6050003 at swansea.ac.uk>
+>>>> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>>>>
+>>>>
+>>>> Hi All,
+>>>>
+>>>> I've moved this to the developer list, since it has wider
+>>>> relevance -
+>>>> hope that's OK.
+>>>>
+>>>> That's a tricky kind of thing to diagnose and fix. It sounds like a
+>>>> wrinkle in the translation from machine representation to file and
+>>>> back
+>>>> again, probably to do with the innards of the NetCDF library. I
+>>>> can't
+>>>> remember what NetCDF file types the restart library uses (or where
+>>>> that
+>>>> code resides), but possibly if one were to promote them to the next
+>>>> precision up, as it were, that would fix your problem, by giving you
+>>>> greater precision in the file than needed.
+>>>>
+>>>> I'm afraid I don't have time at the moment to track it down - I
+>>>> hope the
+>>>> clue is helpful, though.
+>>>>
+>>>> Cheers,
+>>>>
+>>>> Ian
+>>>>
+>>>> Dr Ian Rutt
+>>>> School of the Environment and Society
+>>>> Swansea University
+>>>> Singleton Park
+>>>> Swansea
+>>>> SA2 8PP
+>>>> Tel. (01792) 602685
+>>>> i.c.rutt at swansea.ac.uk
+>>>>
+>>>>
+>>>> Magnus Hagdorn wrote:
+>>>>> William H. Lipscomb wrote:
+>>>>>> Hi Ian and Magnus,
+>>>>>>
+>>>>>> I'm trying to get exact restart working for glint-example in
+>>>>>> Glimmer
+>>>>>> version 1.0, in preparation for getting exact restart in CCSM. ?I
+>>>>>> am
+>>>>>> very close--I think I am writing out all the necessary fields at
+>>>>>> the
+>>>>>> required precision--but I'm not quite there. ?Here is one issue:
+>>>>>> When
+>>>>>> I read in wgrd in certain grid cells, the value read in is not
+>>>>>> quite
+>>>>>> identical to the value written out. ?For instance, in layer 1 of
+>>>>>> cell
+>>>>>> (30,50), I get this:
+>>>>>>
+>>>>>> -0.09466907827340063 ? ! value just before writing to netCDF file
+>>>>>>
+>>>>>> -0.09466907827340064 ? ! value just after reading from netCDF file
+>>>>>>
+>>>>>> The difference is only in the last digit, and it doesn't lead to a
+>>>>>> noticeable difference in the simulation. ?However, it does destroy
+>>>>>> bit-for-bit agreement, which is the CCSM requirement.
+>>>>>>
+>>>>>> Can you think of any reason why this should happen? ?I've talked
+>>>>>> to CCSM
+>>>>>> folks who use netCDF for restart and aren't having any problems.
+>>>>>> I'm
+>>>>>> running on a linux cluster that is pretty well vetted. ?I'm
+>>>>>> reading and
+>>>>>> writing with the same executable, which is built using the Lahey
+>>>>>> lf95
+>>>>>> compiler. ?The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562,
+>>>>>> which
+>>>>>> should be compatible with the compiler. ?This problem is starting
+>>>>>> to
+>>>>>> drive
+>>>>>> me crazy, so I'd be grateful for any ideas you have.
+>>>>>>
+>>>>>> I'm copying this to Rupert in case he's run across anything
+>>>>>> similar.
+>>>>>>
+>>>>>>
+>>>>> [maybe for developer list?]
+>>>>>
+>>>>> Hi Bill,
+>>>>> you could decrease the precision to less than machine precision.
+>>>>> this
+>>>>> way you would be able to ensure you always get the same value.
+>>>>> magi
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>
+>>>>
+>>>> ------------------------------
+>>>>
+>>>> Message: 2
+>>>> Date: Fri, 29 Jan 2010 18:08:31 +0100
+>>>> From: Jed Brown <jed at 59A2.org>
+>>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>>> To: William Lipscomb <lipscomb at lanl.gov>
+>>>> Cc: r.gladstone at bristol.ac.uk, ? ? ?Glimmer-CISM developer list
+>>>> ? ? <glimmer-cism-devel at lists.berlios.de>, ?Ian Rutt
+>>>> ? ? <I.C.Rutt at swansea.ac.uk>
+>>>> Message-ID: <87pr4syh2o.fsf at 59A2.org>
+>>>> Content-Type: text/plain; charset=us-ascii
+>>>>
+>>>>
+>>>>>>> I'm trying to get exact restart working for glint-example in
+>>>>>>> Glimmer
+>>>>>>> version 1.0, in preparation for getting exact restart in CCSM.
+>>>>>>> I am
+>>>>>>> very close--I think I am writing out all the necessary fields at
+>>>>>>> the
+>>>>>>> required precision--but I'm not quite there. ?Here is one issue:
+>>>>>>> When I read in wgrd in certain grid cells, the value read in is
+>>>>>>> not
+>>>>>>> quite identical to the value written out. ?For instance, in
+>>>>>>> layer 1
+>>>>>>> of cell (30,50), I get this:
+>>>>>>>
+>>>>>>> -0.09466907827340063 ? ! value just before writing to netCDF file
+>>>>
+>>>> Are you writing this string out where the value was computed, or
+>>>> after
+>>>> it has been stored in the array (i.e. are you certain that the
+>>>> register
+>>>> that computed *this* value has been flushed after it was computed)?
+>>>>
+>>>>>>> Can you think of any reason why this should happen? ?I've talked
+>>>>>>> to
+>>>>>>> CCSM folks who use netCDF for restart and aren't having any
+>>>>>>> problems.
+>>>>>>> I'm running on a linux cluster that is pretty well vetted. ?I'm
+>>>>>>> reading and writing with the same executable, which is built
+>>>>>>> using
+>>>>>>> the Lahey lf95 compiler. ?The netCDF library is
+>>>>>>> netcdf-3.6.3-gcc-4.1.2-lf9562, which should be compatible with
+>>>>>>> the
+>>>>>>> compiler. ?This problem is starting to ?drive me crazy, so I'd be
+>>>>>>> grateful for any ideas you have.
+>>>>
+>>>> Are these running in 32 or 64-bit mode? ?Have you set -ffloat-store
+>>>> (or
+>>>> whatever Lahey option has that meaning)?
+>>>>
+>>>> Jed
+>>>>
+>>>>
+>>>> ------------------------------
+>>>>
+>>>> _______________________________________________
+>>>> Glimmer-cism-devel mailing list
+>>>> Glimmer-cism-devel at lists.berlios.de
+>>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>>
+>>>>
+>>>> End of Glimmer-cism-devel Digest, Vol 7, Issue 5
+>>>> ************************************************
+>>>
+>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>> *******************************************************************************
+>> William H. Lipscomb ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? E-mail: lipscomb at lanl.gov
+>> Los Alamos National Laboratory ? ? ? ? ? ? ? ?Phone: (505) 667-0395
+>> Group T-3, Mail Stop B216 ? ? ? ? ? ? ? ? ? ? Fax: (505) 665-5926
+>> Los Alamos, NM 87545
+>> *******************************************************************************
+>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> *******************************************************************************
+> William H. Lipscomb ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory ? ? ? ? ?Phone: (505) 667-0395
+> Group T-3, Mail Stop B216 ? ? ? ? ? ? ? ? ? ? ? Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *******************************************************************************
+>
+>
+>
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: johnson at cs.umt.edu
+http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+
+From a.j.payne at bristol.ac.uk  Wed Feb 10 23:54:55 2010
+From: a.j.payne at bristol.ac.uk (tony payne)
+Date: Wed, 10 Feb 2010 22:54:55 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+Message-ID: <4B73393F.1070908@bristol.ac.uk>
+
+hi all
+
+i also like the idea of a more functional set of calls in the main time 
+loop.  i guess the main issue is in supporting the different types of 
+model.  the scheme that jessie suggests would work well for a 
+higher-order model but then how do we maintain the zero-order SIA 
+function calls (ie with run_ho_diagnostic(model) and 
+inc_remap_driver(model) or equivalent wrapped up into one).
+
+we could still do it in this form (ie a diagnostic SIA calc separate 
+from an ice sheet equation solve) but it would be inefficient unless 
+several intermediate variables were stored.
+
+all the best
+
+tony
+
+Jesse Johnson wrote:
+> Hi All,
+> 
+> Thanks Gethin, I was wondering why that was happening.
+> 
+> I would propose that we try and eliminate rescaling to fix the problem
+> with least significant bits in exact restarts. That should do it,
+> right? At this point, I think it's just glam that would need to
+> modified to eliminate rescaling.
+> 
+> For different reasons, I support the ability to move away from the way
+> drivers work using tstep_p1, tstep_p2, tstep_p3.
+> 
+> I would argue that we keep those functions, so things that use them
+> are not broken, and instead work on a new set of drivers that make
+> explicit calls to only the dynamical modules they need. For example,
+> after doing the same configuration file parsing that you would have in
+> any of the other drivers, a time loop like this:
+> 
+>   do while(time.le.model%numerics%tend)
+>      call geometry_derivs(model)
+> 
+>      call run_ho_diagnostic(model)
+> 
+>      call timeevoltemp(model, model%options%whichtemp)
+> 
+>      call inc_remap_driver(model)
+> 
+>      ! write to netCDF file
+>      call glide_io_writeall(model,model)
+> 
+>      ! increment time counter
+>      time = time + get_tinc(model)
+>      ! and the internal clock
+>      model%numerics%time = time
+>   end do
+> 
+> where if there is a gotcha (like needing to compute the geometry
+> derivatives in advance), it would probably be better to pull the
+> function call into the dynamical module, either directly, or by
+> writing a short cover subroutine in glide.F90.
+> 
+> Compiling such a driver could be done in branch, but it would probably
+> be easier to keep it in a separate directory and link to glimmer libs
+> in the build process, see Magnus' example directory.
+> 
+> Jesse
+> 
+> 
+> 
+> 
+> 
+> On Wed, Feb 10, 2010 at 9:52 AM, William Lipscomb <lipscomb at lanl.gov> wrote:
+>> Hi again,
+>>
+>> Thanks to Gethin Williams for figuring out why a bit was getting
+>> flipped in some of the netCDF output fields.  These fields were
+>> multiplied by a scaling factor before writing to netCDF, then divided
+>> by that factor after reading the fields back in.  In floating-point
+>> arithmetic, it is not always the case that (a*b)/b = a.
+>>
+>> A fairly simple solution is to create in glide_vars.def a set of new
+>> input-output variables specifically for hotstart (e.g., thck_hot,
+>> temp_hot).  These variable will be written out in double precision and
+>> without scaling factors.   Other IO variables (e.g., thck, temp) are
+>> intended for diagnostic purposes; these are written out in single
+>> precision (to save memory) and with appropriate scaling factors (so
+>> that the units are user-friendly).
+>>
+>> I now have a modified version of the glimmer-cism trunk that starts
+>> exactly in glint_example test runs.  The fields written to restart
+>> (with a _hot suffix) are the following: relx, thk, thkmask, topg,
+>> bheatflx, bmlt, bwat, uvel, vvel, wgrd, flwa, temp, and litho_temp.
+>>
+>> This is a longer list of restart variables than I would like.  In
+>> particular, there are several 3D fields (uvel, vvel, wgrd, flwa, and
+>> temp) that require lots of memory.  Of these 3D fields, it ought to be
+>> possible to store temp alone.  We can then derive flwa and the 3D
+>> velocity field from other state variables.  That these fields are
+>> needed for exact restart is an accident of code organization--and in
+>> particular, of the fact that temperature evolution is computed before
+>> thickness evolution during each timestep.  The current ordering is (1)
+>> temperature evolution, (2) thickness evolution, and (3) isostasy.
+>>
+>> I would propose that we support the option of calling the various
+>> stages of glide in a different order:  (1) thickness evolution, (2)
+>> isostasy, and (3) temperature evolution.   The changes would mostly be
+>> at a high level.  We would rename glide_tstep_p1 to something more
+>> descriptive (e.g.,, glide_tstep_temperature), and likewise for
+>> glide_tstep_p2 and glide_tstep_p3.  Then we would change the order of
+>> calls in the drivers, such as simple_glide.  We could use a flag to
+>> support more than one ordering, if there are users who are comfortable
+>> with the existing order and reluctant to switch.
+>>
+>> What do people think of this idea?  I'd like some feedback before I
+>> start switching things around.  Development would initially take place
+>> on the new glimmer-cism-gcm branch of glimmer-cism2.  Ultimately these
+>> changes would be merged onto the glimmer-cism2 trunk.
+>>
+>> Thanks,
+>>
+>> Bill
+>>
+>>
+>> On Feb 5, 2010, at 9:14 AM, William Lipscomb wrote:
+>>
+>>> Hi all,
+>>>
+>>> I'm still working on exact restart of Glimmer.  To make sure it wasn't
+>>> an issue of machine, compiler, or obsolete code, I checked out the
+>>> current glimmer-cism trunk and got it running on a LANL machine
+>>> (coyote) using the Intel compiler.  One of the restart fields that I'm
+>>> having trouble with is wgrd.  (If anyone wonders why wgrd is needed
+>>> for exact restart, I can explain offline.)
+>>>
+>>> I did the following test in glint-example:
+>>>
+>>> (1) Write the 3D field in question (model%velocity%wgrd) to a Fortran
+>>> unformatted binary file (wgrd.before_restart) just before writing to
+>>> the netCDF hotstart file (in double precision).
+>>> (2) As a sanity check, read in wgrd from wgrd.before_restart and write
+>>> it to another file (wgrd.from_binary) to make sure I get the same
+>>> values.
+>>> (3) Read in the netCDF hotstart file, assign values to model%velocity
+>>> %wgrd, and write those values to another unformatted binary file
+>>> (wgrd.from_restart).
+>>> (4) Compare files:
+>>>
+>>> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+>>> wgrd.from_binary       ! no difference, as expected
+>>>
+>>> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+>>> wgrd.from_netcdf       ! these need to be the same for exact restart
+>>> 151724 354 355
+>>> 151804 334 335
+>>> 165212 247 246
+>>> 176956 224 223
+>>> 177068  77  76
+>>> 177308 271 272
+>>> 177324 217 216
+>>> 177660  54  55
+>>> 177836 174 175
+>>> 177964 214 215
+>>> 178348 101 102    ! followed by many similar lines, always with the
+>>> second two columns disagreeing by one bit.
+>>>
+>>> So it would seem that a bit gets flipped between the time the field is
+>>> written to netCDF and the time it's read back and assigned to a
+>>> variable.  I'm wondering if this is standard netCDF behavior and if
+>>> there's a simple fix.
+>>>
+>>> Gethin, I'll prepare a tarball and send it to you so you can try to
+>>> duplicate the problem.
+>>>
+>>> Thanks,
+>>>
+>>> Bill
+>>>
+>>>
+>>> On Feb 2, 2010, at 3:47 AM, DAG Williams, Geographical Sciences wrote:
+>>>
+>>>> On the topic of exact restarts:
+>>>>
+>>>> Hi Bill,
+>>>>
+>>>> This sounds interesting, could you forward a tarball, so that I can
+>>>> try to
+>>>> replicate the problem on my machines?
+>>>>
+>>>> I think in principle that NetCDF should be able to do the job for
+>>>> you.  I
+>>>> wonder if there has been an implicit type conversion somewhere in
+>>>> the chain
+>>>> to/from the file.
+>>>>
+>>>> Cheers,
+>>>> Gethin.
+>>>>
+>>>>
+>>>> --On 30 January 2010 12:00 +0100
+>>>> glimmer-cism-devel-request at lists.berlios.de wrote:
+>>>>
+>>>>> Send Glimmer-cism-devel mailing list submissions to
+>>>>>     glimmer-cism-devel at lists.berlios.de
+>>>>>
+>>>>> To subscribe or unsubscribe via the World Wide Web, visit
+>>>>>     https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>>> or, via email, send a message with subject or body 'help' to
+>>>>>     glimmer-cism-devel-request at lists.berlios.de
+>>>>>
+>>>>> You can reach the person managing the list at
+>>>>>     glimmer-cism-devel-owner at lists.berlios.de
+>>>>>
+>>>>> When replying, please edit your Subject line so it is more specific
+>>>>> than "Re: Contents of Glimmer-cism-devel digest..."
+>>>>>
+>>>>>
+>>>>> Today's Topics:
+>>>>>
+>>>>>  1. Re: exact restart (Ian Rutt)
+>>>>>  2. Re: exact restart (Jed Brown)
+>>>>>
+>>>>>
+>>>>> ----------------------------------------------------------------------
+>>>>>
+>>>>> Message: 1
+>>>>> Date: Fri, 29 Jan 2010 16:41:36 +0000
+>>>>> From: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+>>>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>>>> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>>>>> Cc: r.gladstone at bristol.ac.uk,      Glimmer-CISM developer list
+>>>>>     <glimmer-cism-devel at lists.berlios.de>
+>>>>> Message-ID: <4B630FC0.6050003 at swansea.ac.uk>
+>>>>> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>>>>>
+>>>>>
+>>>>> Hi All,
+>>>>>
+>>>>> I've moved this to the developer list, since it has wider
+>>>>> relevance -
+>>>>> hope that's OK.
+>>>>>
+>>>>> That's a tricky kind of thing to diagnose and fix. It sounds like a
+>>>>> wrinkle in the translation from machine representation to file and
+>>>>> back
+>>>>> again, probably to do with the innards of the NetCDF library. I
+>>>>> can't
+>>>>> remember what NetCDF file types the restart library uses (or where
+>>>>> that
+>>>>> code resides), but possibly if one were to promote them to the next
+>>>>> precision up, as it were, that would fix your problem, by giving you
+>>>>> greater precision in the file than needed.
+>>>>>
+>>>>> I'm afraid I don't have time at the moment to track it down - I
+>>>>> hope the
+>>>>> clue is helpful, though.
+>>>>>
+>>>>> Cheers,
+>>>>>
+>>>>> Ian
+>>>>>
+>>>>> Dr Ian Rutt
+>>>>> School of the Environment and Society
+>>>>> Swansea University
+>>>>> Singleton Park
+>>>>> Swansea
+>>>>> SA2 8PP
+>>>>> Tel. (01792) 602685
+>>>>> i.c.rutt at swansea.ac.uk
+>>>>>
+>>>>>
+>>>>> Magnus Hagdorn wrote:
+>>>>>> William H. Lipscomb wrote:
+>>>>>>> Hi Ian and Magnus,
+>>>>>>>
+>>>>>>> I'm trying to get exact restart working for glint-example in
+>>>>>>> Glimmer
+>>>>>>> version 1.0, in preparation for getting exact restart in CCSM.  I
+>>>>>>> am
+>>>>>>> very close--I think I am writing out all the necessary fields at
+>>>>>>> the
+>>>>>>> required precision--but I'm not quite there.  Here is one issue:
+>>>>>>> When
+>>>>>>> I read in wgrd in certain grid cells, the value read in is not
+>>>>>>> quite
+>>>>>>> identical to the value written out.  For instance, in layer 1 of
+>>>>>>> cell
+>>>>>>> (30,50), I get this:
+>>>>>>>
+>>>>>>> -0.09466907827340063   ! value just before writing to netCDF file
+>>>>>>>
+>>>>>>> -0.09466907827340064   ! value just after reading from netCDF file
+>>>>>>>
+>>>>>>> The difference is only in the last digit, and it doesn't lead to a
+>>>>>>> noticeable difference in the simulation.  However, it does destroy
+>>>>>>> bit-for-bit agreement, which is the CCSM requirement.
+>>>>>>>
+>>>>>>> Can you think of any reason why this should happen?  I've talked
+>>>>>>> to CCSM
+>>>>>>> folks who use netCDF for restart and aren't having any problems.
+>>>>>>> I'm
+>>>>>>> running on a linux cluster that is pretty well vetted.  I'm
+>>>>>>> reading and
+>>>>>>> writing with the same executable, which is built using the Lahey
+>>>>>>> lf95
+>>>>>>> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562,
+>>>>>>> which
+>>>>>>> should be compatible with the compiler.  This problem is starting
+>>>>>>> to
+>>>>>>> drive
+>>>>>>> me crazy, so I'd be grateful for any ideas you have.
+>>>>>>>
+>>>>>>> I'm copying this to Rupert in case he's run across anything
+>>>>>>> similar.
+>>>>>>>
+>>>>>>>
+>>>>>> [maybe for developer list?]
+>>>>>>
+>>>>>> Hi Bill,
+>>>>>> you could decrease the precision to less than machine precision.
+>>>>>> this
+>>>>>> way you would be able to ensure you always get the same value.
+>>>>>> magi
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>> ------------------------------
+>>>>>
+>>>>> Message: 2
+>>>>> Date: Fri, 29 Jan 2010 18:08:31 +0100
+>>>>> From: Jed Brown <jed at 59A2.org>
+>>>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>>>> To: William Lipscomb <lipscomb at lanl.gov>
+>>>>> Cc: r.gladstone at bristol.ac.uk,      Glimmer-CISM developer list
+>>>>>     <glimmer-cism-devel at lists.berlios.de>,  Ian Rutt
+>>>>>     <I.C.Rutt at swansea.ac.uk>
+>>>>> Message-ID: <87pr4syh2o.fsf at 59A2.org>
+>>>>> Content-Type: text/plain; charset=us-ascii
+>>>>>
+>>>>>
+>>>>>>>> I'm trying to get exact restart working for glint-example in
+>>>>>>>> Glimmer
+>>>>>>>> version 1.0, in preparation for getting exact restart in CCSM.
+>>>>>>>> I am
+>>>>>>>> very close--I think I am writing out all the necessary fields at
+>>>>>>>> the
+>>>>>>>> required precision--but I'm not quite there.  Here is one issue:
+>>>>>>>> When I read in wgrd in certain grid cells, the value read in is
+>>>>>>>> not
+>>>>>>>> quite identical to the value written out.  For instance, in
+>>>>>>>> layer 1
+>>>>>>>> of cell (30,50), I get this:
+>>>>>>>>
+>>>>>>>> -0.09466907827340063   ! value just before writing to netCDF file
+>>>>> Are you writing this string out where the value was computed, or
+>>>>> after
+>>>>> it has been stored in the array (i.e. are you certain that the
+>>>>> register
+>>>>> that computed *this* value has been flushed after it was computed)?
+>>>>>
+>>>>>>>> Can you think of any reason why this should happen?  I've talked
+>>>>>>>> to
+>>>>>>>> CCSM folks who use netCDF for restart and aren't having any
+>>>>>>>> problems.
+>>>>>>>> I'm running on a linux cluster that is pretty well vetted.  I'm
+>>>>>>>> reading and writing with the same executable, which is built
+>>>>>>>> using
+>>>>>>>> the Lahey lf95 compiler.  The netCDF library is
+>>>>>>>> netcdf-3.6.3-gcc-4.1.2-lf9562, which should be compatible with
+>>>>>>>> the
+>>>>>>>> compiler.  This problem is starting to  drive me crazy, so I'd be
+>>>>>>>> grateful for any ideas you have.
+>>>>> Are these running in 32 or 64-bit mode?  Have you set -ffloat-store
+>>>>> (or
+>>>>> whatever Lahey option has that meaning)?
+>>>>>
+>>>>> Jed
+>>>>>
+>>>>>
+>>>>> ------------------------------
+>>>>>
+>>>>> _______________________________________________
+>>>>> Glimmer-cism-devel mailing list
+>>>>> Glimmer-cism-devel at lists.berlios.de
+>>>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>>>
+>>>>>
+>>>>> End of Glimmer-cism-devel Digest, Vol 7, Issue 5
+>>>>> ************************************************
+>>>>
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Glimmer-cism-devel mailing list
+>>>> Glimmer-cism-devel at lists.berlios.de
+>>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>> *******************************************************************************
+>>> William H. Lipscomb                                   E-mail: lipscomb at lanl.gov
+>>> Los Alamos National Laboratory                Phone: (505) 667-0395
+>>> Group T-3, Mail Stop B216                     Fax: (505) 665-5926
+>>> Los Alamos, NM 87545
+>>> *******************************************************************************
+>>>
+>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>> *******************************************************************************
+>> William H. Lipscomb                                     E-mail: lipscomb at lanl.gov
+>> Los Alamos National Laboratory          Phone: (505) 667-0395
+>> Group T-3, Mail Stop B216                       Fax: (505) 665-5926
+>> Los Alamos, NM 87545
+>> *******************************************************************************
+>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+> 
+> 
+> 
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Feb 11 11:55:08 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 11 Feb 2010 10:55:08 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+Message-ID: <4B73E20C.9020805@ed.ac.uk>
+
+Jesse Johnson wrote:
+> Hi All,
+> 
+> Thanks Gethin, I was wondering why that was happening.
+> 
+> I would propose that we try and eliminate rescaling to fix the problem
+> with least significant bits in exact restarts. That should do it,
+> right? At this point, I think it's just glam that would need to
+> modified to eliminate rescaling.
+> 
+
+yup, yet another reason.
+
+Is anyone working on removing the scaling? This would be great.
+
+> For different reasons, I support the ability to move away from the way
+> drivers work using tstep_p1, tstep_p2, tstep_p3.
+> 
+
+I created these procedures so I could insert additional (external) 
+procedures in the right place. There is no logical reason (merely 
+practical) for the three procedure which also explains there awkward names.
+
+For gc 2.0 I envisage an example time step which calls the individual 
+procedures from the dynamic cores. If you want to do something special 
+you will need to implement your own time step which I think is fine.
+
+
+Cheers
+magi
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Feb 11 12:00:27 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 11 Feb 2010 11:00:27 +0000
+Subject: [Glimmer-cism-devel] gits
+Message-ID: <4B73E34B.3090700@ed.ac.uk>
+
+Hi all,
+Jed poked us to move to gits which I think is a good idea and might well 
+help with the merging. We have a git repository. Converting the 
+subversion repo to git should be straight forward. However, we would 
+then need to use it as well. Do we want to go ahead with it and jump 
+into the deep end and just start using git now?
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From a.j.payne at bristol.ac.uk  Thu Feb 11 12:07:09 2010
+From: a.j.payne at bristol.ac.uk (tony payne)
+Date: Thu, 11 Feb 2010 11:07:09 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <4B73E20C.9020805@ed.ac.uk>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+	<4B73E20C.9020805@ed.ac.uk>
+Message-ID: <4B73E4DD.80905@bristol.ac.uk>
+
+hi
+
+i think i agreed to do the descaling work at the lat steering cmt 
+meeting.  still happy to do this after all it mostly stems from my 
+initial mistake in putting it in.
+
+tony
+
+Magnus Hagdorn wrote:
+> Jesse Johnson wrote:
+>> Hi All,
+>>
+>> Thanks Gethin, I was wondering why that was happening.
+>>
+>> I would propose that we try and eliminate rescaling to fix the problem
+>> with least significant bits in exact restarts. That should do it,
+>> right? At this point, I think it's just glam that would need to
+>> modified to eliminate rescaling.
+>>
+> 
+> yup, yet another reason.
+> 
+> Is anyone working on removing the scaling? This would be great.
+> 
+>> For different reasons, I support the ability to move away from the way
+>> drivers work using tstep_p1, tstep_p2, tstep_p3.
+>>
+> 
+> I created these procedures so I could insert additional (external) 
+> procedures in the right place. There is no logical reason (merely 
+> practical) for the three procedure which also explains there awkward names.
+> 
+> For gc 2.0 I envisage an example time step which calls the individual 
+> procedures from the dynamic cores. If you want to do something special 
+> you will need to implement your own time step which I think is fine.
+> 
+> 
+> Cheers
+> magi
+> 
+> 
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+From jed at 59A2.org  Thu Feb 11 13:27:50 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Thu, 11 Feb 2010 13:27:50 +0100
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <4B73E4DD.80905@bristol.ac.uk>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>
+	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+	<4B73E20C.9020805@ed.ac.uk> <4B73E4DD.80905@bristol.ac.uk>
+Message-ID: <87bpfw0xfd.fsf@59A2.org>
+
+On Thu, 11 Feb 2010 11:07:09 +0000, tony payne <a.j.payne at bristol.ac.uk> wrote:
+> hi
+> 
+> i think i agreed to do the descaling work at the lat steering cmt 
+> meeting.  still happy to do this after all it mostly stems from my 
+> initial mistake in putting it in.
+
+I feel obliged to make some comments on this.  There is significant
+benefit to nondimensionalizing for solvers.  It makes tolerances and
+matrix-free methods more robust.  You can hack it to work for your
+scaling, but it's really preferable when everything is O(1).  It's not
+sensitive to scaling, but it can be tedious to make components perform
+well with O(10^20) or O(10^-20), which means that you are likely to try
+something, have it perform poorly, and think that it doesn't work for
+your problem, even though the issue may have been mere scaling.
+
+This of course also matters (everywhere) if you want to run in single
+precision (because intermediate values can easily become denormals).
+
+In my opinion, the right way to do this is to have a "Units" object
+which handles all the relevant scales.  All user input remains fully
+dimensional, but is immediately converted to nondimensional in the code.
+By changing the Units object, you can verify that there are no
+dimensional errors in the code (results should be independent of the
+values in the units object, I find this to be a handy debugging tool
+since I always make scaling a runtime parameter).  All user-visible
+output is also dimensionalized so they never see the nondimensional
+values.
+
+Exact restart complicates this slightly because it means that the
+restart files are necessarily scaled the same way as the internal
+equations.  Fortunately, CF includes the scale_factor attribute, which
+is the correct place to redimensionalize without impacting exact
+restart.  So the raw values in the NetCDF remain nondimensional, but all
+postprocessing would have already multiplied by scale_factor, so that
+the internal scaling is not user-visible.
+
+Jed
+
+
+From a.j.payne at bristol.ac.uk  Thu Feb 11 13:34:22 2010
+From: a.j.payne at bristol.ac.uk (tony payne)
+Date: Thu, 11 Feb 2010 12:34:22 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <87bpfw0xfd.fsf@59A2.org>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>	<4B73E20C.9020805@ed.ac.uk>
+	<4B73E4DD.80905@bristol.ac.uk> <87bpfw0xfd.fsf@59A2.org>
+Message-ID: <4B73F94E.4070106@bristol.ac.uk>
+
+jed
+
+i think the idea would be that scaling would be done locally where it is 
+needed, for instance when solving matrix equations etc, but that 
+variables would be unscaled outside of these areas.  it is just one less 
+thing to worry about when coding.
+
+tony
+
+Jed Brown wrote:
+> On Thu, 11 Feb 2010 11:07:09 +0000, tony payne <a.j.payne at bristol.ac.uk> wrote:
+>> hi
+>>
+>> i think i agreed to do the descaling work at the lat steering cmt 
+>> meeting.  still happy to do this after all it mostly stems from my 
+>> initial mistake in putting it in.
+> 
+> I feel obliged to make some comments on this.  There is significant
+> benefit to nondimensionalizing for solvers.  It makes tolerances and
+> matrix-free methods more robust.  You can hack it to work for your
+> scaling, but it's really preferable when everything is O(1).  It's not
+> sensitive to scaling, but it can be tedious to make components perform
+> well with O(10^20) or O(10^-20), which means that you are likely to try
+> something, have it perform poorly, and think that it doesn't work for
+> your problem, even though the issue may have been mere scaling.
+> 
+> This of course also matters (everywhere) if you want to run in single
+> precision (because intermediate values can easily become denormals).
+> 
+> In my opinion, the right way to do this is to have a "Units" object
+> which handles all the relevant scales.  All user input remains fully
+> dimensional, but is immediately converted to nondimensional in the code.
+> By changing the Units object, you can verify that there are no
+> dimensional errors in the code (results should be independent of the
+> values in the units object, I find this to be a handy debugging tool
+> since I always make scaling a runtime parameter).  All user-visible
+> output is also dimensionalized so they never see the nondimensional
+> values.
+> 
+> Exact restart complicates this slightly because it means that the
+> restart files are necessarily scaled the same way as the internal
+> equations.  Fortunately, CF includes the scale_factor attribute, which
+> is the correct place to redimensionalize without impacting exact
+> restart.  So the raw values in the NetCDF remain nondimensional, but all
+> postprocessing would have already multiplied by scale_factor, so that
+> the internal scaling is not user-visible.
+> 
+> Jed
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+From jed at 59A2.org  Thu Feb 11 13:54:07 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Thu, 11 Feb 2010 13:54:07 +0100
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <4B73F94E.4070106@bristol.ac.uk>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>
+	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+	<4B73E20C.9020805@ed.ac.uk> <4B73E4DD.80905@bristol.ac.uk>
+	<87bpfw0xfd.fsf@59A2.org> <4B73F94E.4070106@bristol.ac.uk>
+Message-ID: <87aavg0w7k.fsf@59A2.org>
+
+On Thu, 11 Feb 2010 12:34:22 +0000, tony payne <a.j.payne at bristol.ac.uk> wrote:
+> jed
+> 
+> i think the idea would be that scaling would be done locally where it is 
+> needed, for instance when solving matrix equations etc, but that 
+> variables would be unscaled outside of these areas.  it is just one less 
+> thing to worry about when coding.
+
+This just means that there are more places for it to be visible.  If it
+is always done at input/output, and never present elsewhere, then it's
+more consistent and should be less intrusive.
+
+Doing this differently in the solver also means that you have to be very
+careful about the solver retaining state.  That is, you might typically
+start the velocity solve with the value from the last time step.
+Typically the solver would hold this in nondimensionalized form, but for
+exact restart, you would have to write this nondimensionalized thing
+anyway.  (Of course the lower bits are not significant because you only
+converge up to a tolerance, but if exact restart is a hard requirement,
+meaningless as it may be, you have to provide it.)  This adds complexity
+versus consistently nondimensionalizing everything on IO.
+
+Debugging by changing the Units object is also useful everywhere.
+
+
+Jed
+
+
+From lipscomb at lanl.gov  Thu Feb 11 15:45:40 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Thu, 11 Feb 2010 07:45:40 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>
+	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>
+	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>
+	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>
+	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>
+Message-ID: <A9E1C95A-5A1C-4545-9A5A-B873E1B233BC@lanl.gov>
+
+
+Hi all,
+
+I share Jesse's preference that we eliminate scale factors in the code  
+where they can lead to confusion and errors (and where there is not a  
+good computational reason to keep them).  However, scaling in netCDF I/ 
+O is a separate issue.   I'd like to introduce in Glimmer a  
+distinction between two kinds of I/O:
+
+(1) diagnostic I/O, aka history files, where scale factors may be  
+helpful because they give user-friendly units.  Diagnostic variables  
+are nearly always written in single-precision to save storage, which  
+can be an issue if you're writing out dozens of fields hundreds of  
+times in a simulation.
+
+(2) restart I/O, where the goal is to write the minimum number of  
+variables, usually double precision, that enable exact restart.
+
+The ocean and sea ice codes with which I'm familiar have one module  
+for history files and another for restart files.  A useful feature of  
+Glimmer is that both kinds of output can be handled with the same  
+netCDF apparatus, simply by introducing a few new I/O variables in  
+glide_vars.def.  This allows you to write each kind of output in the  
+most convenient format.  I'm proposing that we take this approach  
+going forward, independent of what we decide to do about scaling in  
+other parts of the code.
+
+I also like the proposal to restructure the drivers.  My goal for now,  
+though, is to do the minimal restructuring of basic (SIA) Glimmer that  
+satisfies CCSM requirements, including exact restart.  So I suggest we  
+proceed in stages.  A first stage would be a modest renaming and  
+reordering of glide_tstep_p1, etc., which would apply only to the SIA  
+code.  Then as we incorporate HO code, we can take the approach  
+suggested by Jesse and Magnus.  Does that sound reasonable?
+
+Thanks,
+
+Bill
+
+
+On Feb 10, 2010, at 3:14 PM, Jesse Johnson wrote:
+
+> Hi All,
+>
+> Thanks Gethin, I was wondering why that was happening.
+>
+> I would propose that we try and eliminate rescaling to fix the problem
+> with least significant bits in exact restarts. That should do it,
+> right? At this point, I think it's just glam that would need to
+> modified to eliminate rescaling.
+>
+> For different reasons, I support the ability to move away from the way
+> drivers work using tstep_p1, tstep_p2, tstep_p3.
+>
+> I would argue that we keep those functions, so things that use them
+> are not broken, and instead work on a new set of drivers that make
+> explicit calls to only the dynamical modules they need. For example,
+> after doing the same configuration file parsing that you would have in
+> any of the other drivers, a time loop like this:
+>
+>  do while(time.le.model%numerics%tend)
+>     call geometry_derivs(model)
+>
+>     call run_ho_diagnostic(model)
+>
+>     call timeevoltemp(model, model%options%whichtemp)
+>
+>     call inc_remap_driver(model)
+>
+>     ! write to netCDF file
+>     call glide_io_writeall(model,model)
+>
+>     ! increment time counter
+>     time = time + get_tinc(model)
+>     ! and the internal clock
+>     model%numerics%time = time
+>  end do
+>
+> where if there is a gotcha (like needing to compute the geometry
+> derivatives in advance), it would probably be better to pull the
+> function call into the dynamical module, either directly, or by
+> writing a short cover subroutine in glide.F90.
+>
+> Compiling such a driver could be done in branch, but it would probably
+> be easier to keep it in a separate directory and link to glimmer libs
+> in the build process, see Magnus' example directory.
+>
+> Jesse
+>
+>
+>
+>
+>
+> On Wed, Feb 10, 2010 at 9:52 AM, William Lipscomb  
+> <lipscomb at lanl.gov> wrote:
+>>
+>> Hi again,
+>>
+>> Thanks to Gethin Williams for figuring out why a bit was getting
+>> flipped in some of the netCDF output fields.  These fields were
+>> multiplied by a scaling factor before writing to netCDF, then divided
+>> by that factor after reading the fields back in.  In floating-point
+>> arithmetic, it is not always the case that (a*b)/b = a.
+>>
+>> A fairly simple solution is to create in glide_vars.def a set of new
+>> input-output variables specifically for hotstart (e.g., thck_hot,
+>> temp_hot).  These variable will be written out in double precision  
+>> and
+>> without scaling factors.   Other IO variables (e.g., thck, temp) are
+>> intended for diagnostic purposes; these are written out in single
+>> precision (to save memory) and with appropriate scaling factors (so
+>> that the units are user-friendly).
+>>
+>> I now have a modified version of the glimmer-cism trunk that starts
+>> exactly in glint_example test runs.  The fields written to restart
+>> (with a _hot suffix) are the following: relx, thk, thkmask, topg,
+>> bheatflx, bmlt, bwat, uvel, vvel, wgrd, flwa, temp, and litho_temp.
+>>
+>> This is a longer list of restart variables than I would like.  In
+>> particular, there are several 3D fields (uvel, vvel, wgrd, flwa, and
+>> temp) that require lots of memory.  Of these 3D fields, it ought to  
+>> be
+>> possible to store temp alone.  We can then derive flwa and the 3D
+>> velocity field from other state variables.  That these fields are
+>> needed for exact restart is an accident of code organization--and in
+>> particular, of the fact that temperature evolution is computed before
+>> thickness evolution during each timestep.  The current ordering is  
+>> (1)
+>> temperature evolution, (2) thickness evolution, and (3) isostasy.
+>>
+>> I would propose that we support the option of calling the various
+>> stages of glide in a different order:  (1) thickness evolution, (2)
+>> isostasy, and (3) temperature evolution.   The changes would mostly  
+>> be
+>> at a high level.  We would rename glide_tstep_p1 to something more
+>> descriptive (e.g.,, glide_tstep_temperature), and likewise for
+>> glide_tstep_p2 and glide_tstep_p3.  Then we would change the order of
+>> calls in the drivers, such as simple_glide.  We could use a flag to
+>> support more than one ordering, if there are users who are  
+>> comfortable
+>> with the existing order and reluctant to switch.
+>>
+>> What do people think of this idea?  I'd like some feedback before I
+>> start switching things around.  Development would initially take  
+>> place
+>> on the new glimmer-cism-gcm branch of glimmer-cism2.  Ultimately  
+>> these
+>> changes would be merged onto the glimmer-cism2 trunk.
+>>
+>> Thanks,
+>>
+>> Bill
+>>
+>>
+>> On Feb 5, 2010, at 9:14 AM, William Lipscomb wrote:
+>>
+>>>
+>>> Hi all,
+>>>
+>>> I'm still working on exact restart of Glimmer.  To make sure it  
+>>> wasn't
+>>> an issue of machine, compiler, or obsolete code, I checked out the
+>>> current glimmer-cism trunk and got it running on a LANL machine
+>>> (coyote) using the Intel compiler.  One of the restart fields that  
+>>> I'm
+>>> having trouble with is wgrd.  (If anyone wonders why wgrd is needed
+>>> for exact restart, I can explain offline.)
+>>>
+>>> I did the following test in glint-example:
+>>>
+>>> (1) Write the 3D field in question (model%velocity%wgrd) to a  
+>>> Fortran
+>>> unformatted binary file (wgrd.before_restart) just before writing to
+>>> the netCDF hotstart file (in double precision).
+>>> (2) As a sanity check, read in wgrd from wgrd.before_restart and  
+>>> write
+>>> it to another file (wgrd.from_binary) to make sure I get the same
+>>> values.
+>>> (3) Read in the netCDF hotstart file, assign values to model 
+>>> %velocity
+>>> %wgrd, and write those values to another unformatted binary file
+>>> (wgrd.from_restart).
+>>> (4) Compare files:
+>>>
+>>> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+>>> wgrd.from_binary       ! no difference, as expected
+>>>
+>>> [lipscomb at cy-c1 glint-example-1.0.0]$ cmp -l wgrd.before_restart
+>>> wgrd.from_netcdf       ! these need to be the same for exact restart
+>>> 151724 354 355
+>>> 151804 334 335
+>>> 165212 247 246
+>>> 176956 224 223
+>>> 177068  77  76
+>>> 177308 271 272
+>>> 177324 217 216
+>>> 177660  54  55
+>>> 177836 174 175
+>>> 177964 214 215
+>>> 178348 101 102    ! followed by many similar lines, always with the
+>>> second two columns disagreeing by one bit.
+>>>
+>>> So it would seem that a bit gets flipped between the time the  
+>>> field is
+>>> written to netCDF and the time it's read back and assigned to a
+>>> variable.  I'm wondering if this is standard netCDF behavior and if
+>>> there's a simple fix.
+>>>
+>>> Gethin, I'll prepare a tarball and send it to you so you can try to
+>>> duplicate the problem.
+>>>
+>>> Thanks,
+>>>
+>>> Bill
+>>>
+>>>
+>>> On Feb 2, 2010, at 3:47 AM, DAG Williams, Geographical Sciences  
+>>> wrote:
+>>>
+>>>>
+>>>> On the topic of exact restarts:
+>>>>
+>>>> Hi Bill,
+>>>>
+>>>> This sounds interesting, could you forward a tarball, so that I can
+>>>> try to
+>>>> replicate the problem on my machines?
+>>>>
+>>>> I think in principle that NetCDF should be able to do the job for
+>>>> you.  I
+>>>> wonder if there has been an implicit type conversion somewhere in
+>>>> the chain
+>>>> to/from the file.
+>>>>
+>>>> Cheers,
+>>>> Gethin.
+>>>>
+>>>>
+>>>> --On 30 January 2010 12:00 +0100
+>>>> glimmer-cism-devel-request at lists.berlios.de wrote:
+>>>>
+>>>>> Send Glimmer-cism-devel mailing list submissions to
+>>>>>     glimmer-cism-devel at lists.berlios.de
+>>>>>
+>>>>> To subscribe or unsubscribe via the World Wide Web, visit
+>>>>>     https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>>> or, via email, send a message with subject or body 'help' to
+>>>>>     glimmer-cism-devel-request at lists.berlios.de
+>>>>>
+>>>>> You can reach the person managing the list at
+>>>>>     glimmer-cism-devel-owner at lists.berlios.de
+>>>>>
+>>>>> When replying, please edit your Subject line so it is more  
+>>>>> specific
+>>>>> than "Re: Contents of Glimmer-cism-devel digest..."
+>>>>>
+>>>>>
+>>>>> Today's Topics:
+>>>>>
+>>>>>  1. Re: exact restart (Ian Rutt)
+>>>>>  2. Re: exact restart (Jed Brown)
+>>>>>
+>>>>>
+>>>>> ----------------------------------------------------------------------
+>>>>>
+>>>>> Message: 1
+>>>>> Date: Fri, 29 Jan 2010 16:41:36 +0000
+>>>>> From: Ian Rutt <I.C.Rutt at swansea.ac.uk>
+>>>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>>>> To: Magnus Hagdorn <Magnus.Hagdorn at ed.ac.uk>
+>>>>> Cc: r.gladstone at bristol.ac.uk,      Glimmer-CISM developer list
+>>>>>     <glimmer-cism-devel at lists.berlios.de>
+>>>>> Message-ID: <4B630FC0.6050003 at swansea.ac.uk>
+>>>>> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>>>>>
+>>>>>
+>>>>> Hi All,
+>>>>>
+>>>>> I've moved this to the developer list, since it has wider
+>>>>> relevance -
+>>>>> hope that's OK.
+>>>>>
+>>>>> That's a tricky kind of thing to diagnose and fix. It sounds  
+>>>>> like a
+>>>>> wrinkle in the translation from machine representation to file and
+>>>>> back
+>>>>> again, probably to do with the innards of the NetCDF library. I
+>>>>> can't
+>>>>> remember what NetCDF file types the restart library uses (or where
+>>>>> that
+>>>>> code resides), but possibly if one were to promote them to the  
+>>>>> next
+>>>>> precision up, as it were, that would fix your problem, by giving  
+>>>>> you
+>>>>> greater precision in the file than needed.
+>>>>>
+>>>>> I'm afraid I don't have time at the moment to track it down - I
+>>>>> hope the
+>>>>> clue is helpful, though.
+>>>>>
+>>>>> Cheers,
+>>>>>
+>>>>> Ian
+>>>>>
+>>>>> Dr Ian Rutt
+>>>>> School of the Environment and Society
+>>>>> Swansea University
+>>>>> Singleton Park
+>>>>> Swansea
+>>>>> SA2 8PP
+>>>>> Tel. (01792) 602685
+>>>>> i.c.rutt at swansea.ac.uk
+>>>>>
+>>>>>
+>>>>> Magnus Hagdorn wrote:
+>>>>>> William H. Lipscomb wrote:
+>>>>>>> Hi Ian and Magnus,
+>>>>>>>
+>>>>>>> I'm trying to get exact restart working for glint-example in
+>>>>>>> Glimmer
+>>>>>>> version 1.0, in preparation for getting exact restart in  
+>>>>>>> CCSM.  I
+>>>>>>> am
+>>>>>>> very close--I think I am writing out all the necessary fields at
+>>>>>>> the
+>>>>>>> required precision--but I'm not quite there.  Here is one issue:
+>>>>>>> When
+>>>>>>> I read in wgrd in certain grid cells, the value read in is not
+>>>>>>> quite
+>>>>>>> identical to the value written out.  For instance, in layer 1 of
+>>>>>>> cell
+>>>>>>> (30,50), I get this:
+>>>>>>>
+>>>>>>> -0.09466907827340063   ! value just before writing to netCDF  
+>>>>>>> file
+>>>>>>>
+>>>>>>> -0.09466907827340064   ! value just after reading from netCDF  
+>>>>>>> file
+>>>>>>>
+>>>>>>> The difference is only in the last digit, and it doesn't lead  
+>>>>>>> to a
+>>>>>>> noticeable difference in the simulation.  However, it does  
+>>>>>>> destroy
+>>>>>>> bit-for-bit agreement, which is the CCSM requirement.
+>>>>>>>
+>>>>>>> Can you think of any reason why this should happen?  I've talked
+>>>>>>> to CCSM
+>>>>>>> folks who use netCDF for restart and aren't having any problems.
+>>>>>>> I'm
+>>>>>>> running on a linux cluster that is pretty well vetted.  I'm
+>>>>>>> reading and
+>>>>>>> writing with the same executable, which is built using the Lahey
+>>>>>>> lf95
+>>>>>>> compiler.  The netCDF library is netcdf-3.6.3-gcc-4.1.2-lf9562,
+>>>>>>> which
+>>>>>>> should be compatible with the compiler.  This problem is  
+>>>>>>> starting
+>>>>>>> to
+>>>>>>> drive
+>>>>>>> me crazy, so I'd be grateful for any ideas you have.
+>>>>>>>
+>>>>>>> I'm copying this to Rupert in case he's run across anything
+>>>>>>> similar.
+>>>>>>>
+>>>>>>>
+>>>>>> [maybe for developer list?]
+>>>>>>
+>>>>>> Hi Bill,
+>>>>>> you could decrease the precision to less than machine precision.
+>>>>>> this
+>>>>>> way you would be able to ensure you always get the same value.
+>>>>>> magi
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>>
+>>>>> ------------------------------
+>>>>>
+>>>>> Message: 2
+>>>>> Date: Fri, 29 Jan 2010 18:08:31 +0100
+>>>>> From: Jed Brown <jed at 59A2.org>
+>>>>> Subject: Re: [Glimmer-cism-devel] exact restart
+>>>>> To: William Lipscomb <lipscomb at lanl.gov>
+>>>>> Cc: r.gladstone at bristol.ac.uk,      Glimmer-CISM developer list
+>>>>>     <glimmer-cism-devel at lists.berlios.de>,  Ian Rutt
+>>>>>     <I.C.Rutt at swansea.ac.uk>
+>>>>> Message-ID: <87pr4syh2o.fsf at 59A2.org>
+>>>>> Content-Type: text/plain; charset=us-ascii
+>>>>>
+>>>>>
+>>>>>>>> I'm trying to get exact restart working for glint-example in
+>>>>>>>> Glimmer
+>>>>>>>> version 1.0, in preparation for getting exact restart in CCSM.
+>>>>>>>> I am
+>>>>>>>> very close--I think I am writing out all the necessary fields  
+>>>>>>>> at
+>>>>>>>> the
+>>>>>>>> required precision--but I'm not quite there.  Here is one  
+>>>>>>>> issue:
+>>>>>>>> When I read in wgrd in certain grid cells, the value read in is
+>>>>>>>> not
+>>>>>>>> quite identical to the value written out.  For instance, in
+>>>>>>>> layer 1
+>>>>>>>> of cell (30,50), I get this:
+>>>>>>>>
+>>>>>>>> -0.09466907827340063   ! value just before writing to netCDF  
+>>>>>>>> file
+>>>>>
+>>>>> Are you writing this string out where the value was computed, or
+>>>>> after
+>>>>> it has been stored in the array (i.e. are you certain that the
+>>>>> register
+>>>>> that computed *this* value has been flushed after it was  
+>>>>> computed)?
+>>>>>
+>>>>>>>> Can you think of any reason why this should happen?  I've  
+>>>>>>>> talked
+>>>>>>>> to
+>>>>>>>> CCSM folks who use netCDF for restart and aren't having any
+>>>>>>>> problems.
+>>>>>>>> I'm running on a linux cluster that is pretty well vetted.  I'm
+>>>>>>>> reading and writing with the same executable, which is built
+>>>>>>>> using
+>>>>>>>> the Lahey lf95 compiler.  The netCDF library is
+>>>>>>>> netcdf-3.6.3-gcc-4.1.2-lf9562, which should be compatible with
+>>>>>>>> the
+>>>>>>>> compiler.  This problem is starting to  drive me crazy, so  
+>>>>>>>> I'd be
+>>>>>>>> grateful for any ideas you have.
+>>>>>
+>>>>> Are these running in 32 or 64-bit mode?  Have you set -ffloat- 
+>>>>> store
+>>>>> (or
+>>>>> whatever Lahey option has that meaning)?
+>>>>>
+>>>>> Jed
+>>>>>
+>>>>>
+>>>>> ------------------------------
+>>>>>
+>>>>> _______________________________________________
+>>>>> Glimmer-cism-devel mailing list
+>>>>> Glimmer-cism-devel at lists.berlios.de
+>>>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>>>
+>>>>>
+>>>>> End of Glimmer-cism-devel Digest, Vol 7, Issue 5
+>>>>> ************************************************
+>>>>
+>>>>
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Glimmer-cism-devel mailing list
+>>>> Glimmer-cism-devel at lists.berlios.de
+>>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>>
+>>> *******************************************************************************
+>>> William H. Lipscomb                                   E-mail: lipscomb at lanl.gov
+>>> Los Alamos National Laboratory                Phone: (505) 667-0395
+>>> Group T-3, Mail Stop B216                     Fax: (505) 665-5926
+>>> Los Alamos, NM 87545
+>>> *******************************************************************************
+>>>
+>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Glimmer-cism-devel mailing list
+>>> Glimmer-cism-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>> *******************************************************************************
+>> William H. Lipscomb                                     E-mail: lipscomb at lanl.gov
+>> Los Alamos National Laboratory          Phone: (505) 667-0395
+>> Group T-3, Mail Stop B216                       Fax: (505) 665-5926
+>> Los Alamos, NM 87545
+>> *******************************************************************************
+>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>>
+>
+>
+>
+> -- 
+> Jesse Johnson, Associate Professor
+> Department of Computer Science
+> Social Science Building, Room 417
+> The University of Montana
+> Missoula, MT  59812-5256
+>
+> tel: (406) 243-2356
+> fax: (406) 243-5139
+>
+> email: johnson at cs.umt.edu
+> http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From sprice at lanl.gov  Thu Feb 11 17:05:36 2010
+From: sprice at lanl.gov (Stephen Price)
+Date: Thu, 11 Feb 2010 09:05:36 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <4B73E4DD.80905@bristol.ac.uk>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>	<4B73E20C.9020805@ed.ac.uk>
+	<4B73E4DD.80905@bristol.ac.uk>
+Message-ID: <4B742AD0.3080607@lanl.gov>
+
+
+I'm happy to help on this as well. What is the priority on this? Is it 
+getting in the way of other development at the moment?
+
+Tony, the first thing we should do is a few test cases w/ the no rescale 
+option set during the build. I've seen this make no difference to the 
+solution in a few cases, and lead to non-convergence in a few cases, but 
+it would be good confirm whether or not there are some differences there.
+
+Steve
+
+
+tony payne wrote:
+> hi
+> 
+> i think i agreed to do the descaling work at the lat steering cmt 
+> meeting.  still happy to do this after all it mostly stems from my 
+> initial mistake in putting it in.
+> 
+> tony
+> 
+> Magnus Hagdorn wrote:
+>> Jesse Johnson wrote:
+>>> Hi All,
+>>>
+>>> Thanks Gethin, I was wondering why that was happening.
+>>>
+>>> I would propose that we try and eliminate rescaling to fix the problem
+>>> with least significant bits in exact restarts. That should do it,
+>>> right? At this point, I think it's just glam that would need to
+>>> modified to eliminate rescaling.
+>>>
+>> yup, yet another reason.
+>>
+>> Is anyone working on removing the scaling? This would be great.
+>>
+
+
+From a.j.payne at bristol.ac.uk  Thu Feb 11 18:05:50 2010
+From: a.j.payne at bristol.ac.uk (tony payne)
+Date: Thu, 11 Feb 2010 17:05:50 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <4B742AD0.3080607@lanl.gov>
+References: <mailman.1.1264849206.14066.glimmer-cism-devel@lists.berlios.de>	<36D2916749C7A6240152D5FC@geog-a81.ggy.bris.ac.uk>	<874CCE13-BFCB-48CA-B5B2-09594E55086F@lanl.gov>	<8B4179DF-619A-40EF-9CEF-D5FDDE02A57B@lanl.gov>	<9288095c1002101414y754c2996l51065b7ab6b2f4c4@mail.gmail.com>	<4B73E20C.9020805@ed.ac.uk>
+	<4B73E4DD.80905@bristol.ac.uk> <4B742AD0.3080607@lanl.gov>
+Message-ID: <4B7438EE.7070007@bristol.ac.uk>
+
+hi
+
+we can add this to the agenda for boulder.
+
+tony
+
+Stephen Price wrote:
+> 
+> I'm happy to help on this as well. What is the priority on this? Is it 
+> getting in the way of other development at the moment?
+> 
+> Tony, the first thing we should do is a few test cases w/ the no rescale 
+> option set during the build. I've seen this make no difference to the 
+> solution in a few cases, and lead to non-convergence in a few cases, but 
+> it would be good confirm whether or not there are some differences there.
+> 
+> Steve
+> 
+> 
+> tony payne wrote:
+>> hi
+>>
+>> i think i agreed to do the descaling work at the lat steering cmt 
+>> meeting.  still happy to do this after all it mostly stems from my 
+>> initial mistake in putting it in.
+>>
+>> tony
+>>
+>> Magnus Hagdorn wrote:
+>>> Jesse Johnson wrote:
+>>>> Hi All,
+>>>>
+>>>> Thanks Gethin, I was wondering why that was happening.
+>>>>
+>>>> I would propose that we try and eliminate rescaling to fix the problem
+>>>> with least significant bits in exact restarts. That should do it,
+>>>> right? At this point, I think it's just glam that would need to
+>>>> modified to eliminate rescaling.
+>>>>
+>>> yup, yet another reason.
+>>>
+>>> Is anyone working on removing the scaling? This would be great.
+>>>
+
+-- 
+------------------------<>---------------------------
+Tony Payne
+School of Geographical Sciences,
+University of Bristol,
+Bristol BS8 1SS, UK.
+Telephone:      +117 331 4156
+Fax:            +117 928 7878
+Email:          A.J.Payne at bristol.ac.uk
+------------------------<>---------------------------
+
+
+From j.m.gregory at reading.ac.uk  Fri Feb 12 09:53:32 2010
+From: j.m.gregory at reading.ac.uk (Jonathan Gregory)
+Date: Fri, 12 Feb 2010 08:53:32 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+Message-ID: <20100212085332.GC26408@met.reading.ac.uk>
+
+Dear Bill
+
+I may not have digested the preceding emails properly, so this could be an
+ignorant comment.
+
+I think you're suggesting that quantities might be in different units in the
+diag and restart files (scaled or not scaled). I think that could be a bit
+confusing. Although the restart files are mainly for restart, sometimes there
+is a need to look at them, and it's much easier for a human if they're in the
+proper units. Also, restart files may occasionally be used for diag purposes,
+to see the instantaneous state, and for a new run the (re)start file may have
+to be made manually from something in real units. I hope that the start and
+restart mechanism is the same.
+
+Best wishes
+
+Jonathan
+
+
+From lipscomb at lanl.gov  Fri Feb 12 15:24:56 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Fri, 12 Feb 2010 07:24:56 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <20100212085332.GC26408@met.reading.ac.uk>
+References: <20100212085332.GC26408@met.reading.ac.uk>
+Message-ID: <FF04AC1A-F557-48F8-A167-49669DB3C304@lanl.gov>
+
+
+Hi Jonathan,
+
+I agree that it would be better for the restart file to include fields  
+in proper, humanly digestible units.  The way to ensure this is to  
+have proper units for the state variables in the code: for instance,  
+meters for thickness instead of (meters/thk0), where thk0 is a scaling  
+factor whose value you have to look up.  There are plans to remove  
+these scaling factors from Glimmer in the fairly near term.
+
+Occasionally it may be the case that a state variable is carried  
+around in units that are not friendly for diagnostics.  In that case  
+you could use the netCDF scale_factor attribute, as Jed suggested  
+earlier.
+
+Does this make sense?  I think we still have enough flexibility to  
+make life easy for code developers and users.  My main point was that  
+we don't want to write restart fields in units that are different from  
+the units of the state variables in the code--because then we lose  
+exact restart.
+
+Cheers,
+
+Bill
+
+
+On Feb 12, 2010, at 1:53 AM, Jonathan Gregory wrote:
+
+> Dear Bill
+>
+> I may not have digested the preceding emails properly, so this could  
+> be an
+> ignorant comment.
+>
+> I think you're suggesting that quantities might be in different  
+> units in the
+> diag and restart files (scaled or not scaled). I think that could be  
+> a bit
+> confusing. Although the restart files are mainly for restart,  
+> sometimes there
+> is a need to look at them, and it's much easier for a human if  
+> they're in the
+> proper units. Also, restart files may occasionally be used for diag  
+> purposes,
+> to see the instantaneous state, and for a new run the (re)start file  
+> may have
+> to be made manually from something in real units. I hope that the  
+> start and
+> restart mechanism is the same.
+>
+> Best wishes
+>
+> Jonathan
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From j.m.gregory at reading.ac.uk  Fri Feb 12 15:47:38 2010
+From: j.m.gregory at reading.ac.uk (Jonathan Gregory)
+Date: Fri, 12 Feb 2010 14:47:38 +0000
+Subject: [Glimmer-cism-devel]  exact restart again
+In-Reply-To: <FF04AC1A-F557-48F8-A167-49669DB3C304@lanl.gov>
+References: <20100212085332.GC26408@met.reading.ac.uk>
+	<FF04AC1A-F557-48F8-A167-49669DB3C304@lanl.gov>
+Message-ID: <20100212144738.GB28028@met.reading.ac.uk>
+
+Dear Bill
+
+Thank you for explaining. Yes, what you say makes sense to me.
+
+> My main point was that  
+> we don't want to write restart fields in units that are different from  
+> the units of the state variables in the code--because then we lose  
+> exact restart.
+
+We certainly want the exact restart. The units in the file could be different
+from in the code provided the same scaling and unscaling is always done at
+the points in the program where a restart file *might* be written out,
+regardless of whether it actually *is* written out.
+
+Best wishes
+
+Jonathan
+
+
+From R.Gladstone at bristol.ac.uk  Sun Feb 14 17:48:02 2010
+From: R.Gladstone at bristol.ac.uk (Rupert Gladstone)
+Date: Sun, 14 Feb 2010 16:48:02 +0000
+Subject: [Glimmer-cism-devel] GCM/glimmer-cism coupling decisions
+Message-ID: <6F7267091F8801FDE1405553@geog-bsq72.ggy.bris.ac.uk>
+
+
+Hi all (and especially Bill), given that new optional functionality is 
+being added to the GCM/glimmer-cism interface (e.g. surface mass balance on 
+altitude tiles, ocean coupling perhaps via a plume model) I think a 
+decision needs to be made about where the decisions should be made.  I am 
+referring to decisions such as 'should the GCM calculate SMB on tiles or 
+pass in temp/precip fields for glimmer-cism to calculate SMB?' and 'should 
+the GCM pass in ocean fields so that glimmer-cism can use a plume model or 
+not?'.
+
+I see three obvious choices:
+1. Glimmer-cism decides (through options in the config file) and tells the 
+GCM via the interface.
+2. The GCM decides and tells glimmer-cism via the interface.
+3. They both decide separately and glimmer-cism carries out a consistency 
+check at some point.
+
+I don't have a strong opinion on this, what does anyone else think?
+
+Cheers,
+Rupert
+
+-------------------------------
+Rupert Gladstone
+School of Geographical Sciences
+University of Bristol
+University Road
+Bristol BS8 1SS
+Tel +44 (0) 117 33 14154
+
+
+
+From gladish at cims.nyu.edu  Sun Feb 14 20:44:10 2010
+From: gladish at cims.nyu.edu (Carl Gladish)
+Date: Sun, 14 Feb 2010 14:44:10 -0500
+Subject: [Glimmer-cism-devel] GCM/glimmer-cism coupling decisions
+In-Reply-To: <6F7267091F8801FDE1405553@geog-bsq72.ggy.bris.ac.uk>
+References: <6F7267091F8801FDE1405553@geog-bsq72.ggy.bris.ac.uk>
+Message-ID: <8a364a0f1002141144w49401adbx308fc1d2f10a2c03@mail.gmail.com>
+
+Hi Rupert,
+
+I can give some input as far as plume coupling goes.
+
+For my current plume coupling setup the decision about mass balance (basal
+melt rate) you are talking about takes place in glide.  I added a new glide
+option which_bmlt. If it is set to 1 then glide expects basal melt for any
+floating cells to be calculated by some external code (the plume in this
+case, which it doesn't know anything about) so it doesn't write any basal
+melt rate into the basal melt array.  My driver subcycles the plume model
+during each ice timestep using the current shelf state.  Thus the plume
+calculates a basal melt rate and can simply write those values directly into
+glide's bmelt array since both models are run in the same process.  In this
+setup glimmer-cism doesn't need to know anything about any far-field ocean
+properties since the plume model is given the far-field ocean properties it
+needs at configuration time.  Basically glide just needs to be told not to
+calculate basal melt rate for floating cells (it currently doesn't calculate
+a melt rate for floating ice anyway, I think).
+
+It sounds like you are considering a setup where a full ocean model is
+running in a separate process but doesn't calculate the basal melt rate
+(because it doesn't know about ice? or it doesn't resolve the melt layer
+well enough perhaps?) but rather glint pulls far-field ocean properties from
+the ocean model and then uses its own internal plume model to calculate the
+basal melt rate which it hands off to glide.  I hadn't thought of doing it
+like that.  One argument against that is that (at least for me) the plume
+model assumes a quiescent deep layer beneath it so its predicted behavior
+would not be physically consistent with an ocean that was doing anything
+much at all beneath it.  I would imagine that the ocean model would need to
+own it's own plume model with which it is physically consistent that it uses
+to calculate melt rates and then passes to glide via glint.
+
+In any case, I would support having the ocean component (plume or full
+model) own the basal melt rate calculation.  Then you can use an option
+parameter like which_bmlt which would tell glide that, for floating cells it
+just trusts that the driver somehow puts the right melt rate in
+model%temper%bmlt.  The melt rate would have been written by the driver
+after getting it from the plume/ocean model.  On the other hand, the actual
+melt rate calculation is about 10 lines of code once you know the ocean
+depth, temp, salinity and speed of the top of the ocean.  You could just
+take those values from the top layer of the ocean model and perform the bmlt
+calculation in glint (therefore no use of a plume model).
+
+Cheers,
+Carl Gladish
+- Show quoted text -
+
+
+On Sun, Feb 14, 2010 at 11:48 AM, Rupert Gladstone <
+R.Gladstone at bristol.ac.uk> wrote:
+
+>
+> Hi all (and especially Bill), given that new optional functionality is
+> being added to the GCM/glimmer-cism interface (e.g. surface mass balance on
+> altitude tiles, ocean coupling perhaps via a plume model) I think a
+> decision needs to be made about where the decisions should be made.  I am
+> referring to decisions such as 'should the GCM calculate SMB on tiles or
+> pass in temp/precip fields for glimmer-cism to calculate SMB?' and 'should
+> the GCM pass in ocean fields so that glimmer-cism can use a plume model or
+> not?'.
+>
+> I see three obvious choices:
+> 1. Glimmer-cism decides (through options in the config file) and tells the
+> GCM via the interface.
+> 2. The GCM decides and tells glimmer-cism via the interface.
+> 3. They both decide separately and glimmer-cism carries out a consistency
+> check at some point.
+>
+> I don't have a strong opinion on this, what does anyone else think?
+>
+> Cheers,
+> Rupert
+>
+> -------------------------------
+> Rupert Gladstone
+> School of Geographical Sciences
+> University of Bristol
+> University Road
+> Bristol BS8 1SS
+> Tel +44 (0) 117 33 14154
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+-- 
+Carl Gladish
+cell: (917) 502 - 1818
+home: (718) 626 - 2504
+office: (212) 998 - 3198
+Warren Weaver Hall rm 708, 251 Mercer NY,NY
+http://www.cims.nyu.edu/~gladish <http://www.cims.nyu.edu/%7Egladish>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100214/19dfaa9f/attachment.html>
+
+From R.Gladstone at bristol.ac.uk  Mon Feb 15 15:09:01 2010
+From: R.Gladstone at bristol.ac.uk (Rupert Gladstone)
+Date: Mon, 15 Feb 2010 14:09:01 +0000
+Subject: [Glimmer-cism-devel] GCM/glimmer-cism coupling decisions
+In-Reply-To: <8a364a0f1002141144w49401adbx308fc1d2f10a2c03@mail.gmail.com>
+References: <6F7267091F8801FDE1405553@geog-bsq72.ggy.bris.ac.uk>
+	<8a364a0f1002141144w49401adbx308fc1d2f10a2c03@mail.gmail.com>
+Message-ID: <9478B2735086BD5728403061@geog-bsq72.ggy.bris.ac.uk>
+
+
+Hi Carl, thanks very much for your reply about the plume coupling.
+
+You are right in your second paragraph that we want to drive the plume 
+model  with ocean GCM data, and that the ocean GCM doesn't know about sub 
+ice shelf cavities (it is too low resolution to resolve them properly in 
+any case).
+
+My colleague Vicky has been developing a 2 layer version of the plume model 
+in which the lower layer represents the majority of the cavity, and this 
+will be influenced by the GCM.
+
+How the plume talks to glide is not something I've considered yet, but 
+we'll certainly consider your approach before we tackle this.
+
+Cheers,
+Rupert
+
+--On 14 February 2010 14:44 -0500 Carl Gladish <gladish at cims.nyu.edu> wrote:
+
+> Hi Rupert,
+>
+> I can give some input as far as plume coupling goes.
+>
+> For my current plume coupling setup the decision about mass balance
+> (basal melt rate) you are talking about takes place in glide.? I added a
+> new glide option which_bmlt. If it is set to 1 then glide expects basal
+> melt for any floating cells to be calculated by some external code (the
+> plume in this case, which it doesn't know anything about) so it doesn't
+> write any basal melt rate into the basal melt array.? My driver subcycles
+> the plume model during each ice timestep using the current shelf state.?
+> Thus the plume calculates a basal melt rate and can simply write those
+> values directly into glide's bmelt array since both models are run in the
+> same process.? In this setup glimmer-cism doesn't need to know anything
+> about any far-field ocean properties since the plume model is given the
+> far-field ocean properties it needs at configuration time.? Basically
+> glide just needs to be told not to calculate basal melt rate for floating
+> cells (it currently doesn't calculate a melt rate for floating ice
+> anyway, I think).?
+>
+> It sounds like you are considering a setup where a full ocean model is
+> running in a separate process but doesn't calculate the basal melt rate
+> (because it doesn't know about ice? or it doesn't resolve the melt layer
+> well enough perhaps?) but rather glint pulls far-field ocean properties
+> from the ocean model and then uses its own internal plume model to
+> calculate the basal melt rate which it hands off to glide.? I hadn't
+> thought of doing it like that.? One argument against that is that (at
+> least for me) the plume model assumes a quiescent deep layer beneath it
+> so its predicted behavior would not be physically consistent with an
+> ocean that was doing anything much at all beneath it.? I would imagine
+> that the ocean model would need to own it's own plume model with which it
+> is physically consistent that it uses to calculate melt rates and then
+> passes to glide via glint.
+>
+> In any case, I would support having the ocean component (plume or full
+> model) own the basal melt rate calculation.? Then you can use an option
+> parameter like which_bmlt which would tell glide that, for floating cells
+> it just trusts that the driver somehow puts the right melt rate in
+> model%temper%bmlt.? The melt rate would have been written by the driver
+> after getting it from the plume/ocean model.? On the other hand, the
+> actual melt rate calculation is about 10 lines of code once you know the
+> ocean depth, temp, salinity and speed of the top of the ocean.? You could
+> just take those values from the top layer of the ocean model and perform
+> the bmlt calculation in glint (therefore no use of a plume model).
+>
+> Cheers,
+> Carl Gladish
+>
+> - Show quoted text -
+>
+>
+>
+> On Sun, Feb 14, 2010 at 11:48 AM, Rupert Gladstone
+> <R.Gladstone at bristol.ac.uk> wrote:
+>
+>
+> Hi all (and especially Bill), given that new optional functionality is
+> being added to the GCM/glimmer-cism interface (e.g. surface mass balance
+> on
+> altitude tiles, ocean coupling perhaps via a plume model) I think a
+> decision needs to be made about where the decisions should be made. ?I am
+> referring to decisions such as 'should the GCM calculate SMB on tiles or
+> pass in temp/precip fields for glimmer-cism to calculate SMB?' and 'should
+> the GCM pass in ocean fields so that glimmer-cism can use a plume model or
+> not?'.
+>
+> I see three obvious choices:
+> 1. Glimmer-cism decides (through options in the config file) and tells the
+> GCM via the interface.
+> 2. The GCM decides and tells glimmer-cism via the interface.
+> 3. They both decide separately and glimmer-cism carries out a consistency
+> check at some point.
+>
+> I don't have a strong opinion on this, what does anyone else think?
+>
+> Cheers,
+> Rupert
+>
+> -------------------------------
+> Rupert Gladstone
+> School of Geographical Sciences
+> University of Bristol
+> University Road
+> Bristol BS8 1SS
+> Tel +44 (0) 117 33 14154
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+> --
+> Carl Gladish
+> cell: (917) 502 - 1818
+> home: (718) 626 - 2504
+> office: (212) 998 - 3198
+> Warren Weaver Hall rm 708, 251 Mercer NY,NY
+> http://www.cims.nyu.edu/~gladish
+>
+
+
+
+-------------------------------
+Rupert Gladstone
+School of Geographical Sciences
+University of Bristol
+University Road
+Bristol BS8 1SS
+Tel +44 (0) 117 33 14154
+
+
+
+From Gethin.Williams at bristol.ac.uk  Mon Feb 15 19:23:05 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Mon, 15 Feb 2010 18:23:05 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+Message-ID: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+
+Hi all,
+
+I've attached a simple NetCDF file (2d.nc).  I added 'scale_factor' and 
+'add_offset' attributes to the only variable (temperature).  You can try 
+opening the file with various viewing packages:- panoply, ncview, ferret, 
+for example.
+
+All of these packages apply the scale and offset automatically--the data 
+values are in the range 0.01 to 0.32, but the displayed temperatures are 
+between 2.05 and 3.20 celsius (scale_factor=5.0, add_offset=2.0).
+
+Echoing the comments of Jed & Bill, amongst others, this facility neatly 
+copes with the need for scaled data in the calculations /and/ the provision 
+of data in meaningful units for diagnostics.  We would not need duplicate 
+outputs on two different scales--one set of output files would be 
+sufficient for both restarts and diagnostics.  Occam's razor prefers it, 
+and one set of files gives a much less fertile ground for bugs.
+
+Cheers,
+Gethin. 
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 2d.nc
+Type: application/octet-stream
+Size: 17484 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100215/a6beb11c/attachment.obj>
+
+From Gethin.Williams at bristol.ac.uk  Mon Feb 15 19:30:31 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Mon, 15 Feb 2010 18:30:31 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+Message-ID: <5FF9EE50F2C5EBFC36138551@geog-a81.ggy.bris.ac.uk>
+
+
+My example NetCDF file got scrubbed, but--if you like--you can get it from:
+
+<https://www.bris.ac.uk/fluff/u/ggdagw/qjlkVhMtCw0UTeTN4u_eZwFY/>
+
+Gethin.
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Feb 16 09:52:30 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 16 Feb 2010 08:52:30 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+Message-ID: <4B7A5CCE.3010608@ed.ac.uk>
+
+Hi all,
+it would be straight-forward to change the netCDF I/O to output scaled 
+fields and the scaling factor. The code generator already knows about 
+the scaling factors so we would just need to store them in the files and 
+not apply the scaling on in/output. I quite like this idea. If we agree 
+I could implement this on the glimmer-cism-2 trunk and Bill could pull 
+the change into the CCSM coupling branch.
+
+Cheers
+magi
+
+DAG Williams, Geographical Sciences wrote:
+> Hi all,
+> 
+> I've attached a simple NetCDF file (2d.nc).  I added 'scale_factor' and 
+> 'add_offset' attributes to the only variable (temperature).  You can try 
+> opening the file with various viewing packages:- panoply, ncview, 
+> ferret, for example.
+> 
+> All of these packages apply the scale and offset automatically--the data 
+> values are in the range 0.01 to 0.32, but the displayed temperatures are 
+> between 2.05 and 3.20 celsius (scale_factor=5.0, add_offset=2.0).
+> 
+> Echoing the comments of Jed & Bill, amongst others, this facility neatly 
+> copes with the need for scaled data in the calculations /and/ the 
+> provision of data in meaningful units for diagnostics.  We would not 
+> need duplicate outputs on two different scales--one set of output files 
+> would be sufficient for both restarts and diagnostics.  Occam's razor 
+> prefers it, and one set of files gives a much less fertile ground for bugs.
+> 
+> Cheers,
+> Gethin.
+> 
+> 
+> ------------------------------------------------------------------------
+> 
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From lipscomb at lanl.gov  Tue Feb 16 14:27:48 2010
+From: lipscomb at lanl.gov (William H. Lipscomb)
+Date: Tue, 16 Feb 2010 06:27:48 -0700 (MST)
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <4B7A5CCE.3010608@ed.ac.uk>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+	<4B7A5CCE.3010608@ed.ac.uk>
+Message-ID: <37635.128.165.0.81.1266326868.squirrel@webmail.lanl.gov>
+
+
+Hi Magnus,
+
+Sounds good to me!
+
+Thanks,
+Bill
+
+
+> Hi all,
+> it would be straight-forward to change the netCDF I/O to output scaled
+> fields and the scaling factor. The code generator already knows about
+> the scaling factors so we would just need to store them in the files and
+> not apply the scaling on in/output. I quite like this idea. If we agree
+> I could implement this on the glimmer-cism-2 trunk and Bill could pull
+> the change into the CCSM coupling branch.
+>
+> Cheers
+> magi
+>
+> DAG Williams, Geographical Sciences wrote:
+>> Hi all,
+>>
+>> I've attached a simple NetCDF file (2d.nc).  I added 'scale_factor' and
+>> 'add_offset' attributes to the only variable (temperature).  You can try
+>> opening the file with various viewing packages:- panoply, ncview,
+>> ferret, for example.
+>>
+>> All of these packages apply the scale and offset automatically--the data
+>> values are in the range 0.01 to 0.32, but the displayed temperatures are
+>> between 2.05 and 3.20 celsius (scale_factor=5.0, add_offset=2.0).
+>>
+>> Echoing the comments of Jed & Bill, amongst others, this facility neatly
+>> copes with the need for scaled data in the calculations /and/ the
+>> provision of data in meaningful units for diagnostics.  We would not
+>> need duplicate outputs on two different scales--one set of output files
+>> would be sufficient for both restarts and diagnostics.  Occam's razor
+>> prefers it, and one set of files gives a much less fertile ground for
+>> bugs.
+>>
+>> Cheers,
+>> Gethin.
+>>
+>>
+>> ------------------------------------------------------------------------
+>>
+>> _______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+>
+> --
+> The University of Edinburgh is a charitable body, registered in
+> Scotland, with registration number SC005336.
+>
+> _______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+
+
+
+From lipscomb at lanl.gov  Mon Feb 22 20:49:14 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Mon, 22 Feb 2010 12:49:14 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+Message-ID: <9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+
+
+Hi all,
+
+Just a minor followup.  The netCDF scale factors will indeed simplify  
+the code.  But restart variables need to be written in double  
+precision, whereas I assume we want single precision for diagnostics.   
+For this reason it may still make sense to define hotstart variables  
+in addition to diagnostic variables.   Else we'll waste a lot of  
+memory storing double-precision fields (such as temperature) in  
+diagnostic files.
+
+Cheers,
+
+Bill
+
+
+On Feb 15, 2010, at 11:23 AM, DAG Williams, Geographical Sciences wrote:
+
+> Hi all,
+>
+> I've attached a simple NetCDF file (2d.nc).  I added 'scale_factor'  
+> and 'add_offset' attributes to the only variable (temperature).  You  
+> can try opening the file with various viewing packages:- panoply,  
+> ncview, ferret, for example.
+>
+> All of these packages apply the scale and offset automatically--the  
+> data values are in the range 0.01 to 0.32, but the displayed  
+> temperatures are between 2.05 and 3.20 celsius (scale_factor=5.0,  
+> add_offset=2.0).
+>
+> Echoing the comments of Jed & Bill, amongst others, this facility  
+> neatly copes with the need for scaled data in the calculations /and/  
+> the provision of data in meaningful units for diagnostics.  We would  
+> not need duplicate outputs on two different scales--one set of  
+> output files would be sufficient for both restarts and diagnostics.   
+> Occam's razor prefers it, and one set of files gives a much less  
+> fertile ground for bugs.
+>
+> Cheers,
+> Gethin. <2d.nc>_______________________________________________
+> Glimmer-cism-devel mailing list
+> Glimmer-cism-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Gethin.Williams at bristol.ac.uk  Tue Feb 23 11:18:46 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Tue, 23 Feb 2010 10:18:46 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+	<9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+Message-ID: <9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+
+Hi Bill & all,
+
+Concern about space (disk and memory) is a very valid point, and it could 
+well make sense for us to use single precision for diagnostic fields.
+
+However, given that the single NetCDF file approach is so much simpler to 
+implement and so much more robust to potential bugs, I wonder whether we 
+could pool some information about run-time memory usage and output file 
+size?
+
+For example, I'm running a simple version of glimmer with genie right now, 
+and the memory footprint is very modest indeed.  Does memory usage climb 
+dramatically when we switch to HO physics etc?  If it is a modest hit in 
+terms of memory & disk, could we trade it against simpler code, without 
+duplication?  Or--looking forward to antarctic scale runs--is the bloat too 
+large to accommodate?
+
+Best wishes,
+Gethin.
+
+--On 22 February 2010 12:49 -0700 William Lipscomb <lipscomb at lanl.gov> 
+wrote:
+
+>
+> Hi all,
+>
+> Just a minor followup.  The netCDF scale factors will indeed simplify the
+> code.  But restart variables need to be written in double precision,
+> whereas I assume we want single precision for diagnostics.  For this
+> reason it may still make sense to define hotstart variables in addition
+> to diagnostic variables.   Else we'll waste a lot of memory storing
+> double-precision fields (such as temperature) in diagnostic files.
+>
+> Cheers,
+>
+> Bill
+>
+>
+> On Feb 15, 2010, at 11:23 AM, DAG Williams, Geographical Sciences wrote:
+>
+>> Hi all,
+>>
+>> I've attached a simple NetCDF file (2d.nc).  I added 'scale_factor'
+>> and 'add_offset' attributes to the only variable (temperature).  You
+>> can try opening the file with various viewing packages:- panoply,
+>> ncview, ferret, for example.
+>>
+>> All of these packages apply the scale and offset automatically--the
+>> data values are in the range 0.01 to 0.32, but the displayed
+>> temperatures are between 2.05 and 3.20 celsius (scale_factor=5.0,
+>> add_offset=2.0).
+>>
+>> Echoing the comments of Jed & Bill, amongst others, this facility
+>> neatly copes with the need for scaled data in the calculations /and/
+>> the provision of data in meaningful units for diagnostics.  We would
+>> not need duplicate outputs on two different scales--one set of
+>> output files would be sufficient for both restarts and diagnostics.
+>> Occam's razor prefers it, and one set of files gives a much less
+>> fertile ground for bugs.
+>>
+>> Cheers,
+>> Gethin. <2d.nc>_______________________________________________
+>> Glimmer-cism-devel mailing list
+>> Glimmer-cism-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel
+>
+> *************************************************************************
+> ******
+> William H. Lipscomb					E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory		Phone: (505) 667-0395
+> Group T-3, Mail Stop B216			Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *************************************************************************
+> ******
+>
+>
+>
+>
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Tue Feb 23 11:25:45 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Tue, 23 Feb 2010 10:25:45 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>	<9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+	<9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+Message-ID: <4B83AD29.1060405@ed.ac.uk>
+
+DAG Williams, Geographical Sciences wrote:
+> Hi Bill & all,
+> 
+> Concern about space (disk and memory) is a very valid point, and it could 
+> well make sense for us to use single precision for diagnostic fields.
+> 
+> However, given that the single NetCDF file approach is so much simpler to 
+> implement and so much more robust to potential bugs, I wonder whether we 
+> could pool some information about run-time memory usage and output file 
+> size?
+> 
+> For example, I'm running a simple version of glimmer with genie right now, 
+> and the memory footprint is very modest indeed.  Does memory usage climb 
+> dramatically when we switch to HO physics etc?  If it is a modest hit in 
+> terms of memory & disk, could we trade it against simpler code, without 
+> duplication?  Or--looking forward to antarctic scale runs--is the bloat too 
+> large to accommodate?
+> 
+> 
+
+Well, I was thinking that we could specify the precision we want to 
+output in the configuration file. The simplest way would be to have a 
+single switch to set all variables to dp or sp on a per file basis.
+
+i'll stick that into a todo for the netcdf i/o.
+cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From jed at 59A2.org  Tue Feb 23 11:32:53 2010
+From: jed at 59A2.org (Jed Brown)
+Date: Tue, 23 Feb 2010 11:32:53 +0100
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+	<9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+	<9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+Message-ID: <871vgc6y3u.fsf@59A2.org>
+
+On Tue, 23 Feb 2010 10:18:46 +0000, "DAG Williams, Geographical Sciences" <Gethin.Williams at bristol.ac.uk> wrote:
+> Hi Bill & all,
+> 
+> Concern about space (disk and memory) is a very valid point, and it could 
+> well make sense for us to use single precision for diagnostic fields.
+> 
+> However, given that the single NetCDF file approach is so much simpler to 
+> implement and so much more robust to potential bugs, I wonder whether we 
+> could pool some information about run-time memory usage and output file 
+> size?
+> 
+> For example, I'm running a simple version of glimmer with genie right now, 
+> and the memory footprint is very modest indeed.  Does memory usage climb 
+> dramatically when we switch to HO physics etc?  If it is a modest hit in 
+> terms of memory & disk, could we trade it against simpler code, without 
+> duplication?  Or--looking forward to antarctic scale runs--is the bloat too 
+> large to accommodate?
+
+It all depends on the resolution you want.  PISM sometimes runs with ~1B
+degrees of freedom, in which case each output file would be several GB.
+In the face of exact restart when a solver is in play, you have to save
+velocity (or whatever else you're solving for) in full precision,
+despite it being a "diagonostic field" because it will serve as the
+initial iterate for the next solve.  Of course the solution you get with
+a cold initial iterate is just as valid (just takes longer to get).
+
+Jed
+
+
+From lipscomb at lanl.gov  Tue Feb 23 17:27:02 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Tue, 23 Feb 2010 09:27:02 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <871vgc6y3u.fsf@59A2.org>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+	<9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+	<9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+	<871vgc6y3u.fsf@59A2.org>
+Message-ID: <D9F71B4B-B10B-47FD-A557-18ED590AA54D@lanl.gov>
+
+
+Hi again,
+
+In a typical climate run, history (i.e., diagnostic) files are written  
+once per model month.  Let's say we're doing a high-resolution run for  
+all of Antarctica at 1 km resolution with 20 levels, giving perhaps  
+500 M grid points in 3D.  Then as Jed said, we're looking at several  
+GB per 3D field, written ~1000 times in a century-scale run, adding up  
+to several TB.  So I think it would be frowned upon if we were writing  
+double-precision fields where single-precision would do.
+
+The code changes to write two versions of the same variable (one SP,  
+one DP) to two different files (history and restart) are pretty  
+minimal.  You only have to touch one source file, glide_vars.def.  The  
+DP "hot" variables would be written to the restart file (and only the  
+restart file).  All other variables would be written to the various  
+diagnostic files.
+
+As Jed says, it's not required to write velocity to the restart file,  
+but it will speed the time to solution if we do.  At some point we'll  
+have to weigh the tradeoff of disk space v. solution time.  For now,  
+the temperature field is the only 3D field that is essential for exact  
+restart (and hence must be written as double precision to the restart  
+file).
+
+Cheers,
+
+Bill
+
+
+On Feb 23, 2010, at 3:32 AM, Jed Brown wrote:
+
+> On Tue, 23 Feb 2010 10:18:46 +0000, "DAG Williams, Geographical  
+> Sciences" <Gethin.Williams at bristol.ac.uk> wrote:
+>> Hi Bill & all,
+>>
+>> Concern about space (disk and memory) is a very valid point, and it  
+>> could
+>> well make sense for us to use single precision for diagnostic fields.
+>>
+>> However, given that the single NetCDF file approach is so much  
+>> simpler to
+>> implement and so much more robust to potential bugs, I wonder  
+>> whether we
+>> could pool some information about run-time memory usage and output  
+>> file
+>> size?
+>>
+>> For example, I'm running a simple version of glimmer with genie  
+>> right now,
+>> and the memory footprint is very modest indeed.  Does memory usage  
+>> climb
+>> dramatically when we switch to HO physics etc?  If it is a modest  
+>> hit in
+>> terms of memory & disk, could we trade it against simpler code,  
+>> without
+>> duplication?  Or--looking forward to antarctic scale runs--is the  
+>> bloat too
+>> large to accommodate?
+>
+> It all depends on the resolution you want.  PISM sometimes runs with  
+> ~1B
+> degrees of freedom, in which case each output file would be several  
+> GB.
+> In the face of exact restart when a solver is in play, you have to  
+> save
+> velocity (or whatever else you're solving for) in full precision,
+> despite it being a "diagonostic field" because it will serve as the
+> initial iterate for the next solve.  Of course the solution you get  
+> with
+> a cold initial iterate is just as valid (just takes longer to get).
+>
+> Jed
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From jed at 59a2.org  Tue Feb 23 17:37:38 2010
+From: jed at 59a2.org (Jed Brown)
+Date: Tue, 23 Feb 2010 17:37:38 +0100
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <D9F71B4B-B10B-47FD-A557-18ED590AA54D@lanl.gov>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+	<9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+	<9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+	<871vgc6y3u.fsf@59A2.org>
+	<D9F71B4B-B10B-47FD-A557-18ED590AA54D@lanl.gov>
+Message-ID: <87bpff6h7x.fsf@59A2.org>
+
+On Tue, 23 Feb 2010 09:27:02 -0700, William Lipscomb <lipscomb at lanl.gov> wrote:
+> As Jed says, it's not required to write velocity to the restart file,  
+> but it will speed the time to solution if we do.  At some point we'll  
+> have to weigh the tradeoff of disk space v. solution time.  For now,  
+> the temperature field is the only 3D field that is essential for exact  
+> restart (and hence must be written as double precision to the restart  
+> file).
+
+You don't need to write velocity to get a "correct" restart (and I
+wouldn't recommend writing it), but you do need to write it to get an
+exact restart.  An alternative is to just throw away the velocity and
+solve with a cold initial iterate every time you write a checkpoint, but
+this has the undesirable property that the result depends on the
+checkpoint interval (again, not in a substantive way, each state is
+equally valid).  You could start with a cold iterate on every solve, but
+now we're talking about something that would have a big impact on
+runtime.
+
+Jed
+
+
+From lipscomb at lanl.gov  Tue Feb 23 17:55:51 2010
+From: lipscomb at lanl.gov (William Lipscomb)
+Date: Tue, 23 Feb 2010 09:55:51 -0700
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <87bpff6h7x.fsf@59A2.org>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+	<9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+	<9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+	<871vgc6y3u.fsf@59A2.org>
+	<D9F71B4B-B10B-47FD-A557-18ED590AA54D@lanl.gov>
+	<87bpff6h7x.fsf@59A2.org>
+Message-ID: <70BD9259-7614-474D-9AF8-16D86C6C1650@lanl.gov>
+
+
+Jed,
+
+Thanks for the clarification.  Yes, you're right about needing  
+velocity for exact restart.
+
+- Bill
+
+
+On Feb 23, 2010, at 9:37 AM, Jed Brown wrote:
+
+> On Tue, 23 Feb 2010 09:27:02 -0700, William Lipscomb <lipscomb at lanl.gov 
+> > wrote:
+>> As Jed says, it's not required to write velocity to the restart file,
+>> but it will speed the time to solution if we do.  At some point we'll
+>> have to weigh the tradeoff of disk space v. solution time.  For now,
+>> the temperature field is the only 3D field that is essential for  
+>> exact
+>> restart (and hence must be written as double precision to the restart
+>> file).
+>
+> You don't need to write velocity to get a "correct" restart (and I
+> wouldn't recommend writing it), but you do need to write it to get an
+> exact restart.  An alternative is to just throw away the velocity and
+> solve with a cold initial iterate every time you write a checkpoint,  
+> but
+> this has the undesirable property that the result depends on the
+> checkpoint interval (again, not in a substantive way, each state is
+> equally valid).  You could start with a cold iterate on every solve,  
+> but
+> now we're talking about something that would have a big impact on
+> runtime.
+>
+> Jed
+
+*******************************************************************************
+William H. Lipscomb					E-mail: lipscomb at lanl.gov
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+
+From Gethin.Williams at bristol.ac.uk  Wed Feb 24 13:19:38 2010
+From: Gethin.Williams at bristol.ac.uk (DAG Williams, Geographical Sciences)
+Date: Wed, 24 Feb 2010 12:19:38 +0000
+Subject: [Glimmer-cism-devel] exact restart again
+In-Reply-To: <D9F71B4B-B10B-47FD-A557-18ED590AA54D@lanl.gov>
+References: <54ED6232ECE8EDC412E19E06@geog-a81.ggy.bris.ac.uk>
+	<9C4516F7-B12D-46A8-A672-A15F60A2FA68@lanl.gov>
+	<9EB13903AA22ACFDB09680A3@geog-a81.ggy.bris.ac.uk>
+	<871vgc6y3u.fsf@59A2.org>
+	<D9F71B4B-B10B-47FD-A557-18ED590AA54D@lanl.gov>
+Message-ID: <20A7BC9EAE3E5EEFC03195C0@geog-a81.ggy.bris.ac.uk>
+
+Hi Bill,
+
+Thanks for your figures.  I think they make a pretty compelling point that 
+we should be parsimonious with our output!:)
+
+Cheers,
+Gethin.
+
+--On 23 February 2010 09:27 -0700 William Lipscomb <lipscomb at lanl.gov> 
+wrote:
+
+>
+> Hi again,
+>
+> In a typical climate run, history (i.e., diagnostic) files are written
+> once per model month.  Let's say we're doing a high-resolution run for
+> all of Antarctica at 1 km resolution with 20 levels, giving perhaps 500 M
+> grid points in 3D.  Then as Jed said, we're looking at several GB per 3D
+> field, written ~1000 times in a century-scale run, adding up to several
+> TB.  So I think it would be frowned upon if we were writing
+> double-precision fields where single-precision would do.
+>
+> The code changes to write two versions of the same variable (one SP, one
+> DP) to two different files (history and restart) are pretty minimal.  You
+> only have to touch one source file, glide_vars.def.  The DP "hot"
+> variables would be written to the restart file (and only the restart
+> file).  All other variables would be written to the various diagnostic
+> files.
+>
+> As Jed says, it's not required to write velocity to the restart file, but
+> it will speed the time to solution if we do.  At some point we'll have to
+> weigh the tradeoff of disk space v. solution time.  For now, the
+> temperature field is the only 3D field that is essential for exact
+> restart (and hence must be written as double precision to the restart
+> file).
+>
+> Cheers,
+>
+> Bill
+>
+>
+> On Feb 23, 2010, at 3:32 AM, Jed Brown wrote:
+>
+>> On Tue, 23 Feb 2010 10:18:46 +0000, "DAG Williams, Geographical
+>> Sciences" <Gethin.Williams at bristol.ac.uk> wrote:
+>>> Hi Bill & all,
+>>>
+>>> Concern about space (disk and memory) is a very valid point, and it
+>>> could
+>>> well make sense for us to use single precision for diagnostic fields.
+>>>
+>>> However, given that the single NetCDF file approach is so much
+>>> simpler to
+>>> implement and so much more robust to potential bugs, I wonder
+>>> whether we
+>>> could pool some information about run-time memory usage and output
+>>> file
+>>> size?
+>>>
+>>> For example, I'm running a simple version of glimmer with genie
+>>> right now,
+>>> and the memory footprint is very modest indeed.  Does memory usage
+>>> climb
+>>> dramatically when we switch to HO physics etc?  If it is a modest
+>>> hit in
+>>> terms of memory & disk, could we trade it against simpler code,
+>>> without
+>>> duplication?  Or--looking forward to antarctic scale runs--is the
+>>> bloat too
+>>> large to accommodate?
+>>
+>> It all depends on the resolution you want.  PISM sometimes runs with
+>> ~1B
+>> degrees of freedom, in which case each output file would be several
+>> GB.
+>> In the face of exact restart when a solver is in play, you have to
+>> save
+>> velocity (or whatever else you're solving for) in full precision,
+>> despite it being a "diagonostic field" because it will serve as the
+>> initial iterate for the next solve.  Of course the solution you get
+>> with
+>> a cold initial iterate is just as valid (just takes longer to get).
+>>
+>> Jed
+>
+> *************************************************************************
+> ******
+> William H. Lipscomb					E-mail: lipscomb at lanl.gov
+> Los Alamos National Laboratory		Phone: (505) 667-0395
+> Group T-3, Mail Stop B216			Fax: (505) 665-5926
+> Los Alamos, NM 87545
+> *************************************************************************
+> ******
+>
+>
+>
+>
+
+
+
+
+
+
+From Magnus.Hagdorn at ed.ac.uk  Thu Feb 25 16:05:55 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Thu, 25 Feb 2010 15:05:55 +0000
+Subject: [Glimmer-cism-devel] option to change all output to DP
+Message-ID: <4B8691D3.80308@ed.ac.uk>
+
+Hi all,
+I have added the option to change the output precision of all floating 
+point variables of *one* netCDF file to double. You just need to set the
+xtype key to double in the output section, e.g.
+[CF output]
+xtype: double
+
+The changes appeared on the glimmer-cism-gcm branch.
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+
+From flocolleoni at gmail.com  Fri Feb 26 00:07:39 2010
+From: flocolleoni at gmail.com (Florence Colleoni)
+Date: Fri, 26 Feb 2010 00:07:39 +0100
+Subject: [Glimmer-cism-devel] Northern Hemisphere grid for CISM
+Message-ID: <9aee31ab1002251507y16ade13ew3591e60b6f2635ea@mail.gmail.com>
+
+Dear all,
+
+I am starting a project about simulating the Northern Hemisphere glacial
+inception
+using CCSM4. As far as I understand, CISM only comes along with the
+Greenland grid
+into CCSM4.
+
+I would like to develop the Northern Hemisphere grid for CISM. Previously I
+wored with GRISLI
+(which is the French ice sheet model from Ritz et al. (2001)). GRISLI comes
+along with three
+different domains:
+- Eurasia
+- Northern Hemisphere
+- Antarctica
+
+For all these domain, a geoplace has been defined and for each of them, the
+same modules
+have been duplicated and modified to match the grids.
+The projection for those domains are: Lambert Equal areas
+
+My questions are:
+- How does CISM works with grids?
+- I was thinking about using polar stereographic projection for the NH. is
+it ok?
+
+
+Flo
+
+-- 
+Science, passion and science forever
+......................................................................
+Florence Colleoni
+CMCC, Bologna (Italy)
+    Phone: +39 051 3782622
+    Email: flocolleoni at gmail.com
+    URL: http://flocolleoni.u7n.org
+......................................................................
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20100226/876b8e27/attachment.html>
+
+From Magnus.Hagdorn at ed.ac.uk  Fri Feb 26 17:10:16 2010
+From: Magnus.Hagdorn at ed.ac.uk (Magnus Hagdorn)
+Date: Fri, 26 Feb 2010 16:10:16 +0000
+Subject: [Glimmer-cism-devel] scaled netCDF I/O for glimmer-cism-gcm
+Message-ID: <4B87F268.2030005@ed.ac.uk>
+
+Hi all,
+as discussed earlier, I have implemented scaled netCDF I/O on the 
+glimmer-cism-gcm branch. The patch changes netCDF I/O as follows:
+* variables in output files have the attribute scale_factor set to the 
+scaling factor if present.
+* output variables are not scaled on output
+* when data is read from file we check if the scale_factor attribute is 
+present. If it is present then no scaling is applied. If the attribute 
+is not present, the variable is scaled using the scaling factors.
+
+The attribute scale_factor is part of the CF standard (and other 
+standards) and most netCDF viewers use the attribute to scale variables.
+
+Above scheme has an obvious problem in that if the scale factors in the 
+netCDF file are different from the expected ones we get the wrong 
+values. Well, in short we don't support arbitrarily scaled variables...
+
+Cheers
+magi
+
+-- 
+The University of Edinburgh is a charitable body, registered in
+Scotland, with registration number SC005336.
+
+
+

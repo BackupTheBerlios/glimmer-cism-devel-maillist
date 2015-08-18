@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] location of input files
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20location%20of%20input%20files&In-Reply-To=%3C9288095c0909170659y2da7a5d0udc7dbea77a59c266%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000060.html">
+   <LINK REL="Next"  HREF="000061.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] location of input files</H1>
+    <B>Jesse Johnson</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20location%20of%20input%20files&In-Reply-To=%3C9288095c0909170659y2da7a5d0udc7dbea77a59c266%40mail.gmail.com%3E"
+       TITLE="[Glimmer-cism-devel] location of input files">jesse.v.johnson at gmail.com
+       </A><BR>
+    <I>Thu Sep 17 15:59:20 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000060.html">[Glimmer-cism-devel] location of input files
+</A></li>
+        <LI>Next message: <A HREF="000061.html">[Glimmer-cism-devel] location of input files
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi all,
+
+i guess i see the glide executable as drivers of the core libs. as such, i
+think we can allow less standard constructs, such as environment variables,
+and command line processing from fortran 2003, right?
+
+if so, then it seems like it some combo of command line args and env. vars.
+would  be the best way to treat this.
+
+jesse
+
+On Thu, Sep 17, 2009 at 7:53 AM, AJ Payne, Geographical Sciences &lt;
+<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>&gt; wrote:
+
+&gt;<i> hi
+</I>&gt;<i>
+</I>&gt;<i> not certain i follow this.  does it find the files if they are in the same
+</I>&gt;<i> directory as
+</I>&gt;<i> the executable, and the executable is run from that directory?
+</I>&gt;<i>
+</I>&gt;<i> tony
+</I>&gt;<i>
+</I>&gt;<i> --On 2009-09-17 14:44 +0100 Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;<i> wrote:
+</I>&gt;<i>
+</I>&gt;<i> &gt; Hi all,
+</I>&gt;<i> &gt; I am looking into fixing some issues with running the tests/examples. I
+</I>&gt;<i> &gt; have now come across the following problem:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; When configuring to build the model in a different directory from where
+</I>&gt;<i> &gt; the sources are [1] the model won't find the input files specified in
+</I>&gt;<i> &gt; the configuration file. There are a number of options how to fix this:
+</I>&gt;<i> &gt; 1. ignore the problem
+</I>&gt;<i> &gt; 2. at a command line switch to tell the model to also look into another
+</I>&gt;<i> &gt; directory for input files.
+</I>&gt;<i> &gt; 3. automatically do 2 by prepending the path component of the config
+</I>&gt;<i> &gt; file name.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; For cases 2 and 3 we provide a procedure that automatically prepends the
+</I>&gt;<i> &gt; path to input files if they do not start with a '/' (which signifies an
+</I>&gt;<i> &gt; absolute name).
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; What do you reckon, is this a worthwhile addition? This would also be a
+</I>&gt;<i> &gt; nice wee job for a new developer or someone who has some time to
+</I>&gt;<i> &gt; spend...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Cheers
+</I>&gt;<i> &gt; magi
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; [1] this is quite useful if you want to build the code from the same
+</I>&gt;<i> &gt; sources but use different compilers/switches/etc
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> &gt; Scotland, with registration number SC005336.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Glimmer-cism-devel mailing list
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------&lt;&gt;---------------------------
+</I>&gt;<i> Tony Payne
+</I>&gt;<i> School of Geographical Sciences,
+</I>&gt;<i> University of Bristol,
+</I>&gt;<i> Bristol BS8 1SS, UK.
+</I>&gt;<i> Telephone:      +117 331 4156
+</I>&gt;<i> Fax:            +117 928 7878
+</I>&gt;<i> Email:          <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">A.J.Payne at bristol.ac.uk</A>
+</I>&gt;<i> ------------------------&lt;&gt;---------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Jesse Johnson, Associate Professor
+Department of Computer Science
+Social Science Building, Room 417
+The University of Montana
+Missoula, MT  59812-5256
+
+tel: (406) 243-2356
+fax: (406) 243-5139
+
+email: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">johnson at cs.umt.edu</A>
+<A HREF="http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540">http://www.cas.umt.edu/casweb/for_faculty/FacultyDetails.cfm?id=540</A>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090917/6d4d7246/attachment.html">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20090917/6d4d7246/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000060.html">[Glimmer-cism-devel] location of input files
+</A></li>
+	<LI>Next message: <A HREF="000061.html">[Glimmer-cism-devel] location of input files
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

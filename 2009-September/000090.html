@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] more comments on Ian's refactoring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20more%20comments%20on%20Ian%27s%20refactoring&In-Reply-To=%3C4AC377AA.9010306%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000081.html">
+   <LINK REL="Next"  HREF="000091.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] more comments on Ian's refactoring</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20more%20comments%20on%20Ian%27s%20refactoring&In-Reply-To=%3C4AC377AA.9010306%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] more comments on Ian's refactoring">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Wed Sep 30 17:22:18 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000081.html">[Glimmer-cism-devel] more comments on Ian's refactoring
+</A></li>
+        <LI>Next message: <A HREF="000091.html">[Glimmer-cism-devel] more comments on Ian's refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#90">[ date ]</a>
+              <a href="thread.html#90">[ thread ]</a>
+              <a href="subject.html#90">[ subject ]</a>
+              <a href="author.html#90">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi All,
+
+&gt;<i> i also like this if form but i do not think that we should be that prescriptive about 
+</I>&gt;<i> coding styles.
+</I>
+I think some coding guidelines are essential:
+
+1) We have to know what Fortran standard we're aiming for, and whether 
+any particular language features are to be avoided.
+
+2) Consistently-written code (e.g. in terms of a naming convention, 
+etc), is much easier to read, much easier to debug, etc.
+
+To be honest, I can't think of a good reason not to do this.
+
+&gt;<i> i have to say that i think it would be easier to create a set of flexible dynamical core 
+</I>&gt;<i> routines if we avoided the use of derived types at this level.  can't they be use above 
+</I>&gt;<i> and then their components passed as arguments?
+</I>
+I think this is going to far. Derived types are very useful to package 
+up data, and they make it easier to avoid many classes of bugs. Any new 
+component we might want to plug into Glimmer is going to need its 
+interface tailoring to whatever standard API we have: including a few 
+derived types in that standard makes no difference to how easy that is 
+to do.
+
+I suspect your specific concerns are to do with automatic 
+differentiation and C/C++ interoperability. For the former, derived 
+types are not a problem for OpenAD to handle - this was confirmed in 
+Chicago the other week. For the latter, simple derived types should work 
+fine with C/C++, especially if all you need to do is pass them through. 
+Alternatively, just write a wrapper to pack/unpack the relevant derived 
+types. I don't think it would be a good idea to allow this consideration 
+to affect the fundamental engineering approach of the code, given that 
+it is fairly simple to get round.
+
+Cheers,
+
+Ian
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000081.html">[Glimmer-cism-devel] more comments on Ian's refactoring
+</A></li>
+	<LI>Next message: <A HREF="000091.html">[Glimmer-cism-devel] more comments on Ian's refactoring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#90">[ date ]</a>
+              <a href="thread.html#90">[ thread ]</a>
+              <a href="subject.html#90">[ subject ]</a>
+              <a href="author.html#90">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

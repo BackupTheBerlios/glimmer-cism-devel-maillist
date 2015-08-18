@@ -1,0 +1,455 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-October/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-cism-devel%20Digest%2C%20Vol%204%2C%20Issue%2010&In-Reply-To=%3C1256139192.3550.26.camel%40gethin-desktop%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000119.html">
+   <LINK REL="Next"  HREF="000118.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10</H1>
+    <B>Gethin Williams</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20Glimmer-cism-devel%20Digest%2C%20Vol%204%2C%20Issue%2010&In-Reply-To=%3C1256139192.3550.26.camel%40gethin-desktop%3E"
+       TITLE="[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10">gethin.williams at bristol.ac.uk
+       </A><BR>
+    <I>Wed Oct 21 17:33:12 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000119.html">[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+</A></li>
+        <LI>Next message: <A HREF="000118.html">[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#120">[ date ]</a>
+              <a href="thread.html#120">[ thread ]</a>
+              <a href="subject.html#120">[ subject ]</a>
+              <a href="author.html#120">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Jed, Kate &amp; all,
+
+Good to hear that other people have found the F2003 features to be
+useful too, and that support is wider than just gfortran.
+
+&gt;<i> I think the major concern about such F2003 features is that they are
+</I>&gt;<i> likely to not be properly implemented by all the compilers.  The scheme
+</I>&gt;<i> I have described does not need to pass any data structures between
+</I>&gt;<i> Fortran and C, just opaque pointers.  If an implementation wanted to
+</I>&gt;<i> have a hybrid code, then the F2003 features might be nice, but that use
+</I>&gt;<i> can stay completely isolated.  Also note that C has a well-defined ABI
+</I>&gt;<i> so there is no requirement that each component be compiled using the
+</I>&gt;<i> same toolchain.
+</I>
+Yes, apologies for not reading your example code more closely.  All good
+points.  I've successfully used opaque pointers in the past when working
+for a company where we wanted to protect the contents of the libraries
+that we shipped, and the interface worked well.
+
+(Following Magi's comment, we used SWIG to create a binding to python
+for the top-level calls, and that worked well too.)
+
+I wonder if it is worth drilling down on the timestep calls, as we may
+unearth some devils in the details?
+
+One aspect is the sheer number of fields that may need to be passed from
+the climate model to the icesheet model.  Another is support for
+different interfaces to different climate models.  A third consideration
+is the data type of the fields to be passed.  Perhaps 'Vec' is not
+sufficient?
+
+One proposal which may address the first two points--if there is an
+issue--would be to break the call into a number of puts() &amp; gets().
+These could be bundled into a single timestep call, of course, but would
+provide flexibility at the interface that would be straightforward to
+understand.
+
+Best wishes,
+Gethin.
+
+&gt;<i> 
+</I>&gt;<i> &gt; In case they are useful, I prepared some examples.  They are examples 3
+</I>&gt;<i> &gt; &amp; 4 (NB /not/ 1 &amp; 2) in:
+</I>&gt;<i> &gt; <A HREF="http://source.ggy.bris.ac.uk/subversion-open/polyglot/trunk/examples/example[3,4">http://source.ggy.bris.ac.uk/subversion-open/polyglot/trunk/examples/example[3,4</A>].
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Best wishes,
+</I>&gt;<i> &gt; Gethin.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; On Tue, 2009-10-20 at 12:00 +0200,
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A> wrote:
+</I>&gt;<i> &gt;&gt; Send Glimmer-cism-devel mailing list submissions to
+</I>&gt;<i> &gt;&gt; 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; To subscribe or unsubscribe via the World Wide Web, visit
+</I>&gt;<i> &gt;&gt; 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i> &gt;&gt; or, via email, send a message with subject or body 'help' to
+</I>&gt;<i> &gt;&gt; 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-request at lists.berlios.de</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; You can reach the person managing the list at
+</I>&gt;<i> &gt;&gt; 	<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel-owner at lists.berlios.de</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; When replying, please edit your Subject line so it is more specific
+</I>&gt;<i> &gt;&gt; than &quot;Re: Contents of Glimmer-cism-devel digest...&quot;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Today's Topics:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;    1. Re: more refactoring (Jed Brown)
+</I>&gt;<i> &gt;&gt;    2. Re: more refactoring (Magnus Hagdorn)
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; ----------------------------------------------------------------------
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Message: 1
+</I>&gt;<i> &gt;&gt; Date: Mon, 19 Oct 2009 20:07:45 +0200
+</I>&gt;<i> &gt;&gt; From: Jed Brown &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">jed at 59A2.org</A>&gt;
+</I>&gt;<i> &gt;&gt; Subject: Re: [Glimmer-cism-devel] more refactoring
+</I>&gt;<i> &gt;&gt; To: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> &gt;&gt; Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">4ADCAAF1.5040600 at 59A2.org</A>&gt;
+</I>&gt;<i> &gt;&gt; Content-Type: text/plain; charset=&quot;iso-8859-1&quot;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Magnus Hagdorn wrote:
+</I>&gt;<i> &gt;&gt;&gt; On Mon, 2009-10-19 at 10:10 +0100, Ian Rutt wrote:
+</I>&gt;<i> &gt;&gt;&gt;&gt; * It makes sense to work towards making the API for DCs in the same 
+</I>&gt;<i> &gt;&gt;&gt;&gt; 'class' (i.e. all temperature solvers or all thickness solvers) 
+</I>&gt;<i> &gt;&gt;&gt;&gt; identical, so I would advocate using a single derived type for each 
+</I>&gt;<i> &gt;&gt;&gt;&gt; class. This means that the derived type will need to be extended for 
+</I>&gt;<i> &gt;&gt;&gt;&gt; each new DC, but that would reduce the changes which need to be made 
+</I>&gt;<i> &gt;&gt;&gt;&gt; elsewhere when a new DC is added. Of course, if we were using F2003, 
+</I>&gt;<i> &gt;&gt;&gt;&gt; we'd define a base class with some relevant virtual functions, and 
+</I>&gt;<i> &gt;&gt;&gt;&gt; derive the DC classes from that...
+</I>&gt;<i> &gt;&gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt;&gt; I was thinking to have one derived type per implementation otherwise
+</I>&gt;<i> &gt;&gt;&gt; different implementations are dependent on each other. In glide we could
+</I>&gt;<i> &gt;&gt;&gt; have a wrapper DC which supports all know implementation similar to how
+</I>&gt;<i> &gt;&gt;&gt; we deal with different projections:
+</I>&gt;<i> &gt;&gt;&gt; * derived types with pointers to individual supported DC derived types
+</I>&gt;<i> &gt;&gt;&gt; and an ID for selecting the desired implementation
+</I>&gt;<i> &gt;&gt;&gt; * a time step procedures which consists of a select case structure to
+</I>&gt;<i> &gt;&gt;&gt; select desired implementation
+</I>&gt;<i> &gt;&gt; This relates to plugins, as we were discussing them long ago.  I never
+</I>&gt;<i> &gt;&gt; follow up with an example, but here is the idea (in C, apparently we
+</I>&gt;<i> &gt;&gt; could do something similar with F2003; note that this chunk being in C
+</I>&gt;<i> &gt;&gt; makes no assumption on the language it is being called from or the
+</I>&gt;<i> &gt;&gt; language that implementations are written in).  Skip to the line of hash
+</I>&gt;<i> &gt;&gt; marks (##) for the benefits of this design.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; The public interface is something like
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; cism.h:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   typedef _p_DC *DC;                     /* opaque handle */
+</I>&gt;<i> &gt;&gt;   int DCCreate(MPI_Comm,DC *newdc);      /* allocate */
+</I>&gt;<i> &gt;&gt;   int DCSetType(DC,const char *name);    /* 
+</I>&gt;<i> &gt;&gt;   int DCLoad(DC,const char *filename);   /* loads grid */
+</I>&gt;<i> &gt;&gt;   int DCStep(DC,double dt,Vec x,Vec y);  /* take a time step */
+</I>&gt;<i> &gt;&gt;   int DCDestroy(DC);                     /* deallocate */
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   /* Associate a string with an implementation */
+</I>&gt;<i> &gt;&gt;   int DCRegister(const char*,int (*)(DC));
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   /* If command-line options are stored globally, you can have this
+</I>&gt;<i> &gt;&gt;    * so that the type and implementation-specific options are easy
+</I>&gt;<i> &gt;&gt;    * to set at runtime
+</I>&gt;<i> &gt;&gt;    */
+</I>&gt;<i> &gt;&gt;   int DCSetFromOptions(DC);
+</I>&gt;<i> &gt;&gt;   
+</I>&gt;<i> &gt;&gt;   /* To support implicit integration, you could include */
+</I>&gt;<i> &gt;&gt;   int DCResidual(DC,double dt,Vec x,Vec xdot,Vec res);
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; The climate model only sees the interface above.  The implementation
+</I>&gt;<i> &gt;&gt; looks like
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; cismimpl.h:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   #include &lt;cism.h&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   struct _DCOps {
+</I>&gt;<i> &gt;&gt;     int (*setfromoptions)(DC);
+</I>&gt;<i> &gt;&gt;     int (*load)(DC,const char*);
+</I>&gt;<i> &gt;&gt;     int (*step)(DC,double,Vec,Vec);
+</I>&gt;<i> &gt;&gt;     int (*residual)(DC,double,Vec,Vec,Vec);
+</I>&gt;<i> &gt;&gt;     int (*destroy)(DC);
+</I>&gt;<i> &gt;&gt;   };
+</I>&gt;<i> &gt;&gt;   struct _p_DC {
+</I>&gt;<i> &gt;&gt;     struct _DCOp *ops;
+</I>&gt;<i> &gt;&gt;     void *data;              /* implementation-specific data */
+</I>&gt;<i> &gt;&gt;     MPI_Comm comm;
+</I>&gt;<i> &gt;&gt;     /* anything else common to all implementations goes here */
+</I>&gt;<i> &gt;&gt;   };
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; I assume that we allocate a different ops pointer for every instance.
+</I>&gt;<i> &gt;&gt; This is more dynamic than a C++ delegator since we can override methods
+</I>&gt;<i> &gt;&gt; on a per-instance rather than per-class basis (this capability,
+</I>&gt;<i> &gt;&gt; sometimes known as monkey patching, should be used sparingly).  The
+</I>&gt;<i> &gt;&gt; implementation of the interface (cism.h) looks something like
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; cism.c:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   #include &lt;cismimpl.h&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   static int DCPackageInitialized = 0;
+</I>&gt;<i> &gt;&gt;   static FList DCList = 0;  /* list of (string,function) pairs */
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   /* function declarations for the implementations that are known,
+</I>&gt;<i> &gt;&gt;    * various physics (shallow ice, shallow shelf, hydrostatic, stokes)
+</I>&gt;<i> &gt;&gt;    * from various sources */
+</I>&gt;<i> &gt;&gt;   extern int DCCreate_GlimmerSIA(DC);
+</I>&gt;<i> &gt;&gt;   extern int DCCreate_GlimmerHS(DC);
+</I>&gt;<i> &gt;&gt;   extern int DCCreate_PismSSA(DC);
+</I>&gt;<i> &gt;&gt;   extern int DCCreate_CoolStokes(DC);
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   static int DCInitializePackage() {
+</I>&gt;<i> &gt;&gt;     DCRegister(&quot;glimmersia&quot;,DCCreate_GlimmerSIA);
+</I>&gt;<i> &gt;&gt;     DCRegister(&quot;glimmerhs&quot;, DCCreate_GlimmerHS);
+</I>&gt;<i> &gt;&gt;     DCRegister(&quot;pismssa&quot;,   DCCreate_PismSSA);
+</I>&gt;<i> &gt;&gt;     DCRegister(&quot;coolstokes&quot;,DCCreate_CoolStokes);
+</I>&gt;<i> &gt;&gt;     DCPackageInitialized = 1;
+</I>&gt;<i> &gt;&gt;     return 0;
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   int DCCreate(MPI_Comm comm,DC *newdc) {
+</I>&gt;<i> &gt;&gt;     DC dc;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;     /* Initialize the package only once */
+</I>&gt;<i> &gt;&gt;     if (!DCPackageInitialized) DCInitializePackage();
+</I>&gt;<i> &gt;&gt;     dc = calloc(sizeof(*dc));
+</I>&gt;<i> &gt;&gt;     dc-&gt;ops = calloc(sizeof(*dc-&gt;ops));
+</I>&gt;<i> &gt;&gt;     dc-&gt;comm = comm;
+</I>&gt;<i> &gt;&gt;     /* any other generic stuff */
+</I>&gt;<i> &gt;&gt;     *newdc = dc;
+</I>&gt;<i> &gt;&gt;     return 0;
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   int DCRegister(const char *name,int (*f)(DC)) {
+</I>&gt;<i> &gt;&gt;     /* Suppose we have a generic data structure for this list */
+</I>&gt;<i> &gt;&gt;     return FListAdd(&amp;DCList,name,(void(*)(void))f);
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   int DCSetType(DC dc,const char *name) {
+</I>&gt;<i> &gt;&gt;     int (*f)(DC);
+</I>&gt;<i> &gt;&gt;     FListGet(DCList,name,(void(**)(void))&amp;f);
+</I>&gt;<i> &gt;&gt;     if (!f) ERROR(1,&quot;requested an implementation that has not been registered&quot;);
+</I>&gt;<i> &gt;&gt;     if (dc-&gt;data) {dc-&gt;ops-&gt;destroy(dc);} /* destroy an old implementation */
+</I>&gt;<i> &gt;&gt;     return f(dc);                         /* allocate space for the new one */
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   int DCDestroy(DC dc) {
+</I>&gt;<i> &gt;&gt;     dc-&gt;ops-&gt;destroy(dc);
+</I>&gt;<i> &gt;&gt;     free(dc-&gt;ops);
+</I>&gt;<i> &gt;&gt;     free(dc);
+</I>&gt;<i> &gt;&gt;     return 0;
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   /* delegate for the other functions, just trivial wrappers given here */
+</I>&gt;<i> &gt;&gt;   int DCSetFromOptions(DC dc) {
+</I>&gt;<i> &gt;&gt;     /* ... consult the runtime options and possibly change the type */
+</I>&gt;<i> &gt;&gt;     /* ... other generic stuff */
+</I>&gt;<i> &gt;&gt;     return dc-&gt;ops-&gt;setfromoptions(DC); /* implementation-specific options */
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;   int DCLoad(DC dc,const char *filename) {
+</I>&gt;<i> &gt;&gt;     return dc-&gt;ops-&gt;load(dc,filename);
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;   int DCStep(DC dc,double dt,Vec x,Vec y) {
+</I>&gt;<i> &gt;&gt;     return dc-&gt;ops-&gt;step(dc,dt,x,y);
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;   int DCResidual(DC dc,double dt,Vec x,Vec xdot,Vec res) {
+</I>&gt;<i> &gt;&gt;     return dc-&gt;ops-&gt;residual(dc,dt,x,xdot,res);
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Implementations look like:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; glimmerhs.c:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   #include &lt;cismimpl.h&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   struct DC_GlimmerHS {
+</I>&gt;<i> &gt;&gt;     /* whatever private data is needed by the hydrostatic implementation,
+</I>&gt;<i> &gt;&gt;      * it could just be a pointer to the Fortran derived data types */
+</I>&gt;<i> &gt;&gt;   };
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   /* These can be implemented in an language */
+</I>&gt;<i> &gt;&gt;   extern int DCSetFromOptions_GlimmerHS(DC);
+</I>&gt;<i> &gt;&gt;   extern int DCLoad_GlimmerHS(DC,const char*);
+</I>&gt;<i> &gt;&gt;   extern int DCStep_GlimmerHS(DC,double,Vec,Vec);
+</I>&gt;<i> &gt;&gt;   extern int DCResidual_GlimmerHS(DC,double,Vec,Vec,Vec);
+</I>&gt;<i> &gt;&gt;   extern int DCDestroy_GlimmerHS(DC);
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;   int DCCreate_GlimmerHS(DC dc) {
+</I>&gt;<i> &gt;&gt;     struct DC_GlimmerHS *ghs;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;     dc-&gt;ops-&gt;setfromoptions = DCSetFromOptions_GlimmerHS;
+</I>&gt;<i> &gt;&gt;     dc-&gt;ops-&gt;load           = DCLoad_GlimmerHS;
+</I>&gt;<i> &gt;&gt;     dc-&gt;ops-&gt;step           = DCStep_GlimmerHS;
+</I>&gt;<i> &gt;&gt;     dc-&gt;ops-&gt;residual       = DCResidual_GlimmerHS;
+</I>&gt;<i> &gt;&gt;     dc-&gt;ops-&gt;destroy        = DCDestroy_GlimmerHS;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;     ghs = calloc(sizeof(*ghs));
+</I>&gt;<i> &gt;&gt;     dc-&gt;data = ghs;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;     /* set defaults or call fortran to set up some private data structures */
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;     return 0;
+</I>&gt;<i> &gt;&gt;   }
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; ########################################################################
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; What does all of this achieve?
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * Climate models all see the same interface with no knowledge of what
+</I>&gt;<i> &gt;&gt; physics is going on underneath.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * An arbitrary number of DCs can be in use at any time.  Their types are
+</I>&gt;<i> &gt;&gt; completely independent.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * Choice of implementation occurs at runtime.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * If you have a new implementation, you just have to get DCRegister(..)
+</I>&gt;<i> &gt;&gt; called before DCSetType() and it will be first-class (and selectable at
+</I>&gt;<i> &gt;&gt; runtime exactly like the &quot;blessed&quot; implementations that are registered
+</I>&gt;<i> &gt;&gt; by default).
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * With a variant of DCRegister(), we can distribute the implementation
+</I>&gt;<i> &gt;&gt; as a binary and register it via dlopen/dlsym in which case nothing needs
+</I>&gt;<i> &gt;&gt; to be recompiled or relinked.  (This is the strong definition of
+</I>&gt;<i> &gt;&gt; plugin.)
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * Implementations can be written in any language.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * The model can be called from any language.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * Implementations can share code at will (e.g. between Glimmer
+</I>&gt;<i> &gt;&gt; components for different physics) but this is not visible at the top
+</I>&gt;<i> &gt;&gt; level.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * Users can extend existing implementations in a very lightweight
+</I>&gt;<i> &gt;&gt; per-instance way via &quot;monkey-patching&quot; or by creating their own
+</I>&gt;<i> &gt;&gt; first-class implementations that reuses code from the other
+</I>&gt;<i> &gt;&gt; implementation.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; * The type of a DC can be changed after it has been used without
+</I>&gt;<i> &gt;&gt; destroying it's connections to other components.  This is a benefit of
+</I>&gt;<i> &gt;&gt; the delegator (aka. pimpl) pattern.  This would be useful to allow
+</I>&gt;<i> &gt;&gt; *external* control to use one model for a while (e.g. spinup) and then
+</I>&gt;<i> &gt;&gt; switch to a different model.  If all climate components were written
+</I>&gt;<i> &gt;&gt; this way we could do some interesting simulations with very little
+</I>&gt;<i> &gt;&gt; effort.  For example, you could start with reconstructions or trivial
+</I>&gt;<i> &gt;&gt; models for atmosphere, ocean, and land while using a SIA ice model.  At
+</I>&gt;<i> &gt;&gt; -4k years, you could switch to an implicit ocean model (taking large
+</I>&gt;<i> &gt;&gt; time steps), then turn on a hydrostatic ice model at -1k years, and
+</I>&gt;<i> &gt;&gt; activate an atmosphere model at some time close to present along with
+</I>&gt;<i> &gt;&gt; changing to an ocean model with short time steps and more complete
+</I>&gt;<i> &gt;&gt; physics, and switching to a Stokes model for ice.  All this would
+</I>&gt;<i> &gt;&gt; require the user to provide one callback to the coupler (whatever has
+</I>&gt;<i> &gt;&gt; top-level control) that would implement the logic of when to switch,
+</I>&gt;<i> &gt;&gt; switching would not use the file system.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; I realize this sort of thing is radical and may never happen, but I
+</I>&gt;<i> &gt;&gt; think it is a noble long-term goal for the ice sheet modeling community.
+</I>&gt;<i> &gt;&gt; It would definitely benefit the various ASCR efforts.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Jed
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; -------------- next part --------------
+</I>&gt;<i> &gt;&gt; A non-text attachment was scrubbed...
+</I>&gt;<i> &gt;&gt; Name: signature.asc
+</I>&gt;<i> &gt;&gt; Type: application/pgp-signature
+</I>&gt;<i> &gt;&gt; Size: 261 bytes
+</I>&gt;<i> &gt;&gt; Desc: OpenPGP digital signature
+</I>&gt;<i> &gt;&gt; Url : <A HREF="https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091019/204878e3/attachment-0001.pgp">https://lists.berlios.de/pipermail/glimmer-cism-devel/attachments/20091019/204878e3/attachment-0001.pgp</A> 
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; ------------------------------
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Message: 2
+</I>&gt;<i> &gt;&gt; Date: Mon, 19 Oct 2009 21:00:38 +0100
+</I>&gt;<i> &gt;&gt; From: Magnus Hagdorn &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Magnus.Hagdorn at ed.ac.uk</A>&gt;
+</I>&gt;<i> &gt;&gt; Subject: Re: [Glimmer-cism-devel] more refactoring
+</I>&gt;<i> &gt;&gt; To: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> &gt;&gt; Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">1255982438.2286.8.camel at swine</A>&gt;
+</I>&gt;<i> &gt;&gt; Content-Type: text/plain; charset=&quot;UTF-8&quot;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; On Mon, 2009-10-19 at 20:07 +0200, Jed Brown wrote:
+</I>&gt;<i> &gt;&gt;&gt; I realize this sort of thing is radical and may never happen, but I
+</I>&gt;<i> &gt;&gt;&gt; think it is a noble long-term goal for the ice sheet modeling
+</I>&gt;<i> &gt;&gt;&gt; community.
+</I>&gt;<i> &gt;&gt;&gt; It would definitely benefit the various ASCR efforts.
+</I>&gt;<i> &gt;&gt;&gt;
+</I>&gt;<i> &gt;&gt; Hi Jed,
+</I>&gt;<i> &gt;&gt; just a quick message before proper digestion (I am on holiday).
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; I like it.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; And I think it is not too far away from what we have discussed so far.
+</I>&gt;<i> &gt;&gt; Using this design we could keep the DCs in Fortran (or as you said any
+</I>&gt;<i> &gt;&gt; other language). Using C to put it all together is quite appealing. We
+</I>&gt;<i> &gt;&gt; could then also have nice Python bindings.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; I'll think about it more carefully once I am back at work.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Cheers
+</I>&gt;<i> &gt;&gt; magi
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; ------------------------------
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; _______________________________________________
+</I>&gt;<i> &gt;&gt; Glimmer-cism-devel mailing list
+</I>&gt;<i> &gt;&gt; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> &gt;&gt; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; End of Glimmer-cism-devel Digest, Vol 4, Issue 10
+</I>&gt;<i> &gt;&gt; *************************************************
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Glimmer-cism-devel mailing list
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000119.html">[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+</A></li>
+	<LI>Next message: <A HREF="000118.html">[Glimmer-cism-devel] Glimmer-cism-devel Digest, Vol 4, Issue 10
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#120">[ date ]</a>
+              <a href="thread.html#120">[ thread ]</a>
+              <a href="subject.html#120">[ subject ]</a>
+              <a href="author.html#120">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

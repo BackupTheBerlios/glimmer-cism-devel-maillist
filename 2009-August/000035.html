@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] build system for glimmer-cism
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2009-August/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C88640DA2-7822-43B0-85B7-82F9ACEFB0DC%40swansea.ac.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000034.html">
+   <LINK REL="Next"  HREF="000028.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] build system for glimmer-cism</H1>
+    <B>Ian Rutt</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20build%20system%20for%20glimmer-cism&In-Reply-To=%3C88640DA2-7822-43B0-85B7-82F9ACEFB0DC%40swansea.ac.uk%3E"
+       TITLE="[Glimmer-cism-devel] build system for glimmer-cism">I.C.Rutt at swansea.ac.uk
+       </A><BR>
+    <I>Wed Aug 26 18:10:45 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000034.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+        <LI>Next message: <A HREF="000028.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi All,
+
+I suspect that one of the main difficulties with I/O is that although  
+all the things Magi describes are possible, there's not much  
+documentation for the coupling developer, so you only really become  
+aware of these possibilities by reading the code in some depth.
+
+For example, there is code available to aid the manipulation of the  
+configuration data type, but I've never had time to document it.  
+Hopefully, we can begin to rectify this soon.
+
+I agree that the I/O is too deeply integrated into the model, and we  
+should consider clarifying the API to make it more user-friendly.
+
+More to follow...
+
+Cheers,
+
+Ian
+
+On 26 Aug 2009, at 16:50, Magnus Hagdorn wrote:
+
+&gt;<i>
+</I>&gt;<i> On Wed, 2009-08-26 at 09:36 -0600, Tim Bocek wrote:
+</I>&gt;&gt;<i> If I understand the problem right, this actually exposes one of the
+</I>&gt;&gt;<i> *problems* with Glimmer-CISM, in that the model is highly coupled to
+</I>&gt;&gt;<i> the I/O.  There is no easy set of calls to get and set data, it's all
+</I>&gt;&gt;<i> done through the config and netCDF files.  If output to the NetCDF
+</I>&gt;&gt;<i> files needs to change, it can't be done programatically, but needs to
+</I>&gt;&gt;<i> be specified in the config file.  Which is great for a standalone
+</I>&gt;&gt;<i> program, not so great for an ice model component of a larger model.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> if you want to use the netCDF I/O you just need to define your own set
+</I>&gt;<i> of variables that you want to output in your own _vars.def, generate  
+</I>&gt;<i> the
+</I>&gt;<i> code, compile and call from your coupler. This is done at compile  
+</I>&gt;<i> time.
+</I>&gt;<i> The code generator gets installed and thus can be used from somewhere
+</I>&gt;<i> else. if you don't want to use netCDF, well you can do whatever you
+</I>&gt;<i> want.
+</I>&gt;<i>
+</I>&gt;&gt;<i> For what it's worth, I'm in agreement with Magnus that they way to do
+</I>&gt;&gt;<i> coupling is to install glide as a library, not a program, that  
+</I>&gt;&gt;<i> exposes
+</I>&gt;&gt;<i> an API that CCSM can call.  A way to change the diagnostic fields you
+</I>&gt;&gt;<i> grab from the model should be something exposed in the API, not
+</I>&gt;&gt;<i> something that should require a recompile.  This will require careful
+</I>&gt;&gt;<i> thought and redesign as Glimmer-CISM moves towards V2 though...
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> if you don't want to use the config file for I/O or anything else you
+</I>&gt;<i> can populate the config data structure anyway you want
+</I>&gt;<i> (programmatically). and everything should work as expected.
+</I>&gt;<i>
+</I>&gt;<i> I think the one problem is that the standard I/O is fairly deep down.
+</I>&gt;<i> Maybe we should move it up in the API a bit so that you can run the
+</I>&gt;<i> model without any I/O.
+</I>&gt;<i>
+</I>&gt;<i> I think this is on the wishlist.
+</I>&gt;<i>
+</I>&gt;<i> magi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> -- 
+</I>&gt;<i> The University of Edinburgh is a charitable body, registered in
+</I>&gt;<i> Scotland, with registration number SC005336.
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Glimmer-cism-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">Glimmer-cism-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel</A>
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000034.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+	<LI>Next message: <A HREF="000028.html">[Glimmer-cism-devel] build system for glimmer-cism
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>

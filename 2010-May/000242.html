@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Glimmer-cism-devel] glimmer-cism2 and gcm branch
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/glimmer-cism-devel/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer-cism2%20and%20gcm%20branch&In-Reply-To=%3CE0C8A2B0-7100-4C58-A78D-74D2A894B391%40lanl.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000241.html">
+   <LINK REL="Next"  HREF="000243.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Glimmer-cism-devel] glimmer-cism2 and gcm branch</H1>
+    <B>William Lipscomb</B> 
+    <A HREF="mailto:glimmer-cism-devel%40lists.berlios.de?Subject=Re%3A%20%5BGlimmer-cism-devel%5D%20glimmer-cism2%20and%20gcm%20branch&In-Reply-To=%3CE0C8A2B0-7100-4C58-A78D-74D2A894B391%40lanl.gov%3E"
+       TITLE="[Glimmer-cism-devel] glimmer-cism2 and gcm branch">lipscomb at lanl.gov
+       </A><BR>
+    <I>Mon May  3 23:26:57 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000241.html">[Glimmer-cism-devel] merging plume_integration into glimmer-cism-lanl/trunk
+</A></li>
+        <LI>Next message: <A HREF="000243.html">[Glimmer-cism-devel] glimmer-cism2 and gcm branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#242">[ date ]</a>
+              <a href="thread.html#242">[ thread ]</a>
+              <a href="subject.html#242">[ subject ]</a>
+              <a href="author.html#242">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi all,
+
+This may be of interest to those of you working on merging new code  
+into the glimmer-cism2 trunk.
+
+As you may have noticed, I just checked in a bunch of CCSM-related  
+changes to glimmer-cism-gcm (a branch on the glimmer-cism2 trunk).   
+More changes will follow, but this is the main batch.  In a few weeks  
+the branch will be tagged as Glimmer-CISM 1.6, frozen (except for bug  
+fixes), and released as part of the Community Earth System Model.
+
+At any point, I can check these changes into the glimmer-cism2 trunk.   
+I'd like to do this before those of you working on glimmer-cism-lanl  
+start merging code into glimmer-cism2.  Please let me know if and when  
+you're ready, and I'll commit my changes to the trunk.  Most of the  
+additional changes I make will be in Glint and will be independent of  
+the higher-order code.
+
+Jesse, Steve et al.:  If you have glimmer-cism-lanl code ready for the  
+CESM release, please start checking it into the glimmer-cism-gcm  
+branch and testing it.  This could include some of the test suites we  
+talked about (but not the HO solvers, of course).
+
+Ian and Rupert: You might want to look at the changes I've made in  
+Glint to accommodate CCSM coupling fields.  The interfaces are a bit  
+messy in that I've added optional CCSM-related arguments to various  
+glint routines instead of writing new CCSM-specific routines.  (The  
+only totally new subroutines are in glint_global_interp.F90.)  This  
+approach seemed better than writing new routines and having a lot of  
+duplicate code.  However, the code could be much cleaner.  Please let  
+me know if you have ideas on how to improve things.
+
+Any comments and suggestions are welcome.
+
+Regards,
+
+Bill
+
+*******************************************************************************
+William H. Lipscomb					E-mail: <A HREF="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">lipscomb at lanl.gov</A>
+Los Alamos National Laboratory		Phone: (505) 667-0395
+Group T-3, Mail Stop B216			Fax: (505) 665-5926
+Los Alamos, NM 87545
+*******************************************************************************
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000241.html">[Glimmer-cism-devel] merging plume_integration into glimmer-cism-lanl/trunk
+</A></li>
+	<LI>Next message: <A HREF="000243.html">[Glimmer-cism-devel] glimmer-cism2 and gcm branch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#242">[ date ]</a>
+              <a href="thread.html#242">[ thread ]</a>
+              <a href="subject.html#242">[ subject ]</a>
+              <a href="author.html#242">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/glimmer-cism-devel">More information about the Glimmer-cism-devel
+mailing list</a><br>
+</body></html>
